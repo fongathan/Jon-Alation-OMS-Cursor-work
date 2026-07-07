@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Source Navigator — UI / UX mock (OMS business metadata)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="themes/theme-midnight-ops.css">
+  <style>
+    /* App chrome on top of Midnight Ops */
+    .app-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem 1rem;
+      margin-bottom: 1rem;
+      padding: 0.65rem 0.85rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+    }
+    .app-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+    .app-brand strong {
+      font-size: 0.95rem;
+      letter-spacing: -0.02em;
+    }
+    .app-brand span {
+      font-size: 0.72rem;
+      color: var(--muted);
+      max-width: 42ch;
+    }
+    .persona-seg {
+      display: inline-flex;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      background: var(--surface2);
+    }
+    .persona-seg button {
+      font: inherit;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.4rem 0.85rem;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+    }
+    .persona-seg button[aria-pressed="true"] {
+      background: rgba(34, 211, 238, 0.15);
+      color: var(--cyan);
+    }
+    .search-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    .search-row input[type="search"] {
+      flex: 1 1 220px;
+      min-width: 0;
+      padding: 0.55rem 0.85rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--text);
+      font: inherit;
+      font-size: 0.88rem;
+    }
+    .search-row input::placeholder {
+      color: var(--muted);
+    }
+    .layout-3 {
+      display: grid;
+      grid-template-columns: minmax(200px, 260px) minmax(0, 1fr) minmax(280px, 380px);
+      gap: 1rem;
+      align-items: start;
+    }
+    @media (max-width: 1100px) {
+      .layout-3 {
+        grid-template-columns: 1fr;
+      }
+      .detail-panel {
+        order: 3;
+      }
+    }
+    .nav-panel, .list-panel, .detail-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .nav-panel .panel-head,
+    .list-panel .panel-head,
+    .detail-panel .panel-head {
+      margin: 0;
+      border-radius: 0;
+      border-left: none;
+      border-right: none;
+      border-top: none;
+    }
+    .source-list {
+      list-style: none;
+      max-height: min(62vh, 520px);
+      overflow: auto;
+    }
+    .source-list button {
+      width: 100%;
+      text-align: left;
+      padding: 0.65rem 0.85rem;
+      border: none;
+      border-bottom: 1px solid var(--border);
+      background: transparent;
+      color: inherit;
+      font: inherit;
+      font-size: 0.82rem;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+    .source-list button:hover {
+      background: var(--surface2);
+    }
+    .source-list button[aria-current="true"] {
+      background: rgba(167, 139, 250, 0.12);
+      box-shadow: inset 3px 0 0 var(--violet);
+    }
+    .source-list .src-meta {
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+    .asset-table-wrap {
+      max-height: min(62vh, 520px);
+      overflow: auto;
+    }
+    .asset-table-wrap table.vendor-table th,
+    .asset-table-wrap table.vendor-table td {
+      font-size: 0.78rem;
+    }
+    .asset-table-wrap table.vendor-table button.linkish {
+      background: none;
+      border: none;
+      color: var(--cyan);
+      font: inherit;
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      padding: 0;
+    }
+    .bdc-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      padding: 0.65rem 0.85rem;
+      background: linear-gradient(90deg, rgba(34, 211, 238, 0.08), rgba(167, 139, 250, 0.08));
+      border-bottom: 1px solid var(--border);
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+    .bdc-strip .label {
+      font-weight: 700;
+      color: var(--text);
+      margin-right: 0.25rem;
+    }
+    .pill.attested { background: rgba(74, 222, 128, 0.15); color: var(--green); }
+    .pill.policy { background: rgba(96, 165, 250, 0.15); color: var(--blue); }
+    .pill.glossary { background: rgba(244, 114, 182, 0.15); color: var(--pink); }
+    .pill.lineage { background: rgba(34, 211, 238, 0.15); color: var(--cyan); }
+    .detail-body {
+      padding: 0.85rem;
+      max-height: min(58vh, 480px);
+      overflow: auto;
+    }
+    .detail-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      margin-bottom: 0.75rem;
+    }
+    .detail-tabs button {
+      font: inherit;
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 0.35rem 0.65rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--muted);
+      cursor: pointer;
+    }
+    .detail-tabs button[aria-selected="true"] {
+      border-color: rgba(34, 211, 238, 0.45);
+      color: var(--cyan);
+      background: rgba(34, 211, 238, 0.1);
+    }
+    .tab-panel { display: none; font-size: 0.8rem; color: var(--muted); }
+    .tab-panel.active { display: block; }
+    .tab-panel dl {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.35rem 0.75rem;
+    }
+    .tab-panel dt { color: var(--muted); font-weight: 600; }
+    .tab-panel dd { color: var(--text); }
+    .oms-cta {
+      margin-top: 0.75rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .hint-banner {
+      font-size: 0.78rem;
+      color: var(--muted);
+      padding: 0.6rem 0.85rem;
+      border: 1px dashed var(--border);
+      border-radius: var(--radius-sm);
+      margin-bottom: 1rem;
+      background: rgba(15, 23, 42, 0.35);
+    }
+    .hint-banner a { color: var(--cyan); }
+  </style>
+</head>
+<body>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="glow a" aria-hidden="true"></div>
+  <div class="glow b" aria-hidden="true"></div>
+
+  <div class="shell">
+    <div class="app-top">
+      <div class="app-brand">
+        <strong>Data Source Navigator</strong>
+        <span>Business metadata on OMS — anchored to pipelines, warehouses, and policy (replacing passive catalog drift).</span>
+      </div>
+      <div class="persona-seg" role="group" aria-label="Primary persona">
+        <button type="button" id="p-analyst" aria-pressed="true">Analyst</button>
+        <button type="button" id="p-steward" aria-pressed="false">Steward</button>
+        <button type="button" id="p-engineer" aria-pressed="false">Engineer</button>
+      </div>
+    </div>
+
+    <header style="margin-bottom:1rem;">
+      <div class="title-block">
+        <h1>Find data you can <span style="-webkit-text-fill-color:var(--green);">trust</span></h1>
+        <p>Search across registered sources, read stewarded meaning, and open full technical context in OMS — one journey from “what is this?” to “show me lineage.”</p>
+      </div>
+      <div class="header-actions">
+        <a class="btn btn-ghost" href="../Product-Brief-Alation-to-OMS-Migration.md">Product brief</a>
+        <a class="btn btn-primary" href="../business-data-catalog/oms-ui-on-top.html">BDC shell prototype</a>
+      </div>
+    </header>
+
+    <section class="kpis" aria-label="Program signals">
+      <div class="kpi c1">
+        <div class="kpi-label">Implementation link</div>
+        <div class="kpi-value">Live</div>
+        <div class="kpi-sub">Table ↔ pipeline ↔ repo attestation</div>
+      </div>
+      <div class="kpi c2">
+        <div class="kpi-label">Glossary coverage</div>
+        <div class="kpi-value">74%</div>
+        <div class="kpi-sub">Critical domains (demo)</div>
+      </div>
+      <div class="kpi c3">
+        <div class="kpi-label">Lineage depth</div>
+        <div class="kpi-value">3 hops</div>
+        <div class="kpi-sub">Warehouse → activation (typical)</div>
+      </div>
+      <div class="kpi c4">
+        <div class="kpi-label">Alation window</div>
+        <div class="kpi-value">FY26</div>
+        <div class="kpi-sub">Cut to OMS-backed catalog</div>
+      </div>
+    </section>
+
+    <p class="hint-banner" role="note">
+      Deck (Google Slides): <a href="https://docs.google.com/presentation/d/1OdzAIMxb2gE4n36-8UoYhWXWg-4nzVF4m3i8V9XWYRw/edit" target="_blank" rel="noopener">Data Source Navigator — from Alation to new in-house business metadata experience &amp; capabilities</a>. This page is a static UX mock; MCP returned slide structure only, not body copy.
+    </p>
+
+    <div class="search-row">
+      <input type="search" id="global-search" placeholder="Search tables, terms, owners, tags…" autocomplete="off" aria-label="Global catalog search">
+      <select class="filter" id="facet-domain" aria-label="Domain">
+        <option value="all">All domains</option>
+        <option value="deept">DEEPT</option>
+        <option value="mci">MCI / engagement</option>
+        <option value="privacy">Privacy &amp; classification</option>
+      </select>
+      <select class="filter" id="facet-tier" aria-label="Sensitivity tier">
+        <option value="all">All tiers</option>
+        <option value="public">Non-sensitive</option>
+        <option value="internal">Internal</option>
+        <option value="restricted">Restricted</option>
+      </select>
+    </div>
+
+    <div class="layout-3">
+      <aside class="nav-panel" aria-label="Data sources">
+        <div class="panel-head">
+          <h2>Registered <span>sources</span></h2>
+        </div>
+        <ul class="source-list" id="source-list"></ul>
+      </aside>
+
+      <section class="list-panel" aria-labelledby="assets-heading">
+        <div class="panel-head">
+          <h2 id="assets-heading">Assets in <span id="source-title">source</span></h2>
+          <span class="pill warehouse" id="source-pill">OMS</span>
+        </div>
+        <div class="asset-table-wrap">
+          <table class="vendor-table">
+            <thead>
+              <tr>
+                <th>Asset</th>
+                <th>Type</th>
+                <th>Owner</th>
+                <th>Trust</th>
+              </tr>
+            </thead>
+            <tbody id="asset-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="detail-panel" aria-labelledby="detail-heading">
+        <div class="panel-head">
+          <h2 id="detail-heading">Asset <span>detail</span></h2>
+          <button type="button" class="btn btn-ghost" id="btn-lineage" style="font-size:0.75rem;padding:0.35rem 0.65rem;">Lineage in OMS</button>
+        </div>
+        <div class="bdc-strip" id="bdc-strip" hidden>
+          <span class="label">Business context</span>
+        </div>
+        <div class="detail-body">
+          <p id="detail-empty" style="font-size:0.85rem;color:var(--muted);">Select a table or object from the list to see stewarded metadata, policy mapping, and deep links.</p>
+          <div id="detail-content" hidden>
+            <h3 style="font-size:1rem;margin-bottom:0.35rem;color:var(--text);" id="detail-name"></h3>
+            <p style="font-size:0.78rem;color:var(--muted);margin-bottom:0.75rem;" id="detail-path"></p>
+            <div class="detail-tabs" role="tablist" aria-label="Detail sections">
+              <button type="button" role="tab" aria-selected="true" data-tab="overview">Overview</button>
+              <button type="button" role="tab" aria-selected="false" data-tab="business">Business</button>
+              <button type="button" role="tab" aria-selected="false" data-tab="technical">Technical</button>
+              <button type="button" role="tab" aria-selected="false" data-tab="lineage">Lineage</button>
+            </div>
+            <div class="tab-panel active" id="tab-overview" role="tabpanel"></div>
+            <div class="tab-panel" id="tab-business" role="tabpanel"></div>
+            <div class="tab-panel" id="tab-technical" role="tabpanel"></div>
+            <div class="tab-panel" id="tab-lineage" role="tabpanel"></div>
+            <div class="oms-cta">
+              <a class="btn btn-primary" href="#" id="open-oms">Open in OMS</a>
+              <button type="button" class="btn btn-ghost" id="request-access">Request access</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <footer class="nav-foot" style="margin-top:1.75rem;">
+      UX mock for <strong>Data Source Navigator</strong> — aligns with <a href="../requirements-gathering/slides/data-source-navigator-program-slide.html">program one-pager</a> and <a href="../requirements-gathering/prd/F03-catalog-browse.md">catalog browse PRD</a>. Persona toggles reorder emphasis only; no backend.
+    </footer>
+  </div>
+
+  <script>
+(function () {
+  var sources = [
+    { id: 'snowflake', name: 'Snowflake — analytics', pill: 'warehouse', meta: '4.2k tables · primary store', domain: 'deept' },
+    { id: 'databricks', name: 'Databricks / Unity Catalog', pill: 'warehouse', meta: 'Jobs + ML features', domain: 'deept' },
+    { id: 'pipelines', name: 'Stream / batch pipelines', pill: 'cdp', meta: 'CPL-governed flows', domain: 'mci' },
+    { id: 'activation', name: 'Reverse ETL — Hightouch', pill: 'activation', meta: 'SaaS destinations', domain: 'mci' },
+    { id: 'warehouse_export', name: 'Reporting — Tableau / Looker', pill: 'engage', meta: 'Certified datasets', domain: 'deept' }
+  ];
+
+  var assetsBySource = {
+    snowflake: [
+      { id: 't1', name: 'fct_subscriber_daily', type: 'Table', owner: 'DEEPT Steward', trust: 'Attested', tier: 'internal', term: 'Active Subscriber', policy: 'ROW_ACCESS_POLICY', pipeline: 'dbt_marts.subscriber_daily' },
+      { id: 't2', name: 'dim_account', type: 'Table', owner: 'Platform', trust: 'Partial', tier: 'public', term: 'Account', policy: 'TAG_SET_DEFAULT', pipeline: 'dbt_core.dim_account' },
+      { id: 't3', name: 'stg_events_raw', type: 'Table', owner: 'Ingestion', trust: 'Raw', tier: 'restricted', term: 'Event (raw)', policy: 'MASK_PII', pipeline: 'snowpipe.events' }
+    ],
+    databricks: [
+      { id: 'd1', name: 'feature_churn_30d', type: 'Feature table', owner: 'ML Platform', trust: 'Attested', tier: 'internal', term: 'Churn (30d)', policy: 'MODEL_CARD_REQUIRED', pipeline: 'jobs/train_churn' }
+    ],
+    pipelines: [
+      { id: 'p1', name: 'kafka_to_lake.subscriptions', type: 'Pipeline', owner: 'Data Eng', trust: 'Attested', tier: 'internal', term: 'Subscription events', policy: 'CPL_TIER_2', pipeline: 'repo/streaming/subscriptions' }
+    ],
+    activation: [
+      { id: 'a1', name: 'sync.audience_winback', type: 'Sync', owner: 'Lifecycle', trust: 'Attested', tier: 'restricted', term: 'Winback audience', policy: 'CONSENT_CHECK', pipeline: 'hightouch.project winback' }
+    ],
+    warehouse_export: [
+      { id: 'r1', name: 'Executive KPIs (certified)', type: 'Report', owner: 'BI COE', trust: 'Certified', tier: 'internal', term: 'KPI definitions', policy: 'CERTIFIED_DATASET', pipeline: 'looker.model.executive' }
+    ]
+  };
+
+  var currentSource = 'snowflake';
+  var currentAsset = null;
+  var persona = 'analyst';
+
+  function $(id) { return document.getElementById(id); }
+
+  function setPersona(p) {
+    persona = p;
+    ['analyst', 'steward', 'engineer'].forEach(function (key) {
+      var btn = $('p-' + key);
+      if (btn) btn.setAttribute('aria-pressed', key === p ? 'true' : 'false');
+    });
+    renderDetail();
+  }
+
+  function renderSources() {
+    var ul = $('source-list');
+    ul.innerHTML = '';
+    sources.forEach(function (s) {
+      var li = document.createElement('li');
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.setAttribute('aria-current', s.id === currentSource ? 'true' : 'false');
+      b.dataset.id = s.id;
+      var t = document.createElement('span');
+      t.textContent = s.name;
+      var m = document.createElement('span');
+      m.className = 'src-meta';
+      m.textContent = s.meta;
+      b.appendChild(t);
+      b.appendChild(m);
+      b.addEventListener('click', function () {
+        currentSource = s.id;
+        currentAsset = null;
+        renderSources();
+        renderAssets();
+        renderDetail();
+      });
+      li.appendChild(b);
+      ul.appendChild(li);
+    });
+  }
+
+  function domainOk(asset) {
+    var d = $('facet-domain').value;
+    if (d === 'all') return true;
+    var src = sources.find(function (x) { return x.id === currentSource; });
+    return src && src.domain === d;
+  }
+
+  function tierOk(asset) {
+    var t = $('facet-tier').value;
+    if (t === 'all') return true;
+    return asset.tier === t;
+  }
+
+  function renderAssets() {
+    var src = sources.find(function (x) { return x.id === currentSource; });
+    $('source-title').textContent = src ? src.name : '—';
+    $('source-pill').textContent = src ? src.pill : '—';
+    $('source-pill').className = 'pill ' + (src && src.pill ? src.pill : 'warehouse');
+
+    var rows = assetsBySource[currentSource] || [];
+    var tbody = $('asset-body');
+    tbody.innerHTML = '';
+    var q = ($('global-search').value || '').toLowerCase().trim();
+
+    rows.filter(domainOk).filter(tierOk).forEach(function (a) {
+      if (q && [a.name, a.owner, a.term, a.type].join(' ').toLowerCase().indexOf(q) === -1) return;
+      var tr = document.createElement('tr');
+      tr.innerHTML =
+        '<td><button type="button" class="linkish" data-asset="' + a.id + '">' + escapeHtml(a.name) + '</button></td>' +
+        '<td>' + escapeHtml(a.type) + '</td>' +
+        '<td>' + escapeHtml(a.owner) + '</td>' +
+        '<td><span class="pill ' + trustClass(a.trust) + '">' + escapeHtml(a.trust) + '</span></td>';
+      tbody.appendChild(tr);
+    });
+
+    tbody.querySelectorAll('button.linkish').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var id = btn.getAttribute('data-asset');
+        currentAsset = rows.find(function (x) { return x.id === id; }) || null;
+        renderDetail();
+      });
+    });
+  }
+
+  function trustClass(t) {
+    if (t === 'Attested' || t === 'Certified') return 'activation';
+    if (t === 'Partial' || t === 'Raw') return 'engage';
+    return 'cdp';
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function renderDetail() {
+    var strip = $('bdc-strip');
+    var empty = $('detail-empty');
+    var content = $('detail-content');
+    if (!currentAsset) {
+      empty.hidden = false;
+      content.hidden = true;
+      strip.hidden = true;
+      return;
+    }
+    empty.hidden = true;
+    content.hidden = false;
+    strip.hidden = false;
+    strip.innerHTML = '<span class="label">Business context</span>' +
+      '<span class="pill glossary">Term: ' + escapeHtml(currentAsset.term) + '</span>' +
+      '<span class="pill policy">Policy: ' + escapeHtml(currentAsset.policy) + '</span>' +
+      '<span class="pill attested">Implementation: ' + escapeHtml(currentAsset.pipeline) + '</span>' +
+      '<span class="pill lineage">Lineage: OMS</span>';
+
+    $('detail-name').textContent = currentAsset.name;
+    $('detail-path').textContent = sources.find(function (x) { return x.id === currentSource; }).name + ' › … › ' + currentAsset.name;
+
+    var overview = $('tab-overview');
+    var business = $('tab-business');
+    var technical = $('tab-technical');
+    var lineage = $('tab-lineage');
+
+    var stewardNote = persona === 'steward' ? '<p style="margin-top:0.5rem;">Steward view: inline edit hooks → PATCH <code>/catalog/assets/{id}</code> (illustrative).</p>' : '';
+    var engineerNote = persona === 'engineer' ? '<p style="margin-top:0.5rem;">Engineer view: jump to repo path and pipeline run history in OMS.</p>' : '';
+
+    overview.innerHTML =
+      '<dl><dt>Purpose</dt><dd>Curated ' + escapeHtml(currentAsset.type.toLowerCase()) + ' for downstream reporting and models.</dd>' +
+      '<dt>Trust posture</dt><dd>' + escapeHtml(currentAsset.trust) + ' — metadata last verified from pipeline deploy <strong>2026-05-02</strong>.</dd>' +
+      '<dt>Persona lens</dt><dd>' + escapeHtml(persona) + ' — same object; tabs emphasize what you need next.</dd></dl>' + stewardNote + engineerNote;
+
+    business.innerHTML =
+      '<dl><dt>Glossary term</dt><dd>' + escapeHtml(currentAsset.term) + '</dd>' +
+      '<dt>Data owner</dt><dd>' + escapeHtml(currentAsset.owner) + '</dd>' +
+      '<dt>Classification</dt><dd>' + escapeHtml(currentAsset.tier) + '</dd>' +
+      '<dt>Stewardship</dt><dd>Completeness 82% · pending: example values, PII rationale</dd></dl>';
+
+    technical.innerHTML =
+      '<dl><dt>Physical name</dt><dd>' + escapeHtml(currentAsset.name) + '</dd>' +
+      '<dt>Materialization</dt><dd>Incremental (daily) · warehouse: Snowflake</dd>' +
+      '<dt>Upstream</dt><dd>Raw events → staging → this asset (open OMS for graph)</dd></dl>';
+
+    lineage.innerHTML =
+      '<p>Lineage is authoritative in OMS. This navigator surfaces <strong>business framing</strong> first, then hands off to technical graph, column lineage, and impact preview.</p>' +
+      '<ul style="margin-top:0.5rem;padding-left:1.1rem;"><li>3-hop example: ingest → mart → activation sync</li><li>Export: governance bundle (CSV) from toolbar in full build</li></ul>';
+
+    $('open-oms').href = '../business-data-catalog/oms-ui-on-top.html#catalog';
+
+    var req = $('request-access');
+    req.style.display = persona === 'analyst' ? 'inline-flex' : 'none';
+  }
+
+  document.querySelectorAll('.detail-tabs [role="tab"]').forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      var name = tab.getAttribute('data-tab');
+      document.querySelectorAll('.detail-tabs [role="tab"]').forEach(function (t) {
+        t.setAttribute('aria-selected', t === tab ? 'true' : 'false');
+      });
+      document.querySelectorAll('.tab-panel').forEach(function (p) {
+        p.classList.toggle('active', p.id === 'tab-' + name);
+      });
+    });
+  });
+
+  $('global-search').addEventListener('input', function () { renderAssets(); });
+  $('facet-domain').addEventListener('change', function () { renderAssets(); });
+  $('facet-tier').addEventListener('change', function () { renderAssets(); });
+
+  $('p-analyst').addEventListener('click', function () { setPersona('analyst'); });
+  $('p-steward').addEventListener('click', function () { setPersona('steward'); });
+  $('p-engineer').addEventListener('click', function () { setPersona('engineer'); });
+
+  $('btn-lineage').addEventListener('click', function () {
+    window.open('../business-data-catalog/oms-ui-on-top.html#lineage', '_blank', 'noopener');
+  });
+
+  renderSources();
+  renderAssets();
+  renderDetail();
+})();
+  </script>
+</body>
+</html>

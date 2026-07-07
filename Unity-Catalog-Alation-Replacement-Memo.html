@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Unity Catalog vs. Alation Replacement — Memo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="data-catalog-expansion/themes/theme-editorial-hero.css" />
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="badge-row">
+        <span class="badge">Data Governance</span>
+        <span class="badge">June 25, 2026</span>
+        <span class="badge">Broad distribution</span>
+      </div>
+      <h1>Can Unity Catalog replace Alation?</h1>
+      <p class="hero-lead">
+        Following Databricks Data + AI Summit 2026 (June 15–18), stakeholders are asking whether Unity Catalog (UC) can substitute for our in-house catalog on OMS. <strong>Short answer: no</strong>—UC is a strong Databricks governance layer, not an enterprise catalog replacement. We should continue OMS + Navigator and integrate UC as a governed metadata source.
+      </p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="card">
+      <h2>Executive summary</h2>
+      <p>
+        Databricks announced meaningful UC advances at <strong>DAIS 2026</strong>: governed <strong>Metric Views</strong>, <strong>Domains</strong> (public preview), <strong>Unity AI Gateway</strong>, external lineage GA, and a <strong>Business Glossary</strong> announced as “preview coming soon”—not shipped. These strengthen lakehouse governance and agent context.
+      </p>
+      <p>
+        They do <strong>not</strong> deliver what Alation provides today: a <strong>cross-platform</strong> catalog with a stewarded <strong>business glossary</strong>, articles, bulk governance, and workflows for business users across Snowflake, pipelines, and BI—not only Databricks assets.
+      </p>
+      <div class="callout">
+        <strong>Recommendation:</strong> Continue the <strong>OMS + Navigator</strong> path for Alation exit (contract end <strong>October 1, 2026</strong>). Treat Unity Catalog as the <strong>execution-plane control</strong> for Databricks; ingest UC metadata into OMS so one search experience spans the estate.
+      </div>
+    </section>
+
+    <section class="grid-2">
+      <div class="card">
+        <h2>What UC now does well</h2>
+        <ul>
+          <li><strong>Metric Views</strong> — governed KPIs reusable in SQL, notebooks, Genie, dashboards</li>
+          <li><strong>Domains</strong> (public preview) — business-area organization &amp; marketplace browse</li>
+          <li><strong>Unity AI Gateway</strong> (beta) — agent/model/MCP runtime governance</li>
+          <li>Trust signals: certifications, classification, ABAC, DQ monitoring</li>
+          <li><strong>External lineage</strong> GA — metadata from outside Databricks</li>
+          <li><strong>Governance Hub</strong> (private preview) — steward command center in Databricks</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>What UC does not replace</h2>
+        <ul>
+          <li><strong>Business glossary</strong> — announced at DAIS 2026; <strong>preview coming soon</strong> (not GA)</li>
+          <li><strong>Articles / document hubs</strong> — collaborative knowledge base</li>
+          <li><strong>Enterprise-wide discovery</strong> — unified search across Snowflake, Airflow, Harmony, BI</li>
+          <li><strong>Stewardship workflows</strong> — approvals, bulk edit, catalog sets at estate scale</li>
+          <li><strong>Business-user UX</strong> — Navigator on OMS, not Catalog Explorer</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Capability comparison (selected)</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Capability</th>
+            <th>Alation (today)</th>
+            <th>Unity Catalog (post-DAIS 2025)</th>
+            <th>OMS + Navigator (target)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Business glossary</td>
+            <td>Core — terms, synonyms, links</td>
+            <td><strong>Not shipped</strong> (preview announced; metrics semantics only today)</td>
+            <td>Core MVP requirement</td>
+          </tr>
+          <tr>
+            <td>Cross-platform search</td>
+            <td>Snowflake, multi-source</td>
+            <td>Databricks-primary; BYOL is engineering-heavy</td>
+            <td>OMS federated inventory</td>
+          </tr>
+          <tr>
+            <td>Articles / docs</td>
+            <td>Document hubs</td>
+            <td>No equivalent</td>
+            <td>Phase 1 / parity path</td>
+          </tr>
+          <tr>
+            <td>Lineage</td>
+            <td>Table/column/dataflow</td>
+            <td>Strong in Databricks; external via BYOL</td>
+            <td>OMS + supply (626, pipelines)</td>
+          </tr>
+          <tr>
+            <td>Governed KPIs</td>
+            <td>Glossary + linked queries</td>
+            <td><strong>Metric Views</strong> (strength)</td>
+            <td>Read/sync; federated metrics governance</td>
+          </tr>
+          <tr>
+            <td>Stewardship at scale</td>
+            <td>Bulk edit, catalog sets</td>
+            <td>Tag policies; limited steward curation</td>
+            <td>Navigator + governance repository</td>
+          </tr>
+          <tr>
+            <td>Primary audience</td>
+            <td>Stewards, analysts, compliance</td>
+            <td>Data engineers, Databricks users</td>
+            <td>Business consumers + stewards</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <h2>Recommended architecture</h2>
+      <p><strong>Hub-and-spoke:</strong> Unity Catalog governs Databricks execution; OMS federates the estate; Navigator is the business catalog experience.</p>
+      <ul>
+        <li><strong>One system of record per metadata type</strong> — avoid dual-writing glossary or PII tags in UC and OMS.</li>
+        <li><strong>OMS + Navigator</strong> = enterprise catalog for Alation replacement.</li>
+        <li><strong>Unity Catalog</strong> = source of truth for UC-managed schemas, permissions, lineage, metric views.</li>
+        <li><strong>Sync UC → OMS</strong> so Databricks assets appear in the same search as Snowflake tables.</li>
+      </ul>
+    </section>
+
+    <section class="grid-2">
+      <div class="card">
+        <h2>Leadership talking points</h2>
+        <p><strong>“Can we use UC instead of building in-house?”</strong></p>
+        <p>UC improved for governed metrics and Databricks discovery, but not for business glossary, cross-platform catalog, or Alation-style stewardship. Right control plane inside Databricks; OMS + Navigator for Alation exit.</p>
+        <p><strong>“Are we duplicating Databricks?”</strong></p>
+        <p>Not if we integrate: UC = lakehouse governance; OMS = federated metadata store; Navigator = user experience. Same pattern industry uses with enterprise catalogs.</p>
+      </div>
+      <div class="card">
+        <h2>What to watch</h2>
+        <ul>
+          <li><strong>UC Glossary</strong> (preview/GA) — evaluate ingestion into OMS, not a catalog pivot</li>
+          <li><strong>Discover GA</strong> — useful for Databricks-heavy users only</li>
+          <li><strong>BYOL maturity</strong> — weigh engineering cost vs OMS lineage supply</li>
+          <li><strong>Metric Views in external BI</strong> — complements metrics governance</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Sources</h2>
+      <ul>
+        <li><a href="https://www.databricks.com/blog/whats-new-unity-catalog-data-ai-summit-2026">Databricks — What’s new with UC at DAIS 2026</a></li>
+        <li><a href="https://www.databricks.com/blog/whats-new-databricks-unity-catalog-data-ai-summit-2025">DAIS 2025 UC announcements (prior year)</a></li>
+        <li><a href="https://www.databricks.com/blog/redefining-semantics-data-layer-future-bi-and-ai">Unity Catalog Business Semantics GA</a></li>
+        <li><a href="https://docs.databricks.com/aws/en/business-semantics/">UC business semantics documentation</a></li>
+        <li><a href="https://www.youtube.com/watch?v=CVqucyacECU">Is Unity Catalog Enough? (Architect Mindset)</a></li>
+        <li>Workspace: <a href="Product-Brief-Alation-to-OMS-Migration.md">Product Brief</a>, <a href="In-House-Data-Catalog-Pitch-Deck.md">In-House Catalog Pitch Deck</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="wrap" style="padding-bottom: 3rem; color: var(--muted); font-size: 0.9rem;">
+    Internal — Data Governance / Data Catalog program · Companion slide deck: <a href="requirements-gathering/slides/unity-catalog-alation-replacement-deck.html">unity-catalog-alation-replacement-deck.html</a>
+  </footer>
+</body>
+</html>

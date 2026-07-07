@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Data Catalog UI Analysis &amp; Improved Prototype — PRODUCT + TECHNOLOGY</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="themes/theme-editorial-hero.css" />
+  <style>
+    /* Analysis document extras */
+    .toc {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1.25rem 1.5rem;
+      margin: 1.5rem 0 2rem;
+    }
+    .toc ol { margin: 0.5rem 0 0 1.25rem; }
+    .toc a { color: var(--blue); text-decoration: none; font-weight: 500; }
+    .toc a:hover { text-decoration: underline; }
+    .analysis-page {
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .analysis-page:last-of-type { border-bottom: none; }
+    .analysis-page h2 {
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 1.75rem;
+      margin-bottom: 1rem;
+      border: none;
+      padding-bottom: 0;
+    }
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      z-index: 10000;
+      padding: 0.5rem 1rem;
+      background: #2563eb;
+      color: #fff;
+      font-weight: 600;
+    }
+    .skip-link:focus {
+      left: 1rem;
+      top: 1rem;
+      position: fixed;
+    }
+    .improvement-list {
+      columns: 1;
+    }
+    @media (min-width: 720px) {
+      .improvement-list { columns: 2; gap: 2rem; }
+    }
+    .improvement-list li { break-inside: avoid; margin-bottom: 0.65rem; }
+
+    /* ========== Scoped catalog prototype (improvements) ========== */
+    .prototype-section {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 2px solid var(--violet);
+    }
+    .prototype-section > h2 {
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 1.85rem;
+      margin-bottom: 0.5rem;
+    }
+    .prototype-lead {
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+      max-width: 65ch;
+    }
+
+    .catalog-shell {
+      --cat-nav: #0c1a3a;
+      --cat-nav-hover: #152a52;
+      --cat-accent: #3b82f6;
+      --cat-surface: #f1f5f9;
+      --cat-text: #0f172a;
+      --cat-muted: #64748b;
+      font-family: 'Outfit', system-ui, sans-serif;
+      font-size: 15px;
+      line-height: 1.5;
+      color: var(--cat-text);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      background: #fff;
+      max-width: 1200px;
+    }
+
+    .catalog-shell * { box-sizing: border-box; }
+
+    .catalog-shell .skip-proto {
+      position: absolute;
+      left: -9999px;
+      z-index: 9999;
+      padding: 0.5rem 1rem;
+      background: var(--cat-accent);
+      color: #fff;
+      font-weight: 600;
+    }
+    .catalog-shell .skip-proto:focus {
+      left: 1rem;
+      top: 1rem;
+    }
+
+    .catalog-shell .proto-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      background: linear-gradient(90deg, #0f2744 0%, #132a4a 100%);
+      color: #e2e8f0;
+      padding: 0.65rem 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .catalog-shell .proto-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-shrink: 0;
+    }
+    .catalog-shell .proto-brand strong { font-size: 0.95rem; letter-spacing: 0.02em; }
+    .catalog-shell .proto-catalog-select {
+      font-size: 0.8rem;
+      padding: 0.35rem 0.6rem;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.08);
+      color: #fff;
+    }
+
+    .catalog-shell .proto-search-wrap {
+      flex: 1;
+      min-width: 200px;
+      max-width: 420px;
+      position: relative;
+    }
+    .catalog-shell .proto-search-wrap input {
+      width: 100%;
+      padding: 0.55rem 2.5rem 0.55rem 0.85rem;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.95);
+      color: #0f172a;
+      font-size: 0.95rem;
+    }
+    .catalog-shell .proto-search-wrap input:focus {
+      outline: 2px solid var(--cat-accent);
+      outline-offset: 2px;
+    }
+    .catalog-shell .proto-kbd {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.65rem;
+      padding: 0.2rem 0.45rem;
+      border-radius: 4px;
+      background: #e2e8f0;
+      color: #475569;
+      font-weight: 600;
+    }
+
+    .catalog-shell .proto-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .catalog-shell .proto-icon-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.06);
+      color: #e2e8f0;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      font-size: 1rem;
+    }
+    .catalog-shell .proto-icon-btn:focus-visible {
+      outline: 2px solid var(--cat-accent);
+      outline-offset: 2px;
+    }
+
+    .catalog-shell .proto-body {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      min-height: 480px;
+    }
+    @media (max-width: 768px) {
+      .catalog-shell .proto-body { grid-template-columns: 1fr; }
+      .catalog-shell .proto-sidebar { display: none; }
+    }
+
+    .catalog-shell .proto-sidebar {
+      background: var(--cat-nav);
+      color: #cbd5e1;
+      padding: 1rem 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .catalog-shell .proto-nav-filter {
+      font-size: 0.8rem;
+      padding: 0.45rem 0.6rem;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(0,0,0,0.2);
+      color: #e2e8f0;
+      width: 100%;
+    }
+    .catalog-shell .proto-nav-filter::placeholder { color: #64748b; }
+    .catalog-shell .proto-nav-filter:focus {
+      outline: 2px solid var(--cat-accent);
+      outline-offset: 1px;
+    }
+
+    .catalog-shell .proto-nav-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #64748b;
+      margin: 0.5rem 0 0.25rem;
+      padding-left: 0.35rem;
+    }
+
+    .catalog-shell .proto-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.45rem 0.5rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      color: #e2e8f0;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      width: 100%;
+      text-align: left;
+      font-family: inherit;
+    }
+    .catalog-shell .proto-nav-item:hover,
+    .catalog-shell .proto-nav-item[aria-current="page"] {
+      background: var(--cat-nav-hover);
+    }
+    .catalog-shell .proto-nav-item:focus-visible {
+      outline: 2px solid var(--cat-accent);
+      outline-offset: 1px;
+    }
+    .catalog-shell .proto-nav-item.hidden { display: none; }
+
+    .catalog-shell .proto-admin-banner {
+      margin: 0.75rem;
+      padding: 0.65rem 0.85rem;
+      border-radius: 10px;
+      background: linear-gradient(90deg, rgba(245,158,11,0.15), rgba(245,158,11,0.08));
+      border: 1px solid rgba(245,158,11,0.35);
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .catalog-shell .proto-admin-banner[hidden] { display: none; }
+    .catalog-shell .proto-admin-banner button {
+      font-size: 0.75rem;
+      padding: 0.35rem 0.65rem;
+      border-radius: 8px;
+      border: none;
+      background: #f59e0b;
+      color: #0f172a;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .catalog-shell .proto-main {
+      background: var(--cat-surface);
+      overflow: auto;
+    }
+
+    .catalog-shell .proto-breadcrumb {
+      font-size: 0.8rem;
+      color: var(--cat-muted);
+      padding: 0.75rem 1.25rem 0;
+    }
+    .catalog-shell .proto-breadcrumb a { color: var(--cat-accent); text-decoration: none; }
+    .catalog-shell .proto-breadcrumb a:hover { text-decoration: underline; }
+
+    .catalog-shell .proto-hero {
+      position: relative;
+      min-height: 180px;
+      background:
+        linear-gradient(135deg, rgba(15,23,42,0.75) 0%, rgba(30,58,138,0.55) 100%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Crect fill='%231e3a5f' width='120' height='120'/%3E%3Ccircle cx='60' cy='40' r='25' fill='%233b82f6' opacity='0.2'/%3E%3C/svg%3E");
+      background-size: cover;
+      background-position: center;
+      padding: 1.5rem 1.25rem 1.25rem;
+      color: #fff;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .catalog-shell .proto-hero { transition: none; }
+    }
+
+    .catalog-shell .proto-hero h3 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    }
+    .catalog-shell .proto-hero-search {
+      max-width: 520px;
+      position: relative;
+    }
+    .catalog-shell .proto-hero-search input {
+      width: 100%;
+      padding: 0.75rem 3rem 0.75rem 1rem;
+      border-radius: 12px;
+      border: none;
+      font-size: 1rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    }
+    .catalog-shell .proto-hero-search input:focus {
+      outline: 3px solid rgba(96,165,250,0.8);
+    }
+    .catalog-shell .proto-hero-plus {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: var(--cat-accent);
+      color: #fff;
+      border: none;
+      font-size: 1.25rem;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+    }
+    .catalog-shell .proto-hero-plus:focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 2px;
+    }
+
+    .catalog-shell .proto-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.85rem;
+    }
+    .catalog-shell .proto-chip {
+      font-size: 0.75rem;
+      padding: 0.35rem 0.65rem;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      color: #fff;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .catalog-shell .proto-chip:hover { background: rgba(255,255,255,0.25); }
+    .catalog-shell .proto-chip:focus-visible {
+      outline: 2px solid #fff;
+    }
+
+    .catalog-shell .proto-content {
+      padding: 1.25rem;
+    }
+
+    .catalog-shell .proto-section-title {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+    .catalog-shell .proto-section-title h4 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--cat-text);
+    }
+    .catalog-shell .proto-section-title a {
+      font-size: 0.85rem;
+      color: var(--cat-accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .catalog-shell .proto-domains {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .catalog-shell .proto-domain-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1rem;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 2px 8px rgba(15,23,42,0.06);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .catalog-shell .proto-domain-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(15,23,42,0.1);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .catalog-shell .proto-domain-card:hover { transform: none; }
+    }
+    .catalog-shell .proto-domain-card h5 {
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+      color: #0f172a;
+    }
+    .catalog-shell .proto-domain-meta {
+      font-size: 0.75rem;
+      color: var(--cat-muted);
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .catalog-shell .proto-pill {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      background: #dcfce7;
+      color: #166534;
+      width: fit-content;
+    }
+
+    .catalog-shell .proto-recent {
+      background: #fff;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      overflow: hidden;
+    }
+    .catalog-shell .proto-recent-row {
+      display: grid;
+      grid-template-columns: auto 1fr auto auto;
+      gap: 0.75rem;
+      align-items: center;
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid #f1f5f9;
+      font-size: 0.9rem;
+    }
+    .catalog-shell .proto-recent-row:last-child { border-bottom: none; }
+    .catalog-shell .proto-recent-row:hover { background: #f8fafc; }
+    .catalog-shell .proto-type-badge {
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 0.2rem 0.45rem;
+      border-radius: 4px;
+      background: #e0e7ff;
+      color: #3730a3;
+      text-transform: uppercase;
+    }
+    .catalog-shell .proto-time {
+      font-size: 0.75rem;
+      color: var(--cat-muted);
+      white-space: nowrap;
+    }
+
+    .catalog-shell .proto-fab {
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #f97316;
+      color: #fff;
+      border: none;
+      font-size: 1.25rem;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(249,115,22,0.45);
+    }
+    .catalog-shell .proto-main-wrap { position: relative; }
+
+    .wrap.wide { max-width: 980px; }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main-analysis">Skip to analysis</a>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="badge-row">
+        <span class="badge">UX analysis</span>
+        <span class="badge lime">Alation Cloud</span>
+      </div>
+      <h1>Data Catalog Home UI — Ten-Part Review</h1>
+      <p class="hero-lead">
+        Structured evaluation of the <strong>PRODUCT + TECHNOLOGY</strong> workspace
+        (<code>disney-data.alationcloud.com</code>): navigation, search, domains, recency,
+        governance affordances, and a working HTML prototype that applies recommended improvements.
+      </p>
+    </div>
+  </header>
+
+  <main class="wrap wide" id="main-analysis">
+    <nav class="toc" aria-label="Table of contents">
+      <strong>Contents (10 sections)</strong>
+      <ol>
+        <li><a href="#page-1">Context &amp; user goals</a></li>
+        <li><a href="#page-2">Information architecture &amp; left navigation</a></li>
+        <li><a href="#page-3">Global search &amp; “Ask Alation”</a></li>
+        <li><a href="#page-4">Hero, branding &amp; cognitive load</a></li>
+        <li><a href="#page-5">Federated domains &amp; taxonomy surfacing</a></li>
+        <li><a href="#page-6">Recency, bookmarks &amp; personalization</a></li>
+        <li><a href="#page-7">Governance, policies &amp; operational signals</a></li>
+        <li><a href="#page-8">Visual hierarchy, density &amp; responsive risk</a></li>
+        <li><a href="#page-9">Accessibility, performance &amp; trust</a></li>
+        <li><a href="#page-10">Strategic recommendations &amp; metrics</a></li>
+      </ol>
+    </nav>
+
+    <article class="analysis-page" id="page-1">
+      <h2>1. Context &amp; user goals</h2>
+      <p>
+        The captured home experience positions the Alation instance as a <em>federated data catalog</em>
+        for “PRODUCT + TECHNOLOGY,” with a strong visual identity (hero imagery, dark blue shell)
+        and a left-rail catalog tree. Primary user intents on this screen are typically:
+        (a) discover assets or documentation without knowing exact names,
+        (b) re-open recently touched objects,
+        (c) jump into a domain or curated space (e.g., Ad Platforms, DEET, Atlas),
+        and (d) reach governance or policy content. The UI succeeds at signaling “enterprise catalog”
+        but scatters entry points between the left list, hero search, and domain tiles—creating
+        overlapping mental models (“search vs browse vs domain”).
+      </p>
+      <p>
+        A gap is the lack of explicit orientation for first-time or infrequent users: no short
+        “start here” path, no inline explanation of what “Federated Data Catalog” implies versus
+        domain-scoped browsing, and no visible data health or coverage summary on the landing view.
+      </p>
+    </article>
+
+    <article class="analysis-page" id="page-2">
+      <h2>2. Information architecture &amp; left navigation</h2>
+      <p>
+        The left navigation is long and flat: bookmarks, recency, domains, sources, BI, glossaries,
+        announcements, training hubs, stewards, data science, ad docs, policies, queries—plus a
+        secondary “NOT CONFIGURED / ELT Sources” block. Strengths: comprehensive coverage of catalog
+        facets. Risks: <strong>scan fatigue</strong>, weak grouping (everything feels equally weighted),
+        and no quick filter or collapse for power users with smaller viewports.
+      </p>
+      <p>
+        Improvements should introduce <strong>nav sections</strong> (Discover, Govern, Learn, Admin),
+        optional favorites/pinning, and a filter box to reduce visual noise. The ELT “not configured”
+        message is valuable for admins but is visually alarming for general users; role-based or
+        dismissible presentation reduces anxiety and clutter.
+      </p>
+    </article>
+
+    <article class="analysis-page" id="page-3">
+      <h2>3. Global search &amp; “Ask Alation”</h2>
+      <p>
+        “Ask Alation” is duplicated in concept: a prominent field on the hero and (in the full product)
+        often a parallel search affordance elsewhere. Without clear scope labels, users may be unsure
+        whether search spans articles, tables, BI, or only certain types. The adjacent “+” control
+        suggests composition or new-object creation—if that is the intent, the icon should be paired
+        with a tooltip or “New…” label for clarity.
+      </p>
+      <p>
+        Best practice: a <strong>sticky global search</strong> in the header with keyboard shortcut
+        (<kbd>⌘</kbd><kbd>K</kbd>), scoped tabs or chips (Tables, Articles, Policies), recent queries,
+        and transparent “searching across…” copy. This aligns mental models and supports expert speed.
+      </p>
+    </article>
+
+    <article class="analysis-page" id="page-4">
+      <h2>4. Hero, branding &amp; cognitive load</h2>
+      <p>
+        The photographic hero reinforces culture and brand but competes with functional UI: the search
+        field sits on a busy background, which can reduce contrast and accessibility for some users.
+        A lighter gradient overlay or adjustable “compact header” mode would improve readability
+        without sacrificing identity.
+      </p>
+      <p>
+        Consider a <strong>user preference</strong> for reduced imagery (or <code>prefers-reduced-motion</code>
+        / reduced visual complexity) and a content-aware hero that can show KPI snippets (e.g., “12K
+        curated assets”) for analytical personas.
+      </p>
+    </article>
+
+    <article class="analysis-page" id="page-5">
+      <h2>5. Federated domains &amp; taxonomy surfacing</h2>
+      <p>
+        The “Federated Data Catalog” section surfaces three domain tiles (Ad Platforms, DEET, Atlas).
+        Tiles are a strong pattern but currently lack quantitative context: stewards, asset counts,
+        freshness, or certification status would help users prioritize where to dive.
+      </p>
+      <p>
+        Recommended enhancements: <strong>domain cards</strong> with metrics, stewardship avatars,
+        “last updated” signals, and inline health (e.g., green/amber for documentation coverage).
+        Support “view all domains” when the list grows past a handful.
+      </p>
+    </article>
+
+    <article class="analysis-page" id="page-6">
+      <h2>6. Recency, bookmarks &amp; personalization</h2>
+      <p>
+        “Recently visited” supports return navigation well. The list would benefit from object-type
+        labels, domain context, and quick actions (open in new tab, copy link, add to collection).
+        Timestamps (“6 hours ago”) are helpful; adding <strong>why it matters</strong> (e.g., “you edited”
+        vs “you viewed”) would strengthen activity literacy.
+      </p>
+      <p>
+        Tie bookmarks and recency together: let users pin items to a “My work” strip above the fold
+        for analysts who live in the same five assets weekly.
+      </p>
+    </article>
+
+    <article class="analysis-page" id="page-7">
+      <h2>7. Governance, policies &amp; operational signals</h2>
+      <p>
+        Policies, Stewards’ Workspace, and glossaries are discoverable but not differentiated from
+        general catalog browsing. New employees may not understand the difference between “Domains”
+        and “Policies” without onboarding. Microcopy under section headers—or a “New to governance?”
+        link—would improve findability.
+      </p>
+      <p>
+        Surfacing <strong>policy highlights</strong> or mandatory reads on the home page (role-aware)
+        turns the catalog into an operational hub, not only a technical index.
+      </p>
+    </article>
+
+    <article class="analysis-page" id="page-8">
+      <h2>8. Visual hierarchy, density &amp; responsive risk</h2>
+      <p>
+        The layout is desktop-optimized: deep left rail, wide hero, multi-column domains. On smaller
+        widths, the nav likely collapses to a menu—verify touch targets, sticky search behavior, and
+        whether domain tiles stack with readable titles. Density in the left nav is high; increasing
+        line height slightly and using icons consistently aids legibility.
+      </p>
+      <p>
+        Introduce a <strong>responsive grid</strong> for domains and a bottom navigation or drawer for
+        mobile parity with desktop IA, so users are not forced to scroll past a tall hero to reach tasks.
+      </p>
+    </article>
+
+    <article class="analysis-page" id="page-9">
+      <h2>9. Accessibility, performance &amp; trust</h2>
+      <p>
+        Ensure focus rings, heading order, and landmarks (<code>nav</code>, <code>main</code>, <code>search</code>)
+        for screen readers. Hero images should have configurable contrast; search inputs need visible
+        labels, not placeholder-only. Performance-wise, large hero photography can delay LCP; lazy-load
+        or serve responsive sizes.
+      </p>
+      <p>
+        Trust signals—data classification badges, PII hints, and endorsement counts—can appear on
+        hover or in list rows for recently visited items to reinforce responsible use.
+      </p>
+    </article>
+
+    <article class="analysis-page" id="page-10">
+      <h2>10. Strategic recommendations &amp; metrics</h2>
+      <p>
+        Prioritize a coherent <strong>search-first</strong> story with scoped filters, enrich domain and
+        recency modules with metrics and context, restructure navigation into grouped sections with
+        filtering, and soften admin-only warnings. Measure success with home-to-successful-discovery time,
+        search refinement rate, repeat visits to pinned assets, and qualitative steward feedback.
+      </p>
+      <p>
+        The interactive prototype below demonstrates: skip link, sticky header search with shortcut hint,
+        nav filter, grouped labels, breadcrumb, improved hero contrast, quick scope chips, domain cards
+        with health and counts, enriched recent rows, and a dismissible admin ELT banner.
+      </p>
+    </article>
+
+    <section class="card" style="padding: 1.5rem; margin-bottom: 2rem;">
+      <h2 style="font-family: 'Source Serif 4', Georgia, serif; font-size: 1.5rem; margin-bottom: 1rem;">Consolidated improvement list</h2>
+      <ul class="improvement-list">
+        <li>Sticky global search in header; duplicate hero search only if scopes differ—otherwise unify.</li>
+        <li>Keyboard shortcut (<kbd>⌘</kbd><kbd>K</kbd> / <kbd>Ctrl</kbd><kbd>K</kbd>) and visible hint.</li>
+        <li>Search scope chips: Tables, Articles, Lineage, Policies, Queries.</li>
+        <li>Nav grouping: Discover, Govern, Learn, Admin; optional collapse.</li>
+        <li>Left-nav filter to find items in long lists.</li>
+        <li>Role-aware or dismissible ELT “not configured” messaging.</li>
+        <li>Breadcrumbs on home (“Home”) for context when deep-linking returns here.</li>
+        <li>Domain tiles: asset counts, stewardship, health/coverage pill, last updated.</li>
+        <li>Recently visited: object-type badge, domain, stronger row hover, quick actions.</li>
+        <li>Clarify “+” control with tooltip or “New…” label.</li>
+        <li>Hero: stronger text contrast; optional reduced imagery mode.</li>
+        <li><code>prefers-reduced-motion</code> for hover animations.</li>
+        <li>Skip links; focus-visible styles; semantic landmarks.</li>
+        <li>Mobile: collapsible nav, stacked domains, sticky search.</li>
+        <li>Performance: optimize hero image; lazy-load below fold.</li>
+        <li>Governance microcopy: explain Policies vs Domains for new users.</li>
+        <li>Optional “My work” pins above the fold for repeat tasks.</li>
+      </ul>
+    </section>
+
+    <section class="prototype-section" id="prototype">
+      <h2>Working HTML prototype (improvements applied)</h2>
+      <p class="prototype-lead">
+        The sandbox below is a self-contained mock. Try: typing in the left <strong>Filter navigation</strong>
+        box, pressing <kbd>⌘</kbd><kbd>K</kbd> (Mac) or <kbd>Ctrl</kbd><kbd>K</kbd> to focus header search,
+        clicking scope chips, dismissing the admin banner, and hovering domain cards.
+      </p>
+
+      <div class="catalog-shell" role="region" aria-label="Improved catalog home prototype">
+        <a class="skip-proto" href="#proto-main">Skip to catalog content</a>
+
+        <header class="proto-top">
+          <div class="proto-brand">
+            <span aria-hidden="true" style="font-size:1.25rem;">◆</span>
+            <div>
+              <strong>PRODUCT + TECHNOLOGY</strong><br />
+              <label class="visually-hidden" for="proto-select">Catalog scope</label>
+              <select id="proto-select" class="proto-catalog-select" title="Catalog scope">
+                <option>Full Catalog</option>
+                <option>Ad Platforms only</option>
+                <option>Governance</option>
+              </select>
+            </div>
+          </div>
+          <div class="proto-search-wrap">
+            <label for="proto-global-search" class="visually-hidden">Search catalog</label>
+            <input type="search" id="proto-global-search" placeholder="Ask Alation — search tables, articles, policies…" autocomplete="off" />
+            <span class="proto-kbd" aria-hidden="true">⌘K</span>
+          </div>
+          <div class="proto-actions">
+            <button type="button" class="proto-icon-btn" title="Settings" aria-label="Settings">⚙</button>
+            <button type="button" class="proto-icon-btn" title="Help" aria-label="Help">?</button>
+            <button type="button" class="proto-icon-btn" title="Account" aria-label="Account" style="background:linear-gradient(135deg,#3b82f6,#1d4ed8);font-weight:700;">J</button>
+          </div>
+        </header>
+
+        <div class="proto-admin-banner" id="proto-admin-banner">
+          <span><strong>Admin:</strong> ELT Sources are not configured — <a href="#" style="color:#92400e;">complete setup</a> to enable lineage automation.</span>
+          <button type="button" id="proto-dismiss-elt">Dismiss</button>
+        </div>
+
+        <div class="proto-body">
+          <aside class="proto-sidebar" aria-label="Catalog navigation">
+            <label for="proto-nav-filter" class="visually-hidden">Filter navigation</label>
+            <input type="search" id="proto-nav-filter" class="proto-nav-filter" placeholder="Filter navigation…" autocomplete="off" />
+
+            <div class="proto-nav-label">Discover</div>
+            <button type="button" class="proto-nav-item" data-label="my bookmarks">🔖 My Bookmarks</button>
+            <button type="button" class="proto-nav-item" data-label="recently visited">🕐 Recently Visited</button>
+            <button type="button" class="proto-nav-item" data-label="domains">📁 Domains</button>
+            <button type="button" class="proto-nav-item" data-label="data sources">💾 Data Sources</button>
+            <button type="button" class="proto-nav-item" data-label="queries">📊 Queries</button>
+
+            <div class="proto-nav-label">Govern</div>
+            <button type="button" class="proto-nav-item" data-label="glossaries">📖 Glossaries</button>
+            <button type="button" class="proto-nav-item" data-label="policies">✅ Policies</button>
+            <button type="button" class="proto-nav-item" data-label="stewards">👥 Stewards’ Workspace</button>
+
+            <div class="proto-nav-label">Learn</div>
+            <button type="button" class="proto-nav-item" data-label="training">🎓 Quick Reference &amp; Training</button>
+            <button type="button" class="proto-nav-item" data-label="announcements">📣 News &amp; Announcements</button>
+          </aside>
+
+          <div class="proto-main-wrap">
+            <div class="proto-main" id="proto-main">
+              <div class="proto-breadcrumb"><a href="#">Home</a> · <span>Full Catalog</span></div>
+
+              <div class="proto-hero">
+                <h3>Ask Alation</h3>
+                <div class="proto-hero-search">
+                  <label for="proto-hero-q" class="visually-hidden">Ask Alation search</label>
+                  <input type="search" id="proto-hero-q" placeholder="Try: customer revenue table, PII policy, Atlas lineage…" />
+                  <button type="button" class="proto-hero-plus" title="New article or query" aria-label="Create new">+</button>
+                </div>
+                <div class="proto-chips" role="toolbar" aria-label="Search scope">
+                  <button type="button" class="proto-chip" data-scope="tables">Tables</button>
+                  <button type="button" class="proto-chip" data-scope="articles">Articles</button>
+                  <button type="button" class="proto-chip" data-scope="lineage">Lineage</button>
+                  <button type="button" class="proto-chip" data-scope="policies">Policies</button>
+                </div>
+              </div>
+
+              <div class="proto-content">
+                <div class="proto-section-title">
+                  <h4>Federated Data Catalog</h4>
+                  <a href="#">View all domains</a>
+                </div>
+                <div class="proto-domains">
+                  <article class="proto-domain-card">
+                    <span class="proto-pill">Healthy</span>
+                    <h5>Ad Platforms Domain</h5>
+                    <div class="proto-domain-meta">
+                      <span>1,240 assets · 18 stewards</span>
+                      <span>Updated 2d ago</span>
+                    </div>
+                  </article>
+                  <article class="proto-domain-card">
+                    <span class="proto-pill">Healthy</span>
+                    <h5>DEET Data Domain</h5>
+                    <div class="proto-domain-meta">
+                      <span>860 assets · 12 stewards</span>
+                      <span>Updated 5d ago</span>
+                    </div>
+                  </article>
+                  <article class="proto-domain-card">
+                    <span class="proto-pill" style="background:#fef3c7;color:#92400e;">Review</span>
+                    <h5>Atlas Domain</h5>
+                    <div class="proto-domain-meta">
+                      <span>412 assets · 9 stewards</span>
+                      <span>Coverage 78%</span>
+                    </div>
+                  </article>
+                </div>
+
+                <div class="proto-section-title">
+                  <h4>Recently visited</h4>
+                  <a href="#">View all</a>
+                </div>
+                <div class="proto-recent">
+                  <div class="proto-recent-row">
+                    <span class="proto-type-badge">Glossary</span>
+                    <div>
+                      <strong>Metric, Term and Attribute Glossary Export</strong>
+                      <div style="font-size:0.75rem;color:var(--cat-muted);margin-top:0.15rem;">Ad Platforms Domain</div>
+                    </div>
+                    <span class="proto-time">6h ago</span>
+                    <button type="button" class="proto-icon-btn" style="width:32px;height:32px;font-size:0.75rem;background:#fff;color:#64748b;border-color:#e2e8f0;" aria-label="More actions">⋯</button>
+                  </div>
+                  <div class="proto-recent-row">
+                    <span class="proto-type-badge">Table</span>
+                    <div>
+                      <strong>DBR_DB_PROD.REPORT</strong>
+                      <div style="font-size:0.75rem;color:var(--cat-muted);margin-top:0.15rem;">DEET Data Domain</div>
+                    </div>
+                    <span class="proto-time">8h ago</span>
+                    <button type="button" class="proto-icon-btn" style="width:32px;height:32px;font-size:0.75rem;background:#fff;color:#64748b;border-color:#e2e8f0;" aria-label="More actions">⋯</button>
+                  </div>
+                  <div class="proto-recent-row">
+                    <span class="proto-type-badge">Domain</span>
+                    <div>
+                      <strong>Atlas Domain</strong>
+                      <div style="font-size:0.75rem;color:var(--cat-muted);margin-top:0.15rem;">Federated root</div>
+                    </div>
+                    <span class="proto-time">11h ago</span>
+                    <button type="button" class="proto-icon-btn" style="width:32px;height:32px;font-size:0.75rem;background:#fff;color:#64748b;border-color:#e2e8f0;" aria-label="More actions">⋯</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button type="button" class="proto-fab" title="Help" aria-label="Open help chat">?</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer style="margin-top: 3rem; padding: 1.5rem 0; color: var(--muted); font-size: 0.9rem;">
+      <p>Analysis and prototype generated for stakeholder review. Not affiliated with Alation product roadmap.</p>
+    </footer>
+  </main>
+
+  <style>
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+  </style>
+  <script>
+    (function () {
+      var shell = document.querySelector('.catalog-shell');
+      if (!shell) return;
+
+      var globalSearch = shell.querySelector('#proto-global-search');
+      document.addEventListener('keydown', function (e) {
+        if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+          e.preventDefault();
+          if (globalSearch) {
+            globalSearch.focus();
+            globalSearch.select();
+          }
+        }
+      });
+
+      var filter = shell.querySelector('#proto-nav-filter');
+      var items = shell.querySelectorAll('.proto-nav-item');
+      if (filter) {
+        filter.addEventListener('input', function () {
+          var q = filter.value.trim().toLowerCase();
+          items.forEach(function (btn) {
+            var label = (btn.getAttribute('data-label') || btn.textContent || '').toLowerCase();
+            btn.classList.toggle('hidden', q.length > 0 && label.indexOf(q) === -1);
+          });
+        });
+      }
+
+      shell.querySelectorAll('.proto-chip').forEach(function (chip) {
+        chip.addEventListener('click', function () {
+          var scope = chip.getAttribute('data-scope');
+          var hero = shell.querySelector('#proto-hero-q');
+          if (hero) {
+            hero.placeholder = 'Search in ' + scope + '…';
+            hero.focus();
+          }
+        });
+      });
+
+      var banner = shell.querySelector('#proto-admin-banner');
+      var dismiss = shell.querySelector('#proto-dismiss-elt');
+      if (dismiss && banner) {
+        dismiss.addEventListener('click', function () {
+          banner.setAttribute('hidden', '');
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

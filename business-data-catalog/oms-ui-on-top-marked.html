@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OMS — UI On-Top (marked)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="oms-shared.css" />
+  <link rel="stylesheet" href="bdc-features.css" />
+  <link rel="stylesheet" href="bdc-markup.css" />
+  <style>
+    .bdc-hero {
+      padding: 0 0 1rem;
+    }
+    .bdc-hero h1 {
+      margin: 0 0 0.35rem;
+      font-size: 1.5rem;
+      letter-spacing: -0.02em;
+    }
+    .bdc-hero p {
+      margin: 0;
+      color: var(--oms-muted);
+      font-size: 14px;
+      max-width: 56ch;
+    }
+    .section-hidden { display: none !important; }
+    #main.main--drill .bdc-hero,
+    #main.main--drill #bdcSubnav { display: none !important; }
+  </style>
+</head>
+<body>
+  <div class="oms-app">
+    <aside class="oms-sidebar" id="sidebar" aria-label="Main navigation">
+      <div class="oms-brand">Disney Entertainment &amp; ESPN<br />Technology</div>
+      <nav class="oms-nav-section" aria-label="Main pages">
+        <div class="oms-nav-section-title">Main Pages</div>
+        <a class="oms-nav-item" href="oms-ui-integrated.html"><span class="oms-nav-icon" aria-hidden="true">⌂</span> OMS Home</a>
+        <a class="oms-nav-item" href="#" aria-current="page"><span class="oms-nav-icon" aria-hidden="true">📚</span> Business Data Catalog</a>
+        <a class="oms-nav-item" href="#"><span class="oms-nav-icon" aria-hidden="true">⬇</span> Lineage Downloads</a>
+      </nav>
+      <nav class="oms-nav-section" aria-label="Resources">
+        <div class="oms-nav-section-title">Resources</div>
+        <a class="oms-nav-item" href="#"><span class="oms-nav-icon" aria-hidden="true">📄</span> Documentation</a>
+        <a class="oms-nav-item" href="#"><span class="oms-nav-icon" aria-hidden="true">▶</span> Walkthrough</a>
+        <a class="oms-nav-item" href="#"><span class="oms-nav-icon" aria-hidden="true">☎</span> Contact Support</a>
+      </nav>
+      <div class="oms-sidebar-footer">
+        <div class="oms-badge-logo" aria-hidden="true">OMS</div>
+        <div><strong>OMS</strong><br />Operational Metadata Store</div>
+      </div>
+    </aside>
+
+    <div class="oms-main">
+      <header class="oms-topbar">
+        <button type="button" class="btn-ghost mobile-toggle" id="navToggle" aria-label="Open navigation">☰</button>
+        <div class="oms-search" role="search">
+          <span aria-hidden="true">🔍</span>
+          <label class="sr-only" for="globalSearch">Search catalog</label>
+          <input id="globalSearch" type="search" placeholder="Search assets, terms, owners, policies…" autocomplete="off" />
+        </div>
+        <div style="display:flex;gap:0.5rem;align-items:center;">
+          <button type="button" class="btn-ghost" id="btnTour" title="Guided tour">Tour</button>
+          <span aria-hidden="true" title="Profile">Work</span>
+        </div>
+      </header>
+
+      <main class="oms-content" id="main" data-bdc-main>
+        <div class="bdc-hero">
+          <h1>Business Data Catalog</h1>
+          <p>
+            <strong>OMS UI on top</strong> — same OMS home experience (sources &amp; counts) lives here first; use tabs for stewardship tools. Drill into any source for list → metadata, matching the core OMS flow.
+          </p>
+        </div>
+
+        <nav class="bdc-subnav" aria-label="Catalog sections" id="bdcSubnav">
+          <a href="#home" data-section="home" aria-current="page">Home</a>
+          <a href="#overview" data-section="overview">Overview</a>
+          <a href="#catalog" data-section="catalog">Catalog</a>
+          <a href="#lineage" data-section="lineage">Lineage</a>
+          <a href="#glossary" data-section="glossary">Glossary</a>
+          <a href="#policies" data-section="policies">Policies</a>
+          <a href="#requests" data-section="requests">Requests</a>
+          <a href="#admin" data-section="admin">Admin</a>
+        </nav>
+
+        <!-- Home: same grouped cards as OMS landing -->
+        <section id="panel-home" class="section-panel">
+          <div class="oms-welcome">
+            <div class="oms-welcome-icon" aria-hidden="true">◇</div>
+            <div>
+              <h1 style="margin:0;font-size:1.25rem;">Welcome to Operational Metadata Store</h1>
+              <p style="margin:0.35rem 0 0;font-size:13px;color:var(--oms-muted);">Pick a source (tables, pipelines, streams, endpoints, reports). Full Snowflake path: list → table metadata with Overview / Technical / Business / Schema.</p>
+            </div>
+          </div>
+          <div class="home-columns" id="homeColumnsBdc"></div>
+        </section>
+
+        <!-- Overview (KPIs only) -->
+        <section id="panel-overview" class="section-panel section-hidden">
+          <div class="kpi-grid" role="region" aria-label="Key metrics">
+            <div class="kpi-card">
+              <div class="lbl">Curated assets</div>
+              <div class="val" id="kpiAssets">—</div>
+            </div>
+            <div class="kpi-card">
+              <div class="lbl">With glossary links</div>
+              <div class="val" id="kpiGlossary">—</div>
+            </div>
+            <div class="kpi-card">
+              <div class="lbl">Open access requests</div>
+              <div class="val" id="kpiRequests">3</div>
+            </div>
+            <div class="kpi-card">
+              <div class="lbl">Avg. quality score</div>
+              <div class="val" id="kpiQuality">—</div>
+            </div>
+          </div>
+          <div class="oms-card-panel" style="padding:1rem 1.25rem;">
+            <h2 style="margin:0 0 0.5rem;font-size:1rem;">Getting started</h2>
+            <p style="margin:0;color:var(--oms-muted);font-size:13px;max-width:70ch;">
+              Use <strong>Catalog</strong> to browse and edit business metadata. <strong>Glossary</strong> ties business terms to technical assets. <strong>Policies</strong> shows mapped controls; <strong>Requests</strong> tracks access and stewardship approvals. <strong>Admin</strong> is for connectors, roles, and import jobs.
+            </p>
+            <div style="margin-top:1rem;display:flex;flex-wrap:wrap;gap:0.5rem;">
+              <button type="button" class="btn-primary" data-jump="catalog">Go to catalog</button>
+              <button type="button" class="btn-ghost" data-jump="glossary">Browse glossary</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Catalog (main table) -->
+        <section id="panel-catalog" class="section-panel section-hidden" aria-labelledby="catalogHeading">
+          <h2 id="catalogHeading" class="sr-only">Asset catalog</h2>
+          <div class="layout-split">
+            <div class="facets" role="region" aria-label="Faceted filters">
+              <h3>Environment</h3>
+              <label><input type="checkbox" name="facetEnv" value="prod" checked /> prod</label>
+              <label><input type="checkbox" name="facetEnv" value="dev" checked /> dev</label>
+              <h3>Sensitivity</h3>
+              <label><input type="checkbox" name="facetSens" value="Internal" checked /> Internal</label>
+              <label><input type="checkbox" name="facetSens" value="Confidential" checked /> Confidential</label>
+              <label><input type="checkbox" name="facetSens" value="Highly Confidential" checked /> Highly Confidential</label>
+              <label><input type="checkbox" name="facetSens" value="Restricted" checked /> Restricted</label>
+              <h3>Has lineage</h3>
+              <label><input type="radio" name="facetLin" value="any" checked /> Any</label>
+              <label><input type="radio" name="facetLin" value="yes" /> Yes</label>
+            </div>
+            <div>
+              <div class="toolbar">
+                <button type="button" class="btn-primary" id="btnCreate">New asset</button>
+                <button type="button" class="btn-ghost" id="btnBulkTag">Bulk tag</button>
+                <button type="button" class="btn-ghost" id="btnExport">Export JSON</button>
+                <span style="font-size:12px;color:var(--oms-muted);margin-left:auto;"><span id="filteredCount">0</span> results</span>
+              </div>
+              <div class="oms-card-panel">
+                <div class="oms-table-wrap">
+                  <table class="oms-table" id="assetTable">
+                    <thead>
+                      <tr>
+                        <th scope="col">Asset <span class="sort-hint">A↕Z</span></th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Owner</th>
+                        <th scope="col">Sensitivity</th>
+                        <th scope="col">Quality</th>
+                        <th scope="col">Lineage</th>
+                      </tr>
+                      <tr class="filter-row">
+                        <td><input type="text" placeholder="Filter" data-filter="name" /></td>
+                        <td><select data-filter="type"><option value="">All</option><option>Table</option><option>View</option><option>Metric</option></select></td>
+                        <td><input type="text" placeholder="Filter" data-filter="businessOwner" /></td>
+                        <td><input type="text" placeholder="Filter" data-filter="sensitivity" /></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                    </thead>
+                    <tbody id="tbody"></tbody>
+                  </table>
+                </div>
+                <div class="pagination-bar">
+                  <div class="page-btns" id="pager"></div>
+                  <div>
+                    <span id="pageInfo">Showing —</span>
+                    <label style="margin-left:1rem;">Rows per page <select id="pageSize"><option>5</option><option selected>10</option><option>40</option></select></label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Other sections (placeholders) -->
+        <section id="panel-lineage" class="section-panel section-hidden" aria-labelledby="lineageHeading">
+          <div class="oms-card-panel" style="padding:1.25rem;">
+            <h2 id="lineageHeading" style="margin:0 0 0.75rem;font-size:1.1rem;">Lineage &amp; impact</h2>
+            <p style="color:var(--oms-muted);font-size:13px;margin:0 0 1rem;">Explore upstream/downstream across assets, filtered by business terms and criticality.</p>
+            <div class="lineage-placeholder" style="height:320px;">Full-screen graph · filters · blast radius</div>
+          </div>
+        </section>
+
+        <section id="panel-glossary" class="section-panel section-hidden" aria-labelledby="glossaryHeading">
+          <div class="oms-card-panel" style="padding:1.25rem;">
+            <h2 id="glossaryHeading" style="margin:0 0 0.75rem;font-size:1.1rem;">Glossary</h2>
+            <ul style="margin:0;padding-left:1.2rem;color:var(--oms-text);font-size:14px;line-height:1.6;">
+              <li><strong>Customer 360</strong> — approved definition; steward: <em>sales-bi@example.com</em></li>
+              <li><strong>Playback minute</strong> — metric definition aligned to Metric Catalog</li>
+              <li><strong>Attributed revenue</strong> — linked to finance.rev_rec tables</li>
+            </ul>
+            <p style="margin:1rem 0 0;font-size:12px;color:var(--oms-muted);">API: <code>GET /catalog/glossary</code> · mappings to physical assets.</p>
+          </div>
+        </section>
+
+        <section id="panel-policies" class="section-panel section-hidden" aria-labelledby="policiesHeading">
+          <div class="oms-card-panel" style="padding:1.25rem;">
+            <h2 id="policiesHeading" style="margin:0 0 0.75rem;font-size:1.1rem;">Policies</h2>
+            <table class="oms-table">
+              <thead><tr><th>Policy</th><th>Scope</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td>PII masking</td><td>Marketing domain</td><td><span class="pill-na" style="background:#e8f5e9;color:#1b5e20;">Active</span></td></tr>
+                <tr><td>Retention 7y</td><td>Finance</td><td><span class="pill-na">Review</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="panel-requests" class="section-panel section-hidden" aria-labelledby="requestsHeading">
+          <div class="oms-card-panel" style="padding:1.25rem;">
+            <h2 id="requestsHeading" style="margin:0 0 0.75rem;font-size:1.1rem;">Requests</h2>
+            <p style="color:var(--oms-muted);font-size:13px;">Access and stewardship queue (demo: 3 open items).</p>
+            <table class="oms-table">
+              <thead><tr><th>Request</th><th>Asset</th><th>State</th></tr></thead>
+              <tbody>
+                <tr><td>Access</td><td>crm_analytics.sales.*</td><td>Pending</td></tr>
+                <tr><td>Ownership</td><td>streaming_eng.events.*</td><td><span class="pill-na" style="background:#e3f2fd;color:#1565c0;">In review</span></td></tr>
+                <tr><td>Glossary term</td><td>New term “Subscriber LTV”</td><td>Draft</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="panel-admin" class="section-panel section-hidden" aria-label="Admin and catalog analytics">
+          <p class="sr-only" id="adminHeading">Catalog analytics and admin</p>
+          <div id="bdcAlationAdminHost" class="oms-card-panel"></div>
+        </section>
+
+        <!-- Drill-down from Home (same patterns as integrated + OMS screenshots) -->
+        <section id="panel-bdc-snowflake-list" class="section-panel section-hidden bdc-drill-panel" aria-label="Snowflake tables">
+          <div class="back-row"><button type="button" class="btn-back" id="btnBackFromSnowflakeList">← Back to BDC Home</button></div>
+          <nav class="oms-breadcrumb"><span>DATASOURCES</span><span aria-hidden="true">›</span>
+            <strong><span class="oms-ds-icon" style="background:linear-gradient(135deg,#29b5e8,#05668d);"></span> Snowflake</strong>
+          </nav>
+          <div class="oms-card-panel">
+            <div class="toolbar" style="padding:0.65rem 1rem;"><span style="font-size:12px;color:var(--oms-muted);">Tables · <strong id="sf2FilteredCount">0</strong> shown</span></div>
+            <div class="oms-table-wrap">
+              <table class="oms-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Table <span class="sort-hint">A↕Z</span></th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Database</th>
+                    <th scope="col">Environment</th>
+                    <th scope="col">Schema</th>
+                    <th scope="col">Lineage</th>
+                  </tr>
+                </thead>
+                <tbody id="snowflakeTbodyBdc"></tbody>
+              </table>
+            </div>
+            <div class="pagination-bar"><span id="sf2PageInfo" style="font-size:12px;color:var(--oms-muted);">Showing 1–8 of 8 (demo)</span></div>
+          </div>
+        </section>
+
+        <section id="panel-bdc-snowflake-detail" class="section-panel section-hidden bdc-drill-panel" aria-label="Table detail (Business Data Catalog — technical sections omitted)">
+          <div class="back-row"><button type="button" class="btn-back" id="btnBackFromSnowflakeDetail">← Back to Snowflake tables</button></div>
+          <div class="detail-top">
+            <div class="detail-title-row">
+              <h1 id="bdcDetailTitle">Table: —</h1>
+              <span class="pill-na" style="font-size:11px;">TABLE</span>
+              <button type="button" class="btn-url-pill" id="bdcBtnUrl">🔗 URL</button>
+            </div>
+            <div class="detail-actions">
+              <button type="button" class="btn-meta" id="bdcBtnMeta">Metadata</button>
+              <button type="button" class="btn-lineage-header" id="bdcBtnLineageTop">Lineage</button>
+            </div>
+          </div>
+          <div class="trust-strip" id="trustAssetStripBdc" aria-label="Trust and deprecation">
+            <div class="trust-card" data-trust-scope="schema">
+              <div class="trust-card-hd">Schema <strong id="bdcTrustSchemaLabel">—</strong></div>
+              <div class="trust-toggles">
+                <button type="button" class="trust-flag trust-flag--endorse" aria-pressed="false" aria-label="Endorse this schema">Endorse</button>
+                <button type="button" class="trust-flag trust-flag--deprecate" aria-pressed="false" aria-label="Mark schema as deprecated">Deprecated</button>
+              </div>
+              <input type="text" class="trust-reason-input" placeholder="Why (optional)" aria-label="Reason for schema flag" />
+              <span class="trust-attribution"></span>
+            </div>
+            <div class="trust-card" data-trust-scope="table">
+              <div class="trust-card-hd">Table <strong id="bdcTrustTableLabel">—</strong></div>
+              <div class="trust-toggles">
+                <button type="button" class="trust-flag trust-flag--endorse" aria-pressed="false" aria-label="Endorse this table">Endorse</button>
+                <button type="button" class="trust-flag trust-flag--deprecate" aria-pressed="false" aria-label="Mark table as deprecated">Deprecated</button>
+              </div>
+              <input type="text" class="trust-reason-input" placeholder="Why (optional)" aria-label="Reason for table flag" />
+              <span class="trust-attribution"></span>
+            </div>
+          </div>
+          <p style="margin:0 0 0.75rem;font-size:12px;color:var(--oms-muted);max-width:80ch;">BDC-on-top view: operational / storage / profiling technical blocks are hidden. Focus is stewardship, policy, SQL, samples, and business column context.</p>
+
+          <div class="asset-detail-tabs" role="tablist" id="bdcDetailTabs">
+            <button type="button" role="tab" aria-selected="true" data-bdc-tab="overview">Overview</button>
+            <button type="button" role="tab" aria-selected="false" data-bdc-tab="queries">Queries <span style="font-weight:600;color:var(--oms-muted);">(3)</span></button>
+            <button type="button" role="tab" aria-selected="false" data-bdc-tab="sql">SQL</button>
+            <button type="button" role="tab" aria-selected="false" data-bdc-tab="lineage">Lineage</button>
+          </div>
+
+          <div id="bdcPanel-overview" class="asset-tab-panel" role="tabpanel">
+            <details class="collapsible-card" open>
+              <summary>Description &amp; policies</summary>
+              <div class="card-inner" id="bdcOverview"></div>
+            </details>
+            <details class="collapsible-card" open>
+              <summary>Business metadata</summary>
+              <div class="card-inner" id="bdcBusiness"></div>
+            </details>
+            <details class="collapsible-card" open>
+              <summary>Columns &amp; Sample Content</summary>
+              <div class="card-inner">
+                <label style="display:flex;align-items:center;gap:0.5rem;font-size:12px;margin-bottom:0.75rem;cursor:pointer;">
+                  <input type="checkbox" id="bdcShowTechnicalCols" /> Show technical column details (type, physical)
+                </label>
+                <div class="sample-toggle" role="group">
+                  <button type="button" id="bdcBtnColsView" aria-selected="true">Columns <span id="bdcColCount">(3)</span></button>
+                  <button type="button" id="bdcBtnSampleView" aria-selected="false">Sample Content <span id="bdcSampleCount">(0)</span></button>
+                </div>
+                <div id="bdcColumnsPane" class="sample-pane">
+                  <div class="oms-table-wrap">
+                    <table class="schema-table">
+                      <thead>
+                        <tr>
+                          <th>#</th><th>Column</th><th>Business title</th><th>Business description</th>
+                          <th class="bdc-tech-col is-hidden">Type</th><th>Trust</th><th>Tags / lineage</th>
+                        </tr>
+                      </thead>
+                      <tbody id="bdcSchemaBody"></tbody>
+                    </table>
+                  </div>
+                </div>
+                <div id="bdcSamplePane" class="sample-pane is-hidden">
+                  <button type="button" class="btn-sample-gen" id="bdcBtnGenSample">Generate sample</button>
+                  <div class="sql-results" style="margin-top:0.75rem;">
+                    <table><thead><tr><th>EVENT_DATE</th><th>SALES_LINE_ITEM</th></tr></thead><tbody id="bdcSampleRows"></tbody></table>
+                  </div>
+                  <p class="sql-provenance" id="bdcSampleProv"></p>
+                </div>
+              </div>
+            </details>
+          </div>
+
+          <div id="bdcPanel-queries" class="asset-tab-panel is-hidden" role="tabpanel">
+            <div class="queries-layout">
+              <div>
+                <h3 style="margin:0 0 0.5rem;font-size:13px;">Previous queries</h3>
+                <ul class="query-history-list" id="bdcQueryHistory"></ul>
+              </div>
+              <div>
+                <p style="font-size:13px;color:var(--oms-muted);">Open the <strong>SQL</strong> tab to run or edit. History is scoped to this asset.</p>
+                <button type="button" class="btn-primary" id="bdcBtnOpenSql">Open SQL editor</button>
+              </div>
+            </div>
+          </div>
+
+          <div id="bdcPanel-sql" class="asset-tab-panel is-hidden" role="tabpanel">
+            <div class="sql-split">
+              <div>
+                <h3 style="margin:0 0 0.5rem;font-size:13px;">History</h3>
+                <ul class="query-history-list" id="bdcQueryHistorySql"></ul>
+              </div>
+              <div>
+                <div class="sql-editor-wrap">
+                  <div class="sql-toolbar">
+                    <label>Connection <select id="bdcSqlConn"><option>Snowflake — Analytics (Production)</option></select></label>
+                    <button type="button" class="btn-run-sql" id="bdcBtnRunSql">Run</button>
+                  </div>
+                  <textarea class="sql-textarea" id="bdcSqlEditor" rows="8"></textarea>
+                </div>
+                <p class="sql-provenance" id="bdcSqlProv">—</p>
+                <div class="sql-results"><table><thead><tr><th>Result</th></tr></thead><tbody id="bdcSqlResults"></tbody></table></div>
+              </div>
+            </div>
+          </div>
+
+          <div id="bdcPanel-lineage" class="asset-tab-panel is-hidden" role="tabpanel">
+            <div class="lineage-tab-placeholder">Business-facing lineage summary · drill to column lineage from the table above.</div>
+          </div>
+        </section>
+
+        <section id="panel-bdc-generic-list" class="section-panel section-hidden bdc-drill-panel">
+          <div class="back-row"><button type="button" class="btn-back" id="btnBackGenericList">← Back to BDC Home</button></div>
+          <nav class="oms-breadcrumb" id="bdcGenericCrumb"></nav>
+          <div class="oms-card-panel"><div class="oms-table-wrap"><table class="oms-table"><thead><tr><th>Name</th><th>Lineage</th></tr></thead><tbody id="bdcGenericTbody"></tbody></table></div></div>
+        </section>
+
+        <section id="panel-bdc-generic-detail" class="section-panel section-hidden bdc-drill-panel">
+          <div class="back-row"><button type="button" class="btn-back" id="btnBackGenericDetail">← Back</button></div>
+          <div class="detail-top"><div class="detail-title-row"><h1 id="bdcGenDetailTitle">—</h1></div>
+            <div class="detail-actions"><button type="button" class="btn-meta" id="bdcGenMeta">Metadata</button><button type="button" class="btn-lineage-header" id="bdcGenLineage">Lineage</button></div></div>
+          <details class="collapsible-card" open><summary>Overview</summary><div class="card-inner field-grid" id="bdcGenOverview"></div></details>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <div class="drawer-backdrop" id="backdrop" hidden></div>
+  <aside class="drawer" id="drawer" aria-hidden="true" aria-labelledby="drawerTitle">
+    <div class="drawer-header">
+      <div>
+        <p style="margin:0;font-size:11px;color:var(--oms-muted);text-transform:uppercase;">Catalog asset</p>
+        <h2 id="drawerTitle">—</h2>
+      </div>
+      <button type="button" class="btn-icon" id="closeDrawer" aria-label="Close panel">✕</button>
+    </div>
+    <div class="drawer-tabs" role="tablist">
+      <button type="button" role="tab" aria-selected="true" data-tab="overview">Overview</button>
+      <button type="button" role="tab" aria-selected="false" data-tab="business">Business</button>
+      <button type="button" role="tab" aria-selected="false" data-tab="schema">Schema</button>
+      <button type="button" role="tab" aria-selected="false" data-tab="audit">Audit</button>
+    </div>
+    <div class="drawer-body" id="drawerBody"></div>
+  </aside>
+
+  <div class="modal-backdrop" id="lineageModal" role="dialog" aria-modal="true" aria-labelledby="lineageTitle" hidden>
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="lineageTitle" style="margin:0;font-size:1.1rem;">Lineage</h2>
+        <button type="button" class="btn-icon" id="closeLineage" aria-label="Close lineage">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="lineage-placeholder" id="lineagePlaceholder">Graph canvas</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+  <script src="bdc-alation-admin-template.js"></script>
+  <script src="bdc-admin-alation-metrics.js"></script>
+  <script src="bdc-trust-flags.js"></script>
+  <script>
+(function () {
+  const HOME_GROUPS = [
+    {
+      title: "Tables",
+      cards: [
+        { name: "Snowflake", count: "300,013", icon: "❄", slug: "snowflake" },
+        { name: "DeltaLake", count: "6,244", icon: "Δ", slug: "generic" },
+        { name: "Hive", count: "29,000+", icon: "🐝", slug: "generic" },
+        { name: "Looker Datasets", count: "1,047", icon: "L", slug: "generic" },
+        { name: "Unity Catalog", count: "7,801", icon: "U", slug: "generic" },
+        { name: "Tableau Datasets", count: "5,740", icon: "T", slug: "generic" }
+      ]
+    },
+    { title: "Pipelines", cards: [{ name: "Harmony", count: "13,032", icon: "✿", slug: "generic" }, { name: "Airflow", count: "29,746", icon: "◎", slug: "generic" }] },
+    { title: "Streams", cards: [{ name: "Kinesis", count: "—", icon: "≋", slug: "generic" }] },
+    { title: "Serving endpoints", cards: [{ name: "ML Serving Endpoints", count: "47", icon: "◆", slug: "generic" }, { name: "SageMaker ML Endpoints", count: "—", icon: "🟢", slug: "generic" }] },
+    { title: "Feature group", cards: [{ name: "SageMaker Feature Groups", count: "7", icon: "▦", slug: "generic" }] },
+    {
+      title: "Reports",
+      cards: [
+        { name: "Looker Dashboard", count: "—", icon: "▣", slug: "generic" },
+        { name: "Looker Widgets", count: "30,236", icon: "▤", slug: "generic" },
+        { name: "Tableau Dashboard", count: "2,708", icon: "▥", slug: "generic" },
+        { name: "Tableau Widgets", count: "30,236", icon: "▧", slug: "generic" },
+        { name: "Metric Catalog", count: "261", icon: "📊", slug: "generic" }
+      ]
+    }
+  ];
+
+  const SNOWFLAKE_ROWS = [
+    { id: "sf1", table: "marci_acquisition_production_events_viewership_second_stage_pr", type: "table", database: "marci_acquisition_prd", env: "prod", schema: "build", owner: "campaign-reporting@example.com", quality: 88 },
+    { id: "sf4", table: "201812sprint_inactive_redeem", type: "table", database: "dev", env: "dev", schema: "crm_analytics", owner: "crm-analytics@example.com", quality: 81 },
+    { id: "sf2", table: "201812_sprintmac_svod_segment", type: "table", database: "dev", env: "dev", schema: "crm_analytics", owner: "crm-analytics@example.com", quality: 76 },
+    { id: "sf3", table: "201812_sprintinactive_crma_ss", type: "table", database: "dev", env: "dev", schema: "content_test", owner: "—", quality: 62 },
+    { id: "sf5", table: "201902sprintinactive_noah_control", type: "table", database: "dev", env: "dev", schema: "crm_analytics", owner: "—", quality: 70 },
+    { id: "sf6", table: "20190816_v1440_all_impressions", type: "table", database: "dev", env: "dev", schema: "sa", owner: "ads-data@example.com", quality: 91 },
+    { id: "sf7", table: "2019_prolificity_table", type: "table", database: "dev", env: "dev", schema: "sa", owner: "—", quality: 65 },
+    { id: "sf8", table: "2021_7026_holiday_cal", type: "table", database: "marketing_plan_ingest", env: "prod", schema: "explore", owner: "marketing@example.com", quality: 93 }
+  ];
+
+  const ASSETS = [
+    { id: "1", name: "acquisition_de_prod.build.data_quality_projected_records", type: "Table", env: "prod", businessOwner: "data-governance@example.com", sensitivity: "Confidential", quality: 92, lineage: true, glossary: true },
+    { id: "2", name: "acquisition_de_prod.build.data_quality_run_details", type: "Table", env: "prod", businessOwner: "campaign-reporting@example.com", sensitivity: "Internal", quality: 78, lineage: true, glossary: false },
+    { id: "3", name: "crm_analytics.sales.customer_360_snapshot", type: "Table", env: "prod", businessOwner: "sales-bi@example.com", sensitivity: "Highly Confidential", quality: 71, lineage: true, glossary: true },
+    { id: "4", name: "streaming_eng.events.playback_minutes_daily", type: "Table", env: "prod", businessOwner: "streaming-data@example.com", sensitivity: "Internal", quality: 95, lineage: true, glossary: true },
+    { id: "5", name: "marketing_attribution.campaigns.touchpoint_path", type: "Table", env: "dev", businessOwner: "marketing@example.com", sensitivity: "Internal", quality: 54, lineage: false, glossary: false },
+    { id: "6", name: "finance.rev_rec.subscription_revenue_monthly", type: "Table", env: "prod", businessOwner: "finance-data@example.com", sensitivity: "Restricted", quality: 90, lineage: true, glossary: true },
+    { id: "7", name: "metric.active_playback_accounts", type: "Metric", env: "prod", businessOwner: "metrics@example.com", sensitivity: "Internal", quality: 88, lineage: true, glossary: true },
+    { id: "8", name: "product_analytics.experiments.feature_flag_exposures", type: "Table", env: "prod", businessOwner: "experiment_insights", sensitivity: "Internal", quality: 82, lineage: true, glossary: false }
+  ];
+
+  const state = { page: 1, pageSize: 10, filters: {}, current: null, section: "home", currentSf: null, genericSource: null, genericRows: [] };
+
+  function escapeHtml(s) {
+    return (s || "").toString().replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  }
+
+  function exitDrillMode() {
+    document.getElementById("main").classList.remove("main--drill");
+    document.querySelectorAll(".bdc-drill-panel").forEach((el) => el.classList.add("section-hidden"));
+  }
+
+  function renderHomeBdc() {
+    const root = document.getElementById("homeColumnsBdc");
+    if (!root) return;
+    root.innerHTML = HOME_GROUPS.map((g) => `
+      <div class="home-col">
+        <h2 class="home-col-title">${escapeHtml(g.title)}</h2>
+        ${g.cards.map((c) => `
+          <button type="button" class="ds-card" data-bdc-card="${escapeHtml(c.slug)}" data-bdc-name="${escapeHtml(c.name)}">
+            <div class="ds-card-body">
+              <div class="ds-card-title">${escapeHtml(c.name)}</div>
+              <div class="ds-card-meta">${escapeHtml(c.count)} objects</div>
+            </div>
+            <div class="ds-card-icon" aria-hidden="true">${c.icon}</div>
+          </button>
+        `).join("")}
+      </div>
+    `).join("");
+    root.querySelectorAll("[data-bdc-card]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const slug = btn.getAttribute("data-bdc-card");
+        const title = btn.getAttribute("data-bdc-name");
+        if (slug === "snowflake") enterSnowflakeList();
+        else enterGenericList(title);
+      });
+    });
+  }
+
+  function enterSnowflakeList() {
+    exitDrillMode();
+    document.querySelectorAll(".section-panel:not(.bdc-drill-panel)").forEach((el) => el.classList.add("section-hidden"));
+    document.getElementById("main").classList.add("main--drill");
+    document.getElementById("panel-bdc-snowflake-list").classList.remove("section-hidden");
+    renderSnowflakeTableBdc();
+  }
+
+  function enterGenericList(title) {
+    state.genericSource = title;
+    state.genericRows = [
+      { id: "g1", name: title + " · sample asset A" },
+      { id: "g2", name: title + " · sample asset B" },
+      { id: "g3", name: title + " · sample asset C" }
+    ];
+    exitDrillMode();
+    document.querySelectorAll(".section-panel:not(.bdc-drill-panel)").forEach((el) => el.classList.add("section-hidden"));
+    document.getElementById("main").classList.add("main--drill");
+    document.getElementById("panel-bdc-generic-list").classList.remove("section-hidden");
+    document.getElementById("bdcGenericCrumb").innerHTML = `<span>DATASOURCES</span><span aria-hidden="true">›</span><strong>${escapeHtml(title)}</strong>`;
+    document.getElementById("bdcGenericTbody").innerHTML = state.genericRows.map((r) => `
+      <tr><td><a class="asset-link" href="#" data-bdc-gen="${r.id}">${escapeHtml(r.name)}</a></td>
+      <td><button type="button" class="btn-lineage" data-bdc-gen-lin>Lineage ↗</button></td></tr>
+    `).join("");
+  }
+
+  const BDC_QUERY_HISTORY = [
+    { id: "q1", sql: "SELECT COUNT(*) FROM …", user: "jdoe@example.com", time: "2025-03-28 14:22" },
+    { id: "q2", sql: "SELECT EVENT_DATE, SUM(SALES_LINE_ITEM) FROM … GROUP BY 1", user: "analytics@example.com", time: "2025-03-27 09:01" },
+    { id: "q3", sql: "SELECT * FROM … LIMIT 100", user: "jdoe@example.com", time: "2025-03-26 11:40" }
+  ];
+
+  function setBdcTab(name) {
+    const map = { overview: "bdcPanel-overview", queries: "bdcPanel-queries", sql: "bdcPanel-sql", lineage: "bdcPanel-lineage" };
+    Object.keys(map).forEach((t) => {
+      const panel = document.getElementById(map[t]);
+      const tab = document.querySelector('#bdcDetailTabs [data-bdc-tab="' + t + '"]');
+      const on = t === name;
+      if (panel) panel.classList.toggle("is-hidden", !on);
+      if (tab) tab.setAttribute("aria-selected", on ? "true" : "false");
+    });
+  }
+
+  function renderBdcQueryHistory() {
+    const full = state.currentSf ? `${state.currentSf.database}.${state.currentSf.schema}.${state.currentSf.table}` : "";
+    const rows = BDC_QUERY_HISTORY.map((h, i) => (i === 0 && full ? { ...h, sql: "SELECT COUNT(*) FROM " + full } : h));
+    const html = rows.map((h) => `
+      <li data-bdc-qid="${escapeHtml(h.id)}">
+        <div class="qh-time">${escapeHtml(h.time)} · ${escapeHtml(h.user)}</div>
+        <div class="qh-snip">${escapeHtml(h.sql)}</div>
+      </li>
+    `).join("");
+    const a = document.getElementById("bdcQueryHistory");
+    const b = document.getElementById("bdcQueryHistorySql");
+    if (a) a.innerHTML = html;
+    if (b) b.innerHTML = html;
+  }
+
+  function wireBdcSnowflakeDetailOnce() {
+    const tabs = document.getElementById("bdcDetailTabs");
+    if (!tabs || tabs.dataset.wired) return;
+    tabs.dataset.wired = "1";
+    tabs.addEventListener("click", (e) => {
+      const b = e.target.closest("[data-bdc-tab]");
+      if (b) setBdcTab(b.getAttribute("data-bdc-tab"));
+    });
+    document.getElementById("bdcBtnOpenSql")?.addEventListener("click", () => setBdcTab("sql"));
+    document.getElementById("bdcBtnRunSql")?.addEventListener("click", () => {
+      document.getElementById("bdcSqlProv").textContent = "Run by you · " + new Date().toLocaleString();
+      document.getElementById("bdcSqlResults").innerHTML = "<tr><td>1,198</td></tr>";
+    });
+    document.getElementById("bdcBtnLineageTop")?.addEventListener("click", () => setBdcTab("lineage"));
+    document.getElementById("bdcBtnColsView")?.addEventListener("click", () => {
+      document.getElementById("bdcColumnsPane")?.classList.remove("is-hidden");
+      document.getElementById("bdcSamplePane")?.classList.add("is-hidden");
+      document.getElementById("bdcBtnColsView")?.setAttribute("aria-selected", "true");
+      document.getElementById("bdcBtnSampleView")?.setAttribute("aria-selected", "false");
+    });
+    document.getElementById("bdcBtnSampleView")?.addEventListener("click", () => {
+      document.getElementById("bdcColumnsPane")?.classList.add("is-hidden");
+      document.getElementById("bdcSamplePane")?.classList.remove("is-hidden");
+      document.getElementById("bdcBtnColsView")?.setAttribute("aria-selected", "false");
+      document.getElementById("bdcBtnSampleView")?.setAttribute("aria-selected", "true");
+    });
+    document.getElementById("bdcBtnGenSample")?.addEventListener("click", () => {
+      document.getElementById("bdcSampleRows").innerHTML = "<tr><td>2025-03-01</td><td>104.2</td></tr>";
+      document.getElementById("bdcSampleProv").textContent = "Governed sample · " + new Date().toLocaleString();
+      document.getElementById("bdcSampleCount").textContent = "(1)";
+    });
+    document.getElementById("bdcShowTechnicalCols")?.addEventListener("change", (e) => {
+      document.querySelectorAll("#panel-bdc-snowflake-detail .bdc-tech-col").forEach((el) => el.classList.toggle("is-hidden", !e.target.checked));
+    });
+    function loadQ(li) {
+      const id = li.getAttribute("data-bdc-qid");
+      const full = state.currentSf ? `${state.currentSf.database}.${state.currentSf.schema}.${state.currentSf.table}` : "";
+      const rows = BDC_QUERY_HISTORY.map((h, i) => (i === 0 && full ? { ...h, sql: "SELECT COUNT(*) FROM " + full } : h));
+      const h = rows.find((x) => x.id === id);
+      if (h && document.getElementById("bdcSqlEditor")) {
+        document.getElementById("bdcSqlEditor").value = h.sql;
+        setBdcTab("sql");
+      }
+    }
+    document.getElementById("bdcQueryHistory")?.addEventListener("click", (e) => {
+      const li = e.target.closest("li[data-bdc-qid]");
+      if (li) loadQ(li);
+    });
+    document.getElementById("bdcQueryHistorySql")?.addEventListener("click", (e) => {
+      const li = e.target.closest("li[data-bdc-qid]");
+      if (li) loadQ(li);
+    });
+  }
+
+  function openSnowflakeDetailBdc(id) {
+    wireBdcSnowflakeDetailOnce();
+    const r = SNOWFLAKE_ROWS.find((x) => x.id === id);
+    if (!r) return;
+    state.currentSf = r;
+    const full = `${r.database}.${r.schema}.${r.table}`;
+    document.getElementById("bdcDetailTitle").textContent = "Table: " + full;
+    const bsl = document.getElementById("bdcTrustSchemaLabel");
+    const btl = document.getElementById("bdcTrustTableLabel");
+    if (bsl) bsl.textContent = r.schema;
+    if (btl) btl.textContent = r.table;
+    if (window.BdcTrustFlags) window.BdcTrustFlags.resetStrip(document.getElementById("trustAssetStripBdc"));
+    const ed = document.getElementById("bdcSqlEditor");
+    if (ed) ed.value = "SELECT *\nFROM " + full + "\nLIMIT 100";
+    renderBdcQueryHistory();
+
+    document.getElementById("bdcOverview").innerHTML = `
+      <div class="meta-row field-changed">
+        <label>Description</label>
+        <div class="meta-value"><textarea class="meta-textarea" aria-label="Description">Business-facing description (draft) — highlighted for steward review.</textarea></div>
+      </div>
+      <div class="meta-row">
+        <label>Applicable policies</label>
+        <div class="meta-value"><span class="pill-na">No applicable policies</span></div>
+      </div>
+      <div class="meta-row">
+        <label>Background context</label>
+        <div class="meta-value"><textarea class="meta-textarea" placeholder="No background context"></textarea></div>
+      </div>
+    `;
+    const bo = r.owner !== "—" ? escapeHtml(r.owner) : '<span class="pill-na">Not Available</span>';
+    document.getElementById("bdcBusiness").innerHTML = `
+      <div class="meta-row">
+        <label>Data steward</label>
+        <div class="meta-value">${bo}</div>
+      </div>
+      <div class="meta-row">
+        <label>Business glossary</label>
+        <div class="meta-value"><span class="pill-na">Link terms</span></div>
+      </div>
+      <div class="meta-row">
+        <label>Sensitivity</label>
+        <div class="meta-value"><span class="pill-na">Not set</span></div>
+      </div>
+      <div class="meta-row">
+        <label>Quality score (BDC)</label>
+        <div class="meta-value"><span class="${qualityClass(r.quality)}">${r.quality}</span></div>
+      </div>
+    `;
+    const colTb = window.BdcTrustFlags ? window.BdcTrustFlags.columnTrustCell : function () { return "<td></td>"; };
+    document.getElementById("bdcSchemaBody").innerHTML = `
+      <tr class="field-changed">
+        <td>1</td>
+        <td>EVENT_DATE</td>
+        <td><input class="meta-input" type="text" value="Event Date" /></td>
+        <td><textarea class="meta-textarea" style="min-height:44px;">Business description pending approval.</textarea></td>
+        <td class="bdc-tech-col is-hidden">DATE</td>
+        ${colTb("EVENT_DATE")}
+        <td><button type="button" class="link-quiet">column lineage</button></td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>SALES_LINE_ITEM</td>
+        <td><input class="meta-input" type="text" value="Sales Line Item" /></td>
+        <td><textarea class="meta-textarea" style="min-height:44px;"></textarea></td>
+        <td class="bdc-tech-col is-hidden">NUMBER(38,5)</td>
+        ${colTb("SALES_LINE_ITEM")}
+        <td><button type="button" class="link-quiet">column lineage</button></td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>email</td>
+        <td><input class="meta-input" type="text" value="" placeholder="Title" /></td>
+        <td><textarea class="meta-textarea" style="min-height:44px;"></textarea></td>
+        <td class="bdc-tech-col is-hidden">VARCHAR</td>
+        ${colTb("email")}
+        <td><button type="button" class="link-quiet">column lineage</button></td>
+      </tr>
+    `;
+    const chk = document.getElementById("bdcShowTechnicalCols");
+    if (chk) chk.checked = false;
+    document.querySelectorAll("#panel-bdc-snowflake-detail .bdc-tech-col").forEach((el) => el.classList.add("is-hidden"));
+    document.getElementById("bdcSampleRows").innerHTML = "<tr><td colspan=\"2\" style=\"color:var(--oms-muted);\">No sample yet.</td></tr>";
+    document.getElementById("bdcSampleProv").textContent = "";
+    document.getElementById("bdcSampleCount").textContent = "(0)";
+    document.getElementById("bdcColumnsPane")?.classList.remove("is-hidden");
+    document.getElementById("bdcSamplePane")?.classList.add("is-hidden");
+    document.getElementById("bdcSqlProv").textContent = "—";
+    document.getElementById("bdcSqlResults").innerHTML = "<tr><td style=\"color:var(--oms-muted);\">Run a query.</td></tr>";
+    setBdcTab("overview");
+    document.getElementById("panel-bdc-snowflake-list").classList.add("section-hidden");
+    document.getElementById("panel-bdc-snowflake-detail").classList.remove("section-hidden");
+  }
+
+  function renderSnowflakeTableBdc() {
+    document.getElementById("sf2FilteredCount").textContent = String(SNOWFLAKE_ROWS.length);
+    document.getElementById("snowflakeTbodyBdc").innerHTML = SNOWFLAKE_ROWS.map((r) => `
+      <tr>
+        <td><a class="asset-link" href="#" data-bdc-sf-open="${r.id}">${escapeHtml(r.table)}</a></td>
+        <td>${escapeHtml(r.type)}</td>
+        <td>${escapeHtml(r.database)}</td>
+        <td>${escapeHtml(r.env)}</td>
+        <td>${escapeHtml(r.schema)}</td>
+        <td><button type="button" class="btn-lineage" data-bdc-sf-lin>Lineage ↗</button></td>
+      </tr>
+    `).join("");
+  }
+
+  function norm(s) { return (s || "").toString().toLowerCase(); }
+
+  function facetEnvOk(a) {
+    const boxes = Array.from(document.querySelectorAll('input[name="facetEnv"]:checked')).map((x) => x.value);
+    return boxes.length === 0 || boxes.includes(a.env);
+  }
+
+  function facetSensOk(a) {
+    const boxes = Array.from(document.querySelectorAll('input[name="facetSens"]:checked')).map((x) => x.value);
+    return boxes.length === 0 || boxes.includes(a.sensitivity);
+  }
+
+  function facetLinOk(a) {
+    const v = document.querySelector('input[name="facetLin"]:checked')?.value;
+    if (v === "yes") return a.lineage;
+    return true;
+  }
+
+  function matches(a) {
+    const f = state.filters;
+    const checks = [
+      !f.name || norm(a.name).includes(norm(f.name)),
+      !f.type || norm(a.type) === norm(f.type),
+      !f.businessOwner || norm(a.businessOwner).includes(norm(f.businessOwner)),
+      !f.sensitivity || norm(a.sensitivity).includes(norm(f.sensitivity)),
+      facetEnvOk(a),
+      facetSensOk(a),
+      facetLinOk(a)
+    ];
+    const g = norm(document.getElementById("globalSearch").value);
+    const globalOk = !g || [a.name, a.type, a.businessOwner, a.sensitivity].some((x) => norm(x).includes(g));
+    return checks.every(Boolean) && globalOk;
+  }
+
+  function qualityClass(q) {
+    if (q >= 85) return "q-badge q-badge--high";
+    if (q >= 70) return "q-badge q-badge--mid";
+    return "q-badge q-badge--low";
+  }
+
+  function renderKpis() {
+    const filtered = ASSETS.filter(matches);
+    const avgQ = Math.round(filtered.reduce((s, a) => s + a.quality, 0) / (filtered.length || 1));
+    const gCount = filtered.filter((a) => a.glossary).length;
+    document.getElementById("kpiAssets").textContent = String(filtered.length);
+    document.getElementById("kpiGlossary").textContent = String(gCount);
+    document.getElementById("kpiQuality").textContent = String(avgQ);
+  }
+
+  function renderTable() {
+    const filtered = ASSETS.filter(matches);
+    document.getElementById("filteredCount").textContent = filtered.length;
+    renderKpis();
+    const start = (state.page - 1) * state.pageSize;
+    const pageRows = filtered.slice(start, start + state.pageSize);
+    const tbody = document.getElementById("tbody");
+    tbody.innerHTML = pageRows.map((row) => `
+      <tr data-id="${row.id}">
+        <td><a class="asset-link" href="#" data-open="${row.id}">${escapeHtml(row.name)}</a></td>
+        <td>${escapeHtml(row.type)}</td>
+        <td>${escapeHtml(row.businessOwner)}</td>
+        <td>${escapeHtml(row.sensitivity)}</td>
+        <td><span class="${qualityClass(row.quality)}">${row.quality}</span></td>
+        <td><button type="button" class="btn-lineage" data-lineage="${row.id}">Lineage <span aria-hidden="true">↗</span></button></td>
+      </tr>
+    `).join("");
+
+    const total = filtered.length;
+    const lastPage = Math.max(1, Math.ceil(total / state.pageSize));
+    if (state.page > lastPage) state.page = lastPage;
+    const from = total === 0 ? 0 : (state.page - 1) * state.pageSize + 1;
+    const to = Math.min(state.page * state.pageSize, total);
+    document.getElementById("pageInfo").textContent = `Showing ${from} - ${to} of ${total} results`;
+
+    const pager = document.getElementById("pager");
+    pager.innerHTML = "";
+    const mkBtn = (label, disabled, fn) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.textContent = label;
+      b.disabled = disabled;
+      b.addEventListener("click", fn);
+      return b;
+    };
+    pager.append(mkBtn("«", state.page <= 1, () => { state.page = 1; renderTable(); }));
+    pager.append(mkBtn("‹", state.page <= 1, () => { state.page--; renderTable(); }));
+    for (let p = 1; p <= lastPage; p++) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.textContent = String(p);
+      if (p === state.page) b.setAttribute("aria-current", "page");
+      b.addEventListener("click", () => { state.page = p; renderTable(); });
+      pager.append(b);
+    }
+    pager.append(mkBtn("›", state.page >= lastPage, () => { state.page++; renderTable(); }));
+    pager.append(mkBtn("»", state.page >= lastPage, () => { state.page = lastPage; renderTable(); }));
+  }
+
+  function showSection(section) {
+    exitDrillMode();
+    state.section = section;
+    document.querySelectorAll(".section-panel:not(.bdc-drill-panel)").forEach((el) => {
+      const key = el.id.replace(/^panel-/, "");
+      el.classList.toggle("section-hidden", key !== section);
+    });
+    document.querySelectorAll(".bdc-subnav a").forEach((a) => {
+      a.setAttribute("aria-current", a.getAttribute("data-section") === section ? "page" : "false");
+    });
+    if (section === "catalog") renderTable();
+    if (section === "overview") renderKpis();
+    if (section === "admin" && window.BdcAlationAdmin) {
+      window.BdcAlationAdmin.mount(document.getElementById("bdcAlationAdminHost"));
+    }
+  }
+
+  function openLineageModal(title) {
+    document.getElementById("lineageTitle").textContent = title;
+    document.getElementById("lineageModal").hidden = false;
+    requestAnimationFrame(() => document.getElementById("lineageModal").classList.add("is-open"));
+  }
+
+  document.querySelectorAll(".bdc-subnav a").forEach((a) => {
+    a.addEventListener("click", (e) => {
+      e.preventDefault();
+      showSection(a.getAttribute("data-section"));
+    });
+  });
+
+  document.querySelectorAll("[data-jump]").forEach((b) => {
+    b.addEventListener("click", () => showSection(b.getAttribute("data-jump")));
+  });
+
+  document.querySelectorAll("[data-filter]").forEach((el) => {
+    const handler = () => {
+      state.filters[el.getAttribute("data-filter")] = el.value;
+      state.page = 1;
+      renderTable();
+    };
+    el.addEventListener("input", handler);
+    el.addEventListener("change", handler);
+  });
+
+  document.querySelectorAll('input[name="facetEnv"], input[name="facetSens"], input[name="facetLin"]').forEach((el) => {
+    el.addEventListener("change", () => { state.page = 1; renderTable(); });
+  });
+
+  document.getElementById("globalSearch").addEventListener("input", () => { state.page = 1; renderTable(); });
+  document.getElementById("pageSize").addEventListener("change", (e) => {
+    state.pageSize = parseInt(e.target.value, 10);
+    state.page = 1;
+    renderTable();
+  });
+
+  function openDrawer(id) {
+    const a = ASSETS.find((x) => x.id === id);
+    if (!a) return;
+    state.current = a;
+    document.getElementById("drawerTitle").textContent = a.name;
+    document.getElementById("drawerBody").innerHTML = drawerContent(a, "overview");
+    document.getElementById("backdrop").hidden = false;
+    document.getElementById("backdrop").classList.add("is-open");
+    document.getElementById("drawer").classList.add("is-open");
+    document.getElementById("drawer").setAttribute("aria-hidden", "false");
+  }
+
+  function drawerContent(a, tab) {
+    if (tab === "overview") {
+      return `<div class="meta-grid">
+        <div class="meta-field"><label>Type</label><span>${escapeHtml(a.type)}</span></div>
+        <div class="meta-field"><label>Environment</label><span>${escapeHtml(a.env)}</span></div>
+        <div class="meta-field"><label>Quality</label><span>${a.quality}</span></div>
+        <div class="meta-field"><label>Lineage</label><span>${a.lineage ? "Available" : "None"}</span></div>
+      </div>`;
+    }
+    if (tab === "business") {
+      return `<div class="meta-grid">
+        <div class="meta-field"><label>Owner</label><span>${escapeHtml(a.businessOwner)}</span></div>
+        <div class="meta-field"><label>Sensitivity</label><span>${escapeHtml(a.sensitivity)}</span></div>
+        <div class="meta-field" style="grid-column:1/-1;"><label>Description</label><span>${a.glossary ? "Linked to glossary." : '<span class="pill-na">Not Available</span>'}</span></div>
+      </div>`;
+    }
+    if (tab === "schema") {
+      return `<p style="font-size:13px;color:var(--oms-muted);">Column list, types, and sample rows would load here.</p>`;
+    }
+    return `<p style="font-size:13px;color:var(--oms-muted);">Change history: who edited business metadata and when.</p>`;
+  }
+
+  function closeDrawer() {
+    document.getElementById("backdrop").classList.remove("is-open");
+    document.getElementById("drawer").classList.remove("is-open");
+    document.getElementById("drawer").setAttribute("aria-hidden", "true");
+    setTimeout(() => { document.getElementById("backdrop").hidden = true; }, 200);
+  }
+
+  document.getElementById("tbody").addEventListener("click", (e) => {
+    const open = e.target.closest("[data-open]");
+    if (open) { e.preventDefault(); openDrawer(open.getAttribute("data-open")); }
+    const lineage = e.target.closest("[data-lineage]");
+    if (lineage) {
+      const id = lineage.getAttribute("data-lineage");
+      document.getElementById("lineageTitle").textContent = "Lineage · " + (ASSETS.find((x) => x.id === id)?.name || "");
+      document.getElementById("lineageModal").hidden = false;
+      requestAnimationFrame(() => document.getElementById("lineageModal").classList.add("is-open"));
+    }
+  });
+
+  document.getElementById("drawer").querySelectorAll('[role="tab"]').forEach((btn) => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll('#drawer [role="tab"]').forEach((b) => b.setAttribute("aria-selected", b === btn));
+      const tab = btn.getAttribute("data-tab");
+      document.getElementById("drawerBody").innerHTML = drawerContent(state.current, tab);
+    });
+  });
+
+  document.getElementById("closeDrawer").addEventListener("click", closeDrawer);
+  document.getElementById("backdrop").addEventListener("click", closeDrawer);
+  document.getElementById("closeLineage").addEventListener("click", () => {
+    document.getElementById("lineageModal").classList.remove("is-open");
+    setTimeout(() => { document.getElementById("lineageModal").hidden = true; }, 200);
+  });
+
+  document.getElementById("btnCreate").addEventListener("click", () => alert("Demo: register a new business asset or link an existing OMS entity."));
+  document.getElementById("btnBulkTag").addEventListener("click", () => alert("Demo: bulk tag selected assets."));
+  document.getElementById("btnExport").addEventListener("click", () => alert("Demo: export catalog JSON."));
+  document.getElementById("btnTour").addEventListener("click", () => alert("Demo: start guided tour of the Business Data Catalog."));
+
+  document.getElementById("navToggle")?.addEventListener("click", () => document.getElementById("sidebar").classList.toggle("is-open"));
+
+  document.getElementById("btnBackFromSnowflakeList").addEventListener("click", () => { showSection("home"); });
+  document.getElementById("btnBackFromSnowflakeDetail").addEventListener("click", () => {
+    document.getElementById("panel-bdc-snowflake-detail").classList.add("section-hidden");
+    document.getElementById("panel-bdc-snowflake-list").classList.remove("section-hidden");
+    document.getElementById("main").classList.add("main--drill");
+  });
+  document.getElementById("btnBackGenericList").addEventListener("click", () => { showSection("home"); });
+  document.getElementById("btnBackGenericDetail").addEventListener("click", () => {
+    document.getElementById("panel-bdc-generic-detail").classList.add("section-hidden");
+    document.getElementById("panel-bdc-generic-list").classList.remove("section-hidden");
+  });
+  document.getElementById("snowflakeTbodyBdc").addEventListener("click", (e) => {
+    const o = e.target.closest("[data-bdc-sf-open]");
+    if (o) { e.preventDefault(); openSnowflakeDetailBdc(o.getAttribute("data-bdc-sf-open")); }
+    if (e.target.closest("[data-bdc-sf-lin]")) openLineageModal("Lineage · Snowflake");
+  });
+  document.getElementById("bdcGenericTbody").addEventListener("click", (e) => {
+    const o = e.target.closest("[data-bdc-gen]");
+    if (o) {
+      e.preventDefault();
+      const row = state.genericRows.find((x) => x.id === o.getAttribute("data-bdc-gen"));
+      if (row) {
+        document.getElementById("bdcGenDetailTitle").textContent = "Asset: " + row.name;
+        document.getElementById("bdcGenOverview").innerHTML = `<div class="fld"><label>Source</label><div class="val">${escapeHtml(state.genericSource)}</div></div>`;
+        document.getElementById("panel-bdc-generic-list").classList.add("section-hidden");
+        document.getElementById("panel-bdc-generic-detail").classList.remove("section-hidden");
+      }
+    }
+    if (e.target.closest("[data-bdc-gen-lin]")) openLineageModal("Lineage · " + (state.genericSource || ""));
+  });
+  document.getElementById("bdcBtnUrl").addEventListener("click", () => alert("Demo: copy OMS URL to clipboard."));
+  document.getElementById("bdcBtnMeta").addEventListener("click", () => alert("Demo: metadata editor."));
+  document.getElementById("bdcBtnLineageTop").addEventListener("click", () => openLineageModal("Lineage · " + (state.currentSf ? state.currentSf.table : "")));
+  document.getElementById("bdcGenMeta").addEventListener("click", () => alert("Demo: metadata editor."));
+  document.getElementById("bdcGenLineage").addEventListener("click", () => openLineageModal("Lineage"));
+
+  renderHomeBdc();
+  showSection("home");
+  if (window.BdcTrustFlags) window.BdcTrustFlags.wire(document.getElementById("panel-bdc-snowflake-detail"));
+})();
+  </script>
+  <script src="bdc-marked-ontop.js" defer></script>
+</body>
+</html>

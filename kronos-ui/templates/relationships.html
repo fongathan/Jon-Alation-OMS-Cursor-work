@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+{% block title %}Relationship Explorer{% endblock %}
+{% block page_title %}Relationship Explorer{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+  <div class="card p-6">
+    <h2 class="text-lg font-semibold mb-2">Asset Relationship Map</h2>
+    <p class="text-sm text-slate-400 mb-4">Explore how vendors, trackers, systems, and business use cases are connected. Select an asset to see its dependency graph.</p>
+
+    <form method="get" class="flex flex-wrap gap-3 items-end">
+      <div>
+        <label class="block text-xs text-slate-400 mb-1">Asset Type</label>
+        <select name="type" class="input-field text-sm" id="relType">
+          <option value="use_case" {{ 'selected' if sel_type == 'use_case' }}>Business Use Cases</option>
+          <option value="vendor" {{ 'selected' if sel_type == 'vendor' }}>Vendors</option>
+          <option value="system" {{ 'selected' if sel_type == 'system' }}>Systems</option>
+          <option value="tracker" {{ 'selected' if sel_type == 'tracker' }}>Digital Trackers</option>
+        </select>
+      </div>
+      <div class="flex-1 min-w-[200px]">
+        <label class="block text-xs text-slate-400 mb-1">Asset</label>
+        <select name="id" class="input-field text-sm w-full">
+          <option value="">Select an asset</option>
+          {% for a in asset_options %}
+          <option value="{{ a.asset_id }}" {{ 'selected' if a.asset_id == sel_id }}>{{ a.name }} ({{ a.asset_id }})</option>
+          {% endfor %}
+        </select>
+      </div>
+      <button type="submit" class="btn-primary text-sm">Explore</button>
+    </form>
+  </div>
+
+  {% if selected_asset %}
+  <!-- Relationship graph visualization -->
+  <div class="card p-6">
+    <div class="flex items-center gap-3 mb-6">
+      <div class="w-12 h-12 rounded-xl flex items-center justify-center text-lg
+        {% if sel_type == 'vendor' %}bg-violet-500/15 text-violet-400
+        {% elif sel_type == 'tracker' %}bg-cyan-500/15 text-cyan-400
+        {% elif sel_type == 'system' %}bg-emerald-500/15 text-emerald-400
+        {% else %}bg-amber-500/15 text-amber-400{% endif %}">
+        {% if sel_type == 'vendor' %}<i class="fa-solid fa-building"></i>
+        {% elif sel_type == 'tracker' %}<i class="fa-solid fa-satellite-dish"></i>
+        {% elif sel_type == 'system' %}<i class="fa-solid fa-server"></i>
+        {% else %}<i class="fa-solid fa-diagram-project"></i>{% endif %}
+      </div>
+      <div>
+        <h3 class="text-lg font-bold text-white">{{ selected_asset.name }}</h3>
+        <p class="text-sm text-slate-400">{{ sel_type | replace('_', ' ') | title }} &middot; {{ selected_asset.asset_id }}</p>
+      </div>
+    </div>
+
+    <!-- Visual relationship diagram -->
+    <div class="relative py-8">
+      <div class="flex items-center justify-center gap-8 flex-wrap">
+        {% for group_type, group_items in relationship_groups.items() %}
+        {% if group_items %}
+        <div class="space-y-2">
+          <h4 class="text-xs font-semibold uppercase tracking-wider text-slate-500 text-center">{{ group_type | replace('_', ' ') | title }}s</h4>
+          <div class="space-y-1.5">
+            {% for item in group_items %}
+            <a href="{{ url_for('asset_detail', asset_type=group_type, asset_id=item.asset_id) }}"
+               class="flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-700/40 hover:bg-slate-700/80 transition-colors text-sm">
+              <div class="w-6 h-6 rounded flex items-center justify-center text-[10px]
+                {% if group_type == 'vendor' %}bg-violet-500/15 text-violet-400
+                {% elif group_type == 'tracker' %}bg-cyan-500/15 text-cyan-400
+                {% elif group_type == 'system' %}bg-emerald-500/15 text-emerald-400
+                {% else %}bg-amber-500/15 text-amber-400{% endif %}">
+                {% if group_type == 'vendor' %}<i class="fa-solid fa-building"></i>
+                {% elif group_type == 'tracker' %}<i class="fa-solid fa-satellite-dish"></i>
+                {% elif group_type == 'system' %}<i class="fa-solid fa-server"></i>
+                {% else %}<i class="fa-solid fa-diagram-project"></i>{% endif %}
+              </div>
+              <span class="text-slate-300">{{ item.name }}</span>
+            </a>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+      </div>
+
+      {% if not any_relationships %}
+      <div class="text-center text-slate-500 py-8">
+        <i class="fa-solid fa-circle-nodes text-3xl mb-3 block"></i>
+        <p>No relationships found for this asset.</p>
+        <p class="text-xs mt-1">You can add relationships by editing this asset or creating linked use cases.</p>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Relationship table -->
+  {% if all_relationships %}
+  <div class="card overflow-x-auto">
+    <div class="px-5 py-4 border-b border-slate-700/50">
+      <h3 class="font-semibold">All Connections ({{ all_relationships | length }})</h3>
+    </div>
+    <table class="w-full text-sm">
+      <thead>
+        <tr class="text-left text-xs text-slate-400 uppercase tracking-wider border-b border-slate-700/50">
+          <th class="px-5 py-3">Connected Asset</th>
+          <th class="px-5 py-3">Type</th>
+          <th class="px-5 py-3">ID</th>
+          <th class="px-5 py-3">Status</th>
+          <th class="px-5 py-3">Owner</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for rel in all_relationships %}
+        <tr class="table-row">
+          <td class="px-5 py-3">
+            <a href="{{ url_for('asset_detail', asset_type=rel.type, asset_id=rel.asset_id) }}" class="text-kronos-400 hover:text-kronos-300 font-medium">{{ rel.name }}</a>
+          </td>
+          <td class="px-5 py-3 text-slate-400 capitalize">{{ rel.type | replace('_', ' ') }}</td>
+          <td class="px-5 py-3 font-mono text-xs text-slate-500">{{ rel.asset_id }}</td>
+          <td class="px-5 py-3"><span class="badge badge-{{ rel.status }}">{{ rel.status }}</span></td>
+          <td class="px-5 py-3 text-slate-400">{{ rel.owner or '—' }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+
+  {% else %}
+  <!-- Relationship overview matrix -->
+  <div class="card">
+    <div class="px-5 py-4 border-b border-slate-700/50">
+      <h3 class="font-semibold">Relationship Summary</h3>
+    </div>
+    <div class="p-5">
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="text-left text-xs text-slate-400 uppercase tracking-wider border-b border-slate-700/50">
+              <th class="px-4 py-3">Relationship</th>
+              <th class="px-4 py-3 text-center">Count</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="table-row">
+              <td class="px-4 py-3 flex items-center gap-2"><i class="fa-solid fa-diagram-project text-amber-400"></i> Use Cases ↔ Vendors <i class="fa-solid fa-building text-violet-400"></i></td>
+              <td class="px-4 py-3 text-center font-mono">{{ rel_counts.uc_vendors }}</td>
+            </tr>
+            <tr class="table-row">
+              <td class="px-4 py-3 flex items-center gap-2"><i class="fa-solid fa-diagram-project text-amber-400"></i> Use Cases ↔ Systems <i class="fa-solid fa-server text-emerald-400"></i></td>
+              <td class="px-4 py-3 text-center font-mono">{{ rel_counts.uc_systems }}</td>
+            </tr>
+            <tr class="table-row">
+              <td class="px-4 py-3 flex items-center gap-2"><i class="fa-solid fa-diagram-project text-amber-400"></i> Use Cases ↔ Trackers <i class="fa-solid fa-satellite-dish text-cyan-400"></i></td>
+              <td class="px-4 py-3 text-center font-mono">{{ rel_counts.uc_trackers }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

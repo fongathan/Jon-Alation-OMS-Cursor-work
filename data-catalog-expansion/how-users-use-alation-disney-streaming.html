@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How people use Alation at Disney Streaming</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="themes/theme-editorial-hero.css">
+</head>
+<body>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="badge-row">
+        <span class="badge">Disney Streaming</span>
+        <span class="badge">Data catalog</span>
+        <span class="badge lime">Plain-language overview</span>
+      </div>
+      <h1>How people use Alation<br><span style="font-weight:500;opacity:0.92">at Disney Streaming</span></h1>
+      <p class="hero-lead">
+        A short, readable guide to what the catalog is for, what most people do in it every week, and how different roles rely on it—without drowning in product jargon.
+      </p>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <section id="summary">
+      <div class="callout">
+        <strong>In one sentence:</strong> Alation is the place to <em>find</em> data, <em>understand</em> what it means, <em>see</em> how it flows, and <em>align</em> on business definitions—so teams spend less time asking around and more time using data with confidence.
+      </div>
+    </section>
+
+    <section>
+      <h2>What it is</h2>
+      <p>
+        <strong>Alation is the company’s data catalog.</strong> Instead of guessing from cryptic table names or pinging the one person who “knows that schema,” people open the catalog to discover datasets, read descriptions and ownership, and check how pieces connect.
+      </p>
+      <p>
+        At Disney Streaming, Alation has been the <strong>primary catalog for Data Governance</strong> (business glossary, stewardship, discovery, and lineage). The organization is also moving toward an internal catalog (OMS); this guide describes how people use Alation <em>today</em>.
+      </p>
+    </section>
+
+    <section>
+      <h2>What most people do</h2>
+      <p>These are the everyday moves—search, browse, read, and trust.</p>
+      <div class="grid-2">
+        <div class="card">
+          <h4>Search</h4>
+          <p>Type a topic (for example “customer” or “subscription”). Open matching tables, columns, articles, or glossary terms. Use filters by object type when results are broad.</p>
+          <span class="tag cyan">Discovery</span>
+        </div>
+        <div class="card">
+          <h4>Browse the hierarchy</h4>
+          <p>When you don’t know the exact name, go <strong>data source → schema → table → column</strong>—like folders for Snowflake and other connected systems.</p>
+          <span class="tag lime">Navigation</span>
+        </div>
+        <div class="card">
+          <h4>Read the asset page</h4>
+          <p>On a table or column, read descriptions, owners and stewards, tags, and custom fields so you know <em>what</em> it is and whether it’s the right asset to use.</p>
+          <span class="tag magenta">Context</span>
+        </div>
+        <div class="card">
+          <h4>Use the business glossary</h4>
+          <p>Look up official definitions of metrics and terms. Many terms link to the data or queries that implement that definition.</p>
+          <span class="tag cyan">Shared language</span>
+        </div>
+        <div class="card">
+          <h4>Follow lineage</h4>
+          <p>See where data comes from and where it goes—upstream and downstream. Helps with trust, debugging, and impact (“if this changes, what breaks?”).</p>
+          <span class="tag lime">Flow &amp; impact</span>
+        </div>
+        <div class="card">
+          <h4>Read and write docs</h4>
+          <p><strong>Articles</strong> hold longer guidance: onboarding, how a domain works, stewardship processes—not just one-line descriptions.</p>
+          <span class="tag magenta">Knowledge base</span>
+        </div>
+        <div class="card">
+          <h4>Queries (power users)</h4>
+          <p><strong>Compose</strong> is the SQL workspace: write, save, and share queries. Saved queries can appear in the catalog and feed lineage.</p>
+          <span class="tag cyan">Analysts &amp; stewards</span>
+        </div>
+        <div class="card">
+          <h4>Tags &amp; signals</h4>
+          <p>Tags classify assets (domain, sensitivity, and more). Governance signals help others filter quickly and see risk or trust at a glance.</p>
+          <span class="tag lime">Classification</span>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>By role</h2>
+      <p>Same tool—different jobs to be done.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Who</th>
+            <th>Typical use of Alation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Analysts &amp; BI</strong></td>
+            <td>Search and browse to find data; read documentation and lineage; use saved queries; ask questions or leave comments on assets.</td>
+          </tr>
+          <tr>
+            <td><strong>Data engineers</strong></td>
+            <td>Lineage and technical metadata for pipelines and impact analysis; understanding how sources and jobs connect; APIs where used.</td>
+          </tr>
+          <tr>
+            <td><strong>Data stewards &amp; owners</strong></td>
+            <td>Keep glossary terms, descriptions, tags, and ownership accurate; publish articles; curate their domain.</td>
+          </tr>
+          <tr>
+            <td><strong>Governance &amp; compliance</strong></td>
+            <td>Tags, policies, glossary, and lineage for standards and risk; exports and reports where configured.</td>
+          </tr>
+          <tr>
+            <td><strong>Leadership</strong></td>
+            <td>Less day-to-day clicking in the catalog; more adoption and usage visibility where those dashboards or reports exist.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>How you get in</h2>
+      <p>
+        People usually sign in with <strong>SSO</strong> (single sign-on), like other enterprise apps. Who can see which data sources depends on <strong>roles and permissions</strong> in Alation and your identity setup.
+      </p>
+    </section>
+
+    <section>
+      <h2>Elevator line</h2>
+      <div class="callout" style="margin-top:0">
+        “We use Alation to find data, read what it means, see how it flows, and agree on business definitions—in one catalog.”
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    How people use Alation at Disney Streaming · Plain-language overview · For stakeholder sharing and onboarding
+  </footer>
+
+</body>
+</html>

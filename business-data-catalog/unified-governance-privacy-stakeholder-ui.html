@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unified Governance &amp; Privacy Stakeholder Experience — UI Draft</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../data-catalog-expansion/themes/theme-editorial-hero.css">
+  <style>
+    .toc {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1.25rem 1.5rem;
+      margin: 0 0 2rem;
+      box-shadow: var(--shadow);
+    }
+    .toc strong {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.65rem;
+    }
+    .toc ol {
+      margin: 0;
+      padding-left: 1.25rem;
+      columns: 2;
+      column-gap: 2rem;
+    }
+    @media (max-width: 640px) {
+      .toc ol { columns: 1; }
+    }
+    .toc a {
+      color: var(--violet);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .toc a:hover { text-decoration: underline; }
+    .meta-box {
+      font-size: 0.92rem;
+      color: #475569;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1rem 1.25rem;
+      margin-bottom: 2rem;
+    }
+    .meta-box p { margin: 0.35rem 0; font-size: 0.92rem; }
+    .meta-box code {
+      font-size: 0.82rem;
+      background: #f1f5f9;
+      padding: 0.1rem 0.35rem;
+      border-radius: 4px;
+    }
+    .layer-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.75rem;
+      height: 1.75rem;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--violet), var(--cyan));
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+    .wireframe {
+      background: #0f172a;
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      margin: 1.5rem 0;
+      color: #e2e8f0;
+      font-family: 'Outfit', system-ui, sans-serif;
+      font-size: 0.78rem;
+      box-shadow: var(--shadow);
+      overflow-x: auto;
+    }
+    .wireframe-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #94a3b8;
+      margin-bottom: 0.75rem;
+    }
+    .wf-shell {
+      display: grid;
+      grid-template-columns: 140px 1fr 180px;
+      gap: 0.65rem;
+      min-width: 520px;
+    }
+    .wf-nav {
+      background: rgba(255,255,255,0.06);
+      border-radius: 8px;
+      padding: 0.5rem;
+    }
+    .wf-nav div {
+      padding: 0.35rem 0.5rem;
+      border-radius: 4px;
+      margin-bottom: 0.2rem;
+    }
+    .wf-nav .active { background: rgba(124, 58, 237, 0.45); color: #fff; }
+    .wf-nav .dim { opacity: 0.55; font-size: 0.7rem; }
+    .wf-main { display: flex; flex-direction: column; gap: 0.5rem; }
+    .wf-pillars {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.35rem;
+    }
+    .wf-pillar {
+      background: rgba(255,255,255,0.08);
+      border-radius: 6px;
+      padding: 0.4rem;
+      text-align: center;
+      line-height: 1.3;
+    }
+    .wf-pillar strong { display: block; font-size: 0.68rem; color: #f8fafc; }
+    .wf-pillar span { color: #94a3b8; font-size: 0.62rem; }
+    .wf-row {
+      display: grid;
+      grid-template-columns: 1fr 180px;
+      gap: 0.5rem;
+      flex: 1;
+    }
+    .wf-queue {
+      background: rgba(255,255,255,0.06);
+      border-radius: 8px;
+      padding: 0.5rem;
+    }
+    .wf-queue .row {
+      display: grid;
+      grid-template-columns: 72px 1fr 48px;
+      gap: 0.35rem;
+      padding: 0.25rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      font-size: 0.68rem;
+    }
+    .wf-rail {
+      background: rgba(6, 182, 212, 0.12);
+      border: 1px solid rgba(6, 182, 212, 0.25);
+      border-radius: 8px;
+      padding: 0.5rem;
+    }
+    .wf-rail h5 {
+      margin: 0 0 0.35rem;
+      font-size: 0.68rem;
+      color: #67e8f9;
+    }
+    .wf-rail ul {
+      margin: 0;
+      padding-left: 1rem;
+      font-size: 0.65rem;
+      color: #cbd5e1;
+    }
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 0.65rem;
+      margin: 1rem 0;
+    }
+    .pillar-chip {
+      text-align: center;
+      padding: 0.75rem 0.5rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    .pillar-chip.privacy { background: var(--magenta-soft); color: #9f1239; }
+    .pillar-chip.dsar { background: var(--violet-soft); color: #5b21b6; }
+    .pillar-chip.tracker { background: var(--amber-soft); color: #b45309; }
+    .pillar-chip.ops { background: var(--cyan-soft); color: #0e7490; }
+    .pillar-chip.metrics { background: var(--lime-soft); color: #3f6212; }
+    .nav-list {
+      list-style: none;
+      margin: 0.75rem 0;
+      padding: 0;
+    }
+    .nav-list li {
+      padding: 0.5rem 0.75rem;
+      margin: 0.25rem 0;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-weight: 500;
+    }
+    .nav-list .divider {
+      background: transparent;
+      border: none;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      padding: 0.75rem 0 0.25rem;
+    }
+    .follow-ups {
+      counter-reset: gap;
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0;
+    }
+    .follow-ups li {
+      counter-increment: gap;
+      position: relative;
+      padding: 1rem 1rem 1rem 3rem;
+      margin: 0.65rem 0;
+      background: var(--card);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+    }
+    .follow-ups li::before {
+      content: counter(gap);
+      position: absolute;
+      left: 1rem;
+      top: 1rem;
+      width: 1.5rem;
+      height: 1.5rem;
+      line-height: 1.5rem;
+      text-align: center;
+      font-weight: 800;
+      font-size: 0.8rem;
+      border-radius: 50%;
+      background: var(--violet-soft);
+      color: var(--violet);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="badge-row">
+        <span class="badge">Data Navigator</span>
+        <span class="badge">Governance &amp; privacy</span>
+        <span class="badge lime">UI draft</span>
+      </div>
+      <h1>Unified Governance &amp;<br>Privacy Stakeholder Experience</h1>
+      <p class="hero-lead">
+        A single command center above existing workstream dashboards—privacy compliance, DSAR, tracker remediation, operations, and metrics—connected to the catalog spine in OMS.
+      </p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#overview-wireframe">See overview wireframe</a>
+        <a class="btn btn-ghost" href="#problem">Read the brief</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <div class="meta-box">
+      <p><strong>Purpose:</strong> Readable companion to the analysis of a governance command center that sits above specialist dashboards.</p>
+      <p><strong>Source:</strong> Google Slides — <em>Data Navigator — from Alation to new in-house business metadata experience &amp; capabilities</em> (<code>1OdzAIMxb2gE4n36-8UoYhWXWg-4nzVF4m3i8V9XWYRw</code>). Pillar names follow your stakeholder list; slide text was not available via the Slides API.</p>
+      <p><strong>Related:</strong> <code>BDC-OMS-integrated-vs-on-top-decision.md</code> · <code>oms-ui-on-top.html</code> (Catalog, Glossary, Policies, Requests, Workflows)</p>
+    </div>
+
+    <nav class="toc" aria-label="Table of contents">
+      <strong>On this page</strong>
+      <ol>
+        <li><a href="#problem">Problem statement</a></li>
+        <li><a href="#layers">Three layers</a></li>
+        <li><a href="#ia">Information architecture</a></li>
+        <li><a href="#overview">Overview page draft</a></li>
+        <li><a href="#overview-wireframe">Overview wireframe</a></li>
+        <li><a href="#pillar-template">Pillar destinations</a></li>
+        <li><a href="#scope">Enterprise vs domain</a></li>
+        <li><a href="#traceability">Program traceability</a></li>
+        <li><a href="#follow-ups">Gaps &amp; follow-ups</a></li>
+      </ol>
+    </nav>
+
+    <section id="problem">
+      <h2>1. Problem statement</h2>
+      <p>
+        Each governance and privacy area already has <strong>its own dashboard</strong>. Navigation historically collapsed to <strong>a single entry</strong>, so stakeholders could not see an <strong>overall governance experience</strong>—only deep tools in isolation.
+      </p>
+      <div class="callout">
+        <strong>Goal:</strong> One coherent mental model and shell that shows posture and workload across pillars, then hands off to the right specialist surface with context preserved—not one screen that replaces five products.
+      </div>
+    </section>
+
+    <section id="layers">
+      <h2>2. Big picture: three layers</h2>
+      <p>Stakeholders should feel these as one product, implemented as layered responsibilities:</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Layer</th>
+            <th>Role</th>
+            <th>What it is <em>not</em></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Governance &amp; privacy command center</strong></td>
+            <td>Answers: <em>Are we in policy? Where is risk concentrated? What needs a human this week?</em> Mostly signals, exceptions, SLAs, and deep links.</td>
+            <td>A duplicate of every chart in every downstream system.</td>
+          </tr>
+          <tr>
+            <td><strong>Workstream consoles</strong></td>
+            <td>Privacy compliance, DSAR, tracker remediation, operations, metrics—existing depth retained.</td>
+            <td>Hidden behind a generic “Dashboards” list with no story.</td>
+          </tr>
+          <tr>
+            <td><strong>Catalog / metadata spine</strong></td>
+            <td>Shared objects: assets, classifications, policies, owners, lineage. Makes the command center auditable.</td>
+            <td>A separate silo that never links to operational tools.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="grid-2">
+        <div class="card">
+          <span class="layer-num">1</span>
+          <h4>Command center</h4>
+          <p style="margin:0;font-size:0.92rem;color:#475569;">Posture, exceptions, leadership narrative—thin by design.</p>
+        </div>
+        <div class="card">
+          <span class="layer-num">2</span>
+          <h4>Workstream consoles</h4>
+          <p style="margin:0;font-size:0.92rem;color:#475569;">Five pillars keep their specialist depth; unified nav routes in.</p>
+        </div>
+        <div class="card">
+          <span class="layer-num">3</span>
+          <h4>Data Navigator / OMS / BDC</h4>
+          <p style="margin:0;font-size:0.92rem;color:#475569;">System of record—every exception drills to attested metadata.</p>
+        </div>
+      </div>
+
+      <div class="callout">
+        <strong>Principle:</strong> <em>One navigation story</em> = Governance home → pick a pillar or an exception → land in the right tool already filtered (time range, domain, severity)—not “one mega-dashboard.”
+      </div>
+    </section>
+
+    <section id="ia">
+      <h2>3. Information architecture</h2>
+
+      <h3>3.1 Primary app shell</h3>
+      <p><strong>Top bar:</strong> Product name (e.g. <strong>Data Navigator — Governance</strong> or <strong>Privacy &amp; Data Governance Hub</strong>), global search (people, policies, assets, open cases), user or role context.</p>
+
+      <p><strong>Left rail (persistent):</strong></p>
+      <ul class="nav-list">
+        <li><strong>Overview</strong> (default) — unified experience</li>
+        <li>Privacy compliance</li>
+        <li>DSAR</li>
+        <li>Tracker remediation</li>
+        <li>Operations</li>
+        <li>Metrics / Reporting</li>
+        <li class="divider">Catalog spine</li>
+        <li>Catalog · Glossary · Policies · Requests</li>
+        <li style="opacity:0.85;font-weight:400;">Workflows · Admin (configuration)</li>
+      </ul>
+
+      <h3>3.2 Why this structure works</h3>
+      <p>
+        Specialists keep <strong>their</strong> dashboards as second-level destinations under clear pillar labels. Executives and cross-functional leads get <strong>one map</strong> of the whole program without losing the specialist UIs teams already trust.
+      </p>
+    </section>
+
+    <section id="overview">
+      <h2>4. Draft: Overview page</h2>
+      <p>
+        <strong>Audience:</strong> Data governance, privacy, compliance, and program leads who need a weekly pulse and triage path.
+      </p>
+      <p>
+        <strong>Layout option:</strong> One primary scroll, or two top-level tabs: <strong>Pulse</strong> | <strong>Portfolio</strong> (longer-horizon KPIs and domain comparisons).
+      </p>
+
+      <div class="pillars-grid" aria-hidden="true">
+        <div class="pillar-chip privacy">Privacy compliance</div>
+        <div class="pillar-chip dsar">DSAR</div>
+        <div class="pillar-chip tracker">Tracker remediation</div>
+        <div class="pillar-chip ops">Operations</div>
+        <div class="pillar-chip metrics">Metrics</div>
+      </div>
+
+      <h3>4.1 Hero strip — posture at a glance</h3>
+      <p>Five pillar cards; each shows at most two or three KPIs, a trend, and a severity or health state.</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Pillar</th>
+            <th>Illustrative KPIs</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Privacy compliance</strong></td>
+            <td>Policy coverage %, open violations, overdue attestations</td>
+          </tr>
+          <tr>
+            <td><strong>DSAR</strong></td>
+            <td>Open requests, SLA breach count, median cycle time</td>
+          </tr>
+          <tr>
+            <td><strong>Tracker remediation</strong></td>
+            <td>Open findings, critical trackers, % remediated on time</td>
+          </tr>
+          <tr>
+            <td><strong>Operations</strong></td>
+            <td>Incidents affecting privacy metadata, connector health</td>
+          </tr>
+          <tr>
+            <td><strong>Metrics</strong></td>
+            <td>Reporting freshness, executive pack readiness, quality gates</td>
+          </tr>
+        </tbody>
+      </table>
+      <p><strong>Interaction:</strong> Card click scrolls to that pillar’s section or deep-links to that console with the same time filter.</p>
+
+      <h3>4.2 Center panel — exceptions and SLAs</h3>
+      <table>
+        <thead>
+          <tr><th>Column</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Workstream</td></tr>
+          <tr><td>Item / title</td></tr>
+          <tr><td>Severity · Owner · Due date</td></tr>
+          <tr><td>Linked asset or policy</td></tr>
+          <tr><td>Action: <strong>Open in tool</strong></td></tr>
+        </tbody>
+      </table>
+      <p><strong>Filters:</strong> Domain, region, product, sensitivity class, pillar. This panel earns the word <em>unified</em>: one triage surface even when resolution stays in the specialist app.</p>
+
+      <h3>4.3 Cross-pillar insights (optional)</h3>
+      <div class="grid-2">
+        <div class="card">
+          <h4>Insight</h4>
+          <div class="big" style="font-size:1rem;font-weight:600;">DSAR ↑ · low classification</div>
+          <span class="tag magenta">Joined signal</span>
+        </div>
+        <div class="card">
+          <h4>Insight</h4>
+          <div class="big" style="font-size:1rem;font-weight:600;">Trackers · missing steward</div>
+          <span class="tag cyan">Catalog link</span>
+        </div>
+        <div class="card">
+          <h4>Insight</h4>
+          <div class="big" style="font-size:1rem;font-weight:600;">Ops incidents · metadata changes</div>
+          <span class="tag lime">→ Metrics</span>
+        </div>
+      </div>
+
+      <h3>4.4 Right rail — proof for leadership</h3>
+      <ul>
+        <li><strong>This week:</strong> three auto-generated bullets from week-over-week deltas.</li>
+        <li><strong>Audit / evidence pack:</strong> export bundle, attestation workflow, leadership narrative.</li>
+        <li><strong>Catalog health:</strong> glossary coverage, CDE / sensitive-field completeness—bridge to Data Navigator / OMS.</li>
+      </ul>
+    </section>
+
+    <section id="overview-wireframe">
+      <h2>Overview wireframe (conceptual)</h2>
+      <p>Low-fidelity layout for stakeholder conversations—not a build spec.</p>
+
+      <div class="wireframe" role="img" aria-label="Conceptual wireframe of governance overview: left nav, five pillar KPI cards, exception queue, leadership rail">
+        <div class="wireframe-label">Data Navigator — Governance · Overview</div>
+        <div class="wf-shell">
+          <div class="wf-nav">
+            <div class="active">Overview</div>
+            <div>Privacy</div>
+            <div>DSAR</div>
+            <div>Trackers</div>
+            <div>Operations</div>
+            <div>Metrics</div>
+            <div class="dim">— Catalog —</div>
+            <div class="dim">Glossary · Policies</div>
+          </div>
+          <div class="wf-main">
+            <div class="wf-pillars">
+              <div class="wf-pillar"><strong>Privacy</strong><span>94% · 3 viol.</span></div>
+              <div class="wf-pillar"><strong>DSAR</strong><span>12 open · 1 SLA</span></div>
+              <div class="wf-pillar"><strong>Trackers</strong><span>28 open · 4 crit</span></div>
+              <div class="wf-pillar"><strong>Ops</strong><span>2 incidents</span></div>
+              <div class="wf-pillar"><strong>Metrics</strong><span>Pack ready</span></div>
+            </div>
+            <div class="wf-row">
+              <div class="wf-queue">
+                <div class="wireframe-label" style="margin-bottom:0.35rem;">Exceptions &amp; SLAs</div>
+                <div class="row"><span>DSAR</span><span>Request #8842 — EU domain</span><span>→</span></div>
+                <div class="row"><span>Tracker</span><span>Pixel on checkout — no owner</span><span>→</span></div>
+                <div class="row"><span>Privacy</span><span>Attestation overdue — Sports BU</span><span>→</span></div>
+              </div>
+              <div class="wf-rail">
+                <h5>Leadership rail</h5>
+                <ul>
+                  <li>This week: 3 deltas</li>
+                  <li>Audit pack</li>
+                  <li>Catalog health 78%</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="pillar-template">
+      <h2>5. Each pillar destination</h2>
+      <p>Use a <strong>repeatable template</strong> so muscle memory transfers:</p>
+      <ul class="timeline">
+        <li>
+          <span class="phase-title">Summary strip</span>
+          <span class="phase-meta">Same KPI visual language as Overview, slightly richer.</span>
+        </li>
+        <li>
+          <span class="phase-title">Primary workspace</span>
+          <span class="phase-meta">Embed, deep link, or native module for the existing dashboard.</span>
+        </li>
+        <li>
+          <span class="phase-title">Metadata spine strip</span>
+          <span class="phase-meta">Related catalog assets, policies, classifications from OMS—never disconnected from inventory.</span>
+        </li>
+      </ul>
+    </section>
+
+    <section id="scope">
+      <h2>6. Enterprise vs domain scope</h2>
+      <ul>
+        <li><strong>Overview</strong> defaults enterprise-wide; scoped views (DEEPT, BU, product) use filters and saved views—not separate apps.</li>
+        <li><strong>Must-have:</strong> Role-aware defaults (privacy lead → global posture; domain steward → domain filter on first load).</li>
+      </ul>
+    </section>
+
+    <section id="traceability">
+      <h2>7. Traceability to program decisions</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h4>BDC-on-top</h4>
+          <p style="margin:0;font-size:0.92rem;">Governance audiences want a <strong>visible program home</strong> and clearer mandate than “everything inside core OMS chrome.” The hub is the named front door; the catalog remains system of record.</p>
+        </div>
+        <div class="card">
+          <h4>Migration narrative</h4>
+          <p style="margin:0;font-size:0.92rem;">Extending OMS is stronger when operational dashboards and catalog objects share identifiers and audit trail (<code>Product-Brief-Alation-to-OMS-Migration.md</code>).</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="follow-ups">
+      <h2>8. Gaps and follow-ups</h2>
+      <ol class="follow-ups">
+        <li><strong>Slide fidelity:</strong> Export slide <code>g3e1ce5672ca_0_18</code> or paste bullets—the Slides API returns metadata and slide IDs, not shape text.</li>
+        <li><strong>Data contract:</strong> Define the cross-pillar exception index (schema, owners, refresh SLA, authoritative system per workstream).</li>
+        <li><strong>Interactive prototype:</strong> Optional next step—a clickable mock in Midnight Ops for walkthroughs with privacy and governance owners.</li>
+      </ol>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Working session draft · Refine KPIs and labels with privacy and governance metric owners.</p>
+    <p style="margin-top:0.5rem;font-size:0.82rem;">Markdown source: <code>unified-governance-privacy-stakeholder-ui.md</code></p>
+  </footer>
+
+</body>
+</html>

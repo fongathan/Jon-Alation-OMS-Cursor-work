@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block title %}Search & Discovery{% endblock %}
+{% block page_title %}Search & Discovery{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+  <!-- Search hero -->
+  <div class="card p-8 text-center">
+    <h2 class="text-2xl font-bold text-white mb-2">Find Any Asset</h2>
+    <p class="text-slate-400 mb-6 max-w-lg mx-auto">Search across vendors, trackers, systems, and business use cases. Discover relationships and dependencies instantly.</p>
+    <form method="get" class="max-w-2xl mx-auto">
+      <div class="relative">
+        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+        <input type="text" name="q" value="{{ query }}" autofocus
+               placeholder="e.g. &quot;Adobe&quot;, &quot;audience segments&quot;, &quot;purchase propensity&quot;…"
+               class="input-field pl-12 pr-4 py-3.5 w-full text-base rounded-xl">
+      </div>
+      <div class="flex flex-wrap justify-center gap-2 mt-4">
+        <label class="flex items-center gap-1.5 text-sm text-slate-400 cursor-pointer">
+          <input type="checkbox" name="types" value="vendor" {{ 'checked' if 'vendor' in selected_types or not selected_types }}
+                 class="rounded bg-slate-700 border-slate-600 text-kronos-600 focus:ring-kronos-500"> Vendors
+        </label>
+        <label class="flex items-center gap-1.5 text-sm text-slate-400 cursor-pointer">
+          <input type="checkbox" name="types" value="tracker" {{ 'checked' if 'tracker' in selected_types or not selected_types }}
+                 class="rounded bg-slate-700 border-slate-600 text-kronos-600 focus:ring-kronos-500"> Trackers
+        </label>
+        <label class="flex items-center gap-1.5 text-sm text-slate-400 cursor-pointer">
+          <input type="checkbox" name="types" value="system" {{ 'checked' if 'system' in selected_types or not selected_types }}
+                 class="rounded bg-slate-700 border-slate-600 text-kronos-600 focus:ring-kronos-500"> Systems
+        </label>
+        <label class="flex items-center gap-1.5 text-sm text-slate-400 cursor-pointer">
+          <input type="checkbox" name="types" value="use_case" {{ 'checked' if 'use_case' in selected_types or not selected_types }}
+                 class="rounded bg-slate-700 border-slate-600 text-kronos-600 focus:ring-kronos-500"> Use Cases
+        </label>
+        <button type="submit" class="btn-primary text-sm ml-2">Search</button>
+      </div>
+    </form>
+  </div>
+
+  {% if query %}
+  <!-- Results -->
+  <p class="text-sm text-slate-400">
+    Found <span class="text-white font-medium">{{ results | length }}</span> results for
+    "<span class="text-kronos-400">{{ query }}</span>"
+  </p>
+
+  {% if results %}
+  <div class="space-y-3">
+    {% for r in results %}
+    <a href="{{ url_for('asset_detail', asset_type=r.type, asset_id=r.asset_id) }}"
+       class="card p-4 flex items-start gap-4 hover:border-kronos-600/40 transition-colors block">
+      <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0
+        {% if r.type == 'vendor' %}bg-violet-500/15 text-violet-400
+        {% elif r.type == 'tracker' %}bg-cyan-500/15 text-cyan-400
+        {% elif r.type == 'system' %}bg-emerald-500/15 text-emerald-400
+        {% else %}bg-amber-500/15 text-amber-400{% endif %}">
+        {% if r.type == 'vendor' %}<i class="fa-solid fa-building"></i>
+        {% elif r.type == 'tracker' %}<i class="fa-solid fa-satellite-dish"></i>
+        {% elif r.type == 'system' %}<i class="fa-solid fa-server"></i>
+        {% else %}<i class="fa-solid fa-diagram-project"></i>{% endif %}
+      </div>
+      <div class="flex-1 min-w-0">
+        <div class="flex items-center gap-2 mb-1">
+          <span class="font-medium text-white">{{ r.name }}</span>
+          <span class="badge badge-{{ r.status }}">{{ r.status }}</span>
+          <span class="text-xs text-slate-500 font-mono">{{ r.asset_id }}</span>
+        </div>
+        <p class="text-sm text-slate-400 truncate">{{ r.description or r.detail or 'No description' }}</p>
+        <div class="flex items-center gap-3 mt-2 text-xs text-slate-500">
+          <span class="capitalize">{{ r.type | replace('_', ' ') }}</span>
+          {% if r.owner %}<span>Owner: {{ r.owner }}</span>{% endif %}
+          {% if r.relationships %}<span>{{ r.relationships }} relationships</span>{% endif %}
+        </div>
+      </div>
+      <i class="fa-solid fa-chevron-right text-slate-600 mt-3"></i>
+    </a>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="card p-12 text-center">
+    <i class="fa-solid fa-magnifying-glass text-4xl text-slate-600 mb-4"></i>
+    <p class="text-slate-400">No results found for "{{ query }}".</p>
+    <p class="text-sm text-slate-500 mt-1">Try broadening your search or checking the asset type filters.</p>
+  </div>
+  {% endif %}
+
+  {% else %}
+  <!-- Example queries -->
+  <div class="card p-6">
+    <h3 class="font-semibold mb-4">Example Queries</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+      {% for q in example_queries %}
+      <a href="{{ url_for('search') }}?q={{ q | urlencode }}"
+         class="flex items-center gap-3 px-4 py-3 rounded-lg bg-slate-700/30 hover:bg-slate-700/60 transition-colors text-sm">
+        <i class="fa-solid fa-arrow-right text-kronos-400 text-xs"></i>
+        <span class="text-slate-300">{{ q }}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+Reusable themes (from data-catalog-expansion)
+==============================================
+
+1) Editorial Hero — narrative / program plans / long-form
+   File: theme-editorial-hero.css
+   Fonts: Outfit + Source Serif 4 (see comment block at top of CSS file)
+
+   <link rel="stylesheet" href="themes/theme-editorial-hero.css">
+
+   Typical structure:
+   - <header class="hero"> with .hero-inner, .badge-row, h1, .hero-lead, .hero-cta, .btn
+   - <main class="wrap"> for body content
+   - Optional: .callout, .grid-2, .card, .tag, .timeline, <table>
+
+2) Midnight Ops — dashboards / admin / metrics
+   File: theme-midnight-ops.css
+   Font: Plus Jakarta Sans (see comment block at top of CSS file)
+
+   <link rel="stylesheet" href="themes/theme-midnight-ops.css">
+
+   Optional fixed background (before .shell):
+   - <div class="bg-grid" aria-hidden="true"></div>
+   - <div class="glow a" aria-hidden="true"></div>
+   - <div class="glow b" aria-hidden="true"></div>
+
+   Typical structure:
+   - <div class="shell"> containing <header>, .kpis, .grid-main, .panel, etc.
+
+Do not load both theme CSS files on the same page — tokens and body styles conflict.
+
+Adjust paths if you copy only the /themes folder elsewhere (e.g. href="../themes/...").

@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DEEPT Data — Domain home</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=JetBrains+Mono:wght@450;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --void: #0c1222;
+      --deep: #111827;
+      --surface: #1a2332;
+      --lift: #243044;
+      --text: #f1f5f9;
+      --dim: #94a3b8;
+      --line: rgba(148, 163, 184, 0.12);
+      --mint: #2dd4bf;
+      --mint-dim: rgba(45, 212, 191, 0.15);
+      --amber: #fbbf24;
+      --font: 'DM Sans', system-ui, sans-serif;
+      --mono: 'JetBrains Mono', ui-monospace, monospace;
+      --r: 14px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font);
+      background: var(--void);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--mint); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    button { font: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+
+    :focus-visible { outline: 2px solid var(--mint); outline-offset: 2px; }
+
+    /* Top bar */
+    .bar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.75rem 1.5rem;
+      background: rgba(12, 18, 34, 0.82);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .bar-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      min-width: 0;
+    }
+
+    .glyph {
+      width: 38px;
+      height: 38px;
+      border-radius: 11px;
+      background: linear-gradient(135deg, var(--mint), #0d9488);
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 0.7rem;
+      color: var(--void);
+      letter-spacing: -0.04em;
+      flex-shrink: 0;
+    }
+
+    .bar-titles h1 {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .bar-titles p {
+      font-size: 0.72rem;
+      color: var(--dim);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .bar-links {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem;
+      justify-content: flex-end;
+    }
+
+    .ghost {
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.4rem 0.85rem;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      color: var(--text) !important;
+      text-decoration: none !important;
+    }
+
+    .ghost:hover { background: var(--surface); }
+
+    .hero-strip {
+      background: linear-gradient(90deg, var(--mint-dim) 0%, transparent 45%), var(--deep);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .hero-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: clamp(2rem, 5vw, 3.25rem) 1.5rem;
+    }
+
+    .hero-inner h2 {
+      font-size: clamp(1.75rem, 4vw, 2.35rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      max-width: 20ch;
+      margin-bottom: 0.75rem;
+    }
+
+    .hero-inner .lede {
+      color: var(--dim);
+      max-width: 52ch;
+      font-size: 1.02rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .search-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      align-items: center;
+      margin-bottom: 0.35rem;
+    }
+
+    .search-box {
+      flex: 1;
+      min-width: 240px;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 0.5rem 1rem;
+    }
+
+    .search-box input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      color: var(--text);
+      font-size: 0.95rem;
+      min-width: 0;
+    }
+
+    .search-box input::placeholder { color: #64748b; }
+
+    .btn-mint {
+      font-size: 0.875rem;
+      font-weight: 700;
+      padding: 0.6rem 1.15rem;
+      border-radius: 12px;
+      background: var(--mint);
+      color: var(--void) !important;
+      text-decoration: none !important;
+    }
+
+    .btn-mint:hover { filter: brightness(1.06); }
+
+    .scope-hint {
+      font-size: 0.8rem;
+      color: var(--dim);
+      font-family: var(--mono);
+    }
+
+    .layout {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    @media (max-width: 900px) {
+      .kpis { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 480px) {
+      .kpis { grid-template-columns: 1fr; }
+    }
+
+    .kpi {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      padding: 1rem 1.15rem;
+    }
+
+    .kpi span {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--dim);
+      margin-bottom: 0.35rem;
+    }
+
+    .kpi strong {
+      font-size: 1.45rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .kpi small {
+      display: block;
+      margin-top: 0.25rem;
+      font-size: 0.78rem;
+      color: var(--dim);
+    }
+
+    h3.section-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--dim);
+      margin-bottom: 0.85rem;
+    }
+
+    .collections {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    @media (max-width: 800px) {
+      .collections { grid-template-columns: 1fr; }
+    }
+
+    .collection {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      padding: 1.25rem 1.35rem;
+      transition: border-color 0.15s;
+    }
+
+    .collection:hover { border-color: rgba(45, 212, 191, 0.35); }
+
+    .collection h4 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+      letter-spacing: -0.02em;
+    }
+
+    .collection p {
+      font-size: 0.88rem;
+      color: var(--dim);
+      margin-bottom: 0.85rem;
+    }
+
+    .collection a {
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    .featured {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      overflow: hidden;
+    }
+
+    .featured-head {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .featured-head h3 {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 0.75rem 1.25rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    th {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--dim);
+      font-weight: 600;
+    }
+
+    tr:last-child td { border-bottom: none; }
+
+    tr:hover td { background: var(--lift); }
+
+    .badge {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      padding: 0.15rem 0.45rem;
+      border-radius: 6px;
+      background: var(--lift);
+      color: var(--mint);
+    }
+
+    .row-actions {
+      display: flex;
+      gap: 0.35rem;
+    }
+
+    .row-actions button {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--mint);
+      padding: 0.25rem 0.5rem;
+      border-radius: 8px;
+    }
+
+    .row-actions button:hover { background: var(--mint-dim); }
+
+    .stewards {
+      margin-top: 2.5rem;
+      padding: 1.5rem 1.35rem;
+      border-radius: var(--r);
+      border: 1px dashed var(--line);
+      background: rgba(26, 35, 50, 0.5);
+    }
+
+    .stewards h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .stewards p {
+      font-size: 0.88rem;
+      color: var(--dim);
+      margin-bottom: 0.75rem;
+      max-width: 60ch;
+    }
+
+    .stewards ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .stewards li {
+      font-size: 0.82rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      background: var(--lift);
+      border: 1px solid var(--line);
+    }
+
+    footer.nav-foot {
+      text-align: center;
+      padding: 2rem 1rem 3rem;
+      font-size: 0.8rem;
+      color: var(--dim);
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 1.25rem;
+      right: 1.25rem;
+      background: var(--lift);
+      border: 1px solid var(--line);
+      color: var(--text);
+      padding: 0.65rem 1rem;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      z-index: 100;
+      opacity: 0;
+      transform: translateY(8px);
+      pointer-events: none;
+      transition: 0.2s;
+    }
+
+    .toast.on { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+  <header class="bar">
+    <div class="bar-left">
+      <div class="glyph" aria-hidden="true">DE</div>
+      <div class="bar-titles">
+        <h1>DEEPT Data</h1>
+        <p>Between Atlas · Ad Platforms</p>
+      </div>
+    </div>
+    <div class="bar-links">
+      <a href="catalog-discovery-lumen.html" class="ghost">← Lumen catalog</a>
+      <a href="catalog-discovery-alation-theme.html" class="ghost">Alation theme</a>
+    </div>
+  </header>
+
+  <div class="hero-strip">
+    <div class="hero-inner">
+      <h2>Trusted dimensions, identity, and policy-ready foundations.</h2>
+      <p class="lede">
+        You landed here from the <strong style="color:var(--text)">center tile</strong> on the federated home—DEEPT sits between Atlas (cross-product glue) and Ad Platforms (activation). This space is for stewards, analysts, and engineers who need conformed layers before metrics land in product domains.
+      </p>
+      <div class="search-row">
+        <div class="search-box" role="search">
+          <span aria-hidden="true" style="opacity:.6">⌕</span>
+          <label for="deept-q" class="sr-only">Search DEEPT assets</label>
+          <input id="deept-q" type="search" placeholder="Search within DEEPT — views, keys, policies…" />
+        </div>
+        <button type="button" class="btn-mint" id="deept-search-go">Search DEEPT</button>
+      </div>
+      <p class="scope-hint">scope: domain = DEEPT_DATA · version = draft-mock</p>
+    </div>
+  </div>
+
+  <div class="layout">
+    <div class="kpis" aria-label="Domain metrics">
+      <div class="kpi">
+        <span>Registered assets</span>
+        <strong>1,204</strong>
+        <small>Tables & governed views</small>
+      </div>
+      <div class="kpi">
+        <span>Active stewards</span>
+        <strong>28</strong>
+        <small>Slack: #deept-data-stewards</small>
+      </div>
+      <div class="kpi">
+        <span>PII-reviewed</span>
+        <strong>94%</strong>
+        <small>Last governance sprint</small>
+      </div>
+      <div class="kpi">
+        <span>Downstream contracts</span>
+        <strong>156</strong>
+        <small>Confirmed consumers</small>
+      </div>
+    </div>
+
+    <h3 class="section-title">Curated collections</h3>
+    <div class="collections">
+      <article class="collection">
+        <h4>Identity &amp; MDM</h4>
+        <p>Unified keys, effective dating, and match rules. Start here before joining to Ad or Atlas.</p>
+        <a href="#">Open collection →</a>
+      </article>
+      <article class="collection">
+        <h4>Conformed dimensions</h4>
+        <p>Geography, content taxonomy, and subscriber attributes with certified definitions.</p>
+        <a href="#">Open collection →</a>
+      </article>
+      <article class="collection">
+        <h4>Policy &amp; classification</h4>
+        <p>Sensitivity tags, retention, and access patterns aligned to enterprise policy.</p>
+        <a href="#">Open collection →</a>
+      </article>
+    </div>
+
+    <div class="featured">
+      <div class="featured-head">
+        <h3>Featured DEEPT assets</h3>
+        <span class="badge">demo data</span>
+      </div>
+      <div style="overflow-x:auto">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Quality</th>
+              <th>Access</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="deept-table"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <section class="stewards" aria-labelledby="stew-h">
+      <h3 id="stew-h">People &amp; rituals</h3>
+      <p><strong>Office hours:</strong> Tuesdays 10:00 PT · <strong>RFC window:</strong> schema changes need steward + security sign-off for PII.</p>
+      <ul>
+        <li>Lead steward — Priya N.</li>
+        <li>Identity guild — Marco L.</li>
+        <li>Policy liaison — Sam R.</li>
+      </ul>
+    </section>
+  </div>
+
+  <footer class="nav-foot">
+    DEEPT Data home · prototype · <a href="catalog-discovery-lumen.html">Back to discovery</a>
+  </footer>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <style>.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }</style>
+
+  <script>
+(function () {
+  const rows = [
+    { name: 'Identity Unified Mapping Dimension View', type: 'VIEW', q: 95, access: 'Open' },
+    { name: 'Identity Dates Pro Publish', type: 'TABLE', q: 88, access: 'Restricted' },
+    { name: 'SUBSCRIBER_CORE_KEYS_V', type: 'VIEW', q: 91, access: 'Open' },
+    { name: 'DEEPT_POLICY_CLASSIFICATION_2026Q2', type: 'TABLE', q: 86, access: 'Governed' },
+  ];
+  const tb = document.getElementById('deept-table');
+  const toast = document.getElementById('toast');
+
+  function tshow(m) {
+    toast.textContent = m;
+    toast.classList.add('on');
+    clearTimeout(tshow._t);
+    tshow._t = setTimeout(() => toast.classList.remove('on'), 2000);
+  }
+
+  tb.innerHTML = rows.map((r, i) =>
+    '<tr><td><strong>' + r.name + '</strong></td><td>' + r.type + '</td><td>' + r.q + '</td><td>' + r.access + '</td>' +
+    '<td class="row-actions"><button type="button" data-i="' + i + '">Preview</button><button type="button" data-s="' + i + '">Subscribe</button></td></tr>'
+  ).join('');
+
+  tb.querySelectorAll('button[data-i]').forEach(b => {
+    b.addEventListener('click', () => tshow('Preview: ' + rows[+b.dataset.i].name + ' (demo)'));
+  });
+  tb.querySelectorAll('button[data-s]').forEach(b => {
+    b.addEventListener('click', () => tshow('Subscribed to change alerts (demo)'));
+  });
+
+  document.getElementById('deept-search-go').addEventListener('click', () => {
+    const v = document.getElementById('deept-q').value.trim();
+    tshow(v ? 'DEEPT search: “' + v + '” (demo)' : 'Showing all DEEPT assets (demo)');
+  });
+
+  document.querySelectorAll('.collection a').forEach(a => {
+    a.addEventListener('click', (e) => { e.preventDefault(); tshow('Collection (demo)'); });
+  });
+})();
+  </script>
+</body>
+</html>

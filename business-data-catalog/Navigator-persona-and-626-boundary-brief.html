@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Navigator — Persona UX &amp; 626 / OMS boundaries</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #1a1f2e;
+      --muted: #5c6578;
+      --line: #e2e6ef;
+      --surface: #f7f8fc;
+      --accent: #3d4fbd;
+      --accent-soft: #e8ebfa;
+      --radius: 12px;
+      --shadow: 0 12px 40px rgba(26, 31, 46, 0.08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Source Serif 4", Georgia, serif;
+      font-size: 1.05rem;
+      line-height: 1.65;
+      color: var(--ink);
+      background: linear-gradient(165deg, #f0f2fb 0%, #fafbfd 38%, #ffffff 100%);
+      min-height: 100vh;
+    }
+    .wrap {
+      max-width: 46rem;
+      margin: 0 auto;
+      padding: 2.5rem 1.35rem 4rem;
+    }
+    header.hero {
+      font-family: Outfit, system-ui, sans-serif;
+      background: linear-gradient(135deg, #2f3d9a 0%, #4a5fd4 45%, #6b7ef0 100%);
+      color: #fff;
+      border-radius: var(--radius);
+      padding: 2rem 1.75rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow);
+    }
+    header.hero h1 {
+      margin: 0 0 0.5rem;
+      font-size: 1.65rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+    }
+    header.hero .meta {
+      opacity: 0.92;
+      font-size: 0.95rem;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+    nav.toc {
+      font-family: Outfit, system-ui, sans-serif;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 1.1rem 1.25rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 20px rgba(26, 31, 46, 0.04);
+    }
+    nav.toc strong {
+      display: block;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      margin-bottom: 0.65rem;
+    }
+    nav.toc ol {
+      margin: 0;
+      padding-left: 1.2rem;
+      font-size: 0.92rem;
+      line-height: 1.55;
+    }
+    nav.toc a { color: var(--accent); text-decoration: none; }
+    nav.toc a:hover { text-decoration: underline; }
+    article {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 2rem 1.75rem 2.25rem;
+      box-shadow: 0 4px 24px rgba(26, 31, 46, 0.05);
+    }
+    h2 {
+      font-family: Outfit, system-ui, sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin: 2rem 0 0.75rem;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      border-top: 1px solid var(--line);
+      padding-top: 1.5rem;
+    }
+    article > h2:first-of-type {
+      border-top: none;
+      padding-top: 0;
+      margin-top: 0;
+    }
+    h3 {
+      font-family: Outfit, system-ui, sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 1.35rem 0 0.5rem;
+      color: #2a3142;
+    }
+    p { margin: 0.65rem 0; }
+    ul, ol { margin: 0.65rem 0; padding-left: 1.35rem; }
+    li { margin: 0.35rem 0; }
+    strong { font-weight: 600; }
+    .lead {
+      font-size: 1.08rem;
+      color: #2d3445;
+    }
+    blockquote {
+      margin: 1rem 0;
+      padding: 0.85rem 1rem;
+      border-left: 4px solid var(--accent);
+      background: var(--accent-soft);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      font-style: italic;
+      color: #2a3150;
+    }
+    blockquote.positioning {
+      font-style: normal;
+      font-weight: 600;
+      font-size: 1.02rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      margin: 1rem 0;
+      font-family: Outfit, system-ui, sans-serif;
+    }
+    th, td {
+      border: 1px solid var(--line);
+      padding: 0.55rem 0.65rem;
+      vertical-align: top;
+      text-align: left;
+    }
+    th {
+      background: var(--surface);
+      font-weight: 600;
+      font-size: 0.82rem;
+    }
+    tr:nth-child(even) td { background: #fcfcfe; }
+    .tagline {
+      font-family: Outfit, system-ui, sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent);
+      margin-bottom: 0.35rem;
+    }
+    footer.note {
+      margin-top: 2rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+      font-style: italic;
+      text-align: center;
+    }
+    @media print {
+      body { background: #fff; }
+      header.hero, article, nav.toc { box-shadow: none; }
+      .wrap { max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <h1>Navigator: Persona-opinionated UX &amp; boundaries vs. 626 / OMS</h1>
+      <p class="meta">Actionable brief from Data Platforms Intake feedback (May 2026). For program lead and metadata working group.</p>
+    </header>
+
+    <nav class="toc" aria-label="Contents">
+      <strong>Contents</strong>
+      <ol>
+        <li><a href="#s1">What problem you are solving</a></li>
+        <li><a href="#s2">Minimum viable artifact</a></li>
+        <li><a href="#s3">Step-by-step plan</a></li>
+        <li><a href="#s4">Boundary table (copy-ready)</a></li>
+        <li><a href="#s5">Optional story starters</a></li>
+        <li><a href="#s6">Definition of success</a></li>
+      </ol>
+    </nav>
+
+    <article>
+      <p class="lead"><strong>Purpose:</strong> Turn stakeholder feedback into an actionable plan.<br />
+      <strong>Audience:</strong> Product / program lead and metadata working group collaborators.<br />
+      <strong>Origin:</strong> “Point 3” from the intake recap—close the narrative gap on <strong>persona-specific jobs</strong> and <strong>clear boundaries</strong> so Navigator does not read as a generic “do anything” catalog or as a <strong>competing</strong> program to Data 626 / OMS.</p>
+
+      <h2 id="s1">1. What problem you are solving</h2>
+      <p>Stakeholders reflected that the early Navigator / wireframe direction can feel <strong>under-opinionated</strong>: many capabilities visible at once, without a crisp story for <em>who</em> is trying to accomplish <em>what</em>.</p>
+      <p>People also need clarity on <strong>626 vs OMS vs Navigator</strong>:</p>
+      <ul>
+        <li><strong>626 / MCI-style work</strong> improves <strong>metadata supply</strong>, curation, scanning, and related mechanics.</li>
+        <li><strong>OMS</strong> is the <strong>operational metadata store</strong> and technical backbone (including APIs for much of what lands there).</li>
+        <li><strong>Navigator</strong> is the <strong>governed experience layer</strong> that composes sources (including OMS) for <strong>business and compliance-oriented discovery and understanding</strong>—not a replacement for every adjacent program.</li>
+      </ul>
+      <p>This brief describes <strong>how to make that explicit</strong> in a lightweight, repeatable way.</p>
+
+      <h2 id="s2">2. Minimum viable artifact (if you are time-boxed)</h2>
+      <p>Deliver <strong>one page</strong> containing:</p>
+      <ol>
+        <li><strong>Five user stories each</strong> for <strong>three prioritized personas</strong> (see templates in §5).</li>
+        <li><strong>One boundary table</strong> (626 vs OMS vs Navigator)—§4.</li>
+      </ol>
+      <p>That alone usually resolves most “competing project” anxiety without committing to a full UX redesign.</p>
+
+      <h2 id="s3">3. Step-by-step plan</h2>
+
+      <h3>Step A — Lock a small persona set (3–5 for the next ~90 days)</h3>
+      <p>Do not boil the ocean. Examples aligned to intake:</p>
+      <table>
+        <thead>
+          <tr><th>Persona (example)</th><th>Why include</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Business / DNA consumer</td><td>Primary “find and trust the metric or dataset” user</td></tr>
+          <tr><td>Privacy &amp; compliance reviewer</td><td>Breadth, audit-friendly narratives, evidence</td></tr>
+          <tr><td>Steward / governance council participant</td><td>Curates, reconciles, endorses; workflow affordances</td></tr>
+          <tr><td>Engineer (occasional UI use)</td><td>Lineage, technical truth, engineering-oriented definitions</td></tr>
+          <tr><td>DRE / automation (API-first)</td><td>May rarely use UI; needs stable programmatic access</td></tr>
+        </tbody>
+      </table>
+      <p>For <strong>each</strong> persona, write <strong>one sentence</strong>:</p>
+      <blockquote>When <strong>[trigger]</strong>, they need <strong>[outcome]</strong> in under <strong>[time / effort bar]</strong>.</blockquote>
+      <p>That sentence is the <strong>north star</strong> for navigation and defaults.</p>
+
+      <h3>Step B — “Five stories per persona”</h3>
+      <p>For <strong>each</strong> persona, write <strong>five</strong> short stories with the same shape:</p>
+      <table>
+        <thead>
+          <tr><th>Field</th><th>Prompt</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Trigger</strong></td><td>What starts the work? (ticket, audit, planning, incident)</td></tr>
+          <tr><td><strong>Current pain</strong></td><td>What do they do today? (Alation, spreadsheets, Slack, manual joins)</td></tr>
+          <tr><td><strong>Desired outcome</strong></td><td>What does “good” look like in one sentence?</td></tr>
+          <tr><td><strong>Primary object</strong></td><td>Metric? Table? Policy? Classification? Lineage node?</td></tr>
+          <tr><td><strong>Success signal</strong></td><td>What would they export, screenshot, or cite to prove value?</td></tr>
+        </tbody>
+      </table>
+      <p><strong>Why five:</strong> Fewer stories hide gaps; more than five invites generic “platform” thinking.</p>
+
+      <h3>Step C — “Job test” on every major POC surface</h3>
+      <p>For each major area (home, browse-by-source, asset detail, glossary, classifications / policies, admin / internal):</p>
+      <ol>
+        <li><strong>Which persona story does this screen primarily complete?</strong></li>
+        <li>If the answer is “sort of everyone,” either <strong>split</strong> into a primary path and secondary entry points, or <strong>defer</strong> the surface with an explicit rationale.</li>
+      </ol>
+      <p>This is how the product becomes <strong>opinionated</strong> without equal depth for every persona on day one.</p>
+
+      <h3>Step D — Decision log for boundary debates</h3>
+      <p>When someone says “this feels like 626,” capture a row:</p>
+      <table>
+        <thead>
+          <tr><th>Capability they mean</th><th>Best home (626 / OMS / Navigator / shared API)</th><th>User-visible outcome</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><em>Example: automated column descriptions from repo scans</em></td><td>…</td><td>…</td></tr>
+        </tbody>
+      </table>
+      <p>Two or three <strong>written</strong> decisions often end recurring debate faster than another deck-only review.</p>
+
+      <h3>Step E — Metadata working group</h3>
+      <p>Ask for <strong>~30 minutes</strong> on the agenda:</p>
+      <p><strong>Title:</strong> Persona stories + 626 / OMS / Navigator boundary review<br />
+      <strong>Goal:</strong> Shared mental model and <strong>prioritized</strong> backlog—not pixel-perfect UX.</p>
+
+      <h2 id="s4">4. Boundary table (copy-ready)</h2>
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>626 / MCI (adjacent supply-side work)</th>
+            <th>OMS</th>
+            <th>Navigator</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Problem it solves</th>
+            <td>Improve how metadata is <strong>produced, scanned, curated, and governed at the source</strong></td>
+            <td><strong>Store, connect, and serve</strong> operational and technical metadata; platform APIs</td>
+            <td><strong>Compose</strong> trusted metadata into a <strong>governed discovery and understanding experience</strong> for business and compliance users</td>
+          </tr>
+          <tr>
+            <th>System of record</th>
+            <td>Program artifacts, pipelines, curation outputs—<em>as defined by those programs</em></td>
+            <td>OMS graph / objects / APIs—<em>as owned by OMS</em></td>
+            <td>Experience, navigation, persona defaults, policy-surfacing UX—<em>backed by OMS and other sources</em></td>
+          </tr>
+          <tr>
+            <th>Primary user</th>
+            <td>Engineers, curation teams, metadata program owners</td>
+            <td>Engineers, platform consumers, integrators</td>
+            <td>Business consumers, stewards, privacy/compliance reviewers (plus thin engineer paths where needed)</td>
+          </tr>
+          <tr>
+            <th>“Done” means</th>
+            <td>Higher coverage, better definitions at source, repeatable curation</td>
+            <td>Reliable technical truth in the store; stable contracts (e.g. APIs)</td>
+            <td>A user can <strong>answer a real question</strong> (trust, meaning, policy, lineage context) with <strong>low noise</strong></td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="tagline">One-line positioning</p>
+      <blockquote class="positioning">626 improves metadata supply; OMS stores and serves it; Navigator is the governed experience that makes the right metadata usable for the right persona.</blockquote>
+
+      <h2 id="s5">5. Optional story starters</h2>
+      <p>Use as <strong>stubs</strong>—replace bracketed text with real names and systems.</p>
+
+      <h3>Persona: Business / DNA consumer</h3>
+      <ol>
+        <li>Trigger: planning needs <strong>[metric]</strong> — <strong>Outcome:</strong> find authoritative definition and owner.</li>
+        <li>Trigger: two dashboards disagree — <strong>Outcome:</strong> see <strong>gold</strong> definition and <strong>known conflicts</strong>.</li>
+        <li>Trigger: new hire — <strong>Outcome:</strong> browse <strong>approved</strong> datasets for <strong>[domain]</strong>.</li>
+        <li>Trigger: vendor question — <strong>Outcome:</strong> export a <strong>citation-friendly</strong> definition package.</li>
+        <li>Trigger: deprecation notice — <strong>Outcome:</strong> understand <strong>replacement</strong> and <strong>downstream impact</strong>.</li>
+      </ol>
+
+      <h3>Persona: Privacy &amp; compliance reviewer</h3>
+      <ol>
+        <li>Trigger: audit asks whether <strong>[PII]</strong> exists in <strong>[space]</strong> — <strong>Outcome:</strong> evidence-backed view.</li>
+        <li>Trigger: legal demo walkthrough — <strong>Outcome:</strong> “<strong>defined vs observed</strong>” narrative without manual screenshots everywhere.</li>
+        <li>Trigger: DSAR pattern review — <strong>Outcome:</strong> locate <strong>consent / purpose</strong> metadata tied to assets.</li>
+        <li>Trigger: classification drift — <strong>Outcome:</strong> see <strong>policy ↔ classification</strong> linkage.</li>
+        <li>Trigger: third-party sharing review — <strong>Outcome:</strong> trace <strong>sensitivity</strong> and <strong>contracts</strong> context.</li>
+      </ol>
+
+      <h3>Persona: Steward / governance council</h3>
+      <ol>
+        <li>Trigger: two sources define <strong>[metric]</strong> differently — <strong>Outcome:</strong> reconciliation path visible.</li>
+        <li>Trigger: council ratifies a definition — <strong>Outcome:</strong> <strong>gold</strong> status and <strong>provenance</strong> clear to consumers.</li>
+        <li>Trigger: new dataset onboarded — <strong>Outcome:</strong> <strong>endorsement / warning</strong> workflow.</li>
+        <li>Trigger: policy change — <strong>Outcome:</strong> see <strong>impacted assets</strong> from classifications.</li>
+        <li>Trigger: quarterly review — <strong>Outcome:</strong> <strong>coverage / exceptions</strong> dashboard slice.</li>
+      </ol>
+
+      <h2 id="s6">6. Definition of success for “Point 3”</h2>
+      <p>Consider this thread <strong>closed</strong> when:</p>
+      <ol>
+        <li><strong>Three personas</strong> have <strong>five stories</strong> each, reviewed with <strong>Sarah</strong> (and <strong>Suman</strong> as needed).</li>
+        <li>Every <strong>major</strong> POC view maps to <strong>at least one primary story</strong> (or is explicitly deferred).</li>
+        <li>The <strong>boundary table</strong> has been shown once in <strong>metadata WG</strong> and the <strong>decision log</strong> has 2–3 rows from real debates.</li>
+      </ol>
+    </article>
+
+    <footer class="note">Internal working use. Refine names (626, MCI, program labels) to match your official program language.</footer>
+  </div>
+</body>
+</html>

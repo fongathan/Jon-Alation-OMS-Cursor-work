@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Brief: Alation to OMS Migration</title>
+  <!-- Inline styles throughout for better paste-to-Google-Docs preservation -->
+</head>
+<body style="font-family: Arial, Helvetica, sans-serif; font-size: 11pt; line-height: 1.5; color: #333333; max-width: 700px; margin: 0 auto; padding: 40px;">
+
+<h1 style="font-size: 24pt; font-weight: bold; color: #0f3460; margin: 0 0 6px 0; padding-bottom: 10px; border-bottom: 3px solid #0f3460;">
+  Product Brief: Data Governance Data Catalog Migration — Alation to OMS
+</h1>
+
+<p style="font-size: 11pt; color: #555555; margin: 0 0 4px 0;"><strong>Project:</strong> Data Governance Data Catalog Migration</p>
+<p style="font-size: 11pt; color: #555555; margin: 0 0 4px 0;"><strong>From:</strong> Alation (External Data Catalog)</p>
+<p style="font-size: 11pt; color: #555555; margin: 0 0 4px 0;"><strong>To:</strong> OMS (Operational Metadata Store)</p>
+<p style="font-size: 11pt; color: #555555; margin: 0 0 4px 0;"><strong>Organization:</strong> Disney Streaming Services</p>
+<p style="font-size: 11pt; color: #555555; margin: 0 0 24px 0;"><strong>Document Version:</strong> 1.0 &nbsp;|&nbsp; <strong>Date:</strong> March 19, 2026</p>
+
+<hr style="border: none; border-top: 1px solid #cccccc; margin: 24px 0;">
+
+<h2 style="font-size: 16pt; font-weight: bold; color: #0f3460; margin: 28px 0 10px 0;">1. Executive Summary</h2>
+
+<p style="margin: 0 0 12px 0;">This product brief outlines the plan to migrate our Data Governance data catalog from Alation to OMS (Operational Metadata Store). The migration will consolidate our data catalog capabilities into Disney's internal OMS platform, reducing vendor dependency while aligning with enterprise metadata and governance standards.</p>
+
+<div style="background-color: #f5f9fc; border-left: 4px solid #0f3460; padding: 14px 18px; margin: 16px 0;">
+  <p style="margin: 0 0 8px 0; font-weight: bold;">Key objectives:</p>
+  <ul style="margin: 0; padding-left: 20px;">
+    <li>Preserve critical business metadata and catalog capabilities currently in Alation</li>
+    <li>Extend OMS to support Data Governance use cases (glossary, stewardship, discovery, lineage)</li>
+    <li>Ensure stakeholder needs are captured and addressed through structured requirements gathering</li>
+    <li>Deliver a phased migration with clear success criteria and minimal disruption</li>
+  </ul>
+</div>
+
+<hr style="border: none; border-top: 1px solid #cccccc; margin: 24px 0;">
+
+<h2 style="font-size: 16pt; font-weight: bold; color: #0f3460; margin: 28px 0 10px 0;">2. Project Scope & Context</h2>
+
+<h3 style="font-size: 13pt; font-weight: bold; color: #1a1a2e; margin: 20px 0 8px 0;">2.1 Current State</h3>
+<ul style="margin: 0 0 16px 0; padding-left: 24px;">
+  <li><strong>Alation</strong> serves as the primary data catalog for Data Governance</li>
+  <li>Alation contract end date: <strong>October 1, 2026</strong></li>
+  <li>OMS currently focuses on technical metadata (tables, pipelines, streams, reports)</li>
+  <li>Business metadata (glossary, descriptions, tags, ownership) must be extended in OMS</li>
+</ul>
+
+<h3 style="font-size: 13pt; font-weight: bold; color: #1a1a2e; margin: 20px 0 8px 0;">2.2 Target State</h3>
+<ul style="margin: 0 0 16px 0; padding-left: 24px;">
+  <li><strong>OMS</strong> becomes the system of record for data catalog and Data Governance metadata</li>
+  <li>Business metadata parity for critical features (glossary, search, lineage, tags, documentation)</li>
+  <li>Governance workflows and stewardship supported in OMS</li>
+  <li>Alation decommissioned upon successful cutover</li>
+</ul>
+
+<hr style="border: none; border-top: 1px solid #cccccc; margin: 24px 0;">
+
+<h2 style="font-size: 16pt; font-weight: bold; color: #0f3460; margin: 28px 0 10px 0;">3. Requirements Gathering</h2>
+
+<p style="margin: 0 0 12px 0;">Requirements gathering is the foundation of a successful migration. The following four areas must be completed before design and build phases begin.</p>
+
+<h3 style="font-size: 13pt; font-weight: bold; color: #1a1a2e; margin: 20px 0 8px 0;">3.1 Documenting Current Use Requirements</h3>
+
+<div style="background-color: #e8f4fc; border-left: 4px solid #0f3460; padding: 12px 16px; margin: 12px 0;">
+  <p style="margin: 0; font-weight: bold;">Objective:</p>
+  <p style="margin: 4px 0 0 0;">Capture how Alation is used today so we do not lose functionality or disrupt user workflows.</p>
+</div>
+
+<p style="margin: 12px 0 6px 0;"><strong>Activities:</strong></p>
+
+<table border="1" cellpadding="8" cellspacing="0" style="width: 100%; border-collapse: collapse; font-size: 10pt; margin: 12px 0 20px 0;">
+  <thead>
+    <tr style="background-color: #0f3460; color: white;">
+      <th style="text-align: left; font-weight: bold; padding: 10px; border: 1px solid #0d2d52;">Activity</th>
+      <th style="text-align: left; font-weight: bold; padding: 10px; border: 1px solid #0d2d52;">Description</th>
+      <th style="text-align: left; font-weight: bold; padding: 10px; border: 1px solid #0d2d52;">Deliverables</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="background-color: #f9f9f9;">
+      <td style="padding: 8px; border: 1px solid #cccccc;"><strong>Feature inventory</strong></td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Document every Alation feature in use today (search, glossary, lineage, tags, articles, policy center, etc.)</td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Feature inventory matrix</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px; border: 1px solid #cccccc;"><strong>Usage mapping</strong></td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Map each feature to user personas and workflows (e.g., analysts search; stewards tag; governance runs reports)</td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Persona–feature matrix</td>
+    </tr>
+    <tr style="background-color: #f9f9f9;">
+      <td style="padding: 8px; border: 1px solid #cccccc;"><strong>Stakeholder interviews</strong></td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Interview key users: data stewards, analysts, governance, engineers. Ask: "What do you use Alation for? Walk me through a typical day."</td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Interview notes, use-case documentation</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px; border: 1px solid #cccccc;"><strong>Workflow documentation</strong></td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Document end-to-end workflows (e.g., "How does a new glossary term get created and approved?")</td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Workflow diagrams, process docs</td>
+    </tr>
+    <tr style="background-color: #f9f9f9;">
+      <td style="padding: 8px; border: 1px solid #cccccc;"><strong>Screenshot documentation</strong></td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Capture screenshots for every documented feature and workflow. Include: search UI, glossary view, lineage view, table detail, tags, articles, policy center, reports</td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Screenshot library with annotations</td>
+    </tr>
+  </tbody>
+</table>
+
+<p style="margin: 8px 0 4px 0;"><strong>Stakeholder groups to interview:</strong></p>
+<ul style="margin: 0 0 12px 0; padding-left: 24px;">
+  <li>Data stewards</li>
+  <li>Data analysts / BI users</li>
+  <li>Data engineers</li>
+  <li>Governance / compliance</li>
+  <li>Leadership (for reporting needs)</li>
+</ul>
+
+<p style="margin: 8px 0 4px 0;"><strong>Best practices:</strong></p>
+<ul style="margin: 0 0 16px 0; padding-left: 24px;">
+  <li>Use structured interview guides to ensure consistency</li>
+  <li>Record sessions (with permission) for reference</li>
+  <li>Validate findings with a second round of "did we miss anything?" sessions</li>
+  <li>Organize screenshots by feature and workflow for easy reference in design</li>
+</ul>
+
+<h3 style="font-size: 13pt; font-weight: bold; color: #1a1a2e; margin: 20px 0 8px 0;">3.2 Documenting Enhancement Requirements</h3>
+
+<div style="background-color: #e8f4fc; border-left: 4px solid #0f3460; padding: 12px 16px; margin: 12px 0;">
+  <p style="margin: 0; font-weight: bold;">Objective:</p>
+  <p style="margin: 4px 0 0 0;">Capture improvements and capabilities that Alation promised but never delivered, or that stakeholders want in the new system.</p>
+</div>
+
+<p style="margin: 12px 0 6px 0;"><strong>Activities:</strong></p>
+
+<table border="1" cellpadding="8" cellspacing="0" style="width: 100%; border-collapse: collapse; font-size: 10pt; margin: 12px 0 20px 0;">
+  <thead>
+    <tr style="background-color: #0f3460; color: white;">
+      <th style="text-align: left; font-weight: bold; padding: 10px; border: 1px solid #0d2d52;">Activity</th>
+      <th style="text-align: left; font-weight: bold; padding: 10px; border: 1px solid #0d2d52;">Description</th>
+      <th style="text-align: left; font-weight: bold; padding: 10px; border: 1px solid #0d2d52;">Deliverables</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="background-color: #f9f9f9;">
+      <td style="padding: 8px; border: 1px solid #cccccc;"><strong>Gap document review</strong></td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Review the existing Alation gap document (promised vs. delivered). Extract enhancement opportunities</td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Enhancement backlog</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px; border: 1px solid #cccccc;"><strong>Stakeholder interviews</strong></td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Ask: "What did you wish Alation could do that it doesn't? What would make your job easier?"</td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Enhancement requirements list</td>
+    </tr>
+    <tr style="background-color: #f9f9f9;">
+      <td style="padding: 8px; border: 1px solid #cccccc;"><strong>Prioritization</strong></td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Prioritize enhancements by impact and feasibility. Separate Phase 1 (parity) from Phase 2 (enhancements)</td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Prioritized enhancement backlog</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px; border: 1px solid #cccccc;"><strong>Screenshot documentation</strong></td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Where applicable, include screenshots of current limitations or mockups of desired enhancements</td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Screenshot library (gaps, mockups)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p style="margin: 8px 0 4px 0;"><strong>Typical enhancement areas (from industry patterns):</strong></p>
+<ul style="margin: 0 0 12px 0; padding-left: 24px;">
+  <li>Semantic / AI-powered search</li>
+  <li>Column-level lineage</li>
+  <li>Automated documentation</li>
+  <li>Data quality integration</li>
+  <li>Compliance automation</li>
+  <li>Workflow automation</li>
+  <li>Better reporting and dashboards</li>
+</ul>
+
+<h3 style="font-size: 13pt; font-weight: bold; color: #1a1a2e; margin: 20px 0 8px 0;">3.3 Examining OMS for Current Features to Leverage</h3>
+
+<div style="background-color: #e8f4fc; border-left: 4px solid #0f3460; padding: 12px 16px; margin: 12px 0;">
+  <p style="margin: 0; font-weight: bold;">Objective:</p>
+  <p style="margin: 4px 0 0 0;">Identify OMS capabilities that already meet or can be extended to meet our requirements.</p>
+</div>
+
+<p style="margin: 12px 0 6px 0;"><strong>Activities:</strong></p>
+
+<table border="1" cellpadding="8" cellspacing="0" style="width: 100%; border-collapse: collapse; font-size: 10pt; margin: 12px 0 20px 0;">
+  <thead>
+    <tr style="background-color: #0f3460; color: white;">
+      <th style="text-align: left; font-weight: bold; padding: 10px; border: 1px solid #0d2d52;">Activity</th>
+      <th style="text-align: left; font-weight: bold; padding: 10px; border: 1px solid #0d2d52;">Description</th>
+      <th style="text-align: left; font-weight: bold; padding: 10px; border: 1px solid #0d2d52;">Deliverables</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="background-color: #f9f9f9;">
+      <td style="padding: 8px; border: 1px solid #cccccc;"><strong>OMS capability inventory</strong></td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Document OMS's current features: search, lineage, metadata fields, APIs, integrations</td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">OMS capability matrix</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px; border: 1px solid #cccccc;"><strong>Feature mapping</strong></td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Map each Alation requirement to OMS: "OMS has it" / "OMS can extend" / "OMS lacks"</td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Requirements–OMS mapping</td>
+    </tr>
+    <tr style="background-color: #f9f9f9;">
+      <td style="padding: 8px; border: 1px solid #cccccc;"><strong>Leverage opportunities</strong></td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Identify where we can use OMS as-is (e.g., technical metadata, lineage button, datasource UI)</td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Leverage list with screenshots</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px; border: 1px solid #cccccc;"><strong>Screenshot documentation</strong></td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Capture OMS screenshots for each capability. Annotate what works and what needs extension</td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">OMS screenshot library</td>
+    </tr>
+  </tbody>
+</table>
+
+<p style="margin: 8px 0 4px 0;"><strong>OMS areas to examine:</strong></p>
+<ul style="margin: 0 0 16px 0; padding-left: 24px;">
+  <li>Search and discovery</li>
+  <li>Lineage (table, column, dataflow)</li>
+  <li>Metadata fields (description, ownership, tags)</li>
+  <li>Data source connectors</li>
+  <li>API and integration options</li>
+  <li>Governance and policy features</li>
+</ul>
+
+<h3 style="font-size: 13pt; font-weight: bold; color: #1a1a2e; margin: 20px 0 8px 0;">3.4 Examining OMS for Gaps</h3>
+
+<div style="background-color: #e8f4fc; border-left: 4px solid #0f3460; padding: 12px 16px; margin: 12px 0;">
+  <p style="margin: 0; font-weight: bold;">Objective:</p>
+  <p style="margin: 4px 0 0 0;">Identify where OMS cannot meet our requirements with current features and where net-new build is needed.</p>
+</div>
+
+<p style="margin: 12px 0 6px 0;"><strong>Activities:</strong></p>
+
+<table border="1" cellpadding="8" cellspacing="0" style="width: 100%; border-collapse: collapse; font-size: 10pt; margin: 12px 0 20px 0;">
+  <thead>
+    <tr style="background-color: #0f3460; color: white;">
+      <th style="text-align: left; font-weight: bold; padding: 10px; border: 1px solid #0d2d52;">Activity</th>
+      <th style="text-align: left; font-weight: bold; padding: 10px; border: 1px solid #0d2d52;">Description</th>
+      <th style="text-align: left; font-weight: bold; padding: 10px; border: 1px solid #0d2d52;">Deliverables</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="background-color: #f9f9f9;">
+      <td style="padding: 8px; border: 1px solid #cccccc;"><strong>Gap analysis</strong></td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">For each requirement, document: OMS has / OMS lacks / Build required</td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Gap matrix</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px; border: 1px solid #cccccc;"><strong>Prioritization</strong></td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Prioritize gaps by criticality (High/Medium/Low) and migration impact</td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Prioritized gap list</td>
+    </tr>
+    <tr style="background-color: #f9f9f9;">
+      <td style="padding: 8px; border: 1px solid #cccccc;"><strong>Build scope</strong></td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Define what OMS team (or DSS) must build: glossary, tags, business search, etc.</td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Build scope document</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px; border: 1px solid #cccccc;"><strong>Screenshot documentation</strong></td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Screenshots of OMS showing "Not Available" or missing fields. Compare to Alation screenshots</td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Gap evidence (screenshots)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p style="margin: 8px 0 4px 0;"><strong>Known gap areas (from current OMS assessment):</strong></p>
+<ul style="margin: 0 0 16px 0; padding-left: 24px;">
+  <li>Business glossary</li>
+  <li>Business-context search (glossary, articles)</li>
+  <li>Documentation / Business Description (placeholders exist; need population)</li>
+  <li>Tags and custom fields</li>
+  <li>Usage / access metrics (last access, top users)</li>
+  <li>Ownership / Created By</li>
+  <li>Version control</li>
+  <li>Airflow integration (fields exist; need population)</li>
+  <li>Policy center / compliance workflows</li>
+</ul>
+
+<h3 style="font-size: 13pt; font-weight: bold; color: #1a1a2e; margin: 20px 0 8px 0;">3.5 Requirements Gathering Summary</h3>
+
+<table border="1" cellpadding="8" cellspacing="0" style="width: 100%; border-collapse: collapse; font-size: 10pt; margin: 12px 0 20px 0;">
+  <thead>
+    <tr style="background-color: #0f3460; color: white;">
+      <th style="text-align: left; font-weight: bold; padding: 10px; border: 1px solid #0d2d52;">Phase</th>
+      <th style="text-align: left; font-weight: bold; padding: 10px; border: 1px solid #0d2d52;">Duration (Est.)</th>
+      <th style="text-align: left; font-weight: bold; padding: 10px; border: 1px solid #0d2d52;">Key Outputs</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="background-color: #f9f9f9;">
+      <td style="padding: 8px; border: 1px solid #cccccc;">Current use documentation</td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">2–3 weeks</td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Feature inventory, workflow docs, screenshot library</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Enhancement documentation</td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">1–2 weeks</td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Enhancement backlog, prioritization</td>
+    </tr>
+    <tr style="background-color: #f9f9f9;">
+      <td style="padding: 8px; border: 1px solid #cccccc;">OMS leverage analysis</td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">1–2 weeks</td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">OMS capability matrix, requirements mapping</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px; border: 1px solid #cccccc;">OMS gap analysis</td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">1–2 weeks</td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Gap matrix, build scope</td>
+    </tr>
+    <tr style="background-color: #e8f4fc;">
+      <td style="padding: 8px; border: 1px solid #cccccc;"><strong>Total</strong></td>
+      <td style="padding: 8px; border: 1px solid #cccccc;"><strong>5–9 weeks</strong></td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Consolidated requirements document, sign-off</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr style="border: none; border-top: 1px solid #cccccc; margin: 24px 0;">
+
+<h2 style="font-size: 16pt; font-weight: bold; color: #0f3460; margin: 28px 0 10px 0;">4. Design & Architecture</h2>
+<p style="margin: 0 0 8px 0;"><strong>Objective:</strong> Translate requirements into technical design and architecture.</p>
+<p style="margin: 0 0 8px 0;"><strong>Activities:</strong></p>
+<ul style="margin: 0 0 12px 0; padding-left: 24px;">
+  <li>Data model design for business metadata (glossary, tags, custom fields)</li>
+  <li>Integration design (metadata ingestion, lineage, APIs)</li>
+  <li>UI/UX design for new OMS features (aligned with OMS design system)</li>
+  <li>Migration design (extract from Alation, transform, load to OMS)</li>
+</ul>
+<p style="margin: 0 0 16px 0;"><strong>Deliverables:</strong> Architecture document, data model, integration specs, UI wireframes</p>
+
+<hr style="border: none; border-top: 1px solid #cccccc; margin: 24px 0;">
+
+<h2 style="font-size: 16pt; font-weight: bold; color: #0f3460; margin: 28px 0 10px 0;">5. Build & Development</h2>
+<p style="margin: 0 0 8px 0;"><strong>Objective:</strong> Implement OMS extensions and migration tooling.</p>
+<p style="margin: 0 0 8px 0;"><strong>Phases:</strong></p>
+<ul style="margin: 0 0 12px 0; padding-left: 24px;">
+  <li><strong>MVP (Phase 1):</strong> Critical Alation parity — glossary, search, basic lineage, tags, documentation</li>
+  <li><strong>Full parity (Phase 2):</strong> Custom fields, governance workflows, integrations</li>
+  <li><strong>Enhancements (Phase 3):</strong> AI search, automation, compliance features (from enhancement backlog)</li>
+</ul>
+<p style="margin: 0 0 16px 0;"><strong>Deliverables:</strong> Deployed OMS features, migration scripts, API integrations</p>
+
+<hr style="border: none; border-top: 1px solid #cccccc; margin: 24px 0;">
+
+<h2 style="font-size: 16pt; font-weight: bold; color: #0f3460; margin: 28px 0 10px 0;">6. Migration Execution</h2>
+<p style="margin: 0 0 8px 0;"><strong>Objective:</strong> Move metadata and users from Alation to OMS with minimal data loss.</p>
+<p style="margin: 0 0 8px 0;"><strong>Activities:</strong></p>
+<ul style="margin: 0 0 12px 0; padding-left: 24px;">
+  <li>Metadata extraction from Alation (glossary, articles, tags, lineage, custom fields)</li>
+  <li>Transformation and mapping to OMS schema</li>
+  <li>Load and validation</li>
+  <li>Parallel run (Alation + OMS) for user validation</li>
+  <li>Cutover and Alation decommission</li>
+</ul>
+<p style="margin: 0 0 16px 0;"><strong>Deliverables:</strong> Migration runbook, validation report, cutover plan</p>
+
+<hr style="border: none; border-top: 1px solid #cccccc; margin: 24px 0;">
+
+<h2 style="font-size: 16pt; font-weight: bold; color: #0f3460; margin: 28px 0 10px 0;">7. Change Management & Training</h2>
+<p style="margin: 0 0 8px 0;"><strong>Objective:</strong> Ensure users adopt OMS and can perform their roles effectively.</p>
+<p style="margin: 0 0 8px 0;"><strong>Activities:</strong></p>
+<ul style="margin: 0 0 12px 0; padding-left: 24px;">
+  <li>Training materials (quick guides, videos, FAQs)</li>
+  <li>Role-based training (stewards, analysts, governance, engineers)</li>
+  <li>Champions program</li>
+  <li>Office hours post-launch</li>
+  <li>Communication plan (timeline, what's changing, where to get help)</li>
+</ul>
+<p style="margin: 0 0 16px 0;"><strong>Deliverables:</strong> Training curriculum, materials, champions roster, communication calendar</p>
+
+<hr style="border: none; border-top: 1px solid #cccccc; margin: 24px 0;">
+
+<h2 style="font-size: 16pt; font-weight: bold; color: #0f3460; margin: 28px 0 10px 0;">8. Governance & Ownership</h2>
+<p style="margin: 0 0 8px 0;"><strong>Objective:</strong> Ensure clear ownership and governance of the data catalog in OMS.</p>
+<p style="margin: 0 0 8px 0;"><strong>Recommendations:</strong></p>
+<ul style="margin: 0 0 16px 0; padding-left: 24px;">
+  <li><strong>Data Governance team</strong> owns: catalog features, requirements, acceptance criteria, adoption, steward community</li>
+  <li><strong>Engineering/OMS team</strong> owns: technical implementation, integrations, performance</li>
+  <li>RACI matrix for each capability</li>
+  <li>Governance sign-off at phase gates</li>
+  <li>Success metrics (glossary coverage, steward activity, search success)</li>
+</ul>
+
+<hr style="border: none; border-top: 1px solid #cccccc; margin: 24px 0;">
+
+<h2 style="font-size: 16pt; font-weight: bold; color: #0f3460; margin: 28px 0 10px 0;">9. Success Criteria & Metrics</h2>
+
+<table border="1" cellpadding="8" cellspacing="0" style="width: 100%; border-collapse: collapse; font-size: 10pt; margin: 12px 0 20px 0;">
+  <thead>
+    <tr style="background-color: #0f3460; color: white;">
+      <th style="text-align: left; font-weight: bold; padding: 10px; border: 1px solid #0d2d52;">Metric</th>
+      <th style="text-align: left; font-weight: bold; padding: 10px; border: 1px solid #0d2d52;">Target</th>
+      <th style="text-align: left; font-weight: bold; padding: 10px; border: 1px solid #0d2d52;">Measurement</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="background-color: #f9f9f9;">
+      <td style="padding: 8px; border: 1px solid #cccccc;">Business metadata preservation</td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">≥95%</td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Glossary terms, tags, descriptions migrated and validated</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px; border: 1px solid #cccccc;">User adoption</td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">≥80% of current Alation users active in OMS within 4 weeks of cutover</td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Weekly active users</td>
+    </tr>
+    <tr style="background-color: #f9f9f9;">
+      <td style="padding: 8px; border: 1px solid #cccccc;">Search success</td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Users find assets in OMS</td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Search-to-click rate, user feedback</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Steward engagement</td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Stewards actively maintaining metadata</td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Steward activity logs</td>
+    </tr>
+    <tr style="background-color: #f9f9f9;">
+      <td style="padding: 8px; border: 1px solid #cccccc;">Zero critical data loss</td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">No loss of high-priority metadata</td>
+      <td style="padding: 8px; border: 1px solid #cccccc;">Migration validation report</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr style="border: none; border-top: 1px solid #cccccc; margin: 24px 0;">
+
+<h2 style="font-size: 16pt; font-weight: bold; color: #0f3460; margin: 28px 0 10px 0;">10. Timeline & Milestones</h2>
+
+<table border="1" cellpadding="8" cellspacing="0" style="width: 100%; border-collapse: collapse; font-size: 10pt; margin: 12px 0 20px 0;">
+  <thead>
+    <tr style="background-color: #0f3460; color: white;">
+      <th style="text-align: left; font-weight: bold; padding: 10px; border: 1px solid #0d2d52;">Phase</th>
+      <th style="text-align: left; font-weight: bold; padding: 10px; border: 1px solid #0d2d52;">Duration</th>
+      <th style="text-align: left; font-weight: bold; padding: 10px; border: 1px solid #0d2d52;">Key Milestones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 8px; border: 1px solid #cccccc;">Requirements gathering</td><td style="padding: 8px; border: 1px solid #cccccc;">5–9 weeks</td><td style="padding: 8px; border: 1px solid #cccccc;">Requirements doc signed off</td></tr>
+    <tr><td style="padding: 8px; border: 1px solid #cccccc;">Design & architecture</td><td style="padding: 8px; border: 1px solid #cccccc;">4–6 weeks</td><td style="padding: 8px; border: 1px solid #cccccc;">Architecture approved</td></tr>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 8px; border: 1px solid #cccccc;">Build (MVP)</td><td style="padding: 8px; border: 1px solid #cccccc;">3–4 months</td><td style="padding: 8px; border: 1px solid #cccccc;">OMS MVP deployed</td></tr>
+    <tr><td style="padding: 8px; border: 1px solid #cccccc;">Migration planning</td><td style="padding: 8px; border: 1px solid #cccccc;">4–6 weeks</td><td style="padding: 8px; border: 1px solid #cccccc;">Migration runbook approved</td></tr>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 8px; border: 1px solid #cccccc;">Parallel run</td><td style="padding: 8px; border: 1px solid #cccccc;">2–4 months</td><td style="padding: 8px; border: 1px solid #cccccc;">Alation + OMS both available</td></tr>
+    <tr><td style="padding: 8px; border: 1px solid #cccccc;">Migration execution</td><td style="padding: 8px; border: 1px solid #cccccc;">6–12 weeks</td><td style="padding: 8px; border: 1px solid #cccccc;">Metadata migrated, validated</td></tr>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 8px; border: 1px solid #cccccc;">Training</td><td style="padding: 8px; border: 1px solid #cccccc;">2–4 weeks</td><td style="padding: 8px; border: 1px solid #cccccc;">Materials delivered, workshops complete</td></tr>
+    <tr><td style="padding: 8px; border: 1px solid #cccccc;">Cutover</td><td style="padding: 8px; border: 1px solid #cccccc;">2–4 weeks</td><td style="padding: 8px; border: 1px solid #cccccc;">OMS primary; Alation read-only</td></tr>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 8px; border: 1px solid #cccccc;">Alation decommission</td><td style="padding: 8px; border: 1px solid #cccccc;">By contract end</td><td style="padding: 8px; border: 1px solid #cccccc;">Full OMS</td></tr>
+  </tbody>
+</table>
+
+<p style="font-size: 10pt; color: #666666; font-style: italic; margin: 8px 0 0 0;"><strong>Note:</strong> Timeline assumes Alation contract extension to enable adequate parallel run and validation. See existing Migration Project Plan for extension recommendation.</p>
+
+<hr style="border: none; border-top: 1px solid #cccccc; margin: 24px 0;">
+
+<h2 style="font-size: 16pt; font-weight: bold; color: #0f3460; margin: 28px 0 10px 0;">11. Risks & Mitigations</h2>
+
+<table border="1" cellpadding="8" cellspacing="0" style="width: 100%; border-collapse: collapse; font-size: 10pt; margin: 12px 0 20px 0;">
+  <thead>
+    <tr style="background-color: #0f3460; color: white;">
+      <th style="text-align: left; font-weight: bold; padding: 10px; border: 1px solid #0d2d52;">Risk</th>
+      <th style="text-align: left; font-weight: bold; padding: 10px; border: 1px solid #0d2d52;">Mitigation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 8px; border: 1px solid #cccccc;">Incomplete requirements</td><td style="padding: 8px; border: 1px solid #cccccc;">Structured interviews, screenshot documentation, validation rounds</td></tr>
+    <tr><td style="padding: 8px; border: 1px solid #cccccc;">OMS roadmap misalignment</td><td style="padding: 8px; border: 1px solid #cccccc;">Early engagement with OMS team; align requirements to roadmap</td></tr>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 8px; border: 1px solid #cccccc;">Migration data loss</td><td style="padding: 8px; border: 1px solid #cccccc;">Metadata-first approach; validation checkpoints; parallel run</td></tr>
+    <tr><td style="padding: 8px; border: 1px solid #cccccc;">User resistance</td><td style="padding: 8px; border: 1px solid #cccccc;">Change management, champions, training, clear communication</td></tr>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 8px; border: 1px solid #cccccc;">Timeline pressure</td><td style="padding: 8px; border: 1px solid #cccccc;">Prioritize MVP; negotiate Alation extension</td></tr>
+  </tbody>
+</table>
+
+<hr style="border: none; border-top: 1px solid #cccccc; margin: 24px 0;">
+
+<h2 style="font-size: 16pt; font-weight: bold; color: #0f3460; margin: 28px 0 10px 0;">12. Dependencies & Assumptions</h2>
+<p style="margin: 0 0 6px 0;"><strong>Dependencies:</strong></p>
+<ul style="margin: 0 0 12px 0; padding-left: 24px;">
+  <li>OMS team capacity and roadmap alignment</li>
+  <li>Alation API access for metadata extraction</li>
+  <li>Stakeholder availability for interviews</li>
+  <li>Budget and resource allocation</li>
+</ul>
+<p style="margin: 8px 0 6px 0;"><strong>Assumptions:</strong></p>
+<ul style="margin: 0 0 16px 0; padding-left: 24px;">
+  <li>OMS can be extended to support business metadata</li>
+  <li>Alation contract can be extended (or cutover is achievable by Oct 1, 2026)</li>
+  <li>Data Governance team has capacity for requirements, UAT, and adoption</li>
+  <li>Disney-wide OMS service can accommodate DSS-specific needs</li>
+</ul>
+
+<hr style="border: none; border-top: 1px solid #cccccc; margin: 24px 0;">
+
+<h2 style="font-size: 16pt; font-weight: bold; color: #0f3460; margin: 28px 0 10px 0;">13. Appendix</h2>
+
+<div style="background-color: #f5f9fc; padding: 16px 20px; margin: 12px 0; border: 1px solid #d0e3f0;">
+  <h4 style="font-size: 12pt; font-weight: bold; margin: 0 0 10px 0;">A. Requirements Gathering Interview Guide (Sample Questions)</h4>
+  <p style="margin: 0 0 6px 0;"><strong>Current use:</strong></p>
+  <ul style="margin: 0 0 12px 0; padding-left: 24px;">
+    <li>What Alation features do you use most often?</li>
+    <li>Walk me through a typical task in Alation.</li>
+    <li>What would break if we lost [specific feature]?</li>
+  </ul>
+  <p style="margin: 0 0 6px 0;"><strong>Enhancements:</strong></p>
+  <ul style="margin: 0; padding-left: 24px;">
+    <li>What did you wish Alation could do that it doesn't?</li>
+    <li>What would make your job easier in a new catalog?</li>
+  </ul>
+</div>
+
+<div style="background-color: #f5f9fc; padding: 16px 20px; margin: 12px 0; border: 1px solid #d0e3f0;">
+  <h4 style="font-size: 12pt; font-weight: bold; margin: 0 0 10px 0;">B. Screenshot Checklist</h4>
+  <ul style="margin: 0; padding-left: 24px; list-style: none;">
+    <li style="margin-bottom: 4px;">☐ Alation search UI</li>
+    <li style="margin-bottom: 4px;">☐ Alation glossary view</li>
+    <li style="margin-bottom: 4px;">☐ Alation table/asset detail</li>
+    <li style="margin-bottom: 4px;">☐ Alation lineage view</li>
+    <li style="margin-bottom: 4px;">☐ Alation tags and custom fields</li>
+    <li style="margin-bottom: 4px;">☐ Alation articles/documentation</li>
+    <li style="margin-bottom: 4px;">☐ Alation policy center (if used)</li>
+    <li style="margin-bottom: 4px;">☐ Alation reports (if used)</li>
+    <li style="margin-bottom: 4px;">☐ OMS current dashboard</li>
+    <li style="margin-bottom: 4px;">☐ OMS table list and detail</li>
+    <li style="margin-bottom: 4px;">☐ OMS lineage</li>
+    <li style="margin-bottom: 0;">☐ OMS "Not Available" fields (gap evidence)</li>
+  </ul>
+</div>
+
+<div style="background-color: #f5f9fc; padding: 16px 20px; margin: 12px 0; border: 1px solid #d0e3f0;">
+  <h4 style="font-size: 12pt; font-weight: bold; margin: 0 0 10px 0;">C. Document History</h4>
+  <table border="1" cellpadding="8" cellspacing="0" style="width: 100%; border-collapse: collapse; font-size: 10pt;">
+    <thead>
+      <tr style="background-color: #0f3460; color: white;">
+        <th style="text-align: left; font-weight: bold; padding: 8px; border: 1px solid #0d2d52;">Version</th>
+        <th style="text-align: left; font-weight: bold; padding: 8px; border: 1px solid #0d2d52;">Date</th>
+        <th style="text-align: left; font-weight: bold; padding: 8px; border: 1px solid #0d2d52;">Author</th>
+        <th style="text-align: left; font-weight: bold; padding: 8px; border: 1px solid #0d2d52;">Changes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding: 8px; border: 1px solid #cccccc;">1.0</td>
+        <td style="padding: 8px; border: 1px solid #cccccc;">March 19, 2026</td>
+        <td style="padding: 8px; border: 1px solid #cccccc;">—</td>
+        <td style="padding: 8px; border: 1px solid #cccccc;">Initial product brief</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<p style="font-size: 10pt; color: #666666; font-style: italic; margin-top: 24px; padding-top: 16px; border-top: 1px solid #cccccc;"><em>This product brief should be reviewed and updated as requirements gathering progresses and scope is refined.</em></p>
+
+</body>
+</html>

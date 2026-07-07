@@ -1,0 +1,2005 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kronos — Sustainable Inventory Management</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            kronos: {
+              50:'#f0f4ff',100:'#dbe4ff',200:'#bac8ff',300:'#91a7ff',
+              400:'#748ffc',500:'#5c7cfa',600:'#4c6ef5',700:'#4263eb',
+              800:'#3b5bdb',900:'#364fc7',950:'#1e3a5f',
+            },
+            slate: { 850:'#172033' }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    [x-cloak]{display:none!important}
+    .sidebar-link.active{background:rgba(92,124,250,.15);color:#748ffc}
+    .sidebar-link:hover:not(.active){background:rgba(255,255,255,.05)}
+    .stat-card{transition:transform .15s ease,box-shadow .15s ease}
+    .stat-card:hover{transform:translateY(-2px);box-shadow:0 8px 25px -5px rgba(0,0,0,.25)}
+    .badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:9999px;font-size:.75rem;font-weight:500}
+    .badge-active{background:rgba(16,185,129,.15);color:#34d399}
+    .badge-inactive{background:rgba(107,114,128,.15);color:#9ca3af}
+    .badge-deprecated{background:rgba(239,68,68,.15);color:#f87171}
+    .badge-pending{background:rgba(245,158,11,.15);color:#fbbf24}
+    .badge-under_review{background:rgba(59,130,246,.15);color:#60a5fa}
+    .badge-open{background:rgba(245,158,11,.15);color:#fbbf24}
+    .badge-closed{background:rgba(107,114,128,.15);color:#9ca3af}
+    .badge-in_progress{background:rgba(59,130,246,.15);color:#60a5fa}
+    .badge-low{background:rgba(16,185,129,.15);color:#34d399}
+    .badge-medium{background:rgba(245,158,11,.15);color:#fbbf24}
+    .badge-high{background:rgba(249,115,22,.15);color:#fb923c}
+    .badge-critical{background:rgba(239,68,68,.15);color:#f87171}
+    .table-row{border-bottom:1px solid rgba(51,65,85,.5);transition:background .15s}
+    .table-row:hover{background:rgba(30,41,59,.5)}
+    .inventory-table{display:table;width:100%;table-layout:auto}
+    .inventory-thead{display:table-header-group}
+    .inventory-row{display:table-row}
+    .inventory-cell{display:table-cell;vertical-align:middle}
+    .card{background:rgba(30,41,59,.6);backdrop-filter:blur(8px);border:1px solid rgba(51,65,85,.5);border-radius:.75rem}
+    .input-field{background:#1e293b;border:1px solid #475569;color:#e2e8f0;border-radius:.5rem;padding:.5rem .75rem;outline:none}
+    .input-field:focus{box-shadow:0 0 0 2px #5c7cfa;border-color:transparent}
+    .input-field::placeholder{color:#64748b}
+    .btn-primary{background:#4c6ef5;color:#fff;padding:.5rem 1rem;border-radius:.5rem;font-weight:500;transition:background .15s;cursor:pointer;border:none}
+    .btn-primary:hover{background:#4263eb}
+    .btn-secondary{background:#334155;color:#e2e8f0;padding:.5rem 1rem;border-radius:.5rem;font-weight:500;transition:background .15s;cursor:pointer;border:none}
+    .btn-secondary:hover{background:#475569}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+    .fade-in{animation:fadeIn .3s ease-out}
+  </style>
+</head>
+<body class="h-full bg-slate-900 text-slate-200 antialiased" x-data="kronos()" x-init="init()">
+<div class="flex h-full">
+
+  <!-- Sidebar -->
+  <aside class="flex flex-col w-64 min-h-screen border-r border-slate-700/50" style="background:#172033;transition:width .2s" :style="sidebarOpen?'width:16rem':'width:4rem'">
+    <div class="flex items-center gap-3 px-5 py-5 border-b border-slate-700/50">
+      <div class="flex items-center justify-center w-9 h-9 rounded-lg bg-kronos-600 text-white font-bold text-lg shrink-0">K</div>
+      <span class="text-lg font-semibold tracking-tight text-white" x-show="sidebarOpen" x-cloak>Kronos</span>
+    </div>
+    <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+      <p class="px-3 mb-2 text-[10px] font-semibold uppercase tracking-widest text-slate-500" x-show="sidebarOpen">Overview</p>
+      <a href="#dashboard" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-300" :class="page==='dashboard'&&'active'">
+        <i class="fa-solid fa-chart-line w-5 text-center"></i><span x-show="sidebarOpen">Dashboard</span></a>
+      <a href="#search" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-300" :class="page==='search'&&'active'">
+        <i class="fa-solid fa-magnifying-glass w-5 text-center"></i><span x-show="sidebarOpen">Search & Discovery</span></a>
+
+      <p class="px-3 mt-5 mb-2 text-[10px] font-semibold uppercase tracking-widest text-slate-500" x-show="sidebarOpen">Inventory</p>
+      <a href="#vendors" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-300" :class="page==='vendors'&&'active'">
+        <i class="fa-solid fa-building w-5 text-center"></i><span x-show="sidebarOpen">Vendors</span></a>
+      <a href="#trackers" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-300" :class="page==='trackers'&&'active'">
+        <i class="fa-solid fa-satellite-dish w-5 text-center"></i><span x-show="sidebarOpen">Digital Trackers</span></a>
+      <a href="#systems" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-300" :class="page==='systems'&&'active'">
+        <i class="fa-solid fa-server w-5 text-center"></i><span x-show="sidebarOpen">Systems</span></a>
+      <a href="#use_cases" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-300" :class="page==='use_cases'&&'active'">
+        <i class="fa-solid fa-diagram-project w-5 text-center"></i><span x-show="sidebarOpen">Business Use Cases</span></a>
+
+      <p class="px-3 mt-5 mb-2 text-[10px] font-semibold uppercase tracking-widest text-slate-500" x-show="sidebarOpen">Governance</p>
+      <a href="#register" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-300" :class="page==='register'&&'active'">
+        <i class="fa-solid fa-plus-circle w-5 text-center"></i><span x-show="sidebarOpen">Register Asset</span></a>
+      <a href="#relationships" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-300" :class="page==='relationships'&&'active'">
+        <i class="fa-solid fa-circle-nodes w-5 text-center"></i><span x-show="sidebarOpen">Relationships</span></a>
+      <a href="#reports" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-300" :class="page==='reports'&&'active'">
+        <i class="fa-solid fa-file-lines w-5 text-center"></i><span x-show="sidebarOpen">Reports & Audits</span></a>
+      <a href="#legal_exceptions" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-300" :class="page==='legal_exceptions'&&'active'">
+        <i class="fa-solid fa-scale-balanced w-5 text-center"></i><span x-show="sidebarOpen">Legal Exceptions</span></a>
+    </nav>
+    <div class="px-4 py-3 border-t border-slate-700/50 text-xs text-slate-500" x-show="sidebarOpen">
+      <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> STATIC FILE</div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="flex-1 flex flex-col min-h-screen overflow-hidden">
+    <header class="flex items-center justify-between px-6 py-4 border-b border-slate-700/50 bg-slate-900/80 backdrop-blur sticky top-0 z-10">
+      <div class="flex items-center gap-4">
+        <button @click="sidebarOpen=!sidebarOpen" class="text-slate-400 hover:text-white transition-colors"><i class="fa-solid fa-bars"></i></button>
+        <h1 class="text-lg font-semibold" x-text="pageTitle"></h1>
+      </div>
+      <div class="flex items-center gap-4">
+        <div class="relative">
+          <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
+          <input type="text" placeholder="Search all assets…" class="input-field pl-9 w-72 text-sm"
+                 @keydown.enter="searchQuery=$event.target.value;page='search';window.location.hash='search'"
+                 @keydown.meta.k.window.prevent="$el.focus()" @keydown.ctrl.k.window.prevent="$el.focus()">
+        </div>
+        <div class="w-8 h-8 rounded-full bg-kronos-600 flex items-center justify-center text-white text-sm font-semibold">JF</div>
+      </div>
+    </header>
+
+    <main class="flex-1 overflow-y-auto p-6 fade-in" :key="page+detailId">
+
+      <!-- ==================== DASHBOARD ==================== -->
+      <template x-if="page==='dashboard'">
+        <div class="space-y-6">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <template x-for="c in [
+              {label:'Vendors',key:'vendors',icon:'fa-building',color:'violet',href:'#vendors'},
+              {label:'Digital Trackers',key:'trackers',icon:'fa-satellite-dish',color:'cyan',href:'#trackers'},
+              {label:'Systems',key:'systems',icon:'fa-server',color:'emerald',href:'#systems'},
+              {label:'Business Use Cases',key:'use_cases',icon:'fa-diagram-project',color:'amber',href:'#use_cases'}
+            ]">
+              <a :href="c.href" class="stat-card card p-5 block">
+                <div class="flex items-center justify-between mb-3">
+                  <span class="text-sm font-medium text-slate-400" x-text="c.label"></span>
+                  <div class="w-10 h-10 rounded-lg flex items-center justify-center" :class="'bg-'+c.color+'-500/15'">
+                    <i class="fa-solid" :class="c.icon+' text-'+c.color+'-400'"></i>
+                  </div>
+                </div>
+                <p class="text-3xl font-bold text-white" x-text="DATA[c.key].length"></p>
+                <p class="text-xs text-slate-500 mt-1" x-text="DATA[c.key].filter(i=>i.status==='active').length+' active'"></p>
+              </a>
+            </template>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="card p-5">
+              <div class="flex items-center justify-between mb-3"><span class="text-sm font-medium text-slate-400">Legal Exceptions</span><i class="fa-solid fa-scale-balanced text-slate-500"></i></div>
+              <p class="text-2xl font-bold text-white" x-text="DATA.legal_exceptions.length"></p>
+              <p class="text-xs text-slate-500 mt-1" x-text="DATA.legal_exceptions.filter(e=>e.status==='active').length+' active'"></p>
+            </div>
+            <div class="card p-5">
+              <div class="flex items-center justify-between mb-3"><span class="text-sm font-medium text-slate-400">Prior Audits</span><i class="fa-solid fa-clipboard-check text-slate-500"></i></div>
+              <p class="text-2xl font-bold text-white" x-text="DATA.prior_audits.length"></p>
+              <p class="text-xs text-slate-500 mt-1" x-text="DATA.prior_audits.filter(a=>a.status==='open'||a.status==='in_progress').length+' open'"></p>
+            </div>
+            <div class="card p-5">
+              <div class="flex items-center justify-between mb-3"><span class="text-sm font-medium text-slate-400">Total Relationships</span><i class="fa-solid fa-circle-nodes text-slate-500"></i></div>
+              <p class="text-2xl font-bold text-white" x-text="totalRelationships()"></p>
+              <p class="text-xs text-slate-500 mt-1">M:M asset connections</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="card">
+              <div class="px-5 py-4 border-b border-slate-700/50"><h2 class="font-semibold">Recent Activity</h2></div>
+              <div class="divide-y divide-slate-700/30 max-h-80 overflow-y-auto">
+                <template x-for="log in DATA.change_log.slice(0,10)" :key="log.asset_id+log.timestamp">
+                  <div class="px-5 py-3 flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold"
+                         :class="log.action==='created'?'bg-emerald-500/15 text-emerald-400':log.action==='updated'?'bg-blue-500/15 text-blue-400':'bg-red-500/15 text-red-400'">
+                      <i class="fa-solid" :class="log.action==='created'?'fa-plus':log.action==='updated'?'fa-pen':'fa-xmark'"></i>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                      <p class="text-sm"><span class="font-medium text-white" x-text="log.changed_by||'System'"></span>
+                        <span x-text="' '+log.action+' '+log.asset_type+' '"></span><span class="text-kronos-400" x-text="log.asset_id"></span></p>
+                      <p class="text-xs text-slate-500" x-text="log.change_summary||''"></p>
+                    </div>
+                    <span class="text-xs text-slate-500 whitespace-nowrap" x-text="log.timestamp.substring(0,10)"></span>
+                  </div>
+                </template>
+              </div>
+            </div>
+            <div class="card">
+              <div class="px-5 py-4 border-b border-slate-700/50"><h2 class="font-semibold">Assets by Status</h2></div>
+              <div class="p-5 space-y-4">
+                <template x-for="[st,cnt] in Object.entries(statusBreakdown())" :key="st">
+                  <div>
+                    <div class="flex justify-between text-sm mb-1"><span class="capitalize" x-text="st"></span><span class="text-slate-400" x-text="cnt"></span></div>
+                    <div class="w-full bg-slate-700/50 rounded-full h-2">
+                      <div class="h-2 rounded-full" :class="st==='active'?'bg-emerald-500':st==='deprecated'?'bg-red-500':st==='pending'?'bg-amber-500':'bg-blue-500'"
+                           :style="'width:'+((cnt/totalAssets())*100)+'%'"></div>
+                    </div>
+                  </div>
+                </template>
+              </div>
+            </div>
+          </div>
+
+          <template x-if="highRiskVendors().length">
+            <div class="card">
+              <div class="px-5 py-4 border-b border-slate-700/50 flex items-center gap-2">
+                <i class="fa-solid fa-triangle-exclamation text-amber-400"></i><h2 class="font-semibold">High-Risk Vendors Requiring Attention</h2>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                  <thead><tr class="text-left text-xs text-slate-400 uppercase tracking-wider border-b border-slate-700/50">
+                    <th class="px-5 py-3">Vendor</th><th class="px-5 py-3">Category</th><th class="px-5 py-3">Risk</th><th class="px-5 py-3">DPA</th><th class="px-5 py-3">Contract Expiry</th>
+                  </tr></thead>
+                  <tbody>
+                    <template x-for="v in highRiskVendors()" :key="v.asset_id">
+                      <tr class="table-row">
+                        <td class="px-5 py-3"><a :href="'#detail/vendor/'+v.asset_id" class="text-kronos-400 hover:text-kronos-300 font-medium" x-text="v.name"></a></td>
+                        <td class="px-5 py-3 text-slate-400" x-text="v.vendor_category||'\u2014'"></td>
+                        <td class="px-5 py-3"><span class="badge" :class="'badge-'+v.risk_rating" x-text="v.risk_rating"></span></td>
+                        <td class="px-5 py-3"><span :class="v.dpa_in_place?'text-emerald-400':'text-red-400'"><i class="fa-solid" :class="v.dpa_in_place?'fa-check':'fa-xmark'"></i></span></td>
+                        <td class="px-5 py-3 text-slate-400" x-text="v.contract_expiry||'\u2014'"></td>
+                      </tr>
+                    </template>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </template>
+        </div>
+      </template>
+
+      <!-- ==================== SEARCH ==================== -->
+      <template x-if="page==='search'">
+        <div class="space-y-6">
+          <div class="card p-8 text-center">
+            <h2 class="text-2xl font-bold text-white mb-2">Find Any Asset</h2>
+            <p class="text-slate-400 mb-6 max-w-lg mx-auto">Search across vendors, trackers, systems, and business use cases. Discover relationships and dependencies instantly.</p>
+            <div class="max-w-2xl mx-auto">
+              <div class="relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                <input type="text" x-model="searchQuery" @keydown.enter="runSearch()" autofocus
+                       placeholder='e.g. "Adobe", "audience segments", "purchase propensity"'
+                       class="input-field pl-12 pr-4 py-3.5 w-full text-base" style="border-radius:.75rem">
+              </div>
+              <div class="flex flex-wrap justify-center gap-3 mt-4">
+                <label class="flex items-center gap-1.5 text-sm text-slate-400 cursor-pointer"><input type="checkbox" x-model="searchTypes" value="vendor" class="rounded"> Vendors</label>
+                <label class="flex items-center gap-1.5 text-sm text-slate-400 cursor-pointer"><input type="checkbox" x-model="searchTypes" value="tracker" class="rounded"> Trackers</label>
+                <label class="flex items-center gap-1.5 text-sm text-slate-400 cursor-pointer"><input type="checkbox" x-model="searchTypes" value="system" class="rounded"> Systems</label>
+                <label class="flex items-center gap-1.5 text-sm text-slate-400 cursor-pointer"><input type="checkbox" x-model="searchTypes" value="use_case" class="rounded"> Use Cases</label>
+                <button @click="runSearch()" class="btn-primary text-sm ml-2">Search</button>
+              </div>
+            </div>
+          </div>
+
+          <template x-if="searchQuery && searchResults !== null">
+            <div>
+              <p class="text-sm text-slate-400 mb-4">Found <span class="text-white font-medium" x-text="searchResults.length"></span> results for "<span class="text-kronos-400" x-text="searchQuery"></span>"</p>
+              <template x-if="searchResults.length">
+                <div class="space-y-3">
+                  <template x-for="r in searchResults" :key="r.asset_id">
+                    <a :href="'#detail/'+r.type+'/'+r.asset_id" class="card p-4 flex items-start gap-4 hover:border-kronos-600/40 transition-colors block cursor-pointer">
+                      <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
+                           :class="typeColor(r.type,'bg')">
+                        <i class="fa-solid" :class="typeIcon(r.type)+' '+typeColor(r.type,'text')"></i>
+                      </div>
+                      <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-2 mb-1">
+                          <span class="font-medium text-white" x-text="r.name"></span>
+                          <span class="badge" :class="'badge-'+r.status" x-text="r.status"></span>
+                          <span class="text-xs text-slate-500 font-mono" x-text="r.asset_id"></span>
+                        </div>
+                        <p class="text-sm text-slate-400 truncate" x-text="r.description||'No description'"></p>
+                        <div class="flex items-center gap-3 mt-2 text-xs text-slate-500">
+                          <span class="capitalize" x-text="r.type.replace('_',' ')"></span>
+                          <span x-show="r.owner" x-text="'Owner: '+r.owner"></span>
+                        </div>
+                      </div>
+                      <i class="fa-solid fa-chevron-right text-slate-600 mt-3"></i>
+                    </a>
+                  </template>
+                </div>
+              </template>
+              <template x-if="!searchResults.length">
+                <div class="card p-12 text-center">
+                  <i class="fa-solid fa-magnifying-glass text-4xl text-slate-600 mb-4"></i>
+                  <p class="text-slate-400">No results found for "<span x-text="searchQuery"></span>".</p>
+                </div>
+              </template>
+            </div>
+          </template>
+
+          <template x-if="!searchQuery || searchResults===null">
+            <div class="card p-6">
+              <h3 class="font-semibold mb-4">Example Queries</h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <template x-for="q in exampleQueries" :key="q">
+                  <a href="#" @click.prevent="searchQuery=q;runSearch()" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-slate-700/30 hover:bg-slate-700/60 transition-colors text-sm cursor-pointer">
+                    <i class="fa-solid fa-arrow-right text-kronos-400 text-xs"></i>
+                    <span class="text-slate-300" x-text="q"></span>
+                  </a>
+                </template>
+              </div>
+            </div>
+          </template>
+        </div>
+      </template>
+
+      <!-- ==================== INVENTORY (vendors/trackers/systems/use_cases) ==================== -->
+      <template x-if="['vendors','trackers','systems','use_cases'].includes(page)">
+        <div class="space-y-4" x-effect="inventoryItems = filteredItems(); invPage = 0">
+          <div class="card p-4">
+            <div class="flex flex-wrap items-center gap-3">
+              <div class="relative flex-1 min-w-[200px]">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
+                <input type="text" x-model="filterText" :placeholder="'Filter '+pageTitle.toLowerCase()+'…'" class="input-field pl-9 w-full text-sm">
+              </div>
+              <button @click="showFilters=!showFilters" class="btn-secondary text-sm flex items-center gap-2"><i class="fa-solid fa-filter"></i> Filters</button>
+              <div class="flex items-center gap-2 ml-auto">
+                <button @click="exportCsv(page)" class="btn-secondary text-sm flex items-center gap-2"><i class="fa-solid fa-download"></i> Export CSV</button>
+              </div>
+            </div>
+            <div x-show="showFilters" x-cloak class="mt-4 pt-4 border-t border-slate-700/50 flex flex-wrap gap-3 items-end">
+              <div>
+                <label class="block text-xs text-slate-400 mb-1">Status</label>
+                <select x-model="filterStatus" class="input-field text-sm">
+                  <option value="">All</option><option value="active">Active</option><option value="inactive">Inactive</option>
+                  <option value="deprecated">Deprecated</option><option value="pending">Pending</option><option value="under_review">Under Review</option>
+                </select>
+              </div>
+              <div x-show="page==='vendors'">
+                <label class="block text-xs text-slate-400 mb-1">Risk Rating</label>
+                <select x-model="filterRisk" class="input-field text-sm">
+                  <option value="">All</option><option value="critical">Critical</option><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs text-slate-400 mb-1">Owner</label>
+                <select x-model="filterOwner" class="input-field text-sm">
+                  <option value="">All</option>
+                  <template x-for="o in uniqueOwners(page)" :key="o"><option :value="o" x-text="o"></option></template>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <p class="text-sm text-slate-400">Showing <span class="text-white font-medium" x-text="inventoryItems.length > invPageSize ? (invPage*invPageSize+1)+'-'+Math.min((invPage+1)*invPageSize,inventoryItems.length)+' of ' : ''"></span><span class="text-white font-medium" x-text="inventoryItems.length"></span> <span x-text="pageTitle.toLowerCase()"></span></p>
+
+          <div class="card overflow-x-auto">
+            <div class="inventory-table w-full text-sm">
+              <div class="inventory-thead">
+                <div class="inventory-row text-left text-xs text-slate-400 uppercase tracking-wider border-b border-slate-700/50">
+                  <div class="inventory-cell px-5 py-3 cursor-pointer hover:text-white" @click="toggleSort('asset_id')">ID <i class="fa-solid fa-sort text-slate-600 ml-1"></i></div>
+                  <div class="inventory-cell px-5 py-3 cursor-pointer hover:text-white" @click="toggleSort('name')">Name <i class="fa-solid fa-sort text-slate-600 ml-1"></i></div>
+                  <div class="inventory-cell px-5 py-3" x-show="page==='vendors'">Type</div><div class="inventory-cell px-5 py-3" x-show="page==='vendors'">Category</div><div class="inventory-cell px-5 py-3" x-show="page==='vendors'">Risk</div><div class="inventory-cell px-5 py-3" x-show="page==='vendors'">DPA</div>
+                  <div class="inventory-cell px-5 py-3" x-show="page==='trackers'">Type</div><div class="inventory-cell px-5 py-3" x-show="page==='trackers'">Platform</div><div class="inventory-cell px-5 py-3" x-show="page==='trackers'">Purpose</div><div class="inventory-cell px-5 py-3" x-show="page==='trackers'">Vendor</div>
+                  <div class="inventory-cell px-5 py-3" x-show="page==='systems'">Type</div><div class="inventory-cell px-5 py-3" x-show="page==='systems'">Business Unit</div><div class="inventory-cell px-5 py-3" x-show="page==='systems'">Classification</div><div class="inventory-cell px-5 py-3" x-show="page==='systems'">PII</div>
+                  <div class="inventory-cell px-5 py-3" x-show="page==='use_cases'">Category</div><div class="inventory-cell px-5 py-3" x-show="page==='use_cases'">Subcategory</div><div class="inventory-cell px-5 py-3" x-show="page==='use_cases'">Legal Basis</div><div class="inventory-cell px-5 py-3" x-show="page==='use_cases'">Cross-Border</div>
+                  <div class="inventory-cell px-5 py-3">Owner</div><div class="inventory-cell px-5 py-3">Status</div>
+                </div>
+              </div>
+              <template x-for="(item, index) in paginatedItems()" :key="invPage*invPageSize+index">
+                <div class="inventory-row table-row">
+                  <div class="inventory-cell px-5 py-3 font-mono text-xs text-slate-400" x-text="item.asset_id"></div>
+                  <div class="inventory-cell px-5 py-3"><a :href="'#detail/'+singularType(page)+'/'+item.asset_id" class="text-kronos-400 hover:text-kronos-300 font-medium" x-text="item.name"></a></div>
+
+                  <div class="inventory-cell px-5 py-3 text-slate-400" x-show="page==='vendors'" x-text="item.vendor_type||'\u2014'"></div>
+                  <div class="inventory-cell px-5 py-3 text-slate-400" x-show="page==='vendors'" x-text="item.vendor_category||'\u2014'"></div>
+                  <div class="inventory-cell px-5 py-3" x-show="page==='vendors'"><span class="badge" :class="'badge-'+(item.risk_rating||'medium')" x-text="item.risk_rating||'\u2014'"></span></div>
+                  <div class="inventory-cell px-5 py-3" x-show="page==='vendors'"><span :class="item.dpa_in_place?'text-emerald-400':'text-red-400'"><i class="fa-solid" :class="item.dpa_in_place?'fa-check':'fa-xmark'"></i></span></div>
+
+                  <div class="inventory-cell px-5 py-3 text-slate-400" x-show="page==='trackers'" x-text="item.tracker_type||'\u2014'"></div>
+                  <div class="inventory-cell px-5 py-3 text-slate-400" x-show="page==='trackers'" x-text="item.domain_or_platform||'\u2014'"></div>
+                  <div class="inventory-cell px-5 py-3 text-slate-400 max-w-[200px] truncate" x-show="page==='trackers'" x-text="item.purpose||'\u2014'"></div>
+                  <div class="inventory-cell px-5 py-3 text-slate-400" x-show="page==='trackers'" x-text="vendorName(item.vendor_id)||'\u2014'"></div>
+
+                  <div class="inventory-cell px-5 py-3 text-slate-400" x-show="page==='systems'" x-text="item.system_type||'\u2014'"></div>
+                  <div class="inventory-cell px-5 py-3 text-slate-400" x-show="page==='systems'" x-text="item.business_unit||'\u2014'"></div>
+                  <div class="inventory-cell px-5 py-3" x-show="page==='systems'"><span x-show="item.data_classification" class="badge" :class="'badge-'+(item.data_classification==='restricted'?'critical':item.data_classification==='confidential'?'high':item.data_classification==='internal'?'medium':'low')" x-text="item.data_classification"></span><span x-show="!item.data_classification">&mdash;</span></div>
+                  <div class="inventory-cell px-5 py-3" x-show="page==='systems'"><span x-show="item.pii_processed" class="text-amber-400"><i class="fa-solid fa-shield-halved"></i> Yes</span><span x-show="!item.pii_processed" class="text-slate-500">No</span></div>
+
+                  <div class="inventory-cell px-5 py-3 text-slate-400" x-show="page==='use_cases'" x-text="item.category||'\u2014'"></div>
+                  <div class="inventory-cell px-5 py-3 text-slate-400" x-show="page==='use_cases'" x-text="item.subcategory||'\u2014'"></div>
+                  <div class="inventory-cell px-5 py-3 text-slate-400" x-show="page==='use_cases'" x-text="item.legal_basis||'\u2014'"></div>
+                  <div class="inventory-cell px-5 py-3" x-show="page==='use_cases'"><span :class="item.cross_border?'text-amber-400':'text-slate-500'" x-text="item.cross_border?'Yes':'No'"></span></div>
+
+                  <div class="inventory-cell px-5 py-3 text-slate-400" x-text="item.owner||'\u2014'"></div>
+                  <div class="inventory-cell px-5 py-3"><span class="badge" :class="'badge-'+(item.status||'active')" x-text="item.status||'\u2014'"></span></div>
+                </div>
+              </template>
+              <div class="inventory-row" x-show="!inventoryItems.length">
+                <div class="inventory-cell px-5 py-12 text-center text-slate-500" style="width:9999px"><i class="fa-solid fa-box-open text-3xl mb-3 block"></i>No items match your filters.</div>
+              </div>
+            </div>
+            <div x-show="inventoryItems.length > invPageSize" class="flex items-center justify-between mt-4 pt-4 border-t border-slate-700/50">
+              <button @click="invPage = Math.max(0, invPage-1)" :disabled="invPage === 0" class="btn-secondary text-sm disabled:opacity-50 disabled:cursor-not-allowed">Previous</button>
+              <span class="text-sm text-slate-400" x-text="'Page ' + (invPage+1) + ' of ' + invTotalPages()"></span>
+              <button @click="invPage = Math.min(invTotalPages()-1, invPage+1)" :disabled="invPage >= invTotalPages()-1" class="btn-secondary text-sm disabled:opacity-50 disabled:cursor-not-allowed">Next</button>
+            </div>
+          </div>
+        </div>
+      </template>
+
+      <!-- ==================== ASSET DETAIL ==================== -->
+      <template x-if="page==='detail' && detailAsset()">
+        <div class="space-y-6">
+          <div class="card p-6">
+            <div class="flex items-start justify-between">
+              <div class="flex items-center gap-4">
+                <div class="w-14 h-14 rounded-xl flex items-center justify-center text-xl" :class="typeColor(detailType,'bg')">
+                  <i class="fa-solid" :class="typeIcon(detailType)+' '+typeColor(detailType,'text')"></i>
+                </div>
+                <div>
+                  <div class="flex items-center gap-2">
+                    <h2 class="text-xl font-bold text-white" x-text="detailAsset().name"></h2>
+                    <span class="badge" :class="'badge-'+detailAsset().status" x-text="detailAsset().status"></span>
+                  </div>
+                  <p class="text-sm text-slate-400 mt-0.5">
+                    <span class="font-mono" x-text="detailAsset().asset_id"></span>
+                    &middot; <span class="capitalize" x-text="detailType.replace('_',' ')"></span>
+                    <template x-if="detailAsset().owner"><span x-text="' \u00B7 Owner: '+detailAsset().owner"></span></template>
+                  </p>
+                </div>
+              </div>
+              <a :href="'#'+pluralType(detailType)" class="btn-secondary text-sm"><i class="fa-solid fa-arrow-left mr-1"></i> Back</a>
+            </div>
+            <template x-if="detailAsset().description"><p class="mt-4 text-slate-300 text-sm leading-relaxed" x-text="detailAsset().description"></p></template>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="lg:col-span-2 card">
+              <div class="px-5 py-4 border-b border-slate-700/50"><h3 class="font-semibold">Properties</h3></div>
+              <div class="p-5">
+                <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 text-sm">
+                  <template x-for="[label,value] in detailProperties()" :key="label">
+                    <div>
+                      <dt class="text-slate-500 text-xs uppercase tracking-wider mb-0.5" x-text="label"></dt>
+                      <dd class="text-slate-200" x-text="value||'\u2014'"></dd>
+                    </div>
+                  </template>
+                </dl>
+              </div>
+            </div>
+            <div class="card">
+              <div class="px-5 py-4 border-b border-slate-700/50"><h3 class="font-semibold">Metadata</h3></div>
+              <div class="p-5 space-y-3 text-sm">
+                <div><span class="text-slate-500 text-xs uppercase tracking-wider block">Region</span><span x-text="detailAsset().region||'\u2014'"></span></div>
+                <div><span class="text-slate-500 text-xs uppercase tracking-wider block">Status</span><span x-text="detailAsset().status||'\u2014'"></span></div>
+                <template x-if="detailAsset().notes"><div><span class="text-slate-500 text-xs uppercase tracking-wider block">Notes</span><span class="text-slate-400" x-text="detailAsset().notes"></span></div></template>
+              </div>
+            </div>
+          </div>
+
+          <template x-if="detailRelated().length">
+            <div class="card">
+              <div class="px-5 py-4 border-b border-slate-700/50 flex items-center gap-2">
+                <i class="fa-solid fa-circle-nodes text-kronos-400"></i>
+                <h3 class="font-semibold">Related Assets</h3>
+                <span class="text-xs text-slate-500" x-text="'('+detailRelated().length+' connections)'"></span>
+              </div>
+              <div class="divide-y divide-slate-700/30">
+                <template x-for="rel in detailRelated()" :key="rel.type+rel.asset_id">
+                  <a :href="'#detail/'+rel.type+'/'+rel.asset_id" class="px-5 py-3 flex items-center gap-3 hover:bg-slate-800/50 transition-colors block">
+                    <div class="w-8 h-8 rounded-lg flex items-center justify-center text-xs" :class="typeColor(rel.type,'bg')">
+                      <i class="fa-solid" :class="typeIcon(rel.type)+' '+typeColor(rel.type,'text')"></i>
+                    </div>
+                    <div class="flex-1">
+                      <span class="text-white font-medium text-sm" x-text="rel.name"></span>
+                      <span class="text-xs text-slate-500 ml-2 capitalize" x-text="rel.type.replace('_',' ')"></span>
+                    </div>
+                    <span class="badge" :class="'badge-'+rel.status" x-text="rel.status"></span>
+                  </a>
+                </template>
+              </div>
+            </div>
+          </template>
+
+          <template x-if="detailChangeLogs().length">
+            <div class="card">
+              <div class="px-5 py-4 border-b border-slate-700/50"><h3 class="font-semibold">Change History</h3></div>
+              <div class="divide-y divide-slate-700/30">
+                <template x-for="log in detailChangeLogs()" :key="log.timestamp">
+                  <div class="px-5 py-3 flex items-center gap-3 text-sm">
+                    <span class="w-20 text-xs text-slate-500" x-text="log.timestamp.substring(5,10)"></span>
+                    <span class="badge" :class="log.action==='created'?'badge-active':log.action==='updated'?'badge-under_review':'badge-deprecated'" x-text="log.action"></span>
+                    <span class="text-slate-400" x-text="log.change_summary||''"></span>
+                    <span class="text-slate-500 ml-auto text-xs" x-text="log.changed_by||'System'"></span>
+                  </div>
+                </template>
+              </div>
+            </div>
+          </template>
+        </div>
+      </template>
+
+      <!-- ==================== REGISTER ASSET ==================== -->
+      <template x-if="page==='register'">
+        <div class="max-w-2xl mx-auto space-y-6">
+          <div class="card p-8 text-center">
+            <div class="w-16 h-16 rounded-xl bg-kronos-500/15 flex items-center justify-center mx-auto mb-4">
+              <i class="fa-solid fa-plus-circle text-3xl text-kronos-400"></i>
+            </div>
+            <h2 class="text-xl font-bold text-white mb-2">Register Asset</h2>
+            <p class="text-slate-400 mb-4">This shared demo is read-only. New assets cannot be added from this file.</p>
+            <p class="text-sm text-slate-500">To register or deboard assets, use the <strong class="text-slate-300">full Kronos app</strong> (run <code class="bg-slate-700 px-1 rounded">python app.py</code> and open <code class="bg-slate-700 px-1 rounded">http://localhost:5000</code>), or submit an asset request through <strong class="text-slate-300">JIRA</strong> for the Data Governance team to process.</p>
+          </div>
+        </div>
+      </template>
+
+      <!-- ==================== RELATIONSHIPS ==================== -->
+      <template x-if="page==='relationships'">
+        <div class="space-y-6">
+          <div class="card p-6">
+            <h2 class="text-lg font-semibold mb-2">Asset Relationship Map</h2>
+            <p class="text-sm text-slate-400 mb-4">Explore how vendors, trackers, systems, and business use cases are connected.</p>
+            <div class="flex flex-wrap gap-3 items-end">
+              <div>
+                <label class="block text-xs text-slate-400 mb-1">Asset Type</label>
+                <select x-model="relType" @change="relId=''" class="input-field text-sm">
+                  <option value="use_case">Business Use Cases</option><option value="vendor">Vendors</option>
+                  <option value="system">Systems</option><option value="tracker">Digital Trackers</option>
+                </select>
+              </div>
+              <div class="flex-1 min-w-[200px]">
+                <label class="block text-xs text-slate-400 mb-1">Asset</label>
+                <select x-model="relId" class="input-field text-sm w-full">
+                  <option value="">Select an asset</option>
+                  <template x-for="a in DATA[pluralType(relType)]" :key="a.asset_id">
+                    <option :value="a.asset_id" x-text="a.name+' ('+a.asset_id+')'"></option>
+                  </template>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <template x-if="relId && relAsset()">
+            <div class="card p-6">
+              <div class="flex items-center gap-3 mb-6">
+                <div class="w-12 h-12 rounded-xl flex items-center justify-center text-lg" :class="typeColor(relType,'bg')">
+                  <i class="fa-solid" :class="typeIcon(relType)+' '+typeColor(relType,'text')"></i>
+                </div>
+                <div>
+                  <h3 class="text-lg font-bold text-white" x-text="relAsset().name"></h3>
+                  <p class="text-sm text-slate-400"><span class="capitalize" x-text="relType.replace('_',' ')"></span> &middot; <span x-text="relAsset().asset_id"></span></p>
+                </div>
+              </div>
+              <div class="relative py-8">
+                <div class="flex items-start justify-center gap-8 flex-wrap">
+                  <template x-for="[gType,gItems] in Object.entries(relGroups())" :key="gType">
+                    <div class="space-y-2" x-show="gItems.length">
+                      <h4 class="text-xs font-semibold uppercase tracking-wider text-slate-500 text-center" x-text="gType.replace('_',' ')+'s'"></h4>
+                      <div class="space-y-1.5">
+                        <template x-for="item in gItems" :key="item.asset_id">
+                          <a :href="'#detail/'+gType+'/'+item.asset_id" class="flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-700/40 hover:bg-slate-700/80 transition-colors text-sm">
+                            <div class="w-6 h-6 rounded flex items-center justify-center text-[10px]" :class="typeColor(gType,'bg')">
+                              <i class="fa-solid" :class="typeIcon(gType)+' '+typeColor(gType,'text')"></i>
+                            </div>
+                            <span class="text-slate-300" x-text="item.name"></span>
+                          </a>
+                        </template>
+                      </div>
+                    </div>
+                  </template>
+                </div>
+                <template x-if="!Object.values(relGroups()).some(g=>g.length)">
+                  <div class="text-center text-slate-500 py-8">
+                    <i class="fa-solid fa-circle-nodes text-3xl mb-3 block"></i><p>No relationships found for this asset.</p>
+                  </div>
+                </template>
+              </div>
+            </div>
+          </template>
+
+          <template x-if="!relId">
+            <div class="card">
+              <div class="px-5 py-4 border-b border-slate-700/50"><h3 class="font-semibold">Relationship Summary</h3></div>
+              <div class="p-5">
+                <table class="w-full text-sm">
+                  <thead><tr class="text-left text-xs text-slate-400 uppercase tracking-wider border-b border-slate-700/50">
+                    <th class="px-4 py-3">Relationship</th><th class="px-4 py-3 text-center">Count</th>
+                  </tr></thead>
+                  <tbody>
+                    <tr class="table-row">
+                      <td class="px-4 py-3 flex items-center gap-2"><i class="fa-solid fa-diagram-project text-amber-400"></i> Use Cases &harr; Vendors <i class="fa-solid fa-building text-violet-400"></i></td>
+                      <td class="px-4 py-3 text-center font-mono" x-text="relCount('vendors')"></td>
+                    </tr>
+                    <tr class="table-row">
+                      <td class="px-4 py-3 flex items-center gap-2"><i class="fa-solid fa-diagram-project text-amber-400"></i> Use Cases &harr; Systems <i class="fa-solid fa-server text-emerald-400"></i></td>
+                      <td class="px-4 py-3 text-center font-mono" x-text="relCount('systems')"></td>
+                    </tr>
+                    <tr class="table-row">
+                      <td class="px-4 py-3 flex items-center gap-2"><i class="fa-solid fa-diagram-project text-amber-400"></i> Use Cases &harr; Trackers <i class="fa-solid fa-satellite-dish text-cyan-400"></i></td>
+                      <td class="px-4 py-3 text-center font-mono" x-text="relCount('trackers')"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </template>
+        </div>
+      </template>
+
+      <!-- ==================== REPORTS ==================== -->
+      <template x-if="page==='reports'">
+        <div class="space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <template x-for="r in [{label:'Vendor Report',desc:'All vendors with risk ratings and DPA status',icon:'fa-building',color:'violet',key:'vendors'},{label:'Tracker Report',desc:'All digital trackers with consent and vendor info',icon:'fa-satellite-dish',color:'cyan',key:'trackers'},{label:'Full Audit Export',desc:'Complete inventory with all relationships',icon:'fa-file-export',color:'kronos',key:'all'}]" :key="r.key">
+              <a href="#" @click.prevent="exportCsv(r.key)" class="card p-5 hover:border-kronos-600/40 transition-colors block cursor-pointer">
+                <div class="flex items-center gap-3 mb-2">
+                  <div class="w-10 h-10 rounded-lg flex items-center justify-center" :class="'bg-'+r.color+'-500/15'">
+                    <i class="fa-solid" :class="r.icon+' text-'+r.color+'-400'"></i>
+                  </div>
+                  <div><h3 class="font-medium text-white" x-text="r.label"></h3><p class="text-xs text-slate-500" x-text="r.desc"></p></div>
+                </div>
+                <span class="text-xs text-kronos-400"><i class="fa-solid fa-download mr-1"></i> Export CSV</span>
+              </a>
+            </template>
+          </div>
+
+          <div class="card">
+            <div class="px-5 py-4 border-b border-slate-700/50 flex items-center justify-between">
+              <h2 class="font-semibold">Prior Audits</h2>
+              <span class="text-sm text-slate-400" x-text="DATA.prior_audits.length+' records'"></span>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm">
+                <thead><tr class="text-left text-xs text-slate-400 uppercase tracking-wider border-b border-slate-700/50">
+                  <th class="px-5 py-3">Audit</th><th class="px-5 py-3">Type</th><th class="px-5 py-3">Date</th><th class="px-5 py-3">Auditor</th><th class="px-5 py-3">Findings</th><th class="px-5 py-3">Critical</th><th class="px-5 py-3">Status</th><th class="px-5 py-3">Remediation Due</th>
+                </tr></thead>
+                <tbody>
+                  <template x-for="a in DATA.prior_audits" :key="a.asset_id">
+                    <tr class="table-row">
+                      <td class="px-5 py-3 font-medium text-white" x-text="a.name"></td>
+                      <td class="px-5 py-3 text-slate-400 capitalize" x-text="a.audit_type||'\u2014'"></td>
+                      <td class="px-5 py-3 text-slate-400" x-text="a.audit_date||'\u2014'"></td>
+                      <td class="px-5 py-3 text-slate-400" x-text="a.auditor||'\u2014'"></td>
+                      <td class="px-5 py-3 font-mono" x-text="a.findings_count"></td>
+                      <td class="px-5 py-3"><span :class="a.critical_findings>0?'text-red-400 font-bold':'text-slate-500'" x-text="a.critical_findings"></span></td>
+                      <td class="px-5 py-3"><span class="badge" :class="'badge-'+a.status" x-text="a.status"></span></td>
+                      <td class="px-5 py-3 text-slate-400" x-text="a.remediation_due||'\u2014'"></td>
+                    </tr>
+                  </template>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="px-5 py-4 border-b border-slate-700/50 flex items-center justify-between">
+              <h2 class="font-semibold">Activity Log</h2>
+              <span class="text-sm text-slate-400" x-text="DATA.change_log.length+' entries'"></span>
+            </div>
+            <div class="divide-y divide-slate-700/30 max-h-96 overflow-y-auto">
+              <template x-for="log in DATA.change_log" :key="log.asset_id+log.timestamp">
+                <div class="px-5 py-3 flex items-center gap-3 text-sm">
+                  <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs"
+                       :class="log.action==='created'?'bg-emerald-500/15 text-emerald-400':log.action==='updated'?'bg-blue-500/15 text-blue-400':'bg-red-500/15 text-red-400'">
+                    <i class="fa-solid" :class="log.action==='created'?'fa-plus':log.action==='updated'?'fa-pen':'fa-xmark'"></i>
+                  </div>
+                  <div class="flex-1">
+                    <span class="font-medium text-white" x-text="log.changed_by||'System'"></span>
+                    <span class="text-slate-400" x-text="' '+log.action+' '+log.asset_type"></span>
+                    <span class="text-kronos-400 font-mono text-xs" x-text="' '+log.asset_id"></span>
+                    <template x-if="log.change_summary"><span class="text-slate-500" x-text="' \u2014 '+log.change_summary"></span></template>
+                  </div>
+                  <span class="text-xs text-slate-500 whitespace-nowrap" x-text="log.timestamp.substring(0,10)"></span>
+                </div>
+              </template>
+            </div>
+          </div>
+        </div>
+      </template>
+
+      <!-- ==================== LEGAL EXCEPTIONS ==================== -->
+      <template x-if="page==='legal_exceptions'">
+        <div class="space-y-4">
+          <p class="text-sm text-slate-400" x-text="DATA.legal_exceptions.length+' exception records'"></p>
+          <div class="card overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead><tr class="text-left text-xs text-slate-400 uppercase tracking-wider border-b border-slate-700/50">
+                <th class="px-5 py-3">Exception</th><th class="px-5 py-3">Type</th><th class="px-5 py-3">Related Assets</th><th class="px-5 py-3">Policy</th><th class="px-5 py-3">Approved By</th><th class="px-5 py-3">Expiry</th><th class="px-5 py-3">Status</th>
+              </tr></thead>
+              <tbody>
+                <template x-for="e in DATA.legal_exceptions" :key="e.asset_id">
+                  <tr class="table-row">
+                    <td class="px-5 py-3">
+                      <div class="font-medium text-white" x-text="e.name"></div>
+                      <template x-if="e.justification"><div class="text-xs text-slate-500 mt-0.5 max-w-xs truncate" x-text="e.justification"></div></template>
+                    </td>
+                    <td class="px-5 py-3 text-slate-400" x-text="e.exception_type||'\u2014'"></td>
+                    <td class="px-5 py-3 text-slate-400 font-mono text-xs" x-text="e.related_assets||'\u2014'"></td>
+                    <td class="px-5 py-3 text-slate-400" x-text="e.policy_or_standard||'\u2014'"></td>
+                    <td class="px-5 py-3 text-slate-400" x-text="e.approved_by||'\u2014'"></td>
+                    <td class="px-5 py-3"><span :class="e.expiry_date && e.expiry_date < new Date().toISOString().substring(0,10)?'text-red-400':'text-slate-400'" x-text="e.expiry_date||'\u2014'"></span></td>
+                    <td class="px-5 py-3"><span class="badge" :class="'badge-'+e.status" x-text="e.status"></span></td>
+                  </tr>
+                </template>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </template>
+
+    </main>
+  </div>
+</div>
+
+<script>
+// =====================================================================
+// EMBEDDED INVENTORY DATA
+// =====================================================================
+const DATA = {
+  "vendors": [
+    {
+      "asset_id": "VND-ADJUST",
+      "name": "Adjust",
+      "vendor_type": "SaaS",
+      "vendor_category": "attribution",
+      "description": "Mobile attribution and analytics",
+      "owner": "Marketing",
+      "risk_rating": "medium",
+      "dpa_in_place": true,
+      "contract_expiry": "2026-08-31",
+      "data_shared": "Install attribution, in-app events",
+      "region": "Global",
+      "status": "active"
+    },
+    {
+      "asset_id": "VND-ADOBE",
+      "name": "Adobe",
+      "vendor_type": "SaaS",
+      "vendor_category": "analytics",
+      "description": "Analytics, audience management, and ad-serving platform",
+      "owner": "Marketing",
+      "risk_rating": "high",
+      "dpa_in_place": true,
+      "contract_expiry": "2027-06-30",
+      "data_shared": "Page views, user events, device data",
+      "region": "Global",
+      "status": "active"
+    },
+    {
+      "asset_id": "VND-AWS",
+      "name": "Amazon Web Services",
+      "vendor_type": "IaaS",
+      "vendor_category": "cloud",
+      "description": "Infrastructure, storage, and compute services",
+      "owner": "Infrastructure",
+      "risk_rating": "medium",
+      "dpa_in_place": true,
+      "contract_expiry": "2028-01-01",
+      "data_shared": "All cloud-hosted data",
+      "region": "Global",
+      "status": "active"
+    },
+    {
+      "asset_id": "VND-BRAZE",
+      "name": "Braze",
+      "vendor_type": "SaaS",
+      "vendor_category": "marketing",
+      "description": "Customer engagement and messaging platform",
+      "owner": "Lifecycle",
+      "risk_rating": "medium",
+      "dpa_in_place": true,
+      "contract_expiry": "2026-09-30",
+      "data_shared": "User profiles, campaign data, push tokens",
+      "region": "US",
+      "status": "active"
+    },
+    {
+      "asset_id": "VND-CONVIVA",
+      "name": "Conviva",
+      "vendor_type": "SaaS",
+      "vendor_category": "analytics",
+      "description": "Streaming quality analytics and optimization",
+      "owner": "Product & Tech Analytics",
+      "risk_rating": "low",
+      "dpa_in_place": true,
+      "contract_expiry": "2027-04-15",
+      "data_shared": "Playback telemetry, buffering events",
+      "region": "Global",
+      "status": "active"
+    },
+    {
+      "asset_id": "VND-GOOGLE",
+      "name": "Google",
+      "vendor_type": "SaaS",
+      "vendor_category": "advertising",
+      "description": "Search, advertising, and analytics services",
+      "owner": "Marketing",
+      "risk_rating": "high",
+      "dpa_in_place": true,
+      "contract_expiry": "2026-12-31",
+      "data_shared": "Ad impressions, conversions, audience segments",
+      "region": "Global",
+      "status": "active"
+    },
+    {
+      "asset_id": "VND-LEGACYX",
+      "name": "LegacyTrack Corp",
+      "vendor_type": "SaaS",
+      "vendor_category": "analytics",
+      "description": "Legacy tracking vendor \u2014 pending migration",
+      "owner": "Marketing",
+      "risk_rating": "critical",
+      "dpa_in_place": false,
+      "contract_expiry": "2025-12-31",
+      "data_shared": "User behavior, device IDs",
+      "region": "US",
+      "status": "under_review"
+    },
+    {
+      "asset_id": "VND-NEWRELC",
+      "name": "New Relic",
+      "vendor_type": "SaaS",
+      "vendor_category": "monitoring",
+      "description": "Application performance monitoring",
+      "owner": "Engineering",
+      "risk_rating": "low",
+      "dpa_in_place": true,
+      "contract_expiry": "2026-11-30",
+      "data_shared": "APM traces, error logs",
+      "region": "US",
+      "status": "active"
+    },
+    {
+      "asset_id": "VND-ONETRUST",
+      "name": "OneTrust",
+      "vendor_type": "SaaS",
+      "vendor_category": "privacy",
+      "description": "Privacy management and consent orchestration",
+      "owner": "Privacy",
+      "risk_rating": "medium",
+      "dpa_in_place": true,
+      "contract_expiry": "2027-03-15",
+      "data_shared": "Consent records, privacy preferences",
+      "region": "Global",
+      "status": "active"
+    },
+    {
+      "asset_id": "VND-SNOWFLK",
+      "name": "Snowflake",
+      "vendor_type": "SaaS",
+      "vendor_category": "cloud",
+      "description": "Cloud data warehouse and analytics platform",
+      "owner": "Data Engineering",
+      "risk_rating": "medium",
+      "dpa_in_place": true,
+      "contract_expiry": "2027-09-30",
+      "data_shared": "All data warehouse data",
+      "region": "Global",
+      "status": "active"
+    }
+  ],
+  "trackers": [
+    {
+      "asset_id": "TRK-ADJUST",
+      "name": "Adjust SDK",
+      "tracker_type": "SDK",
+      "purpose": "Mobile install attribution and in-app analytics",
+      "domain_or_platform": "Disney+ iOS, Disney+ Android, Hulu iOS",
+      "data_collected": "Install source, in-app events, device ID",
+      "placement": "app",
+      "consent_required": true,
+      "owner": "Marketing",
+      "vendor_id": "VND-ADJUST",
+      "region": "Global",
+      "status": "active"
+    },
+    {
+      "asset_id": "TRK-ADOBEA",
+      "name": "Adobe Analytics Tag",
+      "tracker_type": "tag",
+      "purpose": "Site and app analytics including page views, events, and user flows",
+      "domain_or_platform": "disneyplus.com, hulu.com, espn.com",
+      "data_collected": "Page URL, events, device type, user ID",
+      "placement": "website",
+      "consent_required": true,
+      "owner": "Marketing",
+      "vendor_id": "VND-ADOBE",
+      "region": "Global",
+      "status": "active"
+    },
+    {
+      "asset_id": "TRK-ADOBET",
+      "name": "Adobe Target Pixel",
+      "tracker_type": "pixel",
+      "purpose": "A/B testing and personalization",
+      "domain_or_platform": "disneyplus.com",
+      "data_collected": "Variant assignments, conversion events",
+      "placement": "website",
+      "consent_required": true,
+      "owner": "Product & Tech Analytics",
+      "vendor_id": "VND-ADOBE",
+      "region": "US",
+      "status": "active"
+    },
+    {
+      "asset_id": "TRK-BRAZEP",
+      "name": "Braze Push SDK",
+      "tracker_type": "SDK",
+      "purpose": "Push notification delivery and engagement tracking",
+      "domain_or_platform": "Disney+ iOS, Disney+ Android, Hulu iOS",
+      "data_collected": "Push token, notification events, open rates",
+      "placement": "app",
+      "consent_required": true,
+      "owner": "Lifecycle",
+      "vendor_id": "VND-BRAZE",
+      "region": "US",
+      "status": "active"
+    },
+    {
+      "asset_id": "TRK-CONVIV",
+      "name": "Conviva Streaming Sensor",
+      "tracker_type": "SDK",
+      "purpose": "Video quality of experience monitoring",
+      "domain_or_platform": "Disney+, Hulu, ESPN",
+      "data_collected": "Buffering, bitrate, playback failures",
+      "placement": "app",
+      "consent_required": false,
+      "owner": "Product & Tech Analytics",
+      "vendor_id": "VND-CONVIVA",
+      "region": "Global",
+      "status": "active"
+    },
+    {
+      "asset_id": "TRK-GADS",
+      "name": "Google Ads Conversion Pixel",
+      "tracker_type": "pixel",
+      "purpose": "Track ad campaign conversions",
+      "domain_or_platform": "disneyplus.com, hulu.com",
+      "data_collected": "Conversion events, transaction values",
+      "placement": "website",
+      "consent_required": true,
+      "owner": "Marketing",
+      "vendor_id": "VND-GOOGLE",
+      "region": "US",
+      "status": "active"
+    },
+    {
+      "asset_id": "TRK-GTAG",
+      "name": "Google Analytics 4 Tag",
+      "tracker_type": "tag",
+      "purpose": "Traffic analytics and conversion measurement",
+      "domain_or_platform": "disneyplus.com, espn.com",
+      "data_collected": "Page views, scroll depth, events",
+      "placement": "website",
+      "consent_required": true,
+      "owner": "Marketing",
+      "vendor_id": "VND-GOOGLE",
+      "region": "Global",
+      "status": "active"
+    },
+    {
+      "asset_id": "TRK-LEGACY",
+      "name": "LegacyTrack Pixel",
+      "tracker_type": "pixel",
+      "purpose": "Legacy behavioral tracking \u2014 pending removal",
+      "domain_or_platform": "legacy.disneyplus.com",
+      "data_collected": "User behavior, click events, device fingerprint",
+      "placement": "website",
+      "consent_required": true,
+      "owner": "Marketing",
+      "vendor_id": "VND-LEGACYX",
+      "region": "US",
+      "status": "deprecated"
+    },
+    {
+      "asset_id": "TRK-OTCMP",
+      "name": "OneTrust Consent Banner",
+      "tracker_type": "script",
+      "purpose": "Cookie consent collection and preference management",
+      "domain_or_platform": "disneyplus.com, hulu.com, espn.com",
+      "data_collected": "Consent preferences, opt-in/out status",
+      "placement": "website",
+      "consent_required": false,
+      "owner": "Privacy",
+      "vendor_id": "VND-ONETRUST",
+      "region": "Global",
+      "status": "active"
+    }
+  ],
+  "systems": [
+    {
+      "asset_id": "SYS-S3DL",
+      "name": "AWS S3 Data Lake",
+      "system_type": "database",
+      "description": "Primary data lake (1.4 EB across 130K buckets)",
+      "business_unit": "Data Engineering",
+      "data_classification": "confidential",
+      "hosting": "cloud",
+      "pii_processed": true,
+      "certifications": null,
+      "owner": "Infrastructure",
+      "vendor_id": "VND-AWS",
+      "region": "Global",
+      "status": "active"
+    },
+    {
+      "asset_id": "SYS-CDP",
+      "name": "Customer Data Platform",
+      "system_type": "database",
+      "description": "Unified customer profiles for audience activation",
+      "business_unit": "Unified Audience Data",
+      "data_classification": "restricted",
+      "hosting": "cloud",
+      "pii_processed": true,
+      "certifications": null,
+      "owner": "Unified Audience Data",
+      "vendor_id": "VND-SNOWFLK",
+      "region": "Global",
+      "status": "active"
+    },
+    {
+      "asset_id": "SYS-DPLUS",
+      "name": "Disney+ Platform",
+      "system_type": "application",
+      "description": "Primary streaming platform serving Disney+ content",
+      "business_unit": "Disney+",
+      "data_classification": "confidential",
+      "hosting": "cloud",
+      "pii_processed": true,
+      "certifications": null,
+      "owner": "Disney+ Engineering",
+      "vendor_id": "VND-AWS",
+      "region": "Global",
+      "status": "active"
+    },
+    {
+      "asset_id": "SYS-ESPN",
+      "name": "ESPN Digital",
+      "system_type": "application",
+      "description": "ESPN web and mobile applications",
+      "business_unit": "ESPN",
+      "data_classification": "confidential",
+      "hosting": "cloud",
+      "pii_processed": true,
+      "certifications": null,
+      "owner": "ESPN Engineering",
+      "vendor_id": "VND-AWS",
+      "region": "US",
+      "status": "active"
+    },
+    {
+      "asset_id": "SYS-HULU",
+      "name": "Hulu Platform",
+      "system_type": "application",
+      "description": "Hulu streaming service with live TV and on-demand",
+      "business_unit": "Hulu",
+      "data_classification": "confidential",
+      "hosting": "cloud",
+      "pii_processed": true,
+      "certifications": null,
+      "owner": "Hulu Engineering",
+      "vendor_id": "VND-AWS",
+      "region": "US",
+      "status": "active"
+    },
+    {
+      "asset_id": "SYS-IDGRPH",
+      "name": "Identity Graph",
+      "system_type": "database",
+      "description": "Cross-device identity resolution service",
+      "business_unit": "Identity",
+      "data_classification": "restricted",
+      "hosting": "cloud",
+      "pii_processed": true,
+      "certifications": null,
+      "owner": "Identity",
+      "vendor_id": null,
+      "region": "Global",
+      "status": "active"
+    },
+    {
+      "asset_id": "SYS-OTRUST",
+      "name": "OneTrust Consent Manager",
+      "system_type": "application",
+      "description": "Consent collection and preference management",
+      "business_unit": "Privacy",
+      "data_classification": "restricted",
+      "hosting": "cloud",
+      "pii_processed": true,
+      "certifications": null,
+      "owner": "Privacy",
+      "vendor_id": "VND-ONETRUST",
+      "region": "Global",
+      "status": "active"
+    },
+    {
+      "asset_id": "SYS-PAYMT",
+      "name": "Payment Processing System",
+      "system_type": "application",
+      "description": "Handles subscription billing and payment methods",
+      "business_unit": "Commerce",
+      "data_classification": "restricted",
+      "hosting": "cloud",
+      "pii_processed": true,
+      "certifications": "PCI-DSS",
+      "owner": "Commerce Data Solutions",
+      "vendor_id": null,
+      "region": "Global",
+      "status": "active"
+    },
+    {
+      "asset_id": "SYS-RECENG",
+      "name": "Recommendation Engine",
+      "system_type": "application",
+      "description": "Content recommendation ML pipeline",
+      "business_unit": "Science",
+      "data_classification": "internal",
+      "hosting": "cloud",
+      "pii_processed": true,
+      "certifications": null,
+      "owner": "Science",
+      "vendor_id": null,
+      "region": "Global",
+      "status": "active"
+    },
+    {
+      "asset_id": "SYS-SFWH",
+      "name": "Snowflake Data Warehouse",
+      "system_type": "warehouse",
+      "description": "Central analytical data warehouse (54 PB, 170K tables)",
+      "business_unit": "Data Engineering",
+      "data_classification": "confidential",
+      "hosting": "cloud",
+      "pii_processed": true,
+      "certifications": null,
+      "owner": "Data Engineering",
+      "vendor_id": "VND-SNOWFLK",
+      "region": "Global",
+      "status": "active"
+    }
+  ],
+  "use_cases": [
+    {
+      "asset_id": "UC-ABTEST",
+      "name": "A/B Testing & Experimentation",
+      "category": "Product Experience",
+      "subcategory": "Experimentation",
+      "description": "Run controlled experiments on UI, pricing, and features",
+      "legal_basis": "legitimate interest",
+      "owner": "Product & Tech Analytics",
+      "region": "Global",
+      "status": "active",
+      "cross_border": false,
+      "vendors": [
+        "VND-ADOBE"
+      ],
+      "trackers": [
+        "TRK-ADOBEA",
+        "TRK-ADOBET"
+      ],
+      "systems": [
+        "SYS-DPLUS"
+      ]
+    },
+    {
+      "asset_id": "UC-ADSATTR",
+      "name": "Advertising Attribution",
+      "category": "Audience Measurement",
+      "subcategory": "Ad Attribution",
+      "description": "Measure effectiveness of ad campaigns across platforms",
+      "legal_basis": "consent",
+      "owner": "Marketing",
+      "region": "Global",
+      "status": "active",
+      "cross_border": false,
+      "vendors": [
+        "VND-ADOBE",
+        "VND-GOOGLE",
+        "VND-ADJUST"
+      ],
+      "trackers": [
+        "TRK-ADOBEA",
+        "TRK-GTAG",
+        "TRK-GADS",
+        "TRK-ADJUST"
+      ],
+      "systems": [
+        "SYS-DPLUS",
+        "SYS-HULU",
+        "SYS-ESPN"
+      ]
+    },
+    {
+      "asset_id": "UC-CONMGM",
+      "name": "Consent Management",
+      "category": "Privacy & Compliance",
+      "subcategory": "Consent Orchestration",
+      "description": "Collect, store, and enforce user consent preferences",
+      "legal_basis": "legal obligation",
+      "owner": "Privacy",
+      "region": "Global",
+      "status": "active",
+      "cross_border": false,
+      "vendors": [
+        "VND-ONETRUST"
+      ],
+      "trackers": [
+        "TRK-OTCMP"
+      ],
+      "systems": [
+        "SYS-OTRUST"
+      ]
+    },
+    {
+      "asset_id": "UC-PERSNLZ",
+      "name": "Content Personalization",
+      "category": "Product Experience",
+      "subcategory": "Recommendations",
+      "description": "Personalize content recommendations based on viewing history",
+      "legal_basis": "legitimate interest",
+      "owner": "Science",
+      "region": "Global",
+      "status": "active",
+      "cross_border": false,
+      "vendors": [
+        "VND-SNOWFLK"
+      ],
+      "trackers": [
+        "TRK-ADOBEA"
+      ],
+      "systems": [
+        "SYS-CDP",
+        "SYS-SFWH",
+        "SYS-RECENG"
+      ]
+    },
+    {
+      "asset_id": "UC-IDRESO",
+      "name": "Cross-Device Identity Resolution",
+      "category": "Identity",
+      "subcategory": "Device Graph",
+      "description": "Link user sessions across devices for unified experience",
+      "legal_basis": "consent",
+      "owner": "Identity",
+      "region": "Global",
+      "status": "active",
+      "cross_border": true,
+      "vendors": [],
+      "trackers": [],
+      "systems": [
+        "SYS-CDP",
+        "SYS-IDGRPH"
+      ]
+    },
+    {
+      "asset_id": "UC-EMAILC",
+      "name": "Lifecycle Email Campaigns",
+      "category": "Marketing",
+      "subcategory": "Email & Push",
+      "description": "Targeted email campaigns for engagement and retention",
+      "legal_basis": "consent",
+      "owner": "Lifecycle",
+      "region": "US",
+      "status": "active",
+      "cross_border": false,
+      "vendors": [
+        "VND-BRAZE"
+      ],
+      "trackers": [
+        "TRK-BRAZEP"
+      ],
+      "systems": [
+        "SYS-CDP"
+      ]
+    },
+    {
+      "asset_id": "UC-PURCHPR",
+      "name": "Purchase Propensity Modeling",
+      "category": "Audience Measurement",
+      "subcategory": "Purchase Propensity",
+      "description": "Predict likelihood of subscription upgrade or churn",
+      "legal_basis": "legitimate interest",
+      "owner": "Science",
+      "region": "US",
+      "status": "active",
+      "cross_border": false,
+      "vendors": [
+        "VND-SNOWFLK"
+      ],
+      "trackers": [
+        "TRK-ADOBEA"
+      ],
+      "systems": [
+        "SYS-CDP",
+        "SYS-SFWH"
+      ]
+    },
+    {
+      "asset_id": "UC-STRQOE",
+      "name": "Streaming Quality of Experience",
+      "category": "Operations",
+      "subcategory": "QoE Monitoring",
+      "description": "Monitor and optimize video playback quality metrics",
+      "legal_basis": "legitimate interest",
+      "owner": "Product & Tech Analytics",
+      "region": "Global",
+      "status": "active",
+      "cross_border": false,
+      "vendors": [
+        "VND-CONVIVA"
+      ],
+      "trackers": [
+        "TRK-CONVIV"
+      ],
+      "systems": [
+        "SYS-DPLUS",
+        "SYS-HULU",
+        "SYS-ESPN"
+      ]
+    },
+    {
+      "asset_id": "UC-SUBSBI",
+      "name": "Subscription Billing Analytics",
+      "category": "Commerce",
+      "subcategory": "Revenue Analytics",
+      "description": "Analyze subscription revenue, churn, and payment patterns",
+      "legal_basis": "contract",
+      "owner": "Commerce Data Solutions",
+      "region": "Global",
+      "status": "active",
+      "cross_border": false,
+      "vendors": [],
+      "trackers": [],
+      "systems": [
+        "SYS-SFWH",
+        "SYS-PAYMT"
+      ]
+    }
+  ],
+  "legal_exceptions": [
+    {
+      "asset_id": "LEX-003",
+      "name": "COPPA Minor Data Extended Hold",
+      "exception_type": "legal hold",
+      "related_assets": "SYS-IDGRPH, SYS-CDP",
+      "expiry_date": "2026-12-31",
+      "approval_date": "2026-01-10",
+      "approved_by": "Privacy Legal",
+      "policy_or_standard": "COPPA Compliance",
+      "justification": "Pending audit of minor deletion signal enforcement across all systems",
+      "owner": "Privacy",
+      "status": "active"
+    },
+    {
+      "asset_id": "LEX-002",
+      "name": "Payment Data Indefinite Retention",
+      "exception_type": "regulatory exception",
+      "related_assets": "SYS-PAYMT",
+      "expiry_date": "2026-09-30",
+      "approval_date": "2025-06-15",
+      "approved_by": "Legal Counsel",
+      "policy_or_standard": "SOX Compliance",
+      "justification": "Financial reporting data must be retained per SOX; defining formal retention period",
+      "owner": "Legal",
+      "status": "active"
+    },
+    {
+      "asset_id": "LEX-001",
+      "name": "Legacy Tracker Retention Waiver",
+      "exception_type": "policy waiver",
+      "related_assets": "TRK-LEGACY, VND-LEGACYX",
+      "expiry_date": "2026-06-30",
+      "approval_date": "2025-12-01",
+      "approved_by": "Legal Counsel",
+      "policy_or_standard": "Data Retention Standard",
+      "justification": "Migration to Adobe in progress; legacy pixel remains until cutover",
+      "owner": "Privacy",
+      "status": "active"
+    }
+  ],
+  "prior_audits": [
+    {
+      "asset_id": "AUD-2026Q1",
+      "name": "Q1 2026 RIM Signal Enforcement Review",
+      "audit_type": "compliance",
+      "audit_date": "2026-02-15",
+      "auditor": "Data Governance + Legal",
+      "scope": "RIM/GIS delete signal flow to all downstream systems",
+      "findings_count": 12,
+      "critical_findings": 3,
+      "remediation_due": "2026-06-30",
+      "status": "open",
+      "owner": "Data Governance"
+    },
+    {
+      "asset_id": "AUD-2025Q4",
+      "name": "Q4 2025 Vendor Risk Assessment",
+      "audit_type": "internal",
+      "audit_date": "2025-12-01",
+      "auditor": "Privacy Team",
+      "scope": "All active vendors with high/critical risk",
+      "findings_count": 4,
+      "critical_findings": 2,
+      "remediation_due": "2026-03-31",
+      "status": "in_progress",
+      "owner": "Privacy"
+    },
+    {
+      "asset_id": "AUD-2025Q3",
+      "name": "Q3 2025 Tracker Compliance Audit",
+      "audit_type": "internal",
+      "audit_date": "2025-09-15",
+      "auditor": "Data Governance",
+      "scope": "All digital trackers and consent mechanisms",
+      "findings_count": 7,
+      "critical_findings": 1,
+      "remediation_due": "2025-12-31",
+      "status": "closed",
+      "owner": "Data Governance"
+    },
+    {
+      "asset_id": "AUD-EY2024",
+      "name": "E&Y External Privacy Audit 2024",
+      "audit_type": "external",
+      "audit_date": "2024-08-20",
+      "auditor": "Ernst & Young",
+      "scope": "Enterprise-wide privacy program review",
+      "findings_count": 15,
+      "critical_findings": 2,
+      "remediation_due": "2025-02-28",
+      "status": "closed",
+      "owner": "Privacy"
+    }
+  ],
+  "change_log": [
+    {
+      "asset_type": "vendor",
+      "asset_id": "VND-LEGACYX",
+      "action": "updated",
+      "changed_by": "Privacy Team",
+      "change_summary": "Flagged for review \u2014 no DPA, expired contract",
+      "timestamp": "2026-03-08"
+    },
+    {
+      "asset_type": "tracker",
+      "asset_id": "TRK-LEGACY",
+      "action": "updated",
+      "changed_by": "Privacy Team",
+      "change_summary": "Marked as deprecated \u2014 pending removal",
+      "timestamp": "2026-03-06"
+    },
+    {
+      "asset_type": "use_case",
+      "asset_id": "UC-SUBSBI",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Subscription Billing Analytics",
+      "timestamp": "2026-02-27"
+    },
+    {
+      "asset_type": "use_case",
+      "asset_id": "UC-CONMGM",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Consent Management",
+      "timestamp": "2026-02-26"
+    },
+    {
+      "asset_type": "use_case",
+      "asset_id": "UC-IDRESO",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Cross-Device Identity Resolution",
+      "timestamp": "2026-02-25"
+    },
+    {
+      "asset_type": "use_case",
+      "asset_id": "UC-STRQOE",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Streaming Quality of Experience",
+      "timestamp": "2026-02-24"
+    },
+    {
+      "asset_type": "use_case",
+      "asset_id": "UC-EMAILC",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Lifecycle Email Campaigns",
+      "timestamp": "2026-02-23"
+    },
+    {
+      "asset_type": "tracker",
+      "asset_id": "TRK-LEGACY",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: LegacyTrack Pixel",
+      "timestamp": "2026-02-22"
+    },
+    {
+      "asset_type": "use_case",
+      "asset_id": "UC-ABTEST",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: A/B Testing & Experimentation",
+      "timestamp": "2026-02-22"
+    },
+    {
+      "asset_type": "tracker",
+      "asset_id": "TRK-OTCMP",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: OneTrust Consent Banner",
+      "timestamp": "2026-02-21"
+    },
+    {
+      "asset_type": "use_case",
+      "asset_id": "UC-PURCHPR",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Purchase Propensity Modeling",
+      "timestamp": "2026-02-21"
+    },
+    {
+      "asset_type": "system",
+      "asset_id": "SYS-PAYMT",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Payment Processing System",
+      "timestamp": "2026-02-20"
+    },
+    {
+      "asset_type": "tracker",
+      "asset_id": "TRK-CONVIV",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Conviva Streaming Sensor",
+      "timestamp": "2026-02-20"
+    },
+    {
+      "asset_type": "use_case",
+      "asset_id": "UC-PERSNLZ",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Content Personalization",
+      "timestamp": "2026-02-20"
+    },
+    {
+      "asset_type": "system",
+      "asset_id": "SYS-RECENG",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Recommendation Engine",
+      "timestamp": "2026-02-19"
+    },
+    {
+      "asset_type": "tracker",
+      "asset_id": "TRK-BRAZEP",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Braze Push SDK",
+      "timestamp": "2026-02-19"
+    },
+    {
+      "asset_type": "use_case",
+      "asset_id": "UC-ADSATTR",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Advertising Attribution",
+      "timestamp": "2026-02-19"
+    },
+    {
+      "asset_type": "vendor",
+      "asset_id": "VND-LEGACYX",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: LegacyTrack Corp",
+      "timestamp": "2026-02-18"
+    },
+    {
+      "asset_type": "system",
+      "asset_id": "SYS-IDGRPH",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Identity Graph",
+      "timestamp": "2026-02-18"
+    },
+    {
+      "asset_type": "tracker",
+      "asset_id": "TRK-ADJUST",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Adjust SDK",
+      "timestamp": "2026-02-18"
+    },
+    {
+      "asset_type": "vendor",
+      "asset_id": "VND-NEWRELC",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: New Relic",
+      "timestamp": "2026-02-17"
+    },
+    {
+      "asset_type": "system",
+      "asset_id": "SYS-OTRUST",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: OneTrust Consent Manager",
+      "timestamp": "2026-02-17"
+    },
+    {
+      "asset_type": "tracker",
+      "asset_id": "TRK-GADS",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Google Ads Conversion Pixel",
+      "timestamp": "2026-02-17"
+    },
+    {
+      "asset_type": "vendor",
+      "asset_id": "VND-CONVIVA",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Conviva",
+      "timestamp": "2026-02-16"
+    },
+    {
+      "asset_type": "system",
+      "asset_id": "SYS-S3DL",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: AWS S3 Data Lake",
+      "timestamp": "2026-02-16"
+    },
+    {
+      "asset_type": "tracker",
+      "asset_id": "TRK-GTAG",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Google Analytics 4 Tag",
+      "timestamp": "2026-02-16"
+    },
+    {
+      "asset_type": "vendor",
+      "asset_id": "VND-ADJUST",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Adjust",
+      "timestamp": "2026-02-15"
+    },
+    {
+      "asset_type": "system",
+      "asset_id": "SYS-SFWH",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Snowflake Data Warehouse",
+      "timestamp": "2026-02-15"
+    },
+    {
+      "asset_type": "tracker",
+      "asset_id": "TRK-ADOBET",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Adobe Target Pixel",
+      "timestamp": "2026-02-15"
+    },
+    {
+      "asset_type": "vendor",
+      "asset_id": "VND-BRAZE",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Braze",
+      "timestamp": "2026-02-14"
+    },
+    {
+      "asset_type": "system",
+      "asset_id": "SYS-CDP",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Customer Data Platform",
+      "timestamp": "2026-02-14"
+    },
+    {
+      "asset_type": "tracker",
+      "asset_id": "TRK-ADOBEA",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Adobe Analytics Tag",
+      "timestamp": "2026-02-14"
+    },
+    {
+      "asset_type": "vendor",
+      "asset_id": "VND-AWS",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Amazon Web Services",
+      "timestamp": "2026-02-13"
+    },
+    {
+      "asset_type": "system",
+      "asset_id": "SYS-ESPN",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: ESPN Digital",
+      "timestamp": "2026-02-13"
+    },
+    {
+      "asset_type": "vendor",
+      "asset_id": "VND-SNOWFLK",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Snowflake",
+      "timestamp": "2026-02-12"
+    },
+    {
+      "asset_type": "system",
+      "asset_id": "SYS-HULU",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Hulu Platform",
+      "timestamp": "2026-02-12"
+    },
+    {
+      "asset_type": "vendor",
+      "asset_id": "VND-ONETRUST",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: OneTrust",
+      "timestamp": "2026-02-11"
+    },
+    {
+      "asset_type": "system",
+      "asset_id": "SYS-DPLUS",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Disney+ Platform",
+      "timestamp": "2026-02-11"
+    },
+    {
+      "asset_type": "vendor",
+      "asset_id": "VND-GOOGLE",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Google",
+      "timestamp": "2026-02-10"
+    },
+    {
+      "asset_type": "vendor",
+      "asset_id": "VND-ADOBE",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Adobe",
+      "timestamp": "2026-02-09"
+    }
+  ]
+};
+
+// =====================================================================
+// APP LOGIC
+// =====================================================================
+function kronos() {
+  return {
+    sidebarOpen: true,
+    page: 'dashboard',
+    detailType: '',
+    detailId: '',
+    searchQuery: '',
+    searchResults: null,
+    searchTypes: ['vendor','tracker','system','use_case'],
+    filterText: '',
+    filterStatus: '',
+    filterRisk: '',
+    filterOwner: '',
+    showFilters: false,
+    sortField: 'name',
+    sortDir: 'asc',
+    relType: 'use_case',
+    relId: '',
+    inventoryItems: [],
+    invPage: 0,
+    invPageSize: 50,
+    exampleQueries: [
+      "Which platforms use Adobe's systems & trackers?",
+      "Trackers used for purchase propensity",
+      "Vendors with high risk rating",
+      "Systems that store subscriber data",
+      "EMEA region use cases",
+      "Consent-required trackers on Disney+"
+    ],
+
+    get pageTitle() {
+      const m = {dashboard:'Dashboard',search:'Search & Discovery',vendors:'Vendors',trackers:'Digital Trackers',systems:'Systems',use_cases:'Business Use Cases',detail:'Asset Detail',register:'Register Asset',relationships:'Relationship Explorer',reports:'Reports & Audits',legal_exceptions:'Legal Exceptions'};
+      return m[this.page]||'Kronos';
+    },
+
+    init() {
+      this.route();
+      window.addEventListener('hashchange', () => this.route());
+    },
+
+    route() {
+      const h = window.location.hash.replace('#','') || 'dashboard';
+      const parts = h.split('/');
+      this.filterText = '';
+      this.filterStatus = '';
+      this.filterRisk = '';
+      this.filterOwner = '';
+      if (parts[0] === 'detail' && parts.length === 3) {
+        this.page = 'detail';
+        this.detailType = parts[1];
+        this.detailId = parts[2];
+      } else {
+        this.page = parts[0];
+        this.detailType = '';
+        this.detailId = '';
+      }
+      this.inventoryItems = this.filteredItems();
+      this.invPage = 0;
+    },
+
+    typeIcon(t) { return {vendor:'fa-building',tracker:'fa-satellite-dish',system:'fa-server',use_case:'fa-diagram-project'}[t]||'fa-cube'; },
+    typeColor(t, mode) {
+      const c = {vendor:'violet',tracker:'cyan',system:'emerald',use_case:'amber'}[t]||'slate';
+      return mode==='bg' ? 'bg-'+c+'-500/15' : 'text-'+c+'-400';
+    },
+    singularType(p) { return {vendors:'vendor',trackers:'tracker',systems:'system',use_cases:'use_case'}[p]||p; },
+    pluralType(s) { return {vendor:'vendors',tracker:'trackers',system:'systems',use_case:'use_cases'}[s]||s; },
+
+    vendorName(vid) {
+      if (!vid) return null;
+      const v = DATA.vendors.find(x => x.asset_id === vid);
+      return v ? v.name : null;
+    },
+
+    totalAssets() { return DATA.vendors.length + DATA.trackers.length + DATA.systems.length + DATA.use_cases.length; },
+
+    statusBreakdown() {
+      const counts = {};
+      ['vendors','trackers','systems','use_cases'].forEach(k => DATA[k].forEach(i => { const s = i.status||'active'; counts[s] = (counts[s]||0)+1; }));
+      return counts;
+    },
+
+    highRiskVendors() { return DATA.vendors.filter(v => v.risk_rating==='high'||v.risk_rating==='critical'); },
+
+    totalRelationships() {
+      let c = 0;
+      DATA.use_cases.forEach(uc => { c += (uc.vendors||[]).length + (uc.trackers||[]).length + (uc.systems||[]).length; });
+      return c;
+    },
+
+    uniqueOwners(pg) {
+      const items = DATA[pg] || [];
+      return [...new Set(items.map(i=>i.owner).filter(Boolean))].sort();
+    },
+
+    filteredItems() {
+      let items = [...(DATA[this.page]||[])];
+      const q = this.filterText.toLowerCase();
+      if (q) items = items.filter(i => JSON.stringify(i).toLowerCase().includes(q));
+      if (this.filterStatus) items = items.filter(i => i.status === this.filterStatus);
+      if (this.filterOwner) items = items.filter(i => i.owner === this.filterOwner);
+      if (this.page === 'vendors' && this.filterRisk) items = items.filter(i => i.risk_rating === this.filterRisk);
+      items.sort((a,b) => {
+        const av = (a[this.sortField]||'').toString().toLowerCase();
+        const bv = (b[this.sortField]||'').toString().toLowerCase();
+        return this.sortDir === 'asc' ? av.localeCompare(bv) : bv.localeCompare(av);
+      });
+      return items;
+    },
+
+    toggleSort(field) {
+      if (this.sortField === field) this.sortDir = this.sortDir==='asc'?'desc':'asc';
+      else { this.sortField = field; this.sortDir = 'asc'; }
+      this.invPage = 0;
+    },
+    paginatedItems() {
+      const start = this.invPage * this.invPageSize;
+      return (this.inventoryItems || []).slice(start, start + this.invPageSize);
+    },
+    invTotalPages() {
+      return Math.ceil((this.inventoryItems || []).length / this.invPageSize) || 1;
+    },
+
+    runSearch() {
+      if (!this.searchQuery.trim()) { this.searchResults = null; return; }
+      const q = this.searchQuery.toLowerCase();
+      const results = [];
+      const types = this.searchTypes.length ? this.searchTypes : ['vendor','tracker','system','use_case'];
+
+      if (types.includes('vendor')) DATA.vendors.forEach(v => {
+        if ([v.name,v.description,v.vendor_category,v.vendor_type].some(f=>(f||'').toLowerCase().includes(q)))
+          results.push({...v, type:'vendor'});
+      });
+      if (types.includes('tracker')) DATA.trackers.forEach(t => {
+        if ([t.name,t.purpose,t.domain_or_platform].some(f=>(f||'').toLowerCase().includes(q)))
+          results.push({...t, type:'tracker'});
+      });
+      if (types.includes('system')) DATA.systems.forEach(s => {
+        if ([s.name,s.description,s.business_unit,s.system_type].some(f=>(f||'').toLowerCase().includes(q)))
+          results.push({...s, type:'system'});
+      });
+      if (types.includes('use_case')) DATA.use_cases.forEach(u => {
+        if ([u.name,u.description,u.category,u.subcategory].some(f=>(f||'').toLowerCase().includes(q)))
+          results.push({...u, type:'use_case'});
+      });
+      this.searchResults = results;
+    },
+
+    detailAsset() {
+      const list = DATA[this.pluralType(this.detailType)] || [];
+      return list.find(a => a.asset_id === this.detailId) || null;
+    },
+
+    detailProperties() {
+      const a = this.detailAsset(); if (!a) return [];
+      if (this.detailType==='vendor') return [['Vendor Type',a.vendor_type],['Category',a.vendor_category],['Risk Rating',a.risk_rating],['DPA In Place',a.dpa_in_place?'Yes':'No'],['Contract Expiry',a.contract_expiry],['Data Shared',a.data_shared],['Subprocessors',a.subprocessors]];
+      if (this.detailType==='tracker') return [['Tracker Type',a.tracker_type],['Platform',a.domain_or_platform],['Purpose',a.purpose],['Data Collected',a.data_collected],['Placement',a.placement],['Consent Required',a.consent_required?'Yes':'No'],['Retention Period',a.retention_period],['Vendor',this.vendorName(a.vendor_id)]];
+      if (this.detailType==='system') return [['System Type',a.system_type],['Business Unit',a.business_unit],['Data Classification',a.data_classification],['Hosting',a.hosting],['PII Processed',a.pii_processed?'Yes':'No'],['Certifications',a.certifications],['Vendor',this.vendorName(a.vendor_id)]];
+      if (this.detailType==='use_case') return [['Category',a.category],['Subcategory',a.subcategory],['Legal Basis',a.legal_basis],['Data Flow',a.data_flow],['Retention',a.retention],['Cross-Border',a.cross_border?'Yes':'No']];
+      return [];
+    },
+
+    detailRelated() {
+      const a = this.detailAsset(); if (!a) return [];
+      const rels = [];
+      if (this.detailType === 'use_case') {
+        (a.vendors||[]).forEach(vid => { const v=DATA.vendors.find(x=>x.asset_id===vid); if(v) rels.push({type:'vendor',...v}); });
+        (a.systems||[]).forEach(sid => { const s=DATA.systems.find(x=>x.asset_id===sid); if(s) rels.push({type:'system',...s}); });
+        (a.trackers||[]).forEach(tid => { const t=DATA.trackers.find(x=>x.asset_id===tid); if(t) rels.push({type:'tracker',...t}); });
+      } else if (this.detailType === 'vendor') {
+        DATA.use_cases.filter(uc=>(uc.vendors||[]).includes(a.asset_id)).forEach(uc=>rels.push({type:'use_case',...uc}));
+        DATA.trackers.filter(t=>t.vendor_id===a.asset_id).forEach(t=>rels.push({type:'tracker',...t}));
+        DATA.systems.filter(s=>s.vendor_id===a.asset_id).forEach(s=>rels.push({type:'system',...s}));
+      } else if (this.detailType === 'system') {
+        DATA.use_cases.filter(uc=>(uc.systems||[]).includes(a.asset_id)).forEach(uc=>rels.push({type:'use_case',...uc}));
+        if (a.vendor_id) { const v=DATA.vendors.find(x=>x.asset_id===a.vendor_id); if(v) rels.push({type:'vendor',...v}); }
+      } else if (this.detailType === 'tracker') {
+        DATA.use_cases.filter(uc=>(uc.trackers||[]).includes(a.asset_id)).forEach(uc=>rels.push({type:'use_case',...uc}));
+        if (a.vendor_id) { const v=DATA.vendors.find(x=>x.asset_id===a.vendor_id); if(v) rels.push({type:'vendor',...v}); }
+      }
+      return rels;
+    },
+
+    detailChangeLogs() {
+      return DATA.change_log.filter(l => l.asset_id === this.detailId);
+    },
+
+    relAsset() {
+      const list = DATA[this.pluralType(this.relType)] || [];
+      return list.find(a => a.asset_id === this.relId) || null;
+    },
+
+    relGroups() {
+      const a = this.relAsset(); if (!a) return {};
+      const groups = {};
+      const rels = [];
+      if (this.relType === 'use_case') {
+        (a.vendors||[]).forEach(vid => { const v=DATA.vendors.find(x=>x.asset_id===vid); if(v) rels.push({type:'vendor',...v}); });
+        (a.systems||[]).forEach(sid => { const s=DATA.systems.find(x=>x.asset_id===sid); if(s) rels.push({type:'system',...s}); });
+        (a.trackers||[]).forEach(tid => { const t=DATA.trackers.find(x=>x.asset_id===tid); if(t) rels.push({type:'tracker',...t}); });
+      } else if (this.relType === 'vendor') {
+        DATA.use_cases.filter(uc=>(uc.vendors||[]).includes(a.asset_id)).forEach(uc=>rels.push({type:'use_case',...uc}));
+        DATA.trackers.filter(t=>t.vendor_id===a.asset_id).forEach(t=>rels.push({type:'tracker',...t}));
+        DATA.systems.filter(s=>s.vendor_id===a.asset_id).forEach(s=>rels.push({type:'system',...s}));
+      } else if (this.relType === 'system') {
+        DATA.use_cases.filter(uc=>(uc.systems||[]).includes(a.asset_id)).forEach(uc=>rels.push({type:'use_case',...uc}));
+        if (a.vendor_id) { const v=DATA.vendors.find(x=>x.asset_id===a.vendor_id); if(v) rels.push({type:'vendor',...v}); }
+      } else if (this.relType === 'tracker') {
+        DATA.use_cases.filter(uc=>(uc.trackers||[]).includes(a.asset_id)).forEach(uc=>rels.push({type:'use_case',...uc}));
+        if (a.vendor_id) { const v=DATA.vendors.find(x=>x.asset_id===a.vendor_id); if(v) rels.push({type:'vendor',...v}); }
+      }
+      rels.forEach(r => { if (!groups[r.type]) groups[r.type]=[]; groups[r.type].push(r); });
+      return groups;
+    },
+
+    relCount(type) {
+      let c = 0;
+      DATA.use_cases.forEach(uc => c += (uc[type]||[]).length);
+      return c;
+    },
+
+    exportCsv(key) {
+      let rows = [];
+      if (key === 'vendors') {
+        rows.push(['ID','Name','Type','Category','Risk','DPA','Owner','Status','Contract Expiry']);
+        DATA.vendors.forEach(v => rows.push([v.asset_id,v.name,v.vendor_type,v.vendor_category,v.risk_rating,v.dpa_in_place,v.owner,v.status,v.contract_expiry]));
+      } else if (key === 'trackers') {
+        rows.push(['ID','Name','Type','Platform','Purpose','Vendor','Consent','Owner','Status']);
+        DATA.trackers.forEach(t => rows.push([t.asset_id,t.name,t.tracker_type,t.domain_or_platform,t.purpose,this.vendorName(t.vendor_id),t.consent_required,t.owner,t.status]));
+      } else if (key === 'systems') {
+        rows.push(['ID','Name','Type','Business Unit','Classification','PII','Owner','Status']);
+        DATA.systems.forEach(s => rows.push([s.asset_id,s.name,s.system_type,s.business_unit,s.data_classification,s.pii_processed,s.owner,s.status]));
+      } else if (key === 'use_cases') {
+        rows.push(['ID','Name','Category','Subcategory','Legal Basis','Cross-Border','Owner','Status']);
+        DATA.use_cases.forEach(u => rows.push([u.asset_id,u.name,u.category,u.subcategory,u.legal_basis,u.cross_border,u.owner,u.status]));
+      } else {
+        rows.push(['Asset Type','ID','Name','Owner','Status']);
+        [['Vendor','vendors'],['Tracker','trackers'],['System','systems'],['UseCase','use_cases']].forEach(([label,k]) =>
+          DATA[k].forEach(a => rows.push([label,a.asset_id,a.name,a.owner,a.status]))
+        );
+      }
+      const csv = rows.map(r => r.map(c => '"'+(c==null?'':String(c).replace(/"/g,'""'))+'"').join(',')).join('\n');
+      const blob = new Blob([csv], {type:'text/csv'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'kronos_'+key+'_'+new Date().toISOString().substring(0,10)+'.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+  };
+}
+</script>
+</body>
+</html>

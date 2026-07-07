@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Navigator &amp; OMS — Architecture alignment (3 slides)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #0f2744;
+      --navy-soft: #1a3a5c;
+      --header-blue: #1e5a96;
+      --sidebar-bg: #e4eef8;
+      --sidebar-footer: #3d5166;
+      --page-bg: #e8ecf2;
+      --white: #fff;
+      --text: #1a1a1a;
+      --muted: #5c6570;
+      --accent: #1565c0;
+      --radius: 14px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "DM Sans", system-ui, -apple-system, sans-serif;
+      background: var(--page-bg);
+      color: var(--text);
+      padding: 1.25rem 1.25rem 2rem;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .deck-intro {
+      max-width: 1120px;
+      margin: 0 auto 1rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .deck-intro strong { color: var(--navy); }
+
+    .slide {
+      max-width: 1120px;
+      margin: 0 auto 1.75rem;
+      aspect-ratio: 16 / 9;
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: 0 12px 40px rgba(15, 39, 68, 0.12);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      min-height: 480px;
+      page-break-after: always;
+      break-after: page;
+    }
+
+    .slide:last-of-type {
+      page-break-after: auto;
+      break-after: auto;
+      margin-bottom: 0;
+    }
+
+    .slide-head {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--header-blue) 100%);
+      color: #fff;
+      padding: 0.65rem 1.25rem;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .slide-head h1 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .slide-num {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.85;
+      white-space: nowrap;
+    }
+
+    .slide-body {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      min-height: 0;
+    }
+
+    .col {
+      padding: 1rem 1.15rem 1.1rem;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .col-aside {
+      background: var(--sidebar-bg);
+      border-right: 1px solid rgba(15, 39, 68, 0.08);
+    }
+
+    .col h2 {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 0.45rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .col-main h2 {
+      color: var(--header-blue);
+    }
+
+    .col p,
+    .col li {
+      font-size: 0.72rem;
+      line-height: 1.45;
+      color: var(--text);
+    }
+
+    .col p { margin-bottom: 0.5rem; }
+
+    .col ul {
+      margin: 0.25rem 0 0.5rem 1rem;
+    }
+
+    .col li { margin-bottom: 0.28rem; }
+
+    .callout {
+      font-size: 0.68rem;
+      line-height: 1.42;
+      background: rgba(30, 90, 150, 0.08);
+      border-left: 3px solid var(--header-blue);
+      padding: 0.45rem 0.55rem;
+      margin-top: 0.35rem;
+      border-radius: 0 6px 6px 0;
+    }
+
+    .callout-strong {
+      font-size: 0.78rem;
+      line-height: 1.5;
+      background: rgba(15, 39, 68, 0.06);
+      border-left: 4px solid var(--navy);
+      padding: 0.55rem 0.65rem;
+      margin-top: 0.45rem;
+      border-radius: 0 6px 6px 0;
+    }
+
+    .vocab-grid {
+      display: grid;
+      gap: 0.45rem;
+      margin-top: 0.35rem;
+    }
+
+    .vocab-card {
+      background: var(--white);
+      border: 1px solid rgba(15, 39, 68, 0.12);
+      border-radius: 8px;
+      padding: 0.5rem 0.55rem;
+    }
+
+    .vocab-card strong {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--navy);
+      margin-bottom: 0.2rem;
+    }
+
+    .vocab-card span {
+      font-size: 0.68rem;
+      line-height: 1.42;
+      color: var(--text);
+    }
+
+    .slide-footer {
+      background: var(--sidebar-footer);
+      color: #c5d4e3;
+      padding: 0.4rem 1.15rem;
+      font-size: 0.6rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .slide-footer .logo {
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      font-size: 0.55rem;
+      color: #9eb0c4;
+    }
+
+    .slide-3 .slide-body {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .slide-3 .col-today {
+      background: var(--sidebar-bg);
+      border-right: 1px solid rgba(15, 39, 68, 0.08);
+    }
+
+    .slide-3 .col-scale {
+      border-right: 1px solid rgba(15, 39, 68, 0.08);
+    }
+
+    @media (max-width: 900px) {
+      .slide-body,
+      .slide-3 .slide-body {
+        grid-template-columns: 1fr;
+      }
+      .slide-3 .col-today,
+      .slide-3 .col-scale {
+        border-right: none;
+        border-bottom: 1px solid rgba(15, 39, 68, 0.08);
+      }
+      .slide { aspect-ratio: auto; min-height: 0; }
+    }
+
+    @media print {
+      body { padding: 0; background: #fff; }
+      .deck-intro { display: none; }
+      .slide {
+        box-shadow: none;
+        max-width: none;
+        margin: 0;
+        border-radius: 0;
+        min-height: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <p class="deck-intro">
+    <strong>Navigator &amp; OMS alignment</strong> — 3-slide deck for Suman call · Jun 2026 · Companion: <a href="data-source-navigator-value-deck-3-slides.html">Navigator value deck</a> · <a href="data-governance-portal-value-deck-3-slides.html">Governance Portal deck</a> · <a href="../../business-data-catalog/BDC-OMS-integrated-vs-on-top-decision.md">integrated vs on-top decision</a>
+  </p>
+
+  <!-- Slide 1 -->
+  <article class="slide slide-1" aria-labelledby="s1-title">
+    <header class="slide-head">
+      <h1 id="s1-title">Shared vocabulary — product ownership vs platform dependency</h1>
+      <span class="slide-num">Slide 1 of 3</span>
+    </header>
+    <div class="slide-body">
+      <div class="col col-aside">
+        <h2>The alignment line</h2>
+        <div class="callout-strong">
+          <strong>Navigator is our product.</strong> OMS is our platform dependency.<br />
+          We are not building “OMS features” — we are building a governed catalog experience that <strong>consumes OMS APIs</strong>, while governance definitions live in a <strong>separate repository</strong> Foundations does not own.
+        </div>
+        <h2 style="margin-top: 0.65rem;">Two bullets to agree on</h2>
+        <ul>
+          <li><strong>Navigator = product ownership</strong> — Data Governance owns requirements, personas, MVP scope, and roadmap (Alation migration: search, browse, glossary, asset detail).</li>
+          <li><strong>OMS = platform dependency</strong> — OMS stores operational metadata and exposes APIs; we depend on it to run, but it does not define our program.</li>
+        </ul>
+        <div class="callout">
+          <strong>When Suman says “OMS is irrelevant”</strong> — he means governance must not be <em>captive to Foundations’ OMS roadmap</em>. Not that Navigator should avoid OMS entirely.
+        </div>
+      </div>
+      <div class="col col-main">
+        <h2>Translate the vocabulary</h2>
+        <div class="vocab-grid">
+          <div class="vocab-card">
+            <strong>Product ownership (Navigator)</strong>
+            <span>Who decides <em>what</em> gets built and <em>for whom</em> — even if OMS devs build it and OMS APIs back it. Separate product name, entry point, and success metrics.</span>
+          </div>
+          <div class="vocab-card">
+            <strong>Platform dependency (OMS)</strong>
+            <span>What we <em>depend on</em> to ship — metadata store, graph, APIs, engineering capacity. Like an app depending on iOS: need the platform, not subordinate to its product roadmap.</span>
+          </div>
+          <div class="vocab-card">
+            <strong>Governance SoR (separate)</strong>
+            <span>Classifications, policies, and metrics governance live in a <em>tool-agnostic repository</em> — not inside OMS. OMS <strong>reads / projects</strong> those definitions onto assets.</span>
+          </div>
+          <div class="vocab-card">
+            <strong>On-top UX pattern</strong>
+            <span>Navigator is a <em>dedicated business-first shell</em> above OMS APIs — not the OMS engineering UI. Engineers keep an integrated OMS path; stewards and consumers use Navigator.</span>
+          </div>
+        </div>
+        <p class="callout" style="margin-top: 0.5rem;">
+          <strong>Stack (unchanged):</strong> <em>626 / MCI → supply · OMS → store · Navigator → governed UX · Governance Portal → phase 2.</em>
+        </p>
+      </div>
+    </div>
+    <footer class="slide-footer">
+      <span>Data Governance · Navigator / OMS alignment</span>
+      <span class="logo">INTERNAL — SUMAN ALIGNMENT</span>
+    </footer>
+  </article>
+
+  <!-- Slide 2 -->
+  <article class="slide slide-2" aria-labelledby="s2-title">
+    <header class="slide-head">
+      <h1 id="s2-title">The issue — and the architecture we need</h1>
+      <span class="slide-num">Slide 2 of 3</span>
+    </header>
+    <div class="slide-body">
+      <div class="col col-aside">
+        <h2>Where we agree</h2>
+        <ul>
+          <li><strong>Tool-agnostic governance</strong> — Governance Portal, governance metadata repository, classifications, policies, metrics, Access Manager.</li>
+          <li><strong>Navigator</strong> — Catalog discovery and stewardship UX (Alation replacement).</li>
+          <li><strong>Two experiences</strong> — Govern &amp; prove (Portal) vs discover &amp; steward (Navigator).</li>
+        </ul>
+        <h2 style="margin-top: 0.65rem;">Where friction appears</h2>
+        <ul>
+          <li><strong>Execution vs strategy</strong> — Navigator ships on OMS APIs with OMS devs; Suman’s “OMS irrelevant” framing sounds like “don’t use OMS.”</li>
+          <li><strong>Foundations overlap</strong> — Data Foundations Platform PRD plans an <strong>OMS UI overhaul</strong> including <strong>Alation migration features</strong> — same surface as Navigator.</li>
+          <li><strong>Unresolved “Read ?”</strong> — Does OMS read governance definitions from the repository, or do we build duplicate models?</li>
+        </ul>
+        <div class="callout">
+          <strong>Risk:</strong> Navigator becomes “the OMS app” — Foundations owns our roadmap and Alation exit scope.
+        </div>
+      </div>
+      <div class="col col-main">
+        <h2>Recommended: dual product, single spine</h2>
+        <ul>
+          <li><strong>Governance Metadata Repository</strong> (Postgres) — SoR for classification definitions, policies, metrics governance. Gov App backend + Governance Portal read/write here.</li>
+          <li><strong>OMS</strong> — Operational metadata store + APIs. <strong>Reads / syncs</strong> governance definitions onto catalog assets. Does <strong>not</strong> own governance SoR.</li>
+          <li><strong>Navigator</strong> — Data Governance–owned UI on OMS APIs. MVP now: search, browse, glossary, classifications (read), asset detail, Alation migration.</li>
+          <li><strong>Governance Portal</strong> — Command center for posture, workflows, queues. Phase 2; deep-links to Navigator for asset context.</li>
+          <li><strong>Access Manager</strong> — Platform access workflows; integrates with governance classifications.</li>
+          <li><strong>Foundations OMS UI</strong> — Engineer / technical path only — <strong>not</strong> a substitute for Navigator.</li>
+        </ul>
+        <p class="callout" style="margin-top: 0.5rem;">
+          <strong>Answer “Read ?” → Yes.</strong> OMS projects governance metadata; governance repository remains tool-agnostic and Data Governance–aligned.
+        </p>
+      </div>
+    </div>
+    <footer class="slide-footer">
+      <span>Data Governance · Navigator / OMS alignment</span>
+      <span class="logo">INTERNAL — SUMAN ALIGNMENT</span>
+    </footer>
+  </article>
+
+  <!-- Slide 3 -->
+  <article class="slide slide-3" aria-labelledby="s3-title">
+    <header class="slide-head">
+      <h1 id="s3-title">Decisions for this call — and what we ask Suman to confirm</h1>
+      <span class="slide-num">Slide 3 of 3</span>
+    </header>
+    <div class="slide-body">
+      <div class="col col-today">
+        <h2>Lock today (1–3)</h2>
+        <ul>
+          <li><strong>Product vs platform</strong> — Navigator is a separate Data Governance product; OMS is infrastructure/APIs only.</li>
+          <li><strong>Integration contract</strong> — OMS reads governance definitions from the repository; no duplicate SoR in OMS.</li>
+          <li><strong>Foundations boundary</strong> — OMS UI unification ≠ Navigator; no duplicate Alation-migration UI in Foundations’ OMS overhaul.</li>
+        </ul>
+      </div>
+      <div class="col col-scale">
+        <h2>Lock today (4–5)</h2>
+        <ul>
+          <li><strong>Phasing</strong> — Navigator MVP <strong>now</strong> (Oct 2026 Alation pressure); Governance Portal + full repository <strong>phase 2</strong>.</li>
+          <li><strong>RACI / escalation</strong> — When Foundations and Navigator scope collide, metadata WG + agreed escalation (Suman + Charles).</li>
+        </ul>
+        <h2 style="margin-top: 0.55rem;">If aligned, next steps</h2>
+        <ul>
+          <li>One architecture story for Foundations, OMS, metadata WG.</li>
+          <li>Navigator scope doc explicitly “on-top of OMS APIs.”</li>
+          <li>Separate Navigator demos from Governance Portal in intake materials.</li>
+        </ul>
+      </div>
+      <div class="col col-main">
+        <h2>What success looks like</h2>
+        <ul>
+          <li><strong>Suman</strong> — Governance program stays tool-agnostic and politically independent; governance SoR is not owned by Foundations.</li>
+          <li><strong>Jonathan / Data Governance</strong> — Credible delivery path for Alation exit on OMS APIs without losing product identity.</li>
+          <li><strong>Foundations / OMS</strong> — Clear handoff: platform store + engineer UI; not catalog program owner.</li>
+          <li><strong>Org</strong> — One spine (OMS APIs), two governance-owned products (Navigator + Portal), federated governance SoR.</li>
+        </ul>
+        <div class="callout" style="margin-top: 0.4rem;">
+          <strong>Ask:</strong> 30 minutes to confirm the five decisions — then socialize as the single alignment narrative.
+        </div>
+      </div>
+    </div>
+    <footer class="slide-footer">
+      <span>Data Governance · Navigator / OMS alignment</span>
+      <span class="logo">INTERNAL — SUMAN ALIGNMENT</span>
+    </footer>
+  </article>
+</body>
+</html>

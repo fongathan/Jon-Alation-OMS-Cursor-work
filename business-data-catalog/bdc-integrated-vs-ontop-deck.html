@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BDC on OMS: Integrated vs On-Top — Decision Analysis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../data-catalog-expansion/themes/theme-editorial-hero.css" />
+  <link rel="stylesheet" href="bdc-deck.css" />
+</head>
+<body class="deck-page">
+  <div class="deck-shell">
+    <div class="deck-viewport">
+      <div class="deck-track" id="deckTrack">
+        <!-- 1 — mirrors Google Doc title -->
+        <section class="slide slide--hero" aria-label="Slide 1 of 13">
+          <div class="slide-inner">
+            <p class="slide-kicker">Decision analysis · mirrors Google Doc</p>
+            <h1 class="slide-title">Business Data Catalog on OMS:<br />Integrated vs On-Top</h1>
+            <p class="slide-sub">Same structure and points as the write-up: evaluation framework (§1), application to prototypes (§2), recommendation + decision flow (§3), next steps (§4).</p>
+            <div class="hero-cta" style="margin-top:2rem;">
+              <span class="badge lime">BDC + OMS</span>
+              <span class="badge">oms-ui-integrated · oms-ui-on-top</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2 — Purpose + read this first (doc opening) -->
+        <section class="slide slide--light" aria-label="Slide 2 of 13">
+          <div class="slide-inner">
+            <h2>Purpose &amp; how to read this deck</h2>
+            <div class="deck-callout" style="margin-top:0;">
+              <p><strong>Purpose:</strong> Compare two <strong>UX patterns</strong> for delivering a Business Data Catalog (BDC) experience on top of the Operational Metadata Store (OMS), and recommend which pattern fits this program.</p>
+            </div>
+            <p style="margin-top:1rem;font-size:1.02rem;"><strong>Read this first:</strong> Use <strong>Section 1</strong> for the evaluation framework, <strong>Section 2</strong> for how it applies to our prototypes, <strong>Section 3</strong> for the recommendation and decision flow.</p>
+            <p style="margin-top:0.75rem;font-size:0.9rem;color:#64748b;">Google Doc: <code style="background:#f1f5f9;padding:0.15rem 0.4rem;border-radius:6px;font-size:0.85rem;">12bpg2TPeUCBHQY_AGrh9l16addgB4GF3DTfWckshK8I</code></p>
+          </div>
+        </section>
+
+        <!-- 3 — Pattern overview (doc table) -->
+        <section class="slide slide--accent" aria-label="Slide 3 of 13">
+          <div class="slide-inner">
+            <h2>Pattern overview (at a glance)</h2>
+            <div class="deck-table-wrap" style="margin-top:0.75rem;">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Pattern</th>
+                    <th>What it is</th>
+                    <th>Prototype</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Integrated into OMS</strong></td>
+                    <td>BDC woven into <strong>existing</strong> OMS home, nav, and journeys (Snowflake list → full detail with <strong>technical + business</strong> metadata; Unity list + drawer).</td>
+                    <td><code style="font-size:0.75rem;">oms-ui-integrated.html</code></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Layer on top of OMS</strong></td>
+                    <td><strong>Dedicated</strong> BDC entry + drills <strong>above</strong> OMS: clearer <strong>catalog / stewardship</strong> work; <strong>business-first</strong> views (technical blocks de-emphasized).</td>
+                    <td><code style="font-size:0.75rem;">oms-ui-on-top.html</code></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4 — Section 1 intro -->
+        <section class="slide slide--light" aria-label="Slide 4 of 13">
+          <div class="slide-inner">
+            <p class="slide-kicker" style="color:#64748b;">Section 1</p>
+            <h2>How to evaluate which version is better</h2>
+            <p style="font-size:1.02rem;">Score each pattern <strong>Low / Medium / High</strong> (or 1–5) per criterion—<strong>no single criterion wins alone</strong>; weight by org priorities.</p>
+            <div class="deck-pills" style="margin-top:1rem;">
+              <span class="deck-pill">A · Jobs &amp; mental model</span>
+              <span class="deck-pill">B · Discoverability</span>
+              <span class="deck-pill">C · Density vs clarity</span>
+              <span class="deck-pill">D · Ownership</span>
+              <span class="deck-pill">E · Governance</span>
+              <span class="deck-pill">F · Time-to-value</span>
+              <span class="deck-pill">G · Stakeholders</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5 — Criteria A–D (doc verbatim) -->
+        <section class="slide slide--light slide--compact" aria-label="Slide 5 of 13">
+          <div class="slide-inner">
+            <p class="slide-kicker" style="color:#64748b;">Section 1 (continued)</p>
+            <h2>Criteria A–D</h2>
+            <div class="deck-criterion">
+              <div class="cq">A. User jobs and mental model</div>
+              <div class="cq-q"><strong>Question:</strong> Is “metadata work” part of <strong>daily OMS</strong> use, or a <strong>separate stewardship</strong> job?</div>
+              <p><strong>Integrated wins when:</strong> Same people browse <strong>lineage + tables</strong> and own <strong>descriptions, policies, quality</strong>—they want <strong>one surface</strong>.</p>
+              <p><strong>On-top wins when:</strong> Stewards need a <strong>purpose-built</strong> catalog space (tasks, approvals, <strong>trust flags</strong>, glossary) without <strong>operational chrome</strong>.</p>
+            </div>
+            <div class="deck-criterion">
+              <div class="cq">B. Discoverability and adoption</div>
+              <div class="cq-q"><strong>Question:</strong> Will users <strong>find</strong> BDC without training?</div>
+              <p><strong>Integrated wins when:</strong> OMS is already the <strong>habit</strong>; BDC next to technical metadata drives <strong>passive adoption</strong>.</p>
+              <p><strong>On-top wins when:</strong> You need a <strong>named product</strong> (“Business Data Catalog”) on the home page for <strong>execs + stewards</strong>.</p>
+            </div>
+            <div class="deck-criterion">
+              <div class="cq">C. Information density vs. clarity</div>
+              <div class="cq-q"><strong>Question:</strong> Is the risk <strong>too busy on one screen</strong> vs. <strong>too many places to look</strong>?</div>
+              <p><strong>Integrated wins when:</strong> <strong>Technical + business</strong> together reduces clicks for <strong>engineers</strong> who need both.</p>
+              <p><strong>On-top wins when:</strong> Mixed audiences get lost in <strong>storage / profiling / ops</strong> fields; <strong>business-first</strong> reduces noise for <strong>stewards</strong>.</p>
+            </div>
+            <div class="deck-criterion">
+              <div class="cq">D. Implementation and ownership</div>
+              <div class="cq-q"><strong>Question:</strong> <strong>One OMS team</strong> or a <strong>BDC product</strong> team ships UI?</div>
+              <p><strong>Integrated wins when:</strong> <strong>One</strong> delivery train, shared components—<strong>if</strong> scope does not creep forever.</p>
+              <p><strong>On-top wins when:</strong> BDC needs <strong>faster iteration</strong>, different cadence, or a clear <strong>bounded context</strong> vs. core OMS.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6 — Criteria E–G (doc verbatim) -->
+        <section class="slide slide--light slide--compact" aria-label="Slide 6 of 13">
+          <div class="slide-inner">
+            <p class="slide-kicker" style="color:#64748b;">Section 1 (continued)</p>
+            <h2>Criteria E–G</h2>
+            <div class="deck-criterion">
+              <div class="cq">E. Governance and policy story</div>
+              <div class="cq-q"><strong>Question:</strong> Do audits need obvious separation: <strong>“catalog actions”</strong> vs. <strong>“platform browsing”</strong>?</div>
+              <p><strong>On-top:</strong> Easier story for <strong>who did what</strong> in the catalog (endorsements, deprecation, steward edits).</p>
+              <p><strong>Integrated:</strong> Same features possible; narrative is <strong>“OMS does it all.”</strong></p>
+            </div>
+            <div class="deck-criterion">
+              <div class="cq">F. Time-to-value and migration</div>
+              <div class="cq-q"><strong>Question:</strong> <strong>Enhance</strong> existing OMS or launch a <strong>net-new</strong> catalog program?</div>
+              <p><strong>Integrated:</strong> Often <strong>faster</strong> if users already live in OMS—add strips, tabs, fields.</p>
+              <p><strong>On-top:</strong> Often <strong>faster pilot</strong> without retouching <strong>every</strong> OMS view—<strong>tradeoff:</strong> two “doors” into similar data.</p>
+            </div>
+            <div class="deck-criterion">
+              <div class="cq">G. Stakeholder alignment</div>
+              <p><strong>Platform / engineering:</strong> Often prefers <strong>integrated</strong> (<strong>one portal</strong>, fewer duplicates).</p>
+              <p><strong>Data governance / enterprise data:</strong> Often prefers <strong>on-top</strong> (<strong>visible program</strong>, dedicated home, clearer mandate).</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 7 — Section 2 + table (doc) -->
+        <section class="slide slide--light slide--compact" aria-label="Slide 7 of 13">
+          <div class="slide-inner">
+            <p class="slide-kicker" style="color:#64748b;">Section 2</p>
+            <h2>Apply the evaluation to this case</h2>
+            <p style="font-size:0.88rem;color:#475569;margin-bottom:0.5rem;">Context: <strong>Integrated</strong> = full Alation-style asset page <strong>with</strong> technical blocks. <strong>On-top</strong> = BDC drill <strong>with</strong> technical sections reduced/hidden + <strong>dedicated BDC home</strong> path.</p>
+            <div class="deck-table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Criterion</th>
+                    <th>Integrated</th>
+                    <th>On-top</th>
+                    <th>Notes (this program)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>User jobs</strong></td>
+                    <td><strong>High</strong> for engineers/operators in OMS daily</td>
+                    <td><strong>High</strong> for stewards / <strong>program</strong>-framed catalog work</td>
+                    <td><strong>Both</strong> personas exist—tension is real</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Discoverability</strong></td>
+                    <td><strong>High</strong> if everyone starts from <strong>OMS Home</strong></td>
+                    <td><strong>Medium–High</strong> if buyers only know <strong>“BDC”</strong> by name</td>
+                    <td><strong>Named BDC</strong> helps <strong>sponsorship + training</strong></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Information density</strong></td>
+                    <td><strong>One-stop</strong> tech+biz; risk <strong>busy UI</strong></td>
+                    <td><strong>Clearer</strong> for stewards; engineers may need <strong>full technical</strong> path</td>
+                    <td>On-top prototype = <strong>business-first</strong> Snowflake detail</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Implementation</strong></td>
+                    <td><strong>High</strong> when <strong>one</strong> team owns all surfaces</td>
+                    <td><strong>High</strong> when BDC ships <strong>independently</strong> or needs <strong>boundary</strong></td>
+                    <td>Depends on <strong>team topology</strong></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Governance story</strong></td>
+                    <td><strong>Medium</strong> signaling vs. dedicated app</td>
+                    <td><strong>High</strong> as <strong>stewardship system of record</strong></td>
+                    <td><strong>Trust flags</strong> fit either; <strong>on-top</strong> = cleaner <strong>narrative</strong></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Time-to-value</strong></td>
+                    <td><strong>Often faster</strong> add-on to existing flows</td>
+                    <td><strong>Often faster pilot</strong> if duplicate nav <strong>short-term</strong> OK</td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 8 — Synthesis (doc) -->
+        <section class="slide slide--accent" aria-label="Slide 8 of 13">
+          <div class="slide-inner">
+            <p class="slide-kicker" style="color:#64748b;">Section 2</p>
+            <h2>Synthesis</h2>
+            <div class="deck-callout" style="border-left-color:#06b6d4;background:linear-gradient(135deg,rgba(6,182,212,0.12),#fff);">
+              <p style="font-size:1.1rem;margin:0;">Prototypes target <strong>different primary users</strong>—<strong>throughput + single surface</strong> (integrated) vs. <strong>program visibility + lower cognitive load</strong> (on-top).</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 9 — Section 3 primary + 4 whys -->
+        <section class="slide slide--dark" aria-label="Slide 9 of 13">
+          <div class="slide-inner">
+            <p class="slide-kicker" style="color:#a5b4fc;">Section 3</p>
+            <h2>Recommendation</h2>
+            <p style="font-size:1.05rem;opacity:0.96;margin-bottom:1rem;"><strong>Primary recommendation:</strong> Lead with the <strong>“layer on top of OMS”</strong> pattern for the <strong>Business Data Catalog program</strong>, while <strong>reusing OMS APIs</strong> and <strong>deep-linking</strong> to <strong>integrated-style</strong> asset detail when <strong>full technical</strong> context is needed.</p>
+            <p style="font-size:0.88rem;font-weight:700;color:#a5b4fc;margin-bottom:0.35rem;">Why (evaluation-linked):</p>
+            <ol class="deck-list" style="list-style:decimal;padding-left:1.25rem;font-size:0.92rem;">
+              <li><strong>Named product &amp; adoption:</strong> Dedicated BDC home/drill fits <strong>funding, comms, training</strong>—especially for people who are <strong>not</strong> “OMS-first.”</li>
+              <li><strong>Business-first clarity:</strong> On-top Snowflake drill matches <strong>stewardship</strong> (descriptions, policies, samples, <strong>trust/deprecation</strong>) without fighting <strong>ops metadata</strong>.</li>
+              <li><strong>Bounded product:</strong> Clear <strong>ownership + roadmap + audit</strong> story for <strong>catalog actions</strong>; OMS stays <strong>operational</strong> source of truth <strong>underneath</strong>.</li>
+              <li><strong>Integrated stays the engineering path:</strong> Same data; richer <strong>SQL / history / lineage</strong> via <strong>Open in OMS</strong> or shared components—<strong>avoid two backends</strong>.</li>
+            </ol>
+          </div>
+        </section>
+
+        <!-- 10 — When integrated-first + hybrid -->
+        <section class="slide slide--light" aria-label="Slide 10 of 13">
+          <div class="slide-inner">
+            <p class="slide-kicker" style="color:#64748b;">Section 3 (continued)</p>
+            <h2>When to prefer integrated-first · Practical hybrid</h2>
+            <p style="font-size:0.95rem;font-weight:700;color:#1e293b;margin-bottom:0.35rem;">When to prefer integrated-first instead:</p>
+            <ul class="deck-list" style="font-size:0.92rem;">
+              <li>OMS is <strong>mandated</strong> for <strong>all</strong> platform users—<strong>no</strong> second front door.</li>
+              <li>Success = <strong>time-on-task in OMS</strong>, not a standalone catalog program.</li>
+              <li>Team <strong>cannot</strong> maintain two navigation shells.</li>
+            </ul>
+            <p style="font-size:0.95rem;font-weight:700;color:#1e293b;margin:1rem 0 0.35rem;">Practical hybrid (common end state):</p>
+            <ul class="deck-list" style="font-size:0.92rem;">
+              <li><strong>On-top:</strong> BDC home, search/facets, stewardship drills, <strong>governance</strong> (trust, deprecation, reasons).</li>
+              <li><strong>Integrated:</strong> Embedded strips/tabs where OMS users already work—<strong>same services + deep links</strong>, not duplicate logic.</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- 11 — Decision flow (doc ASCII) -->
+        <section class="slide slide--light" aria-label="Slide 11 of 13">
+          <div class="slide-inner">
+            <p class="slide-kicker" style="color:#64748b;">Section 3</p>
+            <h2>Decision flow (text diagram)</h2>
+            <pre class="deck-ascii" aria-label="Decision flow diagram">                    ┌──────────────────────────────────┐
+                    │  Who is the primary audience   │
+                    │  for “success” in year one?    │
+                    └─────────────────┬────────────────┘
+                                      │
+            ┌─────────────────────────┼─────────────────────────┐
+            ▼                         ▼                         ▼
+   ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+   │ Engineers /     │    │ Stewards /      │    │ Leadership /    │
+   │ platform users  │    │ owners /        │    │ governance      │
+   │ (OMS-heavy)     │    │ catalog program │    │ (named BDC)     │
+   └────────┬────────┘    └────────┬────────┘    └────────┬────────┘
+            │                      │                      │
+            │         Favor: deep links + shared API      │
+            │         ┌────────────┴────────────┐          │
+            │         ▼                         ▼          │
+            │  ┌──────────────┐        ┌──────────────┐   │
+            └─►│  Integrated  │        │  On-top BDC  │◄──┘
+               │  (full tech) │        │  (lead UX)   │
+               └──────┬───────┘        └──────┬───────┘
+                      │                       │
+                      └───────────┬───────────┘
+                                  ▼
+                    ┌─────────────────────────────┐
+                    │   One metadata API /        │
+                    │   two shells (UX only)      │
+                    └─────────────────────────────┘</pre>
+          </div>
+        </section>
+
+        <!-- 12 — Section 4 next steps -->
+        <section class="slide slide--accent" aria-label="Slide 12 of 13">
+          <div class="slide-inner">
+            <p class="slide-kicker" style="color:#64748b;">Section 4</p>
+            <h2>Suggested next steps</h2>
+            <ul class="deck-list" style="font-size:1rem;">
+              <li><strong>Metrics:</strong> Confirm <strong>year-one</strong> success (e.g. steward tasks, <strong>described assets</strong>, <strong>policy coverage</strong>—not only page views).</li>
+              <li><strong>Research:</strong> <strong>~5 users per persona:</strong> engineer (OMS-heavy), steward, analyst, owner, platform admin.</li>
+              <li><strong>Deep links:</strong> Contract <strong>BDC on-top → OMS integrated</strong> for “full technical / SQL” in <strong>one click</strong>.</li>
+              <li><strong>Architecture:</strong> <strong>One</strong> metadata API; duplicate navigation is a <strong>UX</strong> choice, not a <strong>data</strong> fork.</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- 13 — Closing -->
+        <section class="slide slide--hero" aria-label="Slide 13 of 13">
+          <div class="slide-inner">
+            <p class="slide-kicker">End of deck</p>
+            <h1 class="slide-title" style="font-size:clamp(1.6rem,3.5vw,2.35rem);">Same content as the Google Doc</h1>
+            <p class="slide-sub">Use this deck for presentation; use the Doc for narrative editing and comments. <code style="background:rgba(255,255,255,0.12);padding:0.2rem 0.45rem;border-radius:6px;">BDC-OMS-integrated-vs-on-top-decision.md</code> stays in sync.</p>
+            <p class="slide-sub" style="margin-top:1.5rem;font-size:1rem;">Thank you · discussion &amp; Q&amp;A</p>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <nav class="deck-nav" aria-label="Slide navigation">
+      <div class="deck-nav-inner">
+        <button type="button" class="deck-btn" id="deckPrev" aria-label="Previous slide">← Prev</button>
+        <div class="deck-dots" id="deckDots"></div>
+        <span class="deck-counter" id="deckCounter">1 / 13</span>
+        <button type="button" class="deck-btn" id="deckNext" aria-label="Next slide">Next →</button>
+      </div>
+      <div class="deck-hint">Arrow keys · Home / End · tap dots to jump</div>
+    </nav>
+  </div>
+
+  <script>
+(function () {
+  var track = document.getElementById("deckTrack");
+  var slides = track.querySelectorAll(".slide");
+  var n = slides.length;
+  var i = 0;
+  var dots = document.getElementById("deckDots");
+  var prev = document.getElementById("deckPrev");
+  var next = document.getElementById("deckNext");
+  var counter = document.getElementById("deckCounter");
+
+  for (var d = 0; d < n; d++) {
+    (function (idx) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "deck-dot";
+      b.setAttribute("aria-label", "Go to slide " + (idx + 1));
+      b.addEventListener("click", function () { go(idx); });
+      dots.appendChild(b);
+    })(d);
+  }
+
+  var dotEls = dots.querySelectorAll(".deck-dot");
+
+  function go(idx) {
+    i = Math.max(0, Math.min(n - 1, idx));
+    track.style.transform = "translateY(-" + i * 100 + "vh)";
+    counter.textContent = i + 1 + " / " + n;
+    prev.disabled = i === 0;
+    next.disabled = i === n - 1;
+    for (var j = 0; j < dotEls.length; j++) {
+      dotEls[j].setAttribute("aria-current", j === i ? "true" : "false");
+    }
+    document.title = "BDC on OMS — slide " + (i + 1) + " of " + n;
+  }
+
+  prev.addEventListener("click", function () { go(i - 1); });
+  next.addEventListener("click", function () { go(i + 1); });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "ArrowDown" || e.key === "ArrowRight" || e.key === " " || e.key === "PageDown") {
+      e.preventDefault();
+      go(i + 1);
+    } else if (e.key === "ArrowUp" || e.key === "ArrowLeft" || e.key === "PageUp") {
+      e.preventDefault();
+      go(i - 1);
+    } else if (e.key === "Home") {
+      e.preventDefault();
+      go(0);
+    } else if (e.key === "End") {
+      e.preventDefault();
+      go(n - 1);
+    }
+  });
+
+  var touchStartY = null;
+  var viewport = document.querySelector(".deck-viewport");
+  if (viewport) {
+    viewport.addEventListener(
+      "touchstart",
+      function (e) {
+        touchStartY = e.changedTouches[0].screenY;
+      },
+      { passive: true }
+    );
+    viewport.addEventListener(
+      "touchend",
+      function (e) {
+        if (touchStartY == null) return;
+        var dy = touchStartY - e.changedTouches[0].screenY;
+        touchStartY = null;
+        if (dy > 45) go(i + 1);
+        else if (dy < -45) go(i - 1);
+      },
+      { passive: true }
+    );
+  }
+
+  go(0);
+})();
+  </script>
+</body>
+</html>

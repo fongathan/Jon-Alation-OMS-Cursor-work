@@ -1,0 +1,749 @@
+{
+  "meta": {
+    "generated_at": "2026-03-13T00:09:09.495520Z",
+    "period_days": 90,
+    "source": "Alation Compose CSV exports"
+  },
+  "summary": {
+    "mau": 531,
+    "dau_avg": 0,
+    "new_users": 263,
+    "searches_total": 24858,
+    "page_views_total": 23925,
+    "deprecations": 908,
+    "articles_total": 57,
+    "terms_total": 5091,
+    "total_tables": 667619,
+    "endorsed_pct": 0.1,
+    "description_coverage_pct": 3.4,
+    "steward_pct": 0.3
+  },
+  "dau_mau_12m": {
+    "months": [
+      "Mar '25",
+      "Apr '25",
+      "May '25",
+      "Jun '25",
+      "Jul '25",
+      "Aug '25",
+      "Sep '25",
+      "Oct '25",
+      "Nov '25",
+      "Dec '25",
+      "Jan '26",
+      "Feb '26",
+      "Mar '26"
+    ],
+    "mau": [
+      342,
+      445,
+      425,
+      433,
+      543,
+      482,
+      463,
+      514,
+      444,
+      450,
+      461,
+      523,
+      329
+    ],
+    "dau": [
+      296,
+      273,
+      266,
+      241,
+      321,
+      248,
+      218,
+      257,
+      210,
+      193,
+      272,
+      351,
+      290
+    ]
+  },
+  "top_users": [
+    {
+      "display_name": "Jenn Yu",
+      "email": "jenn.yu@disney.com",
+      "endorsements": 96,
+      "deprecations": 247,
+      "total_flags": 343
+    },
+    {
+      "display_name": "Dorothy Stanford",
+      "email": "dorothy.stanford@disney.com",
+      "endorsements": 27,
+      "deprecations": 226,
+      "total_flags": 253
+    },
+    {
+      "display_name": "Xingpeng Xiao",
+      "email": "xingpeng.xiao@disney.com",
+      "endorsements": 0,
+      "deprecations": 226,
+      "total_flags": 226
+    },
+    {
+      "display_name": "Peter Yu",
+      "email": "yang.yu@disney.com",
+      "endorsements": 0,
+      "deprecations": 202,
+      "total_flags": 202
+    },
+    {
+      "display_name": "Alyssa Fox",
+      "email": "alyssa.r.fox@disney.com",
+      "endorsements": 15,
+      "deprecations": 7,
+      "total_flags": 23
+    },
+    {
+      "display_name": "Mark Dienger",
+      "email": "mark.l.dienger@disney.com",
+      "endorsements": 22,
+      "deprecations": 0,
+      "total_flags": 22
+    },
+    {
+      "display_name": "Sam Nasir",
+      "email": "sameul.nasir@disney.com",
+      "endorsements": 18,
+      "deprecations": 0,
+      "total_flags": 18
+    },
+    {
+      "display_name": "Christina Aoun",
+      "email": "christina.aoun@disney.com",
+      "endorsements": 6,
+      "deprecations": 0,
+      "total_flags": 6
+    },
+    {
+      "display_name": "Carolina Manning",
+      "email": "carolina.manning@disney.com",
+      "endorsements": 3,
+      "deprecations": 0,
+      "total_flags": 3
+    },
+    {
+      "display_name": "Matt MITTELMANN",
+      "email": "matthew.j.mittelmann@disney.com",
+      "endorsements": 3,
+      "deprecations": 0,
+      "total_flags": 3
+    },
+    {
+      "display_name": "Hannah Tulinski",
+      "email": "hannah.tulinski@disney.com",
+      "endorsements": 2,
+      "deprecations": 0,
+      "total_flags": 2
+    },
+    {
+      "display_name": "Srikanth Gurram",
+      "email": "srikanth.gurram@disney.com",
+      "endorsements": 0,
+      "deprecations": 0,
+      "total_flags": 1
+    },
+    {
+      "display_name": "Dmitry Vaysberg",
+      "email": "dmitry.vaysberg@disney.com",
+      "endorsements": 1,
+      "deprecations": 0,
+      "total_flags": 1
+    },
+    {
+      "display_name": "Lucas WANG",
+      "email": "lucas.wang2@disney.com",
+      "endorsements": 1,
+      "deprecations": 0,
+      "total_flags": 1
+    }
+  ],
+  "curation_monthly": {
+    "months": [
+      "Apr '25",
+      "Jul '25",
+      "Aug '25",
+      "Oct '25",
+      "Jan '26",
+      "Feb '26",
+      "Mar '26"
+    ],
+    "endorsed": [
+      1,
+      1,
+      0,
+      11,
+      43,
+      150,
+      1
+    ],
+    "deprecated": [
+      0,
+      0,
+      372,
+      455,
+      435,
+      473,
+      0
+    ],
+    "warned": [
+      0,
+      0,
+      505,
+      1,
+      1,
+      1,
+      0
+    ]
+  },
+  "catalog_coverage": {
+    "description_pct": 3.4,
+    "steward_pct": 0.3,
+    "endorsed_pct": 0.1
+  },
+  "top_curators": [
+    {
+      "display_name": "Jenn Yu",
+      "email": "jenn.yu@disney.com",
+      "endorsements": 96,
+      "deprecations": 247,
+      "total_flags": 343
+    },
+    {
+      "display_name": "Dorothy Stanford",
+      "email": "dorothy.stanford@disney.com",
+      "endorsements": 27,
+      "deprecations": 226,
+      "total_flags": 253
+    },
+    {
+      "display_name": "Xingpeng Xiao",
+      "email": "xingpeng.xiao@disney.com",
+      "endorsements": 0,
+      "deprecations": 226,
+      "total_flags": 226
+    },
+    {
+      "display_name": "Peter Yu",
+      "email": "yang.yu@disney.com",
+      "endorsements": 0,
+      "deprecations": 202,
+      "total_flags": 202
+    },
+    {
+      "display_name": "Alyssa Fox",
+      "email": "alyssa.r.fox@disney.com",
+      "endorsements": 15,
+      "deprecations": 7,
+      "total_flags": 23
+    },
+    {
+      "display_name": "Mark Dienger",
+      "email": "mark.l.dienger@disney.com",
+      "endorsements": 22,
+      "deprecations": 0,
+      "total_flags": 22
+    },
+    {
+      "display_name": "Sam Nasir",
+      "email": "sameul.nasir@disney.com",
+      "endorsements": 18,
+      "deprecations": 0,
+      "total_flags": 18
+    },
+    {
+      "display_name": "Christina Aoun",
+      "email": "christina.aoun@disney.com",
+      "endorsements": 6,
+      "deprecations": 0,
+      "total_flags": 6
+    },
+    {
+      "display_name": "Carolina Manning",
+      "email": "carolina.manning@disney.com",
+      "endorsements": 3,
+      "deprecations": 0,
+      "total_flags": 3
+    },
+    {
+      "display_name": "Matt MITTELMANN",
+      "email": "matthew.j.mittelmann@disney.com",
+      "endorsements": 3,
+      "deprecations": 0,
+      "total_flags": 3
+    },
+    {
+      "display_name": "Hannah Tulinski",
+      "email": "hannah.tulinski@disney.com",
+      "endorsements": 2,
+      "deprecations": 0,
+      "total_flags": 2
+    },
+    {
+      "display_name": "Srikanth Gurram",
+      "email": "srikanth.gurram@disney.com",
+      "endorsements": 0,
+      "deprecations": 0,
+      "total_flags": 1
+    },
+    {
+      "display_name": "Dmitry Vaysberg",
+      "email": "dmitry.vaysberg@disney.com",
+      "endorsements": 1,
+      "deprecations": 0,
+      "total_flags": 1
+    },
+    {
+      "display_name": "Lucas WANG",
+      "email": "lucas.wang2@disney.com",
+      "endorsements": 1,
+      "deprecations": 0,
+      "total_flags": 1
+    }
+  ],
+  "search_daily": {
+    "dates": [
+      "2025-12-12",
+      "2025-12-13",
+      "2025-12-14",
+      "2025-12-15",
+      "2025-12-16",
+      "2025-12-17",
+      "2025-12-18",
+      "2025-12-19",
+      "2025-12-20",
+      "2025-12-22",
+      "2025-12-23",
+      "2025-12-24",
+      "2025-12-25",
+      "2025-12-26",
+      "2025-12-27",
+      "2025-12-28",
+      "2025-12-29",
+      "2025-12-30",
+      "2025-12-31",
+      "2026-01-01",
+      "2026-01-02",
+      "2026-01-03",
+      "2026-01-04",
+      "2026-01-05",
+      "2026-01-06",
+      "2026-01-07",
+      "2026-01-08",
+      "2026-01-09",
+      "2026-01-10",
+      "2026-01-11",
+      "2026-01-12",
+      "2026-01-13",
+      "2026-01-14",
+      "2026-01-15",
+      "2026-01-16",
+      "2026-01-17",
+      "2026-01-19",
+      "2026-01-20",
+      "2026-01-21",
+      "2026-01-22",
+      "2026-01-23",
+      "2026-01-24",
+      "2026-01-25",
+      "2026-01-26",
+      "2026-01-27",
+      "2026-01-28",
+      "2026-01-29",
+      "2026-01-30",
+      "2026-01-31",
+      "2026-02-01",
+      "2026-02-02",
+      "2026-02-03",
+      "2026-02-04",
+      "2026-02-05",
+      "2026-02-06",
+      "2026-02-07",
+      "2026-02-08",
+      "2026-02-09",
+      "2026-02-10",
+      "2026-02-11",
+      "2026-02-12",
+      "2026-02-13",
+      "2026-02-14",
+      "2026-02-15",
+      "2026-02-16",
+      "2026-02-17",
+      "2026-02-18",
+      "2026-02-19",
+      "2026-02-20",
+      "2026-02-21",
+      "2026-02-22",
+      "2026-02-23",
+      "2026-02-24",
+      "2026-02-25",
+      "2026-02-26",
+      "2026-02-27",
+      "2026-02-28",
+      "2026-03-01",
+      "2026-03-02",
+      "2026-03-03",
+      "2026-03-04",
+      "2026-03-05",
+      "2026-03-06",
+      "2026-03-07",
+      "2026-03-08",
+      "2026-03-09",
+      "2026-03-10",
+      "2026-03-11",
+      "2026-03-12"
+    ],
+    "searches": [
+      3,
+      72,
+      3,
+      378,
+      253,
+      296,
+      433,
+      278,
+      6,
+      336,
+      218,
+      123,
+      3,
+      102,
+      16,
+      11,
+      245,
+      219,
+      91,
+      13,
+      70,
+      5,
+      6,
+      345,
+      585,
+      527,
+      544,
+      413,
+      29,
+      39,
+      511,
+      388,
+      527,
+      319,
+      384,
+      31,
+      28,
+      309,
+      440,
+      563,
+      393,
+      37,
+      33,
+      471,
+      392,
+      419,
+      439,
+      363,
+      50,
+      43,
+      430,
+      556,
+      1031,
+      369,
+      463,
+      147,
+      6,
+      340,
+      418,
+      463,
+      366,
+      168,
+      44,
+      6,
+      22,
+      576,
+      493,
+      390,
+      250,
+      30,
+      85,
+      353,
+      441,
+      394,
+      539,
+      316,
+      33,
+      5,
+      516,
+      665,
+      640,
+      462,
+      346,
+      20,
+      23,
+      501,
+      462,
+      590,
+      97
+    ]
+  },
+  "top_searches": [
+    {
+      "query": "search.impression",
+      "count": 24445
+    },
+    {
+      "query": "ask.question",
+      "count": 413
+    }
+  ],
+  "top_visited": [
+    {
+      "name": "Unknown",
+      "type": "table",
+      "views": 10310
+    },
+    {
+      "name": "Unknown",
+      "type": "schema",
+      "views": 2718
+    },
+    {
+      "name": "Unknown",
+      "type": "attribute",
+      "views": 2286
+    },
+    {
+      "name": "Unknown",
+      "type": "glossary_v3",
+      "views": 2069
+    },
+    {
+      "name": "Unknown",
+      "type": "data",
+      "views": 1438
+    },
+    {
+      "name": "Unknown",
+      "type": "query",
+      "views": 786
+    },
+    {
+      "name": "Unknown",
+      "type": "glossary_term",
+      "views": 373
+    },
+    {
+      "name": "Unknown",
+      "type": "domain",
+      "views": 188
+    },
+    {
+      "name": "Unknown",
+      "type": "bi_folder",
+      "views": 143
+    },
+    {
+      "name": "device_activation_by_signup_cohort",
+      "type": "table",
+      "views": 119
+    },
+    {
+      "name": "Unknown",
+      "type": "user",
+      "views": 108
+    },
+    {
+      "name": "Variant Images",
+      "type": "glossary_term",
+      "views": 95
+    },
+    {
+      "name": "Unknown",
+      "type": "article",
+      "views": 93
+    },
+    {
+      "name": "DC Biddable ADomain",
+      "type": "glossary_term",
+      "views": 83
+    },
+    {
+      "name": "Unknown",
+      "type": "dataflow",
+      "views": 67
+    },
+    {
+      "name": "Paid Stopped Paused Subscribers",
+      "type": "glossary_term",
+      "views": 64
+    },
+    {
+      "name": "Subscriber Tenure Tables Memo",
+      "type": "glossary_term",
+      "views": 64
+    },
+    {
+      "name": "Unknown",
+      "type": "bi_report",
+      "views": 62
+    },
+    {
+      "name": "Unknown",
+      "type": "userprofile",
+      "views": 58
+    },
+    {
+      "name": "Unknown",
+      "type": "bi_server",
+      "views": 56
+    }
+  ],
+  "governance_feed": [
+    {
+      "type": "ENDORSEMENT",
+      "user": "dorothy.stanford@disney.com",
+      "object": "Unknown object",
+      "datasource": "",
+      "date": "2026-03-09"
+    },
+    {
+      "type": "ENDORSEMENT",
+      "user": "alyssa.r.fox@disney.com",
+      "object": "Unknown object",
+      "datasource": "",
+      "date": "2026-02-27"
+    },
+    {
+      "type": "ENDORSEMENT",
+      "user": "alyssa.r.fox@disney.com",
+      "object": "Unknown object",
+      "datasource": "",
+      "date": "2026-02-26"
+    },
+    {
+      "type": "ENDORSEMENT",
+      "user": "dorothy.stanford@disney.com",
+      "object": "Unknown object",
+      "datasource": "",
+      "date": "2026-02-17"
+    },
+    {
+      "type": "ENDORSEMENT",
+      "user": "dorothy.stanford@disney.com",
+      "object": "Unknown object",
+      "datasource": "",
+      "date": "2026-02-17"
+    },
+    {
+      "type": "ENDORSEMENT",
+      "user": "dorothy.stanford@disney.com",
+      "object": "Unknown object",
+      "datasource": "",
+      "date": "2026-02-17"
+    },
+    {
+      "type": "ENDORSEMENT",
+      "user": "dorothy.stanford@disney.com",
+      "object": "Unknown object",
+      "datasource": "",
+      "date": "2026-02-17"
+    },
+    {
+      "type": "ENDORSEMENT",
+      "user": "alyssa.r.fox@disney.com",
+      "object": "Unknown object",
+      "datasource": "",
+      "date": "2026-02-14"
+    },
+    {
+      "type": "ENDORSEMENT",
+      "user": "alyssa.r.fox@disney.com",
+      "object": "Unknown object",
+      "datasource": "",
+      "date": "2026-02-14"
+    },
+    {
+      "type": "ENDORSEMENT",
+      "user": "alyssa.r.fox@disney.com",
+      "object": "Unknown object",
+      "datasource": "",
+      "date": "2026-02-14"
+    },
+    {
+      "type": "ENDORSEMENT",
+      "user": "alyssa.r.fox@disney.com",
+      "object": "Unknown object",
+      "datasource": "",
+      "date": "2026-02-14"
+    },
+    {
+      "type": "ENDORSEMENT",
+      "user": "alyssa.r.fox@disney.com",
+      "object": "Unknown object",
+      "datasource": "",
+      "date": "2026-02-14"
+    },
+    {
+      "type": "ENDORSEMENT",
+      "user": "alyssa.r.fox@disney.com",
+      "object": "Unknown object",
+      "datasource": "",
+      "date": "2026-02-14"
+    },
+    {
+      "type": "ENDORSEMENT",
+      "user": "alyssa.r.fox@disney.com",
+      "object": "Unknown object",
+      "datasource": "",
+      "date": "2026-02-14"
+    },
+    {
+      "type": "ENDORSEMENT",
+      "user": "alyssa.r.fox@disney.com",
+      "object": "Unknown object",
+      "datasource": "",
+      "date": "2026-02-14"
+    },
+    {
+      "type": "ENDORSEMENT",
+      "user": "alyssa.r.fox@disney.com",
+      "object": "Unknown object",
+      "datasource": "",
+      "date": "2026-02-14"
+    },
+    {
+      "type": "ENDORSEMENT",
+      "user": "alyssa.r.fox@disney.com",
+      "object": "Unknown object",
+      "datasource": "",
+      "date": "2026-02-14"
+    },
+    {
+      "type": "ENDORSEMENT",
+      "user": "alyssa.r.fox@disney.com",
+      "object": "Unknown object",
+      "datasource": "",
+      "date": "2026-02-14"
+    },
+    {
+      "type": "ENDORSEMENT",
+      "user": "alyssa.r.fox@disney.com",
+      "object": "Unknown object",
+      "datasource": "",
+      "date": "2026-02-14"
+    },
+    {
+      "type": "ENDORSEMENT",
+      "user": "alyssa.r.fox@disney.com",
+      "object": "Unknown object",
+      "datasource": "",
+      "date": "2026-02-14"
+    }
+  ]
+}

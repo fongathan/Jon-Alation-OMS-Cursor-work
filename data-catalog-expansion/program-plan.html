@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unified Data Catalog — Program Plan (Warehouse + Vendors)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="themes/theme-editorial-hero.css">
+</head>
+<body>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="badge-row">
+        <span class="badge">In-house catalog</span>
+        <span class="badge">Alation migration</span>
+        <span class="badge lime">Extended scope</span>
+      </div>
+      <h1>Unified Data Catalog Program<br><span style="font-weight:500;opacity:0.92">Warehouses + activation &amp; third-party context</span></h1>
+      <p class="hero-lead">
+        A single program to replace Alation with your internal catalog while deliberately expanding beyond Hive, Snowflake, and Databricks to capture activation tools, CDPs, and marketing platforms—where critical business semantics and customer context actually live.
+      </p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="admin-dashboard.html">Open tracking dashboard →</a>
+        <a class="btn btn-ghost" href="#vision">Read the plan</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <section id="vision">
+      <h2>Vision &amp; problem</h2>
+      <p>
+        Today’s catalog footprint is anchored on warehouse-native objects. That misses how data is <em>activated</em>, <em>segmented</em>, and <em>explained</em> in downstream SaaS: reverse ETL (e.g. Hightouch), customer data platforms, lifecycle and engagement tools (e.g. Braze), and ad-hoc spreadsheets of “truth” owned by growth and product.
+      </p>
+      <div class="callout">
+        <strong>North star:</strong> One searchable, governed catalog that registers not only tables and pipelines, but also vendor entities, syncs, audiences, traits, and campaign touchpoints—with clear ownership and lineage to warehouse sources where applicable.
+      </div>
+    </section>
+
+    <section>
+      <h2>Scope expansion (beyond warehouses)</h2>
+      <p>Representative third-party and activation layers to model in metadata (names are examples; finalize with your stack):</p>
+      <div class="grid-2">
+        <div class="card">
+          <h4>Reverse ETL / sync</h4>
+          <div class="big">Hightouch · Census · Polytomic</div>
+          <span class="tag cyan">Syncs · mappings · destinations</span>
+        </div>
+        <div class="card">
+          <h4>CDP / identity</h4>
+          <div class="big">Segment · mParticle · Rudderstack</div>
+          <span class="tag lime">Events · profiles · ID graphs</span>
+        </div>
+        <div class="card">
+          <h4>Lifecycle &amp; engagement</h4>
+          <div class="big">Braze · Iterable · Customer.io</div>
+          <span class="tag magenta">Campaigns · canvases · attributes</span>
+        </div>
+        <div class="card">
+          <h4>Ads &amp; measurement</h4>
+          <div class="big">Meta · Google Ads · Amplitude</div>
+          <span class="tag cyan">Pixels · conversions · cohorts</span>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Program objectives</h2>
+      <ol>
+        <li><strong>Parity migration:</strong> Map Alation requirements (glossary, stewardship, search, lineage, policies) onto the in-house catalog.</li>
+        <li><strong>Vendor plane:</strong> Define asset types, connectors, and refresh semantics for non-warehouse systems.</li>
+        <li><strong>Cross-plane lineage:</strong> Link warehouse tables → sync jobs → vendor entities (audiences, traits, campaigns).</li>
+        <li><strong>Governance:</strong> PII classification, data contracts, and access reviews that span warehouse + SaaS.</li>
+        <li><strong>Adoption:</strong> Self-serve discovery for analysts, growth, and data engineering with clear SLAs.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>Phased roadmap</h2>
+      <ul class="timeline">
+        <li>
+          <span class="phase-title">Phase 0 — Foundation</span>
+          <span class="phase-meta">Inventory Alation usage; confirm OMS/extension architecture; vendor shortlist workshops.</span>
+        </li>
+        <li>
+          <span class="phase-title">Phase 1 — Warehouse + pipeline parity</span>
+          <span class="phase-meta">Hive, Snowflake, Databricks/Unity: documentation, ownership, lineage, policies at table/column level.</span>
+        </li>
+        <li>
+          <span class="phase-title">Phase 2 — Activation layer</span>
+          <span class="phase-meta">Ingest metadata from reverse ETL (mappings, sync frequency, destinations); surface in catalog UI.</span>
+        </li>
+        <li>
+          <span class="phase-title">Phase 3 — CDP &amp; engagement</span>
+          <span class="phase-meta">Event catalogs, computed traits, audience definitions; link to warehouse grain where possible.</span>
+        </li>
+        <li>
+          <span class="phase-title">Phase 4 — Hardening &amp; scale</span>
+          <span class="phase-meta">SLAs, audit exports, API for programmatic consumers, cost/usage views per connector.</span>
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Workstreams</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Workstream</th>
+            <th>Outcomes</th>
+            <th>Key dependencies</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Product &amp; UX</strong></td>
+            <td>Unified search, facet filters by “plane” (warehouse vs vendor), asset detail templates.</td>
+            <td>IA workshops with stewards; design system.</td>
+          </tr>
+          <tr>
+            <td><strong>Metadata engineering</strong></td>
+            <td>Connectors, ETL into catalog store, deduplication, versioning.</td>
+            <td>Vendor API access; rate limits.</td>
+          </tr>
+          <tr>
+            <td><strong>Lineage &amp; mapping</strong></td>
+            <td>Column-level lineage in warehouses; job-level to vendor entities.</td>
+            <td>Orchestrator + sync tool metadata.</td>
+          </tr>
+          <tr>
+            <td><strong>Governance &amp; security</strong></td>
+            <td>Policies, PII tags, access certification across planes.</td>
+            <td>IAM, legal, privacy reviews.</td>
+          </tr>
+          <tr>
+            <td><strong>Change &amp; training</strong></td>
+            <td>Office hours, “how to register a vendor asset,” deprecation of Alation workflows.</td>
+            <td>Comms plan; champions per domain.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Risks &amp; mitigations</h2>
+      <ul>
+        <li><strong>API sprawl:</strong> Prioritize vendors by business criticality; use a thin adapter pattern per vendor family.</li>
+        <li><strong>Semantic drift:</strong> Treat vendor fields as first-class with effective-dated definitions and owners.</li>
+        <li><strong>Compliance:</strong> Model residency and purpose-of-use per asset; block risky joins in the UI where needed.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Success measures</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h4>Coverage</h4>
+          <p class="big" style="font-size:1.1rem;font-weight:600;">% of critical vendor systems with registered assets &amp; owners</p>
+        </div>
+        <div class="card">
+          <h4>Trust</h4>
+          <p class="big" style="font-size:1.1rem;font-weight:600;">Time-to-answer for “where does this trait come from?”</p>
+        </div>
+        <div class="card">
+          <h4>Adoption</h4>
+          <p class="big" style="font-size:1.1rem;font-weight:600;">Weekly active catalog users by persona</p>
+        </div>
+        <div class="card">
+          <h4>Migration</h4>
+          <p class="big" style="font-size:1.1rem;font-weight:600;">Alation capability checklist closed with sign-off</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    Unified Data Catalog Program Plan · Internal use · Pair with <a href="admin-dashboard.html" style="color:var(--violet);">admin dashboard</a> for live tracking.
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Unity Catalog vs. Alation Replacement — Slide Deck</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #0f2744;
+      --navy-soft: #1a3a5c;
+      --header-blue: #1e5a96;
+      --sidebar-bg: #e4eef8;
+      --sidebar-footer: #3d5166;
+      --page-bg: #e8ecf2;
+      --white: #fff;
+      --text: #1a1a1a;
+      --muted: #5c6570;
+      --accent: #1565c0;
+      --warn: #b45309;
+      --good: #1a7a45;
+      --radius: 14px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "DM Sans", system-ui, sans-serif;
+      background: var(--page-bg);
+      color: var(--text);
+      padding: 1.25rem;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .deck-intro {
+      max-width: 1120px;
+      margin: 0 auto 1rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+    .deck-intro strong { color: var(--navy); }
+    .slide {
+      max-width: 1120px;
+      margin: 0 auto 1.75rem;
+      aspect-ratio: 16 / 9;
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: 0 12px 40px rgba(15, 39, 68, 0.12);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      min-height: 480px;
+      page-break-after: always;
+    }
+    .slide-head {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--header-blue) 100%);
+      color: #fff;
+      padding: 0.65rem 1.25rem;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .slide-head h1 { font-size: 1.12rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; }
+    .slide-num { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.85; }
+    .slide-body { flex: 1; display: grid; grid-template-columns: 1fr 1.15fr; min-height: 0; }
+    .slide-body-single { grid-template-columns: 1fr; }
+    .slide-body-thirds { grid-template-columns: 1fr 1fr 1fr; }
+    .col { padding: 1rem 1.15rem; min-height: 0; overflow: hidden; }
+    .col-aside { background: var(--sidebar-bg); border-right: 1px solid rgba(15, 39, 68, 0.08); }
+    .col h2 { font-size: 0.72rem; font-weight: 700; color: var(--navy); margin-bottom: 0.45rem; text-transform: uppercase; letter-spacing: 0.04em; }
+    .col-main h2 { color: var(--header-blue); }
+    .col p, .col li { font-size: 0.72rem; line-height: 1.45; }
+    .col ul { margin: 0.25rem 0 0.5rem 1rem; }
+    .col li { margin-bottom: 0.28rem; }
+    .callout {
+      font-size: 0.68rem; line-height: 1.42;
+      background: rgba(30, 90, 150, 0.08);
+      border-left: 3px solid var(--header-blue);
+      padding: 0.45rem 0.55rem; margin-top: 0.35rem;
+      border-radius: 0 6px 6px 0;
+    }
+    .callout-strong {
+      font-size: 0.78rem; line-height: 1.5;
+      background: rgba(15, 39, 68, 0.06);
+      border-left: 4px solid var(--navy);
+      padding: 0.55rem 0.65rem; margin-top: 0.35rem;
+      border-radius: 0 6px 6px 0;
+    }
+    .verdict {
+      font-size: 0.85rem; font-weight: 700; color: var(--navy);
+      background: rgba(26, 122, 69, 0.1);
+      border: 2px solid var(--good);
+      border-radius: 8px;
+      padding: 0.6rem 0.75rem;
+      margin-top: 0.5rem;
+      text-align: center;
+    }
+    table.comp { width: 100%; border-collapse: collapse; font-size: 0.62rem; margin-top: 0.35rem; }
+    table.comp th, table.comp td { border: 1px solid rgba(15,39,68,0.12); padding: 0.35rem 0.4rem; text-align: left; vertical-align: top; }
+    table.comp th { background: var(--sidebar-bg); font-weight: 700; color: var(--navy); }
+    .gap-high { color: #b91c1c; font-weight: 700; }
+    .gap-partial { color: var(--warn); font-weight: 600; }
+    .gap-ok { color: var(--good); font-weight: 600; }
+    .arch-box {
+      background: var(--white);
+      border: 1px solid rgba(15,39,68,0.12);
+      border-radius: 8px;
+      padding: 0.5rem 0.55rem;
+      margin-bottom: 0.4rem;
+      font-size: 0.68rem;
+    }
+    .arch-box strong { display: block; color: var(--navy); margin-bottom: 0.15rem; }
+    .slide-footer {
+      background: var(--sidebar-footer);
+      color: #c5d4e3;
+      padding: 0.4rem 1.15rem;
+      font-size: 0.6rem;
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;
+    }
+    .slide-footer .logo { font-weight: 700; letter-spacing: 0.06em; color: #9eb0c4; }
+    @media print {
+      body { padding: 0; background: #fff; }
+      .deck-intro { display: none; }
+      .slide { box-shadow: none; max-width: none; margin: 0; border-radius: 0; }
+    }
+  </style>
+</head>
+<body>
+  <p class="deck-intro">
+    <strong>Unity Catalog vs. Alation replacement</strong> — 8 slides · Jun 2026 · DAIS 2026 context ·
+    Memo: <a href="../../Unity-Catalog-Alation-Replacement-Memo.html">HTML</a> ·
+    <a href="../../Unity-Catalog-Alation-Replacement-Memo.md">Markdown</a>
+  </p>
+
+  <!-- Slide 1 -->
+  <article class="slide">
+    <header class="slide-head">
+      <h1>Can Unity Catalog replace Alation?</h1>
+      <span class="slide-num">Slide 1 of 8</span>
+    </header>
+    <div class="slide-body slide-body-single">
+      <div class="col" style="display:flex;flex-direction:column;justify-content:center;">
+        <h2 style="font-size:0.85rem;margin-bottom:0.75rem;">The question</h2>
+        <p style="font-size:0.95rem;line-height:1.5;margin-bottom:0.75rem;">
+          After <strong>Databricks Data + AI Summit 2026</strong> (June 15–18), leadership is asking whether <strong>Unity Catalog</strong> can substitute for building an in-house catalog on <strong>OMS</strong>—instead of our Alation migration program.
+        </p>
+        <div class="verdict">Answer: No — UC complements OMS; it does not replace Alation.</div>
+        <p style="font-size:0.72rem;margin-top:0.75rem;color:var(--muted);">
+          Alation contract end: <strong>October 1, 2026</strong> · Audience: broad forums &amp; executive follow-ups
+        </p>
+      </div>
+    </div>
+    <footer class="slide-footer">
+      <span>Data Governance · UC vs. catalog strategy</span>
+      <span class="logo">INTERNAL</span>
+    </footer>
+  </article>
+
+  <!-- Slide 2 -->
+  <article class="slide">
+    <header class="slide-head">
+      <h1>What Databricks announced (DAIS 2026)</h1>
+      <span class="slide-num">Slide 2 of 8</span>
+    </header>
+    <div class="slide-body">
+      <div class="col col-aside">
+        <h2>Semantics &amp; discovery</h2>
+        <ul>
+          <li><strong>Metric Views</strong> — governed KPIs at data layer (available)</li>
+          <li><strong>Business Glossary</strong> — <em>preview coming soon</em> (announced, not shipped)</li>
+          <li><strong>Domains</strong> — business-area marketplace (Public Preview)</li>
+          <li><strong>Governance Hub</strong> — steward command center (Private Preview)</li>
+        </ul>
+        <h2 style="margin-top:0.5rem;">Agents &amp; governance</h2>
+        <ul>
+          <li><strong>Unity AI Gateway</strong> — models, agents, MCPs (Beta)</li>
+          <li>External lineage GA; cross-region governance (preview roadmap)</li>
+          <li>ABAC, classification, DQ monitoring (expanding)</li>
+        </ul>
+      </div>
+      <div class="col col-main">
+        <h2>What this signals</h2>
+        <p>Databricks is extending UC from <strong>technical governance</strong> toward <strong>business semantics and discovery</strong>—primarily for users and workloads <em>inside</em> the Databricks platform.</p>
+        <div class="callout-strong">
+          <strong>Important nuance:</strong> Databricks <em>announced</em> a UC Business Glossary at DAIS 2026, but it is <strong>“preview coming soon”</strong>—not generally available. What ships today is <strong>Metric Views</strong> + agent metadata on measures—not a stewarded enterprise glossary.
+        </div>
+        <p class="callout" style="margin-top:0.45rem;">
+          Source: <a href="https://www.databricks.com/blog/whats-new-unity-catalog-data-ai-summit-2026">Databricks DAIS 2026 blog</a> · <a href="https://docs.databricks.com/aws/en/business-semantics/">UC business semantics docs</a>
+        </p>
+      </div>
+    </div>
+    <footer class="slide-footer">
+      <span>Data Governance · UC vs. catalog strategy</span>
+      <span class="logo">INTERNAL</span>
+    </footer>
+  </article>
+
+  <!-- Slide 3 -->
+  <article class="slide">
+    <header class="slide-head">
+      <h1>What Unity Catalog is good at</h1>
+      <span class="slide-num">Slide 3 of 8</span>
+    </header>
+    <div class="slide-body slide-body-thirds">
+      <div class="col col-aside">
+        <h2>Governance engine</h2>
+        <ul>
+          <li>Fine-grained access, audit, lineage on Databricks assets</li>
+          <li>Models, volumes, functions—not only tables</li>
+          <li>Policy automation: ABAC, masking, classification</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h2>Semantic metrics</h2>
+        <ul>
+          <li>Define KPIs once; query via SQL across tools</li>
+          <li>Governed, lineaged metric definitions</li>
+          <li>Strong fit for Databricks + AI/BI + Genie</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h2>Evolving federation</h2>
+        <ul>
+          <li>Iceberg / REST catalog interoperability</li>
+          <li>External lineage (BYOL) for non-Databricks systems</li>
+          <li><em>Integration engineering cost is on us</em></li>
+        </ul>
+      </div>
+    </div>
+    <footer class="slide-footer">
+      <span>Data Governance · UC vs. catalog strategy</span>
+      <span class="logo">INTERNAL</span>
+    </footer>
+  </article>
+
+  <!-- Slide 4 -->
+  <article class="slide">
+    <header class="slide-head">
+      <h1>What Alation gives us today</h1>
+      <span class="slide-num">Slide 4 of 8</span>
+    </header>
+    <div class="slide-body">
+      <div class="col col-aside">
+        <h2>Capability pillars (must preserve)</h2>
+        <ul>
+          <li><strong>Discovery</strong> — search &amp; browse across sources</li>
+          <li><strong>Business context</strong> — glossary, articles, synonyms</li>
+          <li><strong>Trust</strong> — tags, domains, endorse/deprecate</li>
+          <li><strong>Lineage</strong> — tables, columns, dataflows (Airflow, dbt)</li>
+          <li><strong>Scale ops</strong> — bulk edit, catalog sets</li>
+          <li><strong>Governance</strong> — stewardship, policy workflows</li>
+        </ul>
+      </div>
+      <div class="col col-main">
+        <h2>Who uses it</h2>
+        <p>Stewards, analysts, compliance, and business consumers—not Databricks engineers in Catalog Explorer.</p>
+        <h2 style="margin-top:0.5rem;">Our estate</h2>
+        <ul>
+          <li>Multiple Snowflake accounts (DSS, Hulu, DTCI…)</li>
+          <li>Pipelines: Airflow, dbt, 626/MCI supply</li>
+          <li>Unity for lakehouse workloads—not the only platform</li>
+        </ul>
+        <div class="callout">
+          Enterprise catalogs exist to <strong>federate</strong> metadata above heterogeneous systems—not to duplicate what each platform already governs internally.
+        </div>
+      </div>
+    </div>
+    <footer class="slide-footer">
+      <span>Data Governance · UC vs. catalog strategy</span>
+      <span class="logo">INTERNAL</span>
+    </footer>
+  </article>
+
+  <!-- Slide 5 -->
+  <article class="slide">
+    <header class="slide-head">
+      <h1>Capability comparison (selected)</h1>
+      <span class="slide-num">Slide 5 of 8</span>
+    </header>
+    <div class="slide-body slide-body-single">
+      <div class="col">
+        <table class="comp">
+          <thead>
+            <tr>
+              <th>Need</th>
+              <th>Alation</th>
+              <th>Unity Catalog (DAIS 2026)</th>
+              <th>Gap for Alation replacement?</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Business glossary</td>
+              <td class="gap-ok">Core</td>
+              <td class="gap-high">Preview announced; not shipped</td>
+              <td class="gap-high">Critical</td>
+            </tr>
+            <tr>
+              <td>Articles / knowledge base</td>
+              <td class="gap-ok">Yes</td>
+              <td class="gap-high">No</td>
+              <td class="gap-high">Critical</td>
+            </tr>
+            <tr>
+              <td>Cross-platform search</td>
+              <td class="gap-ok">Yes</td>
+              <td class="gap-partial">Databricks-primary; BYOL = build/maintain</td>
+              <td class="gap-high">Critical</td>
+            </tr>
+            <tr>
+              <td>Stewardship workflows</td>
+              <td class="gap-ok">Yes</td>
+              <td class="gap-partial">Limited curation in Discover preview</td>
+              <td class="gap-high">Major</td>
+            </tr>
+            <tr>
+              <td>Bulk governance</td>
+              <td class="gap-ok">Mass edit, catalog sets</td>
+              <td class="gap-partial">Tag policies; not estate-wide</td>
+              <td class="gap-high">Major</td>
+            </tr>
+            <tr>
+              <td>Governed KPIs / metrics</td>
+              <td class="gap-partial">Glossary + queries</td>
+              <td class="gap-ok">Metric Views — strength</td>
+              <td class="gap-partial">Complement OMS</td>
+            </tr>
+            <tr>
+              <td>Databricks permissions &amp; lineage</td>
+              <td class="gap-partial">Via connector</td>
+              <td class="gap-ok">Native — strength</td>
+              <td class="gap-ok">Feed OMS</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <footer class="slide-footer">
+      <span>Data Governance · UC vs. catalog strategy</span>
+      <span class="logo">INTERNAL</span>
+    </footer>
+  </article>
+
+  <!-- Slide 6 -->
+  <article class="slide">
+    <header class="slide-head">
+      <h1>Business glossary: the decisive gap</h1>
+      <span class="slide-num">Slide 6 of 8</span>
+    </header>
+    <div class="slide-body">
+      <div class="col col-aside">
+        <h2>What stewards need (F02)</h2>
+        <ul>
+          <li>Terms with definitions, synonyms, status</li>
+          <li>Links to tables &amp; columns</li>
+          <li>Domain &amp; stewardship ownership</li>
+          <li>Searchable by business language</li>
+        </ul>
+        <p style="margin-top:0.5rem;font-size:0.68rem;">Example Alation terms: <em>Paid Subscribers</em>, <em>Total Time Streamed per Entitled Account</em></p>
+      </div>
+      <div class="col col-main">
+        <h2>What UC offers instead</h2>
+        <ul>
+          <li><strong>Metric Views</strong> — SQL-defined KPIs with display names &amp; synonyms on <em>measures/dimensions</em></li>
+          <li><strong>Agent metadata</strong> — helps Genie/AI interpret metrics</li>
+          <li><strong>Future Glossary</strong> — announced DAIS 2026; <em>preview coming soon</em></li>
+        </ul>
+        <div class="callout-strong">
+          <strong>These are not interchangeable.</strong> A metrics layer standardizes <em>how KPIs are calculated</em>. A business glossary standardizes <em>what concepts mean</em> across the organization—including terms that are not single SQL metrics.
+        </div>
+        <p class="callout" style="margin-top:0.4rem;">
+          Industry view (<a href="https://www.youtube.com/watch?v=CVqucyacECU">Architect Mindset</a>): UC = structural engine; enterprise catalog = collaboration &amp; federation layer.
+        </p>
+      </div>
+    </div>
+    <footer class="slide-footer">
+      <span>Data Governance · UC vs. catalog strategy</span>
+      <span class="logo">INTERNAL</span>
+    </footer>
+  </article>
+
+  <!-- Slide 7 -->
+  <article class="slide">
+    <header class="slide-head">
+      <h1>Recommended architecture — complement, don’t substitute</h1>
+      <span class="slide-num">Slide 7 of 8</span>
+    </header>
+    <div class="slide-body slide-body-thirds">
+      <div class="col col-aside">
+        <div class="arch-box">
+          <strong>Unity Catalog</strong>
+          Execution-plane governance for Databricks: schemas, permissions, lineage, metric views.
+        </div>
+        <div class="arch-box">
+          <strong>626 / MCI</strong>
+          Technical metadata supply into OMS.
+        </div>
+      </div>
+      <div class="col">
+        <div class="arch-box" style="border-color:var(--header-blue);background:rgba(30,90,150,0.06);">
+          <strong>OMS</strong>
+          Federated metadata store — system of record for enterprise catalog (technical + business).
+        </div>
+        <p style="font-size:0.68rem;margin-top:0.35rem;">Ingest UC metadata via APIs/crawlers. One inventory across Snowflake, Delta, pipelines, BI.</p>
+      </div>
+      <div class="col">
+        <div class="arch-box" style="border-color:var(--good);background:rgba(26,122,69,0.08);">
+          <strong>Navigator</strong>
+          Business-first UX — Alation replacement: search, glossary, asset detail, stewardship.
+        </div>
+        <p style="font-size:0.68rem;margin-top:0.35rem;"><strong>Principle:</strong> one system of record per metadata type — no dual-writing glossary in UC and OMS.</p>
+      </div>
+    </div>
+    <footer class="slide-footer">
+      <span>Data Governance · UC vs. catalog strategy</span>
+      <span class="logo">INTERNAL</span>
+    </footer>
+  </article>
+
+  <!-- Slide 8 -->
+  <article class="slide">
+    <header class="slide-head">
+      <h1>Decision &amp; asks</h1>
+      <span class="slide-num">Slide 8 of 8</span>
+    </header>
+    <div class="slide-body">
+      <div class="col col-aside">
+        <h2>Decision</h2>
+        <div class="callout-strong">
+          <strong>Do not</strong> pivot Alation replacement to Unity Catalog.<br /><br />
+          <strong>Do</strong> continue OMS + Navigator; integrate UC as a governed Databricks metadata source.
+        </div>
+        <h2 style="margin-top:0.55rem;">Do not pause for UC</h2>
+        <p>Discover/Glossary previews and Governance Hub are not ready for Alation exit. Contract ends <strong>Oct 1, 2026</strong>.</p>
+      </div>
+      <div class="col col-main">
+        <h2>Talking points for forums</h2>
+        <ul>
+          <li><strong>“Can UC replace Alation?”</strong> — Not for glossary, cross-platform discovery, or stewardship across our estate.</li>
+          <li><strong>“Are we duplicating Databricks?”</strong> — UC governs the lakehouse; OMS federates; Navigator is the experience business users need.</li>
+          <li><strong>“What did DAIS change?”</strong> — Better metrics, domains, and agent governance on Databricks; still not an enterprise glossary or cross-platform catalog.</li>
+        </ul>
+        <h2 style="margin-top:0.5rem;">Asks</h2>
+        <ul>
+          <li>Align on <strong>OMS + Navigator</strong> as Alation replacement strategy</li>
+          <li>Charter <strong>UC → OMS integration</strong> for Databricks assets &amp; metric views</li>
+          <li>Track UC Glossary GA for future OMS ingestion—not a program reset</li>
+        </ul>
+      </div>
+    </div>
+    <footer class="slide-footer">
+      <span>Data Governance · UC vs. catalog strategy</span>
+      <span class="logo">INTERNAL</span>
+    </footer>
+  </article>
+</body>
+</html>

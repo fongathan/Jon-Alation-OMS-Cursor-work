@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Alation to OMS Migration: High-Level Project Plan</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; line-height: 1.5; color: #333; }
+    h1 { font-size: 24px; border-bottom: 2px solid #333; padding-bottom: 8px; }
+    h2 { font-size: 18px; margin-top: 28px; }
+    h3 { font-size: 14px; margin-top: 20px; }
+    table { border-collapse: collapse; width: 100%; margin: 16px 0; }
+    th, td { border: 1px solid #ccc; padding: 8px 12px; text-align: left; }
+    th { background: #f5f5f5; font-weight: 600; }
+    ul { margin: 8px 0; padding-left: 24px; }
+    p { margin: 12px 0; }
+    .meta { color: #666; font-size: 13px; margin-bottom: 24px; }
+    hr { border: none; border-top: 1px solid #ddd; margin: 24px 0; }
+    img { max-width: 100%; height: auto; border: 1px solid #ddd; margin: 12px 0; }
+    .screenshot-caption { font-size: 12px; color: #666; margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+
+<h1>Alation to OMS Migration: High-Level Project Plan</h1>
+<p class="meta"><strong>Disney Streaming Services</strong><br>
+<strong>Prepared:</strong> March 17, 2026<br>
+<strong>Alation Contract End Date:</strong> October 1, 2026</p>
+
+<hr>
+
+<h2>Executive Summary</h2>
+<p>Disney Streaming Services is transitioning from Alation (external data catalog) to OMS (Operational Metadata Store, internal Disney service). OMS currently focuses on technical metadata; this project will extend OMS to absorb business metadata and data catalog capabilities previously provided by Alation.</p>
+<p><strong>Critical Timeline:</strong> ~6.5 months remain until Alation contract end (Oct 1, 2026).</p>
+
+<hr>
+
+<h2>Current OMS Capabilities & UI (Evidence)</h2>
+<p>The following screenshots from OMS (oms.disn.io) document the current state as of March 2026. This evidence informs the gap analysis in Section 2.</p>
+
+<h3>OMS Home Dashboard — Inventory Summary</h3>
+<p><img src="assets/Screenshot_2026-03-17_at_3.30.37_AM-c3c99096-a73e-4684-84b5-4ddffca4e0aa.png" alt="OMS dashboard home page showing data inventory by source and object type"></p>
+<p class="screenshot-caption"><strong>Figure 1.</strong> OMS home/dashboard: inventory summary of tables, pipelines, streams, serving endpoints, feature groups, and reporting objects (oms.disn.io).</p>
+<p><strong>Current OMS inventory (validate with source teams):</strong></p>
+<table>
+  <tr><th>Category</th><th>Source</th><th>Count</th></tr>
+  <tr><td rowspan="6"><strong>Tables</strong></td><td>Snowflake</td><td>275,659</td></tr>
+  <tr><td>DeltaLake</td><td>6,241</td></tr>
+  <tr><td>Hive</td><td>23,977</td></tr>
+  <tr><td>Looker Datasets</td><td>1,665</td></tr>
+  <tr><td>Unity Catalog</td><td>26,570</td></tr>
+  <tr><td>Tableau Datasets</td><td>5,699</td></tr>
+  <tr><td><strong>Pipelines</strong></td><td>Harmony</td><td>13,032</td></tr>
+  <tr><td></td><td>Airflow</td><td>561</td></tr>
+  <tr><td><strong>Streams</strong></td><td>Kinesis</td><td>1,257</td></tr>
+  <tr><td><strong>Serving Endpoints</strong></td><td>ML / SageMaker</td><td>47 + 1</td></tr>
+  <tr><td><strong>Feature Groups</strong></td><td>SageMaker</td><td>2</td></tr>
+  <tr><td rowspan="3"><strong>Reports</strong></td><td>Looker Dashboard / Widgets</td><td>1,756 / 27,967</td></tr>
+  <tr><td>Tableau Dashboard / Widgets</td><td>2,663 / 29,973</td></tr>
+  <tr><td>Metric Catalog</td><td>261</td></tr>
+</table>
+
+<h3>OMS Snowflake Datasource UI — Table List</h3>
+<p><img src="assets/Screenshot_2026-03-17_at_3.30.46_AM-327ba1a7-be46-40a6-a1e6-cfb08d618cea.png" alt="OMS Snowflake datasource UI with table list, filters, and lineage actions"></p>
+<p class="screenshot-caption"><strong>Figure 2.</strong> OMS Snowflake datasource UI (oms.disn.io/dataSource/Snowflake): table list with filtering and per-row Lineage action.</p>
+<p><strong>What OMS currently shows:</strong> Table (clickable link), Type, Database, Environment, Schema, Links, Lineage button. Filter controls under each column header; global search box. <strong>Gaps vs. Alation:</strong> No business glossary terms, ownership, description, or tags visible in the list view.</p>
+
+<h3>OMS Table Detail Page — Basic Information & Data Governance</h3>
+<p><img src="assets/Screenshot_2026-03-17_at_3.31.07_AM-b55e855a-77f9-45c8-b058-c9c0d7c90a08.png" alt="OMS table detail page showing Basic Information and Data Governance cards"></p>
+<p class="screenshot-caption"><strong>Figure 3.</strong> OMS table detail UI for dev.crm_analytics.201812_sprintinac_svod_segment — many business/governance fields show "Not Available."</p>
+<p><strong>Field population status (example table):</strong></p>
+<table>
+  <tr><th>Field</th><th>Status</th></tr>
+  <tr><td>Created, Last Altered, Rows, Table Size, Table Age, Schema, Database</td><td>Populated (technical metadata)</td></tr>
+  <tr><td>Environment, Airflow DAG URL, Airflow Task ID, Airflow DAG ID</td><td>Not Available</td></tr>
+  <tr><td>Last Access Timestamp, Last Accessed Age, Unique Users Count</td><td>Not Available (or "not available within the last 13 months")</td></tr>
+  <tr><td>Version Control, Documentation, Created by, Description, Business Description</td><td>Not Available</td></tr>
+  <tr><td>Top Users, Is Cloned, Clustering Key</td><td>Not Available</td></tr>
+</table>
+<p><strong>Gap pattern:</strong> Technical metadata (rows, size, schema, created/last altered) is present; business/governance metadata and usage/lineage/Airflow links are largely missing. OMS has UI placeholders for these fields — they need to be populated via integrations and stewardship.</p>
+<p><strong>Priority items for Alation parity:</strong> Documentation/Business Description, access/usage metrics, lineage/Airflow integration, owners/created-by, version control, top users.</p>
+
+<hr>
+
+<h2>1. Project Approach & Key Considerations</h2>
+
+<h3>Recommended Approach: Phased, Metadata-First</h3>
+<table>
+  <tr><th>Principle</th><th>Rationale</th></tr>
+  <tr><td><strong>Metadata-first</strong></td><td>Business metadata (glossary, descriptions, tags, lineage context) drives adoption. Technical metadata can be re-ingested; business context cannot. Preserving 95%+ of business metadata is a leading indicator of success.</td></tr>
+  <tr><td><strong>Phased rollout</strong></td><td>Phased rollouts reduce incidents by ~60% vs. big-bang cutover. Run Alation and OMS in parallel during transition.</td></tr>
+  <tr><td><strong>Governance-led</strong></td><td>Data governance team owns requirements, acceptance criteria, and adoption. Engineering owns build; governance owns "what" and "why."</td></tr>
+  <tr><td><strong>Risk-based prioritization</strong></td><td>Not all Alation features are equal. Prioritize by user impact, compliance needs, and migration complexity.</td></tr>
+</table>
+
+<h3>What to Consider Most</h3>
+<ol>
+  <li><strong>Scope creep</strong> — Clearly define MVP vs. Phase 2. Avoid "Alation parity" as a goal; aim for "critical business metadata parity."</li>
+  <li><strong>Change management</strong> — Users are attached to Alation workflows. Plan for resistance, training, and champions.</li>
+  <li><strong>Data fidelity</strong> — Migration quality matters more than speed. Validate lineage, glossary mappings, and article/documentation links.</li>
+  <li><strong>OMS roadmap alignment</strong> — OMS is a Disney-wide service. Ensure your requirements fit OMS's roadmap and don't conflict with other business units.</li>
+  <li><strong>Integration dependencies</strong> — Identify downstream systems (BI tools, data quality, governance workflows) that consume Alation today.</li>
+  <li><strong>Compliance & audit</strong> — Document what governance controls exist in Alation today and ensure OMS can support them (e.g., policy attestation, access logs).</li>
+</ol>
+
+<hr>
+
+<h2>2. Documenting OMS Gaps That Alation Currently Serves</h2>
+
+<h3>Alation Capabilities vs. OMS (Evidence-Based)</h3>
+<p>Based on OMS screenshots (Section above) and Alation product capabilities:</p>
+<table>
+  <tr><th>Capability</th><th>Description</th><th>OMS Gap Assessment (Evidence)</th></tr>
+  <tr><td><strong>Search & Discovery</strong></td><td>Keyword + semantic search across tables, schemas, columns, articles, glossary terms</td><td>OMS has technical search (column filters, global search in datasource view). <strong>Gap:</strong> No business-context search; no glossary/article search.</td></tr>
+  <tr><td><strong>Business Glossary</strong></td><td>Terms, definitions, synonyms, stewardship</td><td><strong>Gap:</strong> No glossary visible in OMS UI. Table list shows no glossary terms.</td></tr>
+  <tr><td><strong>Documentation / Business Description</strong></td><td>Descriptions linked to catalog objects</td><td><strong>Gap:</strong> Table detail page shows "Documentation" and "Business Description" as "Not Available." UI placeholders exist; need population.</td></tr>
+  <tr><td><strong>Data Lineage</strong></td><td>Upstream/downstream lineage (table, column, dataflow level)</td><td>OMS has Lineage button per row; Lineage Downloads in nav. <strong>Gap:</strong> Assess lineage depth; Airflow DAG/Task links show "Not Available" for this table.</td></tr>
+  <tr><td><strong>Tags & Custom Fields</strong></td><td>Classification, PII flags, domain ownership</td><td><strong>Gap:</strong> No tags visible in table list or detail view. Document custom fields in Alation; map to OMS schema.</td></tr>
+  <tr><td><strong>Data Sources & Connectors</strong></td><td>120+ connectors; datasource metadata</td><td>OMS has Snowflake, DeltaLake, Hive, Unity, Looker, Tableau, Harmony, Airflow, Kinesis, SageMaker. <strong>Gap:</strong> Different scope; document which sources matter for DSS.</td></tr>
+  <tr><td><strong>Usage / Access Metrics</strong></td><td>Last access, unique users, top users</td><td><strong>Gap:</strong> "Last Access Timestamp," "Unique Users Count," "Top Users" show "Not Available" (or "not available within the last 13 months").</td></tr>
+  <tr><td><strong>Ownership / Created By</strong></td><td>Steward, owner, created-by</td><td><strong>Gap:</strong> "Created by" shows "Not Available." No ownership visible in UI.</td></tr>
+  <tr><td><strong>Version Control</strong></td><td>Asset versioning</td><td><strong>Gap:</strong> "Version Control" shows "Not Available."</td></tr>
+  <tr><td><strong>Airflow Integration</strong></td><td>DAG ID, DAG URL, Task ID</td><td>OMS has UI fields for Airflow. <strong>Gap:</strong> All show "Not Available" for this table; integration may be absent or incomplete.</td></tr>
+  <tr><td><strong>Policy Center</strong></td><td>Policies, risk, compliance</td><td>Document governance policies in Alation; assess OMS governance model.</td></tr>
+  <tr><td><strong>API & Integrations</strong></td><td>REST APIs for bulk ops, custom metadata</td><td>OMS API coverage; integration gaps for metadata population.</td></tr>
+</table>
+
+<h3>Recommended Gap Documentation Process</h3>
+<ol>
+  <li><strong>Inventory</strong> (2–3 weeks): Export Alation metadata (glossary, articles, tags, custom fields, lineage). Use Alation API/MCP tools.</li>
+  <li><strong>Workflow mapping</strong> (1–2 weeks): Interview key users (analysts, stewards, governance) on how they use Alation daily.</li>
+  <li><strong>Gap matrix</strong> (1 week): Create a prioritized matrix: OMS has / OMS lacks / Criticality (High/Medium/Low).</li>
+</ol>
+
+<hr>
+
+<h2>3. Documenting OMS Gaps: Alation Promised but Never Delivered</h2>
+
+<h3>Common "Promised but Undelivered" Areas (Industry Patterns)</h3>
+<table>
+  <tr><th>Area</th><th>Typical Promise</th><th>Typical Gap</th></tr>
+  <tr><td><strong>Semantic / AI search</strong></td><td>Natural language search</td><td>Often keyword-only or limited</td></tr>
+  <tr><td><strong>Column-level lineage</strong></td><td>Full column lineage</td><td>Often table-level or partial</td></tr>
+  <tr><td><strong>Automated documentation</strong></td><td>Auto-generated descriptions</td><td>Manual or partial</td></tr>
+  <tr><td><strong>Data quality integration</strong></td><td>Proactive quality monitoring</td><td>Often reactive or manual</td></tr>
+  <tr><td><strong>Compliance automation</strong></td><td>Policy enforcement, attestation</td><td>Manual workflows</td></tr>
+  <tr><td><strong>Data product marketplace</strong></td><td>Self-service data products</td><td>Not fully implemented</td></tr>
+  <tr><td><strong>Workflow automation</strong></td><td>Auto-add assets, improve metadata</td><td>Manual processes</td></tr>
+</table>
+
+<h3>Recommended Process</h3>
+<ol>
+  <li><strong>Stakeholder interviews</strong> (1–2 weeks): Ask governance, data eng, and analytics: "What did Alation promise that you never got?"</li>
+  <li><strong>Enhancement backlog</strong> (1 week): Create a separate backlog: "OMS enhancements" (not Alation parity). Prioritize by impact and feasibility.</li>
+  <li><strong>Phase 2 roadmap</strong>: Phase 1: Alation parity (critical features only). Phase 2: Enhancements (AI search, better lineage, automation).</li>
+</ol>
+
+<hr>
+
+<h2>4. Costs to Build OMS Needs</h2>
+
+<h3>Cost Drivers</h3>
+<table>
+  <tr><th>Component</th><th>Considerations</th></tr>
+  <tr><td><strong>Engineering</strong></td><td>OMS team (Disney internal) vs. DSS-dedicated engineers. OMS may have shared roadmap; DSS may need to fund or contribute.</td></tr>
+  <tr><td><strong>Product/BA</strong></td><td>Requirements, user stories, acceptance criteria.</td></tr>
+  <tr><td><strong>Governance</strong></td><td>Data governance team time for requirements, UAT, stewardship model.</td></tr>
+  <tr><td><strong>Infrastructure</strong></td><td>Storage, compute, connectors for new metadata types.</td></tr>
+  <tr><td><strong>Third-party</strong></td><td>Any new tools (e.g., lineage engine, search) if OMS doesn't have them.</td></tr>
+</table>
+
+<h3>Rough Order-of-Magnitude (ROM) Estimates</h3>
+<table>
+  <tr><th>Phase</th><th>Duration</th><th>Effort (FTE-months)</th><th>Notes</th></tr>
+  <tr><td>MVP (critical Alation parity)</td><td>3–4 months</td><td>4–8</td><td>Glossary, search, basic lineage, tags, articles</td></tr>
+  <tr><td>Full parity</td><td>+2–3 months</td><td>4–6</td><td>Custom fields, governance workflows, integrations</td></tr>
+  <tr><td>Enhancements</td><td>+2–4 months</td><td>4–8</td><td>AI search, automation, compliance features</td></tr>
+</table>
+
+<p><strong>Recommendation:</strong> Get a formal estimate from the OMS team. Clarify: Who funds (DSS vs. central OMS budget); Whether OMS is building for DSS only or for all of Disney; Shared vs. dedicated engineering capacity.</p>
+
+<hr>
+
+<h2>5. Migration Costs and Plans</h2>
+
+<h3>Migration Phases (Industry Best Practice: 3–6 months)</h3>
+<table>
+  <tr><th>Phase</th><th>Duration</th><th>Activities</th><th>Cost Drivers</th></tr>
+  <tr><td><strong>Assessment & Discovery</strong></td><td>2–4 weeks</td><td>Inventory metadata, map dependencies, stakeholder interviews</td><td>BA, governance time</td></tr>
+  <tr><td><strong>Planning & Design</strong></td><td>4–6 weeks</td><td>Transformation mappings, phased rollout, success metrics</td><td>PM, architect</td></tr>
+  <tr><td><strong>Execution</strong></td><td>6–12 weeks</td><td>Phased metadata migration, parallel runs, validation</td><td>Eng, data migration tools</td></tr>
+  <tr><td><strong>Validation & Optimization</strong></td><td>2–4 weeks</td><td>Data fidelity, UAT, lineage verification</td><td>QA, governance</td></tr>
+</table>
+
+<h3>Migration Cost Categories</h3>
+<table>
+  <tr><th>Category</th><th>Examples</th></tr>
+  <tr><td><strong>Labor</strong></td><td>Migration scripts, ETL, validation, reconciliation</td></tr>
+  <tr><td><strong>Tools</strong></td><td>Migration/ETL tools, temporary storage</td></tr>
+  <tr><td><strong>Parallel run</strong></td><td>Extended Alation (if negotiated) during migration</td></tr>
+  <tr><td><strong>Contingency</strong></td><td>15–20% for rework</td></tr>
+</table>
+
+<p><strong>Risk:</strong> Organizations often fail due to inadequate migration strategy rather than technical complexity. Poor planning can lead to rework costs in the millions. Invest in upfront planning.</p>
+
+<hr>
+
+<h2>6. Training Costs and Plans</h2>
+
+<h3>Training Needs</h3>
+<table>
+  <tr><th>Audience</th><th>Topics</th><th>Format</th><th>Est. Effort</th></tr>
+  <tr><td><strong>Data stewards</strong></td><td>New glossary, tagging, stewardship workflows</td><td>Workshop + hands-on</td><td>2–4 hours</td></tr>
+  <tr><td><strong>Analysts</strong></td><td>Search, discovery, lineage in OMS</td><td>Self-serve + office hours</td><td>1–2 hours</td></tr>
+  <tr><td><strong>Governance</strong></td><td>Policy center, compliance, reporting</td><td>Workshop</td><td>2–3 hours</td></tr>
+  <tr><td><strong>Engineers</strong></td><td>OMS lineage, metadata ingestion</td><td>Technical docs + sessions</td><td>2–4 hours</td></tr>
+</table>
+
+<h3>Training Plan Components</h3>
+<ol>
+  <li><strong>Training materials:</strong> Quick guides, videos, FAQs (vs. Alation).</li>
+  <li><strong>Champions program:</strong> Identify power users in each org to support adoption.</li>
+  <li><strong>Office hours:</strong> 2–4 weeks post-launch.</li>
+  <li><strong>Feedback loop:</strong> Survey adoption; iterate on materials.</li>
+</ol>
+
+<h3>Cost Estimate</h3>
+<table>
+  <tr><th>Item</th><th>Approx. Cost</th></tr>
+  <tr><td>Content creation</td><td>40–80 hours (BA, governance)</td></tr>
+  <tr><td>Delivery (workshops, office hours)</td><td>20–40 hours</td></tr>
+  <tr><td>Champions program</td><td>10–20 hours</td></tr>
+</table>
+
+<hr>
+
+<h2>7. Timing: Contract End Oct 1, 2026</h2>
+
+<h3>Current Situation</h3>
+<ul>
+  <li><strong>Today:</strong> March 17, 2026</li>
+  <li><strong>Alation contract end:</strong> October 1, 2026</li>
+  <li><strong>Time remaining:</strong> ~6.5 months</li>
+</ul>
+
+<h3>Recommendation: Extend Alation 1 Year (to Oct 1, 2027)</h3>
+
+<p><strong>Rationale:</strong></p>
+<table>
+  <tr><th>Factor</th><th>6.5 months (no extension)</th><th>1-year extension</th></tr>
+  <tr><td><strong>Build time</strong></td><td>MVP only; high risk of cutover issues</td><td>Full parity + migration + validation</td></tr>
+  <tr><td><strong>Migration</strong></td><td>Industry best practice: 3–6 months</td><td>3–6 months comfortably</td></tr>
+  <tr><td><strong>Parallel run</strong></td><td>Minimal or none</td><td>2–4 months parallel run</td></tr>
+  <tr><td><strong>Training</strong></td><td>Compressed</td><td>Adequate</td></tr>
+  <tr><td><strong>Risk</strong></td><td>High</td><td>Lower</td></tr>
+</table>
+
+<p><strong>6.5 months is tight</strong> for: Gap documentation (4–6 weeks); OMS build (3–6 months for MVP); Migration (3–6 months); Validation + training (4–6 weeks).</p>
+
+<h3>Alternative: Negotiate 6-Month Extension (to Apr 1, 2027)</h3>
+<p>If you cannot get a full year: <strong>Pros:</strong> 12 months total; more realistic than 6.5 months. <strong>Cons:</strong> Still tight for full parity + enhancements.</p>
+
+<h3>Negotiation Strategy</h3>
+<ol>
+  <li>Request 1-year extension at current or reduced rate.</li>
+  <li>Fallback: 6-month extension.</li>
+  <li>Leverage: Alation knows you're leaving; negotiate for favorable terms.</li>
+  <li>Clarify: Read-only access vs. full license during transition; some vendors offer "wind-down" pricing.</li>
+</ol>
+
+<p><strong>Bottom line:</strong> Target <strong>Oct 1, 2027</strong> as the OMS cutover date. Use the extra year for build, migration, parallel run, and training. If you must cut over by Oct 1, 2026, scope MVP aggressively and accept higher risk.</p>
+
+<hr>
+
+<h2>8. Data Governance Team Ownership</h2>
+
+<h3>Recommendation: Explicit Ownership</h3>
+<p><strong>Data governance team</strong> owns: Data catalog features (glossary, stewardship, policies, compliance); Requirements and acceptance criteria for OMS; User adoption and training; Steward community and champions program.</p>
+<p><strong>Engineering/OMS team</strong> owns: Technical implementation; Integration and APIs; Performance and reliability.</p>
+
+<h3>Implementation</h3>
+<ol>
+  <li><strong>RACI matrix:</strong> Document roles (Responsible, Accountable, Consulted, Informed) for each capability.</li>
+  <li><strong>Governance charter:</strong> Update governance charter to state OMS as the system of record for data catalog.</li>
+  <li><strong>Steward assignment:</strong> Ensure stewards are assigned in OMS before cutover.</li>
+  <li><strong>Reporting:</strong> Governance reports to leadership on adoption, quality, and compliance.</li>
+</ol>
+
+<h3>Carve-Out in Project Plan</h3>
+<ul>
+  <li>Add a governance section to the project plan.</li>
+  <li>Include governance sign-off in phase gates.</li>
+  <li>Define governance metrics (e.g., glossary coverage, steward activity).</li>
+</ul>
+
+<hr>
+
+<h2>9. Other Considerations</h2>
+<table>
+  <tr><th>Consideration</th><th>Action</th></tr>
+  <tr><td><strong>Stakeholder alignment</strong></td><td>Executive sponsor; steering committee (Eng, Governance, Analytics, Compliance).</td></tr>
+  <tr><td><strong>OMS roadmap alignment</strong></td><td>Align with Disney OMS team; avoid duplicate work.</td></tr>
+  <tr><td><strong>Vendor lock-in</strong></td><td>Alation data export; ensure you can extract all metadata before contract end.</td></tr>
+  <tr><td><strong>Compliance & audit</strong></td><td>Document retention, access logs, policy attestation. Ensure OMS meets audit requirements.</td></tr>
+  <tr><td><strong>Success metrics</strong></td><td>Define adoption (e.g., weekly active users), search success, glossary coverage, lineage accuracy.</td></tr>
+  <tr><td><strong>Rollback plan</strong></td><td>If OMS cutover fails, what is the fallback? (Alation extension, manual processes?)</td></tr>
+  <tr><td><strong>Communication plan</strong></td><td>Regular updates to stakeholders; timeline visibility; change management.</td></tr>
+  <tr><td><strong>Budget</strong></td><td>Total cost of ownership: build + migration + training + (optional) Alation extension.</td></tr>
+</table>
+
+<hr>
+
+<h2>Appendix: Suggested Project Timeline (with 1-Year Extension)</h2>
+<table>
+  <tr><th>Phase</th><th>Start</th><th>End</th><th>Key Deliverables</th></tr>
+  <tr><td>Gap documentation</td><td>Mar 2026</td><td>May 2026</td><td>Gap matrix, prioritization</td></tr>
+  <tr><td>OMS requirements</td><td>May 2026</td><td>Jun 2026</td><td>Requirements doc, governance sign-off</td></tr>
+  <tr><td>OMS build (MVP)</td><td>Jun 2026</td><td>Oct 2026</td><td>Glossary, search, lineage, tags, articles</td></tr>
+  <tr><td>Migration planning</td><td>Jul 2026</td><td>Aug 2026</td><td>Migration scripts, validation plan</td></tr>
+  <tr><td>Parallel run</td><td>Oct 2026</td><td>Jan 2027</td><td>Alation + OMS both available</td></tr>
+  <tr><td>Migration execution</td><td>Nov 2026</td><td>Feb 2027</td><td>Metadata migrated, validated</td></tr>
+  <tr><td>Training</td><td>Jan 2027</td><td>Feb 2027</td><td>Materials, workshops, champions</td></tr>
+  <tr><td>Cutover</td><td>Feb 2027</td><td>Mar 2027</td><td>OMS primary; Alation read-only</td></tr>
+  <tr><td>Alation decommission</td><td>Sep 2027</td><td>Oct 2027</td><td>Contract end; full OMS</td></tr>
+</table>
+
+<hr>
+<p class="meta"><em>Document version: 1.0 | March 17, 2026</em></p>
+
+</body>
+</html>

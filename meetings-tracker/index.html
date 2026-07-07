@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meeting Hub — Teams Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://alcdn.msauth.net/browser/2.32.2/js/msal-browser.min.js"></script>
+  <script src="config.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Outfit', 'system-ui', 'sans-serif'] },
+          colors: {
+            hub: {
+              50: '#f0fdfa', 100: '#ccfbf1', 200: '#99f6e4', 300: '#5eead4',
+              400: '#2dd4bf', 500: '#14b8a6', 600: '#0d9488', 700: '#0f766e',
+              800: '#115e59', 900: '#134e4a', 950: '#042f2e',
+            },
+            coral: { 400: '#fb7185', 500: '#f43f5e', 600: '#e11d48' },
+            ink: { 900: '#0f172a', 950: '#020617' }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    [x-cloak] { display: none !important; }
+    :root {
+      --bg: #0c1222;
+      --surface: #131b2e;
+      --surface-2: #1a2540;
+      --border: rgba(45, 212, 191, 0.15);
+      --accent: #2dd4bf;
+      --accent-dim: rgba(45, 212, 191, 0.2);
+    }
+    body { background: var(--bg); }
+    .meeting-card {
+      background: linear-gradient(135deg, rgba(26, 37, 64, 0.9) 0%, rgba(19, 27, 46, 0.95) 100%);
+      border: 1px solid var(--border);
+      transition: all 0.2s ease;
+    }
+    .meeting-card:hover { border-color: rgba(45, 212, 191, 0.35); box-shadow: 0 0 24px -4px rgba(45, 212, 191, 0.08); }
+    .meeting-card.highlight { border-color: rgba(45, 212, 191, 0.5); box-shadow: 0 0 32px -4px rgba(45, 212, 191, 0.12); }
+    .note-input { resize: none; min-height: 60px; }
+    .badge-vip { background: rgba(244, 63, 94, 0.2); color: #fb7185; }
+    .badge-large { background: rgba(251, 191, 36, 0.2); color: #fbbf24; }
+    .badge-notify { background: rgba(45, 212, 191, 0.2); color: #2dd4bf; }
+    .settings-panel { max-height: 85vh; overflow-y: auto; }
+    @keyframes pulse-ring { 0%, 100% { opacity: 0.4; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.05); } }
+    .pulse-dot { animation: pulse-ring 2s ease-in-out infinite; }
+    .glass { backdrop-filter: blur(12px); }
+  </style>
+</head>
+<body class="h-full text-slate-200 antialiased" x-data="meetingHub()" x-init="init()">
+<div class="min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 glass border-b border-slate-700/40 bg-slate-900/80">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-hub-500 to-hub-700 flex items-center justify-center text-white shadow-lg shadow-hub-500/20">
+          <i class="fa-solid fa-calendar-days text-lg"></i>
+        </div>
+        <div>
+          <h1 class="text-xl font-semibold text-white tracking-tight">Meeting Hub</h1>
+          <p class="text-xs text-slate-400">Teams meetings • Notes • Smart notifications</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <template x-if="msalReady && !isConnected">
+          <button @click="connectMicrosoft()" :disabled="msalLoading" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium transition-colors disabled:opacity-50">
+            <i class="fa-brands fa-microsoft"></i>
+            <span x-text="msalLoading ? 'Connecting...' : 'Connect Microsoft'"></span>
+          </button>
+        </template>
+        <template x-if="msalReady && isConnected">
+          <button @click="syncFromGraph()" :disabled="syncLoading" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium transition-colors disabled:opacity-50">
+            <i class="fa-solid fa-arrows-rotate" :class="{ 'fa-spin': syncLoading }"></i>
+            <span x-text="syncLoading ? 'Syncing...' : 'Sync calendar'"></span>
+          </button>
+        </template>
+        <button @click="showImport = true" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-700/60 hover:bg-slate-600/60 text-sm font-medium transition-colors">
+          <i class="fa-solid fa-file-import"></i> Import JSON
+        </button>
+        <button @click="showSettings = true" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-hub-600 hover:bg-hub-500 text-white text-sm font-medium transition-colors shadow-lg shadow-hub-500/25">
+          <i class="fa-solid fa-gear"></i> Settings
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main content -->
+  <main class="flex-1 max-w-6xl w-full mx-auto px-6 py-8">
+    <!-- Stats bar -->
+    <div class="flex flex-wrap gap-4 mb-8">
+      <div class="px-5 py-3 rounded-xl bg-slate-800/60 border border-slate-700/50">
+        <span class="text-slate-400 text-sm">Upcoming</span>
+        <span class="block text-2xl font-semibold text-white" x-text="upcomingCount"></span>
+      </div>
+      <div class="px-5 py-3 rounded-xl bg-slate-800/60 border border-slate-700/50">
+        <span class="text-slate-400 text-sm">With notes</span>
+        <span class="block text-2xl font-semibold text-hub-400" x-text="meetingsWithNotes"></span>
+      </div>
+      <div class="px-5 py-3 rounded-xl bg-slate-800/60 border border-slate-700/50">
+        <span class="text-slate-400 text-sm">Will notify</span>
+        <span class="block text-2xl font-semibold text-coral-400" x-text="meetingsToNotify"></span>
+      </div>
+    </div>
+
+    <!-- Meetings list -->
+    <div class="space-y-4">
+      <template x-for="(meeting, idx) in filteredMeetings" :key="meeting.id">
+        <article class="meeting-card rounded-xl p-5"
+                 :class="{ 'highlight': meeting.willNotify }">
+          <div class="flex flex-col sm:flex-row sm:items-start gap-4">
+            <div class="flex-shrink-0">
+              <div class="w-14 h-14 rounded-xl bg-slate-700/50 flex flex-col items-center justify-center">
+                <span class="text-xs font-medium text-slate-400" x-text="formatDay(meeting.startTime)"></span>
+                <span class="text-lg font-bold text-white" x-text="formatDate(meeting.startTime)"></span>
+              </div>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex flex-wrap items-start gap-2 mb-2">
+                <h3 class="text-lg font-semibold text-white" x-text="meeting.subject"></h3>
+                <span x-show="meeting.hasVip" class="badge-vip px-2 py-0.5 rounded-full text-xs font-medium" x-cloak>VIP</span>
+                <span x-show="meeting.isLarge" class="badge-large px-2 py-0.5 rounded-full text-xs font-medium" x-cloak>Large</span>
+                <span x-show="meeting.willNotify" class="badge-notify px-2 py-0.5 rounded-full text-xs font-medium flex items-center gap-1" x-cloak>
+                  <span class="w-1.5 h-1.5 rounded-full bg-hub-400 pulse-dot"></span> Notify
+                </span>
+              </div>
+              <div class="flex flex-wrap gap-4 text-sm text-slate-400 mb-3">
+                <span><i class="fa-regular fa-clock w-4"></i> <span x-text="formatTime(meeting.startTime) + ' – ' + formatTime(meeting.endTime)"></span></span>
+                <span x-show="meeting.organizer"><i class="fa-regular fa-user w-4"></i> <span x-text="meeting.organizer?.name || meeting.organizer?.email"></span></span>
+                <span x-show="meeting.attendeeCount"><i class="fa-regular fa-users w-4"></i> <span x-text="meeting.attendeeCount + ' attendees'"></span></span>
+              </div>
+              <div class="flex flex-wrap gap-2 mb-3">
+                <a x-show="meeting.joinUrl" :href="meeting.joinUrl" target="_blank" rel="noopener"
+                   class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-hub-600/30 hover:bg-hub-500/40 text-hub-300 text-sm font-medium transition-colors">
+                  <i class="fa-solid fa-video"></i> Join
+                </a>
+              </div>
+              <div class="mt-3">
+                <label class="block text-xs font-medium text-slate-500 mb-1">Your note</label>
+                <textarea class="note-input w-full px-3 py-2 rounded-lg bg-slate-800/80 border border-slate-600/50 text-slate-200 placeholder-slate-500 focus:border-hub-500 focus:ring-1 focus:ring-hub-500/50 outline-none text-sm"
+                          placeholder="Add a short note for this meeting..."
+                          x-model="meeting.note"
+                          @input.debounce.300ms="saveNote(meeting)"></textarea>
+              </div>
+            </div>
+          </div>
+        </article>
+      </template>
+      <div x-show="filteredMeetings.length === 0" class="text-center py-16 text-slate-500" x-cloak>
+        <i class="fa-regular fa-calendar-xmark text-5xl mb-4 opacity-50"></i>
+        <p class="text-lg">No meetings in this range.</p>
+        <p class="text-sm mt-1">Import from Teams or load sample data.</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Settings modal -->
+  <div x-show="showSettings" x-cloak class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+       x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0"
+       x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+       @click.self="showSettings = false">
+    <div class="settings-panel w-full max-w-lg rounded-2xl bg-slate-800 border border-slate-600/50 shadow-2xl"
+         x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95"
+         x-transition:enter-end="opacity-100 scale-100">
+      <div class="p-6 border-b border-slate-600/50 flex items-center justify-between">
+        <h2 class="text-xl font-semibold text-white">Settings</h2>
+        <button @click="showSettings = false" class="p-2 rounded-lg hover:bg-slate-700 text-slate-400"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="p-6 space-y-6">
+        <div>
+          <label class="block text-sm font-medium text-slate-300 mb-2">Important people (emails, one per line)</label>
+          <textarea class="w-full h-24 px-3 py-2 rounded-lg bg-slate-900 border border-slate-600 text-slate-200 placeholder-slate-500 focus:border-hub-500 outline-none text-sm"
+                    placeholder="ceo@company.com&#10;vp@company.com"
+                    x-model="settings.importantPeopleText"
+                    @input="applyImportantPeople"></textarea>
+          <p class="text-xs text-slate-500 mt-1">Meetings with these people as organizer or attendee will be flagged.</p>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-300 mb-2">Notify when meeting size ≥</label>
+          <input type="number" min="1" max="500" class="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-600 text-slate-200 focus:border-hub-500 outline-none"
+                 x-model.number="settings.minSizeForNotify">
+          <p class="text-xs text-slate-500 mt-1">Attendees (organizer + attendees).</p>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-300 mb-2">Notify X minutes before meeting</label>
+          <input type="number" min="0" max="1440" class="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-600 text-slate-200 focus:border-hub-500 outline-none"
+                 x-model.number="settings.notifyMinutesBefore">
+          <p class="text-xs text-slate-500 mt-1">0 = at start time.</p>
+        </div>
+        <div>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" class="rounded border-slate-600 bg-slate-800 text-hub-500 focus:ring-hub-500" x-model="settings.notifyForVip">
+            <span class="text-sm text-slate-300">Notify for meetings with important people</span>
+          </label>
+        </div>
+        <div>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" class="rounded border-slate-600 bg-slate-800 text-hub-500 focus:ring-hub-500" x-model="settings.notifyForLarge">
+            <span class="text-sm text-slate-300">Notify for large meetings (≥ size above)</span>
+          </label>
+        </div>
+        <div class="pt-4 border-t border-slate-600/50">
+          <button @click="saveSettings(); showSettings = false" class="w-full py-3 rounded-xl bg-hub-600 hover:bg-hub-500 text-white font-medium transition-colors">
+            Save settings
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Import modal -->
+  <div x-show="showImport" x-cloak class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+       x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0"
+       x-transition:enter-end="opacity-100" @click.self="showImport = false">
+    <div class="w-full max-w-lg rounded-2xl bg-slate-800 border border-slate-600/50 shadow-2xl p-6">
+      <h2 class="text-xl font-semibold text-white mb-4">Import meetings</h2>
+      <p class="text-sm text-slate-400 mb-4">Connect via Microsoft (see <a href="SETUP.md" target="_blank" class="text-hub-400 hover:underline">SETUP.md</a>) for live sync, or paste JSON / load sample data below.</p>
+      <textarea class="w-full h-32 px-3 py-2 rounded-lg bg-slate-900 border border-slate-600 text-slate-200 font-mono text-xs placeholder-slate-500 focus:border-hub-500 outline-none mb-4"
+                placeholder='[{"subject":"...","startTime":"...","endTime":"...","organizer":{"name":"...","email":"..."},...}]'
+                x-model="importJson"></textarea>
+      <div class="flex gap-3">
+        <button @click="importFromJson()" class="flex-1 py-3 rounded-xl bg-hub-600 hover:bg-hub-500 text-white font-medium transition-colors">
+          Import JSON
+        </button>
+        <button @click="loadSample(); showImport = false" class="flex-1 py-3 rounded-xl bg-slate-600 hover:bg-slate-500 text-white font-medium transition-colors">
+          Load sample data
+        </button>
+        <button @click="showImport = false" class="px-4 py-3 rounded-xl bg-slate-700 hover:bg-slate-600 text-slate-300 font-medium transition-colors">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cookie consent (localStorage key: cookie_prefs, same as cookie) -->
+  <div data-cookie-bar hidden class="fixed bottom-0 left-0 right-0 z-[100] border-t border-slate-600/50 bg-slate-900/95 backdrop-blur px-4 py-3 flex flex-wrap items-center justify-between gap-3 shadow-[0_-4px_24px_rgba(0,0,0,0.3)]">
+    <p class="text-sm text-slate-300 max-w-xl">We use cookies to remember your preferences. You can change analytics and marketing options below.</p>
+    <div class="flex flex-wrap gap-2">
+      <button type="button" data-cookie-accept class="px-4 py-2 rounded-lg bg-hub-600 hover:bg-hub-500 text-white text-sm font-medium">Accept</button>
+      <button type="button" data-cookie-reject class="px-4 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-200 text-sm">Reject</button>
+      <button type="button" data-cookie-open-settings class="px-4 py-2 rounded-lg border border-slate-600 text-slate-300 text-sm hover:bg-slate-800">Cookie settings</button>
+    </div>
+  </div>
+
+  <div data-cookie-modal hidden class="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" inert>
+    <div class="w-full max-w-md rounded-2xl bg-slate-800 border border-slate-600/50 shadow-2xl p-6" role="dialog" aria-modal="true">
+      <h2 class="text-lg font-semibold text-white mb-4">Cookie preferences</h2>
+      <label class="flex items-center gap-2 mb-3 text-slate-300 text-sm cursor-pointer">
+        <input type="checkbox" data-cookie-switch="analytics" class="rounded border-slate-600 bg-slate-800 text-hub-500" />
+        <span>Analytics</span>
+      </label>
+      <label class="flex items-center gap-2 mb-6 text-slate-300 text-sm cursor-pointer">
+        <input type="checkbox" data-cookie-switch="marketing" class="rounded border-slate-600 bg-slate-800 text-hub-500" />
+        <span>Marketing</span>
+      </label>
+      <div class="flex justify-end gap-2">
+        <button type="button" data-cookie-close class="px-4 py-2 rounded-lg bg-slate-700 text-slate-200 text-sm">Cancel</button>
+        <button type="button" data-cookie-save class="px-4 py-2 rounded-lg bg-hub-600 text-white text-sm font-medium">Save choices</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/index.js"></script>
+<script>
+  function meetingHub() {
+    return {
+      meetings: [],
+      showSettings: false,
+      showImport: false,
+      importJson: '',
+      msalInstance: null,
+      msalReady: false,
+      isConnected: false,
+      msalLoading: false,
+      syncLoading: false,
+      settings: {
+        importantPeople: [],
+        importantPeopleText: '',
+        minSizeForNotify: 5,
+        notifyMinutesBefore: 15,
+        notifyForVip: true,
+        notifyForLarge: true,
+      },
+      STORAGE_MEETINGS: 'meetinghub_meetings',
+      STORAGE_NOTES: 'meetinghub_notes',
+      STORAGE_SETTINGS: 'meetinghub_settings',
+      notifyCheckInterval: null,
+
+      init() {
+        this.loadSettings();
+        this.loadMeetings();
+        this.initMsal();
+        if (this.meetings.length === 0) this.loadSample();
+        this.scheduleNotificationCheck();
+        this.requestNotificationPermission();
+      },
+
+      initMsal() {
+        const cfg = window.MEETING_HUB_CONFIG || {};
+        if (!cfg.clientId || cfg.clientId === 'YOUR_CLIENT_ID') {
+          this.msalReady = false;
+          return;
+        }
+        try {
+          this.msalInstance = new msal.PublicClientApplication({
+            auth: {
+              clientId: cfg.clientId,
+              authority: `https://login.microsoftonline.com/${cfg.tenantId || 'common'}`,
+              redirectUri: cfg.redirectUri || window.location.origin + '/',
+            },
+            cache: { cacheLocation: 'localStorage' },
+          });
+          this.msalReady = true;
+          this.msalInstance.initialize().then(() => {
+            const accounts = this.msalInstance.getAllAccounts();
+            this.isConnected = accounts.length > 0;
+          });
+        } catch (e) {
+          console.warn('MSAL init failed:', e);
+          this.msalReady = false;
+        }
+      },
+
+      async connectMicrosoft() {
+        if (!this.msalInstance) return;
+        this.msalLoading = true;
+        try {
+          const result = await this.msalInstance.loginPopup({
+            scopes: ['User.Read', 'Calendars.Read'],
+          });
+          this.isConnected = !!result?.account;
+        } catch (e) {
+          alert('Sign-in failed: ' + (e.message || e));
+        }
+        this.msalLoading = false;
+      },
+
+      async syncFromGraph() {
+        if (!this.msalInstance || !this.isConnected) return;
+        this.syncLoading = true;
+        try {
+          const token = await this.msalInstance.acquireTokenSilent({
+            scopes: ['User.Read', 'Calendars.Read'],
+            account: this.msalInstance.getAllAccounts()[0],
+          }).catch(() => this.msalInstance.acquireTokenPopup({ scopes: ['User.Read', 'Calendars.Read'] }));
+          const start = new Date();
+          const end = new Date();
+          end.setDate(end.getDate() + 14);
+          const url = `https://graph.microsoft.com/v1.0/me/calendarView?startDateTime=${start.toISOString()}&endDateTime=${end.toISOString()}&$select=id,subject,start,end,organizer,attendees,onlineMeeting,isOnlineMeeting,location`;
+          const res = await fetch(url, {
+            headers: { Authorization: 'Bearer ' + token.accessToken },
+          });
+          if (!res.ok) throw new Error('Graph API error: ' + res.status);
+          const data = await res.json();
+          const mapped = (data.value || []).map(e => this.graphEventToMeeting(e)).filter(Boolean);
+          this.meetings = mapped;
+          this.saveMeetings();
+        } catch (e) {
+          alert('Sync failed: ' + (e.message || e));
+        }
+        this.syncLoading = false;
+      },
+
+      graphEventToMeeting(e) {
+        if (e.isCancelled) return null;
+        const org = e.organizer?.emailAddress || {};
+        const attendees = (e.attendees || [])
+          .filter(a => a.type !== 'resource')
+          .map(a => ({ name: a.emailAddress?.name || '', email: a.emailAddress?.address || '' }));
+        const joinUrl = e.onlineMeeting?.joinUrl || e.onlineMeetingUrl || null;
+        return {
+          id: e.id,
+          subject: e.subject || 'Untitled',
+          startTime: e.start?.dateTime || e.start,
+          endTime: e.end?.dateTime || e.end,
+          organizer: { name: org.name || '', email: org.address || '' },
+          attendees,
+          joinUrl,
+          location: e.location?.displayName || null,
+        };
+      },
+
+      get notes() {
+        try {
+          return JSON.parse(localStorage.getItem(this.STORAGE_NOTES) || '{}');
+        } catch { return {}; }
+      },
+      set notes(v) {
+        localStorage.setItem(this.STORAGE_NOTES, JSON.stringify(v));
+      },
+
+      get upcomingCount() {
+        const now = new Date();
+        return this.meetings.filter(m => new Date(m.startTime) >= now).length;
+      },
+      get meetingsWithNotes() {
+        return this.meetings.filter(m => (m.note || '').trim()).length;
+      },
+      get meetingsToNotify() {
+        return this.meetings.filter(m => m.willNotify).length;
+      },
+
+      get filteredMeetings() {
+        const now = new Date();
+        return this.meetings
+          .filter(m => new Date(m.endTime) >= now)
+          .sort((a, b) => new Date(a.startTime) - new Date(b.startTime))
+          .map(m => this.enrichMeeting(m));
+      },
+
+      enrichMeeting(m) {
+        const orgEmail = (m.organizer?.email || '').toLowerCase();
+        const attendees = m.attendees || [];
+        const allEmails = [orgEmail, ...attendees.map(a => (a.email || '').toLowerCase())].filter(Boolean);
+        const importantPeople = this.settings.importantPeople.map(e => e.toLowerCase());
+        const hasVip = importantPeople.some(vip => allEmails.some(e => e.includes(vip) || vip.includes(e)));
+        const size = 1 + (m.attendees?.length || 0);
+        const isLarge = size >= this.settings.minSizeForNotify;
+        const willNotify = (this.settings.notifyForVip && hasVip) || (this.settings.notifyForLarge && isLarge);
+        return {
+          ...m,
+          note: this.notes[m.id] ?? m.note ?? '',
+          hasVip,
+          isLarge,
+          attendeeCount: attendees.length,
+          willNotify,
+        };
+      },
+
+      formatDay(d) {
+        const dt = new Date(d);
+        return dt.toLocaleDateString('en-US', { weekday: 'short' });
+      },
+      formatDate(d) {
+        const dt = new Date(d);
+        return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      },
+      formatTime(d) {
+        return new Date(d).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+      },
+
+      saveNote(meeting) {
+        const n = this.notes;
+        n[meeting.id] = meeting.note || '';
+        this.notes = n;
+      },
+
+      loadSettings() {
+        try {
+          const s = JSON.parse(localStorage.getItem(this.STORAGE_SETTINGS) || '{}');
+          this.settings = { ...this.settings, ...s };
+          this.settings.importantPeopleText = (this.settings.importantPeople || []).join('\n');
+        } catch (_) {}
+      },
+      applyImportantPeople() {
+        this.settings.importantPeople = (this.settings.importantPeopleText || '')
+          .split(/[\n,;]+/)
+          .map(s => s.trim().toLowerCase())
+          .filter(Boolean);
+      },
+      saveSettings() {
+        this.applyImportantPeople();
+        localStorage.setItem(this.STORAGE_SETTINGS, JSON.stringify({
+          importantPeople: this.settings.importantPeople,
+          minSizeForNotify: this.settings.minSizeForNotify,
+          notifyMinutesBefore: this.settings.notifyMinutesBefore,
+          notifyForVip: this.settings.notifyForVip,
+          notifyForLarge: this.settings.notifyForLarge,
+        }));
+      },
+
+      loadMeetings() {
+        try {
+          const raw = localStorage.getItem(this.STORAGE_MEETINGS);
+          if (raw) this.meetings = JSON.parse(raw);
+        } catch (_) {}
+      },
+      saveMeetings() {
+        localStorage.setItem(this.STORAGE_MEETINGS, JSON.stringify(this.meetings));
+      },
+
+      loadSample() {
+        const now = new Date();
+        const pad = (n) => String(n).padStart(2, '0');
+        const today = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`;
+        this.meetings = [
+          { id: 's1', subject: 'Q1 Planning Review', startTime: `${today}T09:00:00`, endTime: `${today}T10:00:00`, organizer: { name: 'Sarah Chen', email: 'sarah.chen@company.com' }, attendees: [{ name: 'You', email: 'you@company.com' }, { name: 'Alex Kim', email: 'alex@company.com' }, { name: 'Jordan Lee', email: 'jordan@company.com' }, { name: 'Casey Brown', email: 'casey@company.com' }, { name: 'Morgan Taylor', email: 'morgan@company.com' }], joinUrl: 'https://teams.microsoft.com/l/meetup-join/1' },
+          { id: 's2', subject: '1:1 with Manager', startTime: `${today}T11:30:00`, endTime: `${today}T12:00:00`, organizer: { name: 'Your Manager', email: 'manager@company.com' }, attendees: [], joinUrl: 'https://teams.microsoft.com/l/meetup-join/2' },
+          { id: 's3', subject: 'All-Hands Company Update', startTime: `${today}T14:00:00`, endTime: `${today}T15:00:00`, organizer: { name: 'CEO', email: 'ceo@company.com' }, attendees: Array(25).fill(null).map((_, i) => ({ name: `Person ${i+1}`, email: `p${i+1}@company.com` })), joinUrl: 'https://teams.microsoft.com/l/meetup-join/3' },
+          { id: 's4', subject: 'Sprint Retrospective', startTime: `${today}T16:00:00`, endTime: `${today}T17:00:00`, organizer: { name: 'Dev Lead', email: 'devlead@company.com' }, attendees: [{ name: 'A', email: 'a@co.com' }, { name: 'B', email: 'b@co.com' }, { name: 'C', email: 'c@co.com' }], joinUrl: 'https://teams.microsoft.com/l/meetup-join/4' },
+        ];
+        this.saveMeetings();
+      },
+
+      importFromJson() {
+        try {
+          const data = JSON.parse(this.importJson || '[]');
+          if (!Array.isArray(data)) throw new Error('Expected array');
+          const mapped = data.map((m, i) => ({
+            id: m.id || `imp-${Date.now()}-${i}`,
+            subject: m.subject || 'Untitled',
+            startTime: m.startTime,
+            endTime: m.endTime,
+            organizer: m.organizer || {},
+            attendees: m.attendees || [],
+            joinUrl: m.joinUrl,
+            location: m.location,
+          }));
+          this.meetings = mapped;
+          this.saveMeetings();
+          this.showImport = false;
+          this.importJson = '';
+        } catch (e) {
+          alert('Invalid JSON: ' + e.message);
+        }
+      },
+
+      requestNotificationPermission() {
+        if ('Notification' in window && Notification.permission === 'default') {
+          Notification.requestPermission();
+        }
+      },
+      scheduleNotificationCheck() {
+        if (this.notifyCheckInterval) clearInterval(this.notifyCheckInterval);
+        this.notifyCheckInterval = setInterval(() => this.checkNotifications(), 60 * 1000);
+      },
+      checkNotifications() {
+        if (!('Notification' in window) || Notification.permission !== 'granted') return;
+        const mins = this.settings.notifyMinutesBefore || 0;
+        const now = new Date();
+        const target = new Date(now.getTime() + mins * 60 * 1000);
+        const windowStart = new Date(target.getTime() - 2 * 60 * 1000);
+        const windowEnd = new Date(target.getTime() + 2 * 60 * 1000);
+        const notified = JSON.parse(sessionStorage.getItem('meetinghub_notified') || '[]');
+        for (const m of this.meetings) {
+          const start = new Date(m.startTime);
+          if (start < windowStart || start > windowEnd) continue;
+          const enriched = this.enrichMeeting(m);
+          if (!enriched.willNotify) continue;
+          if (notified.includes(m.id)) continue;
+          notified.push(m.id);
+          new Notification('Meeting starting soon', {
+            body: `${m.subject} — ${this.formatTime(m.startTime)}`,
+            icon: '/favicon.ico'
+          });
+        }
+        sessionStorage.setItem('meetinghub_notified', JSON.stringify(notified.slice(-50)));
+      },
+    };
+  }
+</script>
+</body>
+</html>

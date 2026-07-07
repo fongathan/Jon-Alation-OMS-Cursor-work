@@ -1,0 +1,34 @@
+PRD — Feature 26: Mass/Bulk edit
+Product Requirements Document
+Source: Feature Inventory Matrix — Alation to Internal Solution Migration (DEEPT). Document control: link this file from the matrix column **PRD page link**.
+Priority (matrix): High
+Primary use case (matrix): Bulk metadata updates
+Validation notes (matrix): Update owner + compliance tag on 200 tables; import CSV mapping
+1. Summary
+This PRD specifies **Mass/Bulk edit** for the in-house data catalog / OMS program. It expands the single matrix row into implementable components, UX expectations, and acceptance criteria.
+2. Problem & outcomes
+Users and stewards need predictable behavior, clear accountability, and parity with current Alation workflows where this capability is in use. Success is measured by adoption, reduced time-to-answer, and governance coverage—not feature count alone.
+3. Scope
+3.1 In scope
+End-to-end behavior for: Mass/Bulk edit.
+DEEPT / enterprise personas: steward, analyst, engineer, governance, admin.
+Accessibility: WCAG-oriented patterns for core flows (exact tier set by program).
+3.2 Out of scope (unless added by change request)
+Duplicating full warehouse compute consoles unless explicitly linked as deep integration.
+Non-catalog products (e.g. full ITSM) except via links or thin embeds.
+4. Personas
+5. Component breakdown (piece by piece)
+Selection
+Checkbox selection, select-all in view, select-by-filter with safeguards.
+Batch editor
+Apply tags, owners, descriptions; preview diff before commit.
+CSV pipeline
+Template download, validation report, dry-run, async job for large sets.
+Audit
+Actor, timestamp, before/after per field; downloadable job log.
+6. User stories
+As a steward, I can perform core curation tasks for **Mass/Bulk edit** without leaving the catalog shell.
+As an analyst, I can rely on **Mass/Bulk edit** to decide whether a dataset is appropriate for my use case.
+As an engineer, I can integrate or automate **Mass/Bulk edit** via documented APIs where applicable.
+7. Use cases & examples
+Happy path: user completes the primary job (Bulk metadata updates) in under the program’s target time with no support ticket.

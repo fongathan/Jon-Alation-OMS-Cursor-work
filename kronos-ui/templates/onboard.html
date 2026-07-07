@@ -1,0 +1,285 @@
+{% extends "base.html" %}
+{% block title %}Register Asset{% endblock %}
+{% block page_title %}Register Asset{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto space-y-6" x-data="{ assetType: '{{ request.args.get('type', 'vendor') }}' }">
+
+  {% if success %}
+  <div class="card p-4 border-emerald-500/50 bg-emerald-500/10 flex items-center gap-3">
+    <i class="fa-solid fa-circle-check text-emerald-400"></i>
+    <span class="text-emerald-300">{{ success }}</span>
+  </div>
+  {% endif %}
+
+  <div class="card">
+    <div class="px-6 py-5 border-b border-slate-700/50">
+      <h2 class="text-lg font-semibold">Asset Registration Portal</h2>
+      <p class="text-sm text-slate-400 mt-1">Register a new asset into the Kronos inventory. All fields marked with * are required.</p>
+    </div>
+
+    <form method="post" action="{{ url_for('onboard') }}" class="p-6 space-y-6">
+      <!-- Asset type selector -->
+      <div>
+        <label class="block text-sm font-medium text-slate-300 mb-2">Asset Type *</label>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+          {% for val, label, icon in [('vendor','Vendor','fa-building'), ('tracker','Digital Tracker','fa-satellite-dish'), ('system','System','fa-server'), ('use_case','Business Use Case','fa-diagram-project')] %}
+          <label class="cursor-pointer">
+            <input type="radio" name="asset_type" value="{{ val }}" x-model="assetType" class="sr-only peer">
+            <div class="flex flex-col items-center gap-2 p-3 rounded-lg border border-slate-600 peer-checked:border-kronos-500 peer-checked:bg-kronos-500/10 hover:bg-slate-700/50 transition-colors">
+              <i class="fa-solid {{ icon }} text-lg"></i>
+              <span class="text-xs text-center">{{ label }}</span>
+            </div>
+          </label>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Common fields -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="sm:col-span-2">
+          <label class="block text-sm font-medium text-slate-300 mb-1">Name *</label>
+          <input type="text" name="name" required class="input-field w-full" placeholder="e.g. Adobe Analytics">
+        </div>
+        <div class="sm:col-span-2">
+          <label class="block text-sm font-medium text-slate-300 mb-1">Description</label>
+          <textarea name="description" rows="3" class="input-field w-full" placeholder="Brief description of the asset"></textarea>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-300 mb-1">Owner *</label>
+          <input type="text" name="owner" required class="input-field w-full" placeholder="e.g. Marketing">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-300 mb-1">Region</label>
+          <select name="region" class="input-field w-full">
+            <option value="">Select region</option>
+            <option value="US">US</option>
+            <option value="EMEA">EMEA</option>
+            <option value="LATAM">LATAM</option>
+            <option value="APAC">APAC</option>
+            <option value="Global">Global</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-300 mb-1">Status</label>
+          <select name="status" class="input-field w-full">
+            <option value="active">Active</option>
+            <option value="pending">Pending</option>
+            <option value="under_review">Under Review</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Vendor-specific fields -->
+      <div x-show="assetType === 'vendor'" x-cloak class="space-y-4 pt-4 border-t border-slate-700/50">
+        <h3 class="text-sm font-semibold text-slate-300">Vendor Details</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm text-slate-400 mb-1">Vendor Type</label>
+            <input type="text" name="vendor_type" class="input-field w-full" placeholder="e.g. SaaS, Contractor">
+          </div>
+          <div>
+            <label class="block text-sm text-slate-400 mb-1">Category</label>
+            <input type="text" name="vendor_category" class="input-field w-full" placeholder="e.g. analytics, advertising">
+          </div>
+          <div>
+            <label class="block text-sm text-slate-400 mb-1">Risk Rating</label>
+            <select name="risk_rating" class="input-field w-full">
+              <option value="">Select</option>
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+              <option value="critical">Critical</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm text-slate-400 mb-1">Contract Expiry</label>
+            <input type="date" name="contract_expiry" class="input-field w-full">
+          </div>
+          <div class="flex items-center gap-2">
+            <input type="checkbox" name="dpa_in_place" id="dpa" class="rounded bg-slate-700 border-slate-600 text-kronos-600 focus:ring-kronos-500">
+            <label for="dpa" class="text-sm text-slate-400">Data Processing Agreement in place</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tracker-specific fields -->
+      <div x-show="assetType === 'tracker'" x-cloak class="space-y-4 pt-4 border-t border-slate-700/50">
+        <h3 class="text-sm font-semibold text-slate-300">Tracker Details</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm text-slate-400 mb-1">Tracker Type</label>
+            <select name="tracker_type" class="input-field w-full">
+              <option value="">Select</option>
+              <option value="pixel">Pixel</option>
+              <option value="tag">Tag</option>
+              <option value="SDK">SDK</option>
+              <option value="cookie">Cookie</option>
+              <option value="script">Script</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm text-slate-400 mb-1">Domain / Platform</label>
+            <input type="text" name="domain_or_platform" class="input-field w-full" placeholder="e.g. disneyplus.com">
+          </div>
+          <div class="sm:col-span-2">
+            <label class="block text-sm text-slate-400 mb-1">Purpose</label>
+            <input type="text" name="purpose" class="input-field w-full" placeholder="e.g. Conversion measurement">
+          </div>
+          <div>
+            <label class="block text-sm text-slate-400 mb-1">Placement</label>
+            <select name="placement" class="input-field w-full">
+              <option value="">Select</option>
+              <option value="website">Website</option>
+              <option value="app">App</option>
+              <option value="email">Email</option>
+              <option value="OTT">OTT</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm text-slate-400 mb-1">Vendor</label>
+            <select name="vendor_id" class="input-field w-full">
+              <option value="">Select vendor</option>
+              {% for v in vendors %}
+              <option value="{{ v.id }}">{{ v.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="flex items-center gap-2">
+            <input type="checkbox" name="consent_required" id="consent" checked class="rounded bg-slate-700 border-slate-600 text-kronos-600 focus:ring-kronos-500">
+            <label for="consent" class="text-sm text-slate-400">Consent required</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- System-specific fields -->
+      <div x-show="assetType === 'system'" x-cloak class="space-y-4 pt-4 border-t border-slate-700/50">
+        <h3 class="text-sm font-semibold text-slate-300">System Details</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm text-slate-400 mb-1">System Type</label>
+            <select name="system_type" class="input-field w-full">
+              <option value="">Select</option>
+              <option value="application">Application</option>
+              <option value="database">Database</option>
+              <option value="API">API</option>
+              <option value="warehouse">Data Warehouse</option>
+              <option value="pipeline">Pipeline</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm text-slate-400 mb-1">Business Unit</label>
+            <input type="text" name="business_unit" class="input-field w-full" placeholder="e.g. Commerce Data Solutions">
+          </div>
+          <div>
+            <label class="block text-sm text-slate-400 mb-1">Data Classification</label>
+            <select name="data_classification" class="input-field w-full">
+              <option value="">Select</option>
+              <option value="public">Public</option>
+              <option value="internal">Internal</option>
+              <option value="confidential">Confidential</option>
+              <option value="restricted">Restricted</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm text-slate-400 mb-1">Hosting</label>
+            <select name="hosting" class="input-field w-full">
+              <option value="">Select</option>
+              <option value="cloud">Cloud</option>
+              <option value="on-prem">On-Premises</option>
+              <option value="hybrid">Hybrid</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm text-slate-400 mb-1">Vendor</label>
+            <select name="vendor_id" class="input-field w-full">
+              <option value="">Select vendor</option>
+              {% for v in vendors %}
+              <option value="{{ v.id }}">{{ v.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="flex items-center gap-2">
+            <input type="checkbox" name="pii_processed" id="pii" class="rounded bg-slate-700 border-slate-600 text-kronos-600 focus:ring-kronos-500">
+            <label for="pii" class="text-sm text-slate-400">Processes PII</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Use Case-specific fields -->
+      <div x-show="assetType === 'use_case'" x-cloak class="space-y-4 pt-4 border-t border-slate-700/50">
+        <h3 class="text-sm font-semibold text-slate-300">Use Case Details</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm text-slate-400 mb-1">Category</label>
+            <input type="text" name="category" class="input-field w-full" placeholder="e.g. Audience Measurement">
+          </div>
+          <div>
+            <label class="block text-sm text-slate-400 mb-1">Subcategory</label>
+            <input type="text" name="subcategory" class="input-field w-full" placeholder="e.g. Purchase Propensity">
+          </div>
+          <div>
+            <label class="block text-sm text-slate-400 mb-1">Legal Basis</label>
+            <select name="legal_basis" class="input-field w-full">
+              <option value="">Select</option>
+              <option value="consent">Consent</option>
+              <option value="legitimate interest">Legitimate Interest</option>
+              <option value="contract">Contract</option>
+              <option value="legal obligation">Legal Obligation</option>
+            </select>
+          </div>
+          <div class="flex items-center gap-2">
+            <input type="checkbox" name="cross_border" id="cross_border" class="rounded bg-slate-700 border-slate-600 text-kronos-600 focus:ring-kronos-500">
+            <label for="cross_border" class="text-sm text-slate-400">Cross-border data transfer</label>
+          </div>
+        </div>
+
+        <!-- Relationship linking -->
+        <div class="pt-4 border-t border-slate-700/30">
+          <h4 class="text-sm font-medium text-slate-300 mb-3">Link Related Assets</h4>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-xs text-slate-500 mb-1">Vendors</label>
+              <select name="related_vendors" multiple class="input-field w-full h-24">
+                {% for v in vendors %}
+                <option value="{{ v.id }}">{{ v.name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs text-slate-500 mb-1">Systems</label>
+              <select name="related_systems" multiple class="input-field w-full h-24">
+                {% for s in systems_list %}
+                <option value="{{ s.id }}">{{ s.name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs text-slate-500 mb-1">Trackers</label>
+              <select name="related_trackers" multiple class="input-field w-full h-24">
+                {% for t in trackers_list %}
+                <option value="{{ t.id }}">{{ t.name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <p class="text-xs text-slate-500 mt-1">Hold Ctrl/Cmd to select multiple</p>
+        </div>
+      </div>
+
+      <!-- Notes -->
+      <div>
+        <label class="block text-sm font-medium text-slate-300 mb-1">Notes</label>
+        <textarea name="notes" rows="2" class="input-field w-full" placeholder="Additional context or notes"></textarea>
+      </div>
+
+      <div class="flex justify-end gap-3 pt-4 border-t border-slate-700/50">
+        <a href="{{ url_for('dashboard') }}" class="btn-secondary">Cancel</a>
+        <button type="submit" class="btn-primary">
+          <i class="fa-solid fa-plus mr-1"></i> Register Asset
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

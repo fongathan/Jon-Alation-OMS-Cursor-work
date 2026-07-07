@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% block title %}{{ type_label }}{% endblock %}
+{% block page_title %}{{ type_label }}{% endblock %}
+
+{% block content %}
+<div class="space-y-4">
+  <!-- Filters bar -->
+  <div class="card p-4" x-data="{ showFilters: false }">
+    <div class="flex flex-wrap items-center gap-3">
+      <div class="relative flex-1 min-w-[200px]">
+        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
+        <input type="text" id="tableSearch" placeholder="Filter {{ type_label | lower }}…"
+               class="input-field pl-9 w-full text-sm" oninput="filterTable(this.value)">
+      </div>
+      <button @click="showFilters = !showFilters" class="btn-secondary text-sm flex items-center gap-2">
+        <i class="fa-solid fa-filter"></i> Filters
+      </button>
+      <div class="flex items-center gap-2 ml-auto">
+        <a href="{{ url_for('onboard') }}?type={{ asset_type }}" class="btn-primary text-sm flex items-center gap-2">
+          <i class="fa-solid fa-plus"></i> Register New
+        </a>
+        <a href="{{ url_for('export_csv', asset_type=asset_type) }}" class="btn-secondary text-sm flex items-center gap-2">
+          <i class="fa-solid fa-download"></i> Export CSV
+        </a>
+      </div>
+    </div>
+
+    <!-- Expanded filters -->
+    <div x-show="showFilters" x-cloak class="mt-4 pt-4 border-t border-slate-700/50">
+      <form method="get" class="flex flex-wrap gap-3 items-end">
+        <div>
+          <label class="block text-xs text-slate-400 mb-1">Status</label>
+          <select name="status" class="input-field text-sm" onchange="this.form.submit()">
+            <option value="">All</option>
+            <option value="active" {{ 'selected' if request.args.get('status') == 'active' }}>Active</option>
+            <option value="inactive" {{ 'selected' if request.args.get('status') == 'inactive' }}>Inactive</option>
+            <option value="deprecated" {{ 'selected' if request.args.get('status') == 'deprecated' }}>Deprecated</option>
+            <option value="pending" {{ 'selected' if request.args.get('status') == 'pending' }}>Pending</option>
+            <option value="under_review" {{ 'selected' if request.args.get('status') == 'under_review' }}>Under Review</option>
+          </select>
+        </div>
+        {% if asset_type == 'vendors' %}
+        <div>
+          <label class="block text-xs text-slate-400 mb-1">Risk Rating</label>
+          <select name="risk" class="input-field text-sm" onchange="this.form.submit()">
+            <option value="">All</option>
+            <option value="critical" {{ 'selected' if request.args.get('risk') == 'critical' }}>Critical</option>
+            <option value="high" {{ 'selected' if request.args.get('risk') == 'high' }}>High</option>
+            <option value="medium" {{ 'selected' if request.args.get('risk') == 'medium' }}>Medium</option>
+            <option value="low" {{ 'selected' if request.args.get('risk') == 'low' }}>Low</option>
+          </select>
+        </div>
+        {% endif %}
+        <div>
+          <label class="block text-xs text-slate-400 mb-1">Owner</label>
+          <select name="owner" class="input-field text-sm" onchange="this.form.submit()">
+            <option value="">All</option>
+            {% for o in owners %}
+            <option value="{{ o }}" {{ 'selected' if request.args.get('owner') == o }}>{{ o }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Results count -->
+  <p class="text-sm text-slate-400">Showing <span class="text-white font-medium">{{ items | length }}</span> {{ type_label | lower }}</p>
+
+  <!-- Table -->
+  <div class="card overflow-x-auto">
+    <table class="w-full text-sm" id="inventoryTable">
+      <thead>
+        <tr class="text-left text-xs text-slate-400 uppercase tracking-wider border-b border-slate-700/50">
+          <th class="px-5 py-3 cursor-pointer hover:text-white" onclick="sortTable(0)">ID <i class="fa-solid fa-sort text-slate-600 ml-1"></i></th>
+          <th class="px-5 py-3 cursor-pointer hover:text-white" onclick="sortTable(1)">Name <i class="fa-solid fa-sort text-slate-600 ml-1"></i></th>
+          {% if asset_type == 'vendors' %}
+            <th class="px-5 py-3">Type</th>
+            <th class="px-5 py-3">Category</th>
+            <th class="px-5 py-3">Risk</th>
+            <th class="px-5 py-3">DPA</th>
+          {% elif asset_type == 'trackers' %}
+            <th class="px-5 py-3">Tracker Type</th>
+            <th class="px-5 py-3">Platform</th>
+            <th class="px-5 py-3">Purpose</th>
+            <th class="px-5 py-3">Vendor</th>
+          {% elif asset_type == 'systems' %}
+            <th class="px-5 py-3">System Type</th>
+            <th class="px-5 py-3">Business Unit</th>
+            <th class="px-5 py-3">Classification</th>
+            <th class="px-5 py-3">PII</th>
+          {% elif asset_type == 'use_cases' %}
+            <th class="px-5 py-3">Category</th>
+            <th class="px-5 py-3">Subcategory</th>
+            <th class="px-5 py-3">Legal Basis</th>
+            <th class="px-5 py-3">Cross-Border</th>
+          {% endif %}
+          <th class="px-5 py-3">Owner</th>
+          <th class="px-5 py-3">Status</th>
+          <th class="px-5 py-3">Updated</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in items %}
+        <tr class="table-row">
+          <td class="px-5 py-3 font-mono text-xs text-slate-400">{{ item.asset_id }}</td>
+          <td class="px-5 py-3">
+            <a href="{{ url_for('asset_detail', asset_type=asset_type_singular, asset_id=item.asset_id) }}"
+               class="text-kronos-400 hover:text-kronos-300 font-medium">{{ item.name }}</a>
+          </td>
+          {% if asset_type == 'vendors' %}
+            <td class="px-5 py-3 text-slate-400">{{ item.vendor_type or '—' }}</td>
+            <td class="px-5 py-3 text-slate-400">{{ item.vendor_category or '—' }}</td>
+            <td class="px-5 py-3"><span class="badge badge-{{ item.risk_rating or 'medium' }}">{{ item.risk_rating or '—' }}</span></td>
+            <td class="px-5 py-3">
+              {% if item.dpa_in_place %}<span class="text-emerald-400"><i class="fa-solid fa-check"></i></span>
+              {% else %}<span class="text-red-400"><i class="fa-solid fa-xmark"></i></span>{% endif %}
+            </td>
+          {% elif asset_type == 'trackers' %}
+            <td class="px-5 py-3 text-slate-400">{{ item.tracker_type or '—' }}</td>
+            <td class="px-5 py-3 text-slate-400">{{ item.domain_or_platform or '—' }}</td>
+            <td class="px-5 py-3 text-slate-400 max-w-[200px] truncate">{{ item.purpose or '—' }}</td>
+            <td class="px-5 py-3 text-slate-400">{{ item.vendor.name if item.vendor else '—' }}</td>
+          {% elif asset_type == 'systems' %}
+            <td class="px-5 py-3 text-slate-400">{{ item.system_type or '—' }}</td>
+            <td class="px-5 py-3 text-slate-400">{{ item.business_unit or '—' }}</td>
+            <td class="px-5 py-3">
+              {% if item.data_classification %}
+              <span class="badge badge-{{ 'critical' if item.data_classification == 'restricted' else 'high' if item.data_classification == 'confidential' else 'medium' if item.data_classification == 'internal' else 'low' }}">{{ item.data_classification }}</span>
+              {% else %}—{% endif %}
+            </td>
+            <td class="px-5 py-3">
+              {% if item.pii_processed %}<span class="text-amber-400"><i class="fa-solid fa-shield-halved"></i> Yes</span>
+              {% else %}<span class="text-slate-500">No</span>{% endif %}
+            </td>
+          {% elif asset_type == 'use_cases' %}
+            <td class="px-5 py-3 text-slate-400">{{ item.category or '—' }}</td>
+            <td class="px-5 py-3 text-slate-400">{{ item.subcategory or '—' }}</td>
+            <td class="px-5 py-3 text-slate-400">{{ item.legal_basis or '—' }}</td>
+            <td class="px-5 py-3">
+              {% if item.cross_border %}<span class="text-amber-400">Yes</span>
+              {% else %}<span class="text-slate-500">No</span>{% endif %}
+            </td>
+          {% endif %}
+          <td class="px-5 py-3 text-slate-400">{{ item.owner or '—' }}</td>
+          <td class="px-5 py-3"><span class="badge badge-{{ item.status or 'active' }}">{{ item.status or '—' }}</span></td>
+          <td class="px-5 py-3 text-slate-500 text-xs">{{ item.updated_at.strftime('%Y-%m-%d') if item.updated_at else '—' }}</td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="9" class="px-5 py-12 text-center text-slate-500">
+            <i class="fa-solid fa-box-open text-3xl mb-3 block"></i>
+            No {{ type_label | lower }} found. <a href="{{ url_for('onboard') }}?type={{ asset_type }}" class="text-kronos-400 hover:underline">Register one</a>.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,1039 @@
+{
+  "vendors": [
+    {
+      "asset_id": "VND-ADJUST",
+      "name": "Adjust",
+      "vendor_type": "SaaS",
+      "vendor_category": "attribution",
+      "description": "Mobile attribution and analytics",
+      "owner": "Marketing",
+      "risk_rating": "medium",
+      "dpa_in_place": true,
+      "contract_expiry": "2026-08-31",
+      "data_shared": "Install attribution, in-app events",
+      "region": "Global",
+      "status": "active"
+    },
+    {
+      "asset_id": "VND-ADOBE",
+      "name": "Adobe",
+      "vendor_type": "SaaS",
+      "vendor_category": "analytics",
+      "description": "Analytics, audience management, and ad-serving platform",
+      "owner": "Marketing",
+      "risk_rating": "high",
+      "dpa_in_place": true,
+      "contract_expiry": "2027-06-30",
+      "data_shared": "Page views, user events, device data",
+      "region": "Global",
+      "status": "active"
+    },
+    {
+      "asset_id": "VND-AWS",
+      "name": "Amazon Web Services",
+      "vendor_type": "IaaS",
+      "vendor_category": "cloud",
+      "description": "Infrastructure, storage, and compute services",
+      "owner": "Infrastructure",
+      "risk_rating": "medium",
+      "dpa_in_place": true,
+      "contract_expiry": "2028-01-01",
+      "data_shared": "All cloud-hosted data",
+      "region": "Global",
+      "status": "active"
+    },
+    {
+      "asset_id": "VND-BRAZE",
+      "name": "Braze",
+      "vendor_type": "SaaS",
+      "vendor_category": "marketing",
+      "description": "Customer engagement and messaging platform",
+      "owner": "Lifecycle",
+      "risk_rating": "medium",
+      "dpa_in_place": true,
+      "contract_expiry": "2026-09-30",
+      "data_shared": "User profiles, campaign data, push tokens",
+      "region": "US",
+      "status": "active"
+    },
+    {
+      "asset_id": "VND-CONVIVA",
+      "name": "Conviva",
+      "vendor_type": "SaaS",
+      "vendor_category": "analytics",
+      "description": "Streaming quality analytics and optimization",
+      "owner": "Product & Tech Analytics",
+      "risk_rating": "low",
+      "dpa_in_place": true,
+      "contract_expiry": "2027-04-15",
+      "data_shared": "Playback telemetry, buffering events",
+      "region": "Global",
+      "status": "active"
+    },
+    {
+      "asset_id": "VND-GOOGLE",
+      "name": "Google",
+      "vendor_type": "SaaS",
+      "vendor_category": "advertising",
+      "description": "Search, advertising, and analytics services",
+      "owner": "Marketing",
+      "risk_rating": "high",
+      "dpa_in_place": true,
+      "contract_expiry": "2026-12-31",
+      "data_shared": "Ad impressions, conversions, audience segments",
+      "region": "Global",
+      "status": "active"
+    },
+    {
+      "asset_id": "VND-LEGACYX",
+      "name": "LegacyTrack Corp",
+      "vendor_type": "SaaS",
+      "vendor_category": "analytics",
+      "description": "Legacy tracking vendor \u2014 pending migration",
+      "owner": "Marketing",
+      "risk_rating": "critical",
+      "dpa_in_place": false,
+      "contract_expiry": "2025-12-31",
+      "data_shared": "User behavior, device IDs",
+      "region": "US",
+      "status": "under_review"
+    },
+    {
+      "asset_id": "VND-NEWRELC",
+      "name": "New Relic",
+      "vendor_type": "SaaS",
+      "vendor_category": "monitoring",
+      "description": "Application performance monitoring",
+      "owner": "Engineering",
+      "risk_rating": "low",
+      "dpa_in_place": true,
+      "contract_expiry": "2026-11-30",
+      "data_shared": "APM traces, error logs",
+      "region": "US",
+      "status": "active"
+    },
+    {
+      "asset_id": "VND-ONETRUST",
+      "name": "OneTrust",
+      "vendor_type": "SaaS",
+      "vendor_category": "privacy",
+      "description": "Privacy management and consent orchestration",
+      "owner": "Privacy",
+      "risk_rating": "medium",
+      "dpa_in_place": true,
+      "contract_expiry": "2027-03-15",
+      "data_shared": "Consent records, privacy preferences",
+      "region": "Global",
+      "status": "active"
+    },
+    {
+      "asset_id": "VND-SNOWFLK",
+      "name": "Snowflake",
+      "vendor_type": "SaaS",
+      "vendor_category": "cloud",
+      "description": "Cloud data warehouse and analytics platform",
+      "owner": "Data Engineering",
+      "risk_rating": "medium",
+      "dpa_in_place": true,
+      "contract_expiry": "2027-09-30",
+      "data_shared": "All data warehouse data",
+      "region": "Global",
+      "status": "active"
+    }
+  ],
+  "trackers": [
+    {
+      "asset_id": "TRK-ADJUST",
+      "name": "Adjust SDK",
+      "tracker_type": "SDK",
+      "purpose": "Mobile install attribution and in-app analytics",
+      "domain_or_platform": "Disney+ iOS, Disney+ Android, Hulu iOS",
+      "data_collected": "Install source, in-app events, device ID",
+      "placement": "app",
+      "consent_required": true,
+      "owner": "Marketing",
+      "vendor_id": "VND-ADJUST",
+      "region": "Global",
+      "status": "active"
+    },
+    {
+      "asset_id": "TRK-ADOBEA",
+      "name": "Adobe Analytics Tag",
+      "tracker_type": "tag",
+      "purpose": "Site and app analytics including page views, events, and user flows",
+      "domain_or_platform": "disneyplus.com, hulu.com, espn.com",
+      "data_collected": "Page URL, events, device type, user ID",
+      "placement": "website",
+      "consent_required": true,
+      "owner": "Marketing",
+      "vendor_id": "VND-ADOBE",
+      "region": "Global",
+      "status": "active"
+    },
+    {
+      "asset_id": "TRK-ADOBET",
+      "name": "Adobe Target Pixel",
+      "tracker_type": "pixel",
+      "purpose": "A/B testing and personalization",
+      "domain_or_platform": "disneyplus.com",
+      "data_collected": "Variant assignments, conversion events",
+      "placement": "website",
+      "consent_required": true,
+      "owner": "Product & Tech Analytics",
+      "vendor_id": "VND-ADOBE",
+      "region": "US",
+      "status": "active"
+    },
+    {
+      "asset_id": "TRK-BRAZEP",
+      "name": "Braze Push SDK",
+      "tracker_type": "SDK",
+      "purpose": "Push notification delivery and engagement tracking",
+      "domain_or_platform": "Disney+ iOS, Disney+ Android, Hulu iOS",
+      "data_collected": "Push token, notification events, open rates",
+      "placement": "app",
+      "consent_required": true,
+      "owner": "Lifecycle",
+      "vendor_id": "VND-BRAZE",
+      "region": "US",
+      "status": "active"
+    },
+    {
+      "asset_id": "TRK-CONVIV",
+      "name": "Conviva Streaming Sensor",
+      "tracker_type": "SDK",
+      "purpose": "Video quality of experience monitoring",
+      "domain_or_platform": "Disney+, Hulu, ESPN",
+      "data_collected": "Buffering, bitrate, playback failures",
+      "placement": "app",
+      "consent_required": false,
+      "owner": "Product & Tech Analytics",
+      "vendor_id": "VND-CONVIVA",
+      "region": "Global",
+      "status": "active"
+    },
+    {
+      "asset_id": "TRK-GADS",
+      "name": "Google Ads Conversion Pixel",
+      "tracker_type": "pixel",
+      "purpose": "Track ad campaign conversions",
+      "domain_or_platform": "disneyplus.com, hulu.com",
+      "data_collected": "Conversion events, transaction values",
+      "placement": "website",
+      "consent_required": true,
+      "owner": "Marketing",
+      "vendor_id": "VND-GOOGLE",
+      "region": "US",
+      "status": "active"
+    },
+    {
+      "asset_id": "TRK-GTAG",
+      "name": "Google Analytics 4 Tag",
+      "tracker_type": "tag",
+      "purpose": "Traffic analytics and conversion measurement",
+      "domain_or_platform": "disneyplus.com, espn.com",
+      "data_collected": "Page views, scroll depth, events",
+      "placement": "website",
+      "consent_required": true,
+      "owner": "Marketing",
+      "vendor_id": "VND-GOOGLE",
+      "region": "Global",
+      "status": "active"
+    },
+    {
+      "asset_id": "TRK-LEGACY",
+      "name": "LegacyTrack Pixel",
+      "tracker_type": "pixel",
+      "purpose": "Legacy behavioral tracking \u2014 pending removal",
+      "domain_or_platform": "legacy.disneyplus.com",
+      "data_collected": "User behavior, click events, device fingerprint",
+      "placement": "website",
+      "consent_required": true,
+      "owner": "Marketing",
+      "vendor_id": "VND-LEGACYX",
+      "region": "US",
+      "status": "deprecated"
+    },
+    {
+      "asset_id": "TRK-OTCMP",
+      "name": "OneTrust Consent Banner",
+      "tracker_type": "script",
+      "purpose": "Cookie consent collection and preference management",
+      "domain_or_platform": "disneyplus.com, hulu.com, espn.com",
+      "data_collected": "Consent preferences, opt-in/out status",
+      "placement": "website",
+      "consent_required": false,
+      "owner": "Privacy",
+      "vendor_id": "VND-ONETRUST",
+      "region": "Global",
+      "status": "active"
+    }
+  ],
+  "systems": [
+    {
+      "asset_id": "SYS-S3DL",
+      "name": "AWS S3 Data Lake",
+      "system_type": "database",
+      "description": "Primary data lake (1.4 EB across 130K buckets)",
+      "business_unit": "Data Engineering",
+      "data_classification": "confidential",
+      "hosting": "cloud",
+      "pii_processed": true,
+      "certifications": null,
+      "owner": "Infrastructure",
+      "vendor_id": "VND-AWS",
+      "region": "Global",
+      "status": "active"
+    },
+    {
+      "asset_id": "SYS-CDP",
+      "name": "Customer Data Platform",
+      "system_type": "database",
+      "description": "Unified customer profiles for audience activation",
+      "business_unit": "Unified Audience Data",
+      "data_classification": "restricted",
+      "hosting": "cloud",
+      "pii_processed": true,
+      "certifications": null,
+      "owner": "Unified Audience Data",
+      "vendor_id": "VND-SNOWFLK",
+      "region": "Global",
+      "status": "active"
+    },
+    {
+      "asset_id": "SYS-DPLUS",
+      "name": "Disney+ Platform",
+      "system_type": "application",
+      "description": "Primary streaming platform serving Disney+ content",
+      "business_unit": "Disney+",
+      "data_classification": "confidential",
+      "hosting": "cloud",
+      "pii_processed": true,
+      "certifications": null,
+      "owner": "Disney+ Engineering",
+      "vendor_id": "VND-AWS",
+      "region": "Global",
+      "status": "active"
+    },
+    {
+      "asset_id": "SYS-ESPN",
+      "name": "ESPN Digital",
+      "system_type": "application",
+      "description": "ESPN web and mobile applications",
+      "business_unit": "ESPN",
+      "data_classification": "confidential",
+      "hosting": "cloud",
+      "pii_processed": true,
+      "certifications": null,
+      "owner": "ESPN Engineering",
+      "vendor_id": "VND-AWS",
+      "region": "US",
+      "status": "active"
+    },
+    {
+      "asset_id": "SYS-HULU",
+      "name": "Hulu Platform",
+      "system_type": "application",
+      "description": "Hulu streaming service with live TV and on-demand",
+      "business_unit": "Hulu",
+      "data_classification": "confidential",
+      "hosting": "cloud",
+      "pii_processed": true,
+      "certifications": null,
+      "owner": "Hulu Engineering",
+      "vendor_id": "VND-AWS",
+      "region": "US",
+      "status": "active"
+    },
+    {
+      "asset_id": "SYS-IDGRPH",
+      "name": "Identity Graph",
+      "system_type": "database",
+      "description": "Cross-device identity resolution service",
+      "business_unit": "Identity",
+      "data_classification": "restricted",
+      "hosting": "cloud",
+      "pii_processed": true,
+      "certifications": null,
+      "owner": "Identity",
+      "vendor_id": null,
+      "region": "Global",
+      "status": "active"
+    },
+    {
+      "asset_id": "SYS-OTRUST",
+      "name": "OneTrust Consent Manager",
+      "system_type": "application",
+      "description": "Consent collection and preference management",
+      "business_unit": "Privacy",
+      "data_classification": "restricted",
+      "hosting": "cloud",
+      "pii_processed": true,
+      "certifications": null,
+      "owner": "Privacy",
+      "vendor_id": "VND-ONETRUST",
+      "region": "Global",
+      "status": "active"
+    },
+    {
+      "asset_id": "SYS-PAYMT",
+      "name": "Payment Processing System",
+      "system_type": "application",
+      "description": "Handles subscription billing and payment methods",
+      "business_unit": "Commerce",
+      "data_classification": "restricted",
+      "hosting": "cloud",
+      "pii_processed": true,
+      "certifications": "PCI-DSS",
+      "owner": "Commerce Data Solutions",
+      "vendor_id": null,
+      "region": "Global",
+      "status": "active"
+    },
+    {
+      "asset_id": "SYS-RECENG",
+      "name": "Recommendation Engine",
+      "system_type": "application",
+      "description": "Content recommendation ML pipeline",
+      "business_unit": "Science",
+      "data_classification": "internal",
+      "hosting": "cloud",
+      "pii_processed": true,
+      "certifications": null,
+      "owner": "Science",
+      "vendor_id": null,
+      "region": "Global",
+      "status": "active"
+    },
+    {
+      "asset_id": "SYS-SFWH",
+      "name": "Snowflake Data Warehouse",
+      "system_type": "warehouse",
+      "description": "Central analytical data warehouse (54 PB, 170K tables)",
+      "business_unit": "Data Engineering",
+      "data_classification": "confidential",
+      "hosting": "cloud",
+      "pii_processed": true,
+      "certifications": null,
+      "owner": "Data Engineering",
+      "vendor_id": "VND-SNOWFLK",
+      "region": "Global",
+      "status": "active"
+    }
+  ],
+  "use_cases": [
+    {
+      "asset_id": "UC-ABTEST",
+      "name": "A/B Testing & Experimentation",
+      "category": "Product Experience",
+      "subcategory": "Experimentation",
+      "description": "Run controlled experiments on UI, pricing, and features",
+      "legal_basis": "legitimate interest",
+      "owner": "Product & Tech Analytics",
+      "region": "Global",
+      "status": "active",
+      "cross_border": false,
+      "vendors": [
+        "VND-ADOBE"
+      ],
+      "trackers": [
+        "TRK-ADOBEA",
+        "TRK-ADOBET"
+      ],
+      "systems": [
+        "SYS-DPLUS"
+      ]
+    },
+    {
+      "asset_id": "UC-ADSATTR",
+      "name": "Advertising Attribution",
+      "category": "Audience Measurement",
+      "subcategory": "Ad Attribution",
+      "description": "Measure effectiveness of ad campaigns across platforms",
+      "legal_basis": "consent",
+      "owner": "Marketing",
+      "region": "Global",
+      "status": "active",
+      "cross_border": false,
+      "vendors": [
+        "VND-ADOBE",
+        "VND-GOOGLE",
+        "VND-ADJUST"
+      ],
+      "trackers": [
+        "TRK-ADOBEA",
+        "TRK-GTAG",
+        "TRK-GADS",
+        "TRK-ADJUST"
+      ],
+      "systems": [
+        "SYS-DPLUS",
+        "SYS-HULU",
+        "SYS-ESPN"
+      ]
+    },
+    {
+      "asset_id": "UC-CONMGM",
+      "name": "Consent Management",
+      "category": "Privacy & Compliance",
+      "subcategory": "Consent Orchestration",
+      "description": "Collect, store, and enforce user consent preferences",
+      "legal_basis": "legal obligation",
+      "owner": "Privacy",
+      "region": "Global",
+      "status": "active",
+      "cross_border": false,
+      "vendors": [
+        "VND-ONETRUST"
+      ],
+      "trackers": [
+        "TRK-OTCMP"
+      ],
+      "systems": [
+        "SYS-OTRUST"
+      ]
+    },
+    {
+      "asset_id": "UC-PERSNLZ",
+      "name": "Content Personalization",
+      "category": "Product Experience",
+      "subcategory": "Recommendations",
+      "description": "Personalize content recommendations based on viewing history",
+      "legal_basis": "legitimate interest",
+      "owner": "Science",
+      "region": "Global",
+      "status": "active",
+      "cross_border": false,
+      "vendors": [
+        "VND-SNOWFLK"
+      ],
+      "trackers": [
+        "TRK-ADOBEA"
+      ],
+      "systems": [
+        "SYS-CDP",
+        "SYS-SFWH",
+        "SYS-RECENG"
+      ]
+    },
+    {
+      "asset_id": "UC-IDRESO",
+      "name": "Cross-Device Identity Resolution",
+      "category": "Identity",
+      "subcategory": "Device Graph",
+      "description": "Link user sessions across devices for unified experience",
+      "legal_basis": "consent",
+      "owner": "Identity",
+      "region": "Global",
+      "status": "active",
+      "cross_border": true,
+      "vendors": [],
+      "trackers": [],
+      "systems": [
+        "SYS-CDP",
+        "SYS-IDGRPH"
+      ]
+    },
+    {
+      "asset_id": "UC-EMAILC",
+      "name": "Lifecycle Email Campaigns",
+      "category": "Marketing",
+      "subcategory": "Email & Push",
+      "description": "Targeted email campaigns for engagement and retention",
+      "legal_basis": "consent",
+      "owner": "Lifecycle",
+      "region": "US",
+      "status": "active",
+      "cross_border": false,
+      "vendors": [
+        "VND-BRAZE"
+      ],
+      "trackers": [
+        "TRK-BRAZEP"
+      ],
+      "systems": [
+        "SYS-CDP"
+      ]
+    },
+    {
+      "asset_id": "UC-PURCHPR",
+      "name": "Purchase Propensity Modeling",
+      "category": "Audience Measurement",
+      "subcategory": "Purchase Propensity",
+      "description": "Predict likelihood of subscription upgrade or churn",
+      "legal_basis": "legitimate interest",
+      "owner": "Science",
+      "region": "US",
+      "status": "active",
+      "cross_border": false,
+      "vendors": [
+        "VND-SNOWFLK"
+      ],
+      "trackers": [
+        "TRK-ADOBEA"
+      ],
+      "systems": [
+        "SYS-CDP",
+        "SYS-SFWH"
+      ]
+    },
+    {
+      "asset_id": "UC-STRQOE",
+      "name": "Streaming Quality of Experience",
+      "category": "Operations",
+      "subcategory": "QoE Monitoring",
+      "description": "Monitor and optimize video playback quality metrics",
+      "legal_basis": "legitimate interest",
+      "owner": "Product & Tech Analytics",
+      "region": "Global",
+      "status": "active",
+      "cross_border": false,
+      "vendors": [
+        "VND-CONVIVA"
+      ],
+      "trackers": [
+        "TRK-CONVIV"
+      ],
+      "systems": [
+        "SYS-DPLUS",
+        "SYS-HULU",
+        "SYS-ESPN"
+      ]
+    },
+    {
+      "asset_id": "UC-SUBSBI",
+      "name": "Subscription Billing Analytics",
+      "category": "Commerce",
+      "subcategory": "Revenue Analytics",
+      "description": "Analyze subscription revenue, churn, and payment patterns",
+      "legal_basis": "contract",
+      "owner": "Commerce Data Solutions",
+      "region": "Global",
+      "status": "active",
+      "cross_border": false,
+      "vendors": [],
+      "trackers": [],
+      "systems": [
+        "SYS-SFWH",
+        "SYS-PAYMT"
+      ]
+    }
+  ],
+  "legal_exceptions": [
+    {
+      "asset_id": "LEX-003",
+      "name": "COPPA Minor Data Extended Hold",
+      "exception_type": "legal hold",
+      "related_assets": "SYS-IDGRPH, SYS-CDP",
+      "expiry_date": "2026-12-31",
+      "approval_date": "2026-01-10",
+      "approved_by": "Privacy Legal",
+      "policy_or_standard": "COPPA Compliance",
+      "justification": "Pending audit of minor deletion signal enforcement across all systems",
+      "owner": "Privacy",
+      "status": "active"
+    },
+    {
+      "asset_id": "LEX-002",
+      "name": "Payment Data Indefinite Retention",
+      "exception_type": "regulatory exception",
+      "related_assets": "SYS-PAYMT",
+      "expiry_date": "2026-09-30",
+      "approval_date": "2025-06-15",
+      "approved_by": "Legal Counsel",
+      "policy_or_standard": "SOX Compliance",
+      "justification": "Financial reporting data must be retained per SOX; defining formal retention period",
+      "owner": "Legal",
+      "status": "active"
+    },
+    {
+      "asset_id": "LEX-001",
+      "name": "Legacy Tracker Retention Waiver",
+      "exception_type": "policy waiver",
+      "related_assets": "TRK-LEGACY, VND-LEGACYX",
+      "expiry_date": "2026-06-30",
+      "approval_date": "2025-12-01",
+      "approved_by": "Legal Counsel",
+      "policy_or_standard": "Data Retention Standard",
+      "justification": "Migration to Adobe in progress; legacy pixel remains until cutover",
+      "owner": "Privacy",
+      "status": "active"
+    }
+  ],
+  "prior_audits": [
+    {
+      "asset_id": "AUD-2026Q1",
+      "name": "Q1 2026 RIM Signal Enforcement Review",
+      "audit_type": "compliance",
+      "audit_date": "2026-02-15",
+      "auditor": "Data Governance + Legal",
+      "scope": "RIM/GIS delete signal flow to all downstream systems",
+      "findings_count": 12,
+      "critical_findings": 3,
+      "remediation_due": "2026-06-30",
+      "status": "open",
+      "owner": "Data Governance"
+    },
+    {
+      "asset_id": "AUD-2025Q4",
+      "name": "Q4 2025 Vendor Risk Assessment",
+      "audit_type": "internal",
+      "audit_date": "2025-12-01",
+      "auditor": "Privacy Team",
+      "scope": "All active vendors with high/critical risk",
+      "findings_count": 4,
+      "critical_findings": 2,
+      "remediation_due": "2026-03-31",
+      "status": "in_progress",
+      "owner": "Privacy"
+    },
+    {
+      "asset_id": "AUD-2025Q3",
+      "name": "Q3 2025 Tracker Compliance Audit",
+      "audit_type": "internal",
+      "audit_date": "2025-09-15",
+      "auditor": "Data Governance",
+      "scope": "All digital trackers and consent mechanisms",
+      "findings_count": 7,
+      "critical_findings": 1,
+      "remediation_due": "2025-12-31",
+      "status": "closed",
+      "owner": "Data Governance"
+    },
+    {
+      "asset_id": "AUD-EY2024",
+      "name": "E&Y External Privacy Audit 2024",
+      "audit_type": "external",
+      "audit_date": "2024-08-20",
+      "auditor": "Ernst & Young",
+      "scope": "Enterprise-wide privacy program review",
+      "findings_count": 15,
+      "critical_findings": 2,
+      "remediation_due": "2025-02-28",
+      "status": "closed",
+      "owner": "Privacy"
+    }
+  ],
+  "change_log": [
+    {
+      "asset_type": "vendor",
+      "asset_id": "VND-LEGACYX",
+      "action": "updated",
+      "changed_by": "Privacy Team",
+      "change_summary": "Flagged for review \u2014 no DPA, expired contract",
+      "timestamp": "2026-03-08"
+    },
+    {
+      "asset_type": "tracker",
+      "asset_id": "TRK-LEGACY",
+      "action": "updated",
+      "changed_by": "Privacy Team",
+      "change_summary": "Marked as deprecated \u2014 pending removal",
+      "timestamp": "2026-03-06"
+    },
+    {
+      "asset_type": "use_case",
+      "asset_id": "UC-SUBSBI",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Subscription Billing Analytics",
+      "timestamp": "2026-02-27"
+    },
+    {
+      "asset_type": "use_case",
+      "asset_id": "UC-CONMGM",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Consent Management",
+      "timestamp": "2026-02-26"
+    },
+    {
+      "asset_type": "use_case",
+      "asset_id": "UC-IDRESO",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Cross-Device Identity Resolution",
+      "timestamp": "2026-02-25"
+    },
+    {
+      "asset_type": "use_case",
+      "asset_id": "UC-STRQOE",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Streaming Quality of Experience",
+      "timestamp": "2026-02-24"
+    },
+    {
+      "asset_type": "use_case",
+      "asset_id": "UC-EMAILC",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Lifecycle Email Campaigns",
+      "timestamp": "2026-02-23"
+    },
+    {
+      "asset_type": "tracker",
+      "asset_id": "TRK-LEGACY",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: LegacyTrack Pixel",
+      "timestamp": "2026-02-22"
+    },
+    {
+      "asset_type": "use_case",
+      "asset_id": "UC-ABTEST",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: A/B Testing & Experimentation",
+      "timestamp": "2026-02-22"
+    },
+    {
+      "asset_type": "tracker",
+      "asset_id": "TRK-OTCMP",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: OneTrust Consent Banner",
+      "timestamp": "2026-02-21"
+    },
+    {
+      "asset_type": "use_case",
+      "asset_id": "UC-PURCHPR",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Purchase Propensity Modeling",
+      "timestamp": "2026-02-21"
+    },
+    {
+      "asset_type": "system",
+      "asset_id": "SYS-PAYMT",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Payment Processing System",
+      "timestamp": "2026-02-20"
+    },
+    {
+      "asset_type": "tracker",
+      "asset_id": "TRK-CONVIV",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Conviva Streaming Sensor",
+      "timestamp": "2026-02-20"
+    },
+    {
+      "asset_type": "use_case",
+      "asset_id": "UC-PERSNLZ",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Content Personalization",
+      "timestamp": "2026-02-20"
+    },
+    {
+      "asset_type": "system",
+      "asset_id": "SYS-RECENG",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Recommendation Engine",
+      "timestamp": "2026-02-19"
+    },
+    {
+      "asset_type": "tracker",
+      "asset_id": "TRK-BRAZEP",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Braze Push SDK",
+      "timestamp": "2026-02-19"
+    },
+    {
+      "asset_type": "use_case",
+      "asset_id": "UC-ADSATTR",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Advertising Attribution",
+      "timestamp": "2026-02-19"
+    },
+    {
+      "asset_type": "vendor",
+      "asset_id": "VND-LEGACYX",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: LegacyTrack Corp",
+      "timestamp": "2026-02-18"
+    },
+    {
+      "asset_type": "system",
+      "asset_id": "SYS-IDGRPH",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Identity Graph",
+      "timestamp": "2026-02-18"
+    },
+    {
+      "asset_type": "tracker",
+      "asset_id": "TRK-ADJUST",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Adjust SDK",
+      "timestamp": "2026-02-18"
+    },
+    {
+      "asset_type": "vendor",
+      "asset_id": "VND-NEWRELC",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: New Relic",
+      "timestamp": "2026-02-17"
+    },
+    {
+      "asset_type": "system",
+      "asset_id": "SYS-OTRUST",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: OneTrust Consent Manager",
+      "timestamp": "2026-02-17"
+    },
+    {
+      "asset_type": "tracker",
+      "asset_id": "TRK-GADS",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Google Ads Conversion Pixel",
+      "timestamp": "2026-02-17"
+    },
+    {
+      "asset_type": "vendor",
+      "asset_id": "VND-CONVIVA",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Conviva",
+      "timestamp": "2026-02-16"
+    },
+    {
+      "asset_type": "system",
+      "asset_id": "SYS-S3DL",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: AWS S3 Data Lake",
+      "timestamp": "2026-02-16"
+    },
+    {
+      "asset_type": "tracker",
+      "asset_id": "TRK-GTAG",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Google Analytics 4 Tag",
+      "timestamp": "2026-02-16"
+    },
+    {
+      "asset_type": "vendor",
+      "asset_id": "VND-ADJUST",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Adjust",
+      "timestamp": "2026-02-15"
+    },
+    {
+      "asset_type": "system",
+      "asset_id": "SYS-SFWH",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Snowflake Data Warehouse",
+      "timestamp": "2026-02-15"
+    },
+    {
+      "asset_type": "tracker",
+      "asset_id": "TRK-ADOBET",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Adobe Target Pixel",
+      "timestamp": "2026-02-15"
+    },
+    {
+      "asset_type": "vendor",
+      "asset_id": "VND-BRAZE",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Braze",
+      "timestamp": "2026-02-14"
+    },
+    {
+      "asset_type": "system",
+      "asset_id": "SYS-CDP",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Customer Data Platform",
+      "timestamp": "2026-02-14"
+    },
+    {
+      "asset_type": "tracker",
+      "asset_id": "TRK-ADOBEA",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Adobe Analytics Tag",
+      "timestamp": "2026-02-14"
+    },
+    {
+      "asset_type": "vendor",
+      "asset_id": "VND-AWS",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Amazon Web Services",
+      "timestamp": "2026-02-13"
+    },
+    {
+      "asset_type": "system",
+      "asset_id": "SYS-ESPN",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: ESPN Digital",
+      "timestamp": "2026-02-13"
+    },
+    {
+      "asset_type": "vendor",
+      "asset_id": "VND-SNOWFLK",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Snowflake",
+      "timestamp": "2026-02-12"
+    },
+    {
+      "asset_type": "system",
+      "asset_id": "SYS-HULU",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Hulu Platform",
+      "timestamp": "2026-02-12"
+    },
+    {
+      "asset_type": "vendor",
+      "asset_id": "VND-ONETRUST",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: OneTrust",
+      "timestamp": "2026-02-11"
+    },
+    {
+      "asset_type": "system",
+      "asset_id": "SYS-DPLUS",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Disney+ Platform",
+      "timestamp": "2026-02-11"
+    },
+    {
+      "asset_type": "vendor",
+      "asset_id": "VND-GOOGLE",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Google",
+      "timestamp": "2026-02-10"
+    },
+    {
+      "asset_type": "vendor",
+      "asset_id": "VND-ADOBE",
+      "action": "created",
+      "changed_by": "Data Governance",
+      "change_summary": "Initial seed: Adobe",
+      "timestamp": "2026-02-09"
+    }
+  ]
+}

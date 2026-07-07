@@ -1,0 +1,1635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Navigator – Privacy & Data Governance</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #1a2e4a;
+    --navy-dark: #0f1e33;
+    --blue-btn: #1a3a5c;
+    --accent: #1a3a5c;
+    --border: #d8dee8;
+    --bg: #eef0f5;
+    --card-bg: #ffffff;
+    --text: #1a2e4a;
+    --muted: #6b7a99;
+    --active-border: #1a3a5c;
+    --pill-active-bg: #1a3a5c;
+    --pill-active-text: #ffffff;
+    --tab-active: #1a3a5c;
+    --sidebar-w: 240px;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Top nav bar ── */
+  .topbar {
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    height: 52px;
+    gap: 12px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .topbar .hamburger {
+    cursor: pointer;
+    display: flex; flex-direction: column; gap: 4px; padding: 4px;
+  }
+  .topbar .hamburger span {
+    display: block; width: 18px; height: 2px; background: var(--navy);
+  }
+  .breadcrumb {
+    font-size: 14px;
+    color: var(--text);
+    font-weight: 600;
+  }
+  .breadcrumb span {
+    color: var(--muted);
+    font-weight: 400;
+    margin-left: 6px;
+  }
+  .breadcrumb span::before { content: '/ '; color: var(--border); margin-right: 6px; }
+  .topbar-right {
+    margin-left: auto;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  /* ── Buttons ── */
+  .btn-outline {
+    background: #fff; border: 1px solid var(--border); color: var(--navy);
+    padding: 7px 16px; border-radius: 8px; font-size: 13px; font-weight: 500;
+    cursor: pointer; transition: box-shadow .15s;
+  }
+  .btn-outline:hover { box-shadow: 0 2px 8px rgba(0,0,0,.1); }
+  .btn-primary {
+    background: var(--blue-btn); color: #fff; border: none;
+    padding: 7px 16px; border-radius: 8px; font-size: 13px; font-weight: 500;
+    cursor: pointer; transition: background .15s;
+  }
+  .btn-primary:hover { background: var(--navy-dark); }
+
+  /* ── Hero (slim) ── */
+  .hero {
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    padding: 20px 28px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-shrink: 0;
+  }
+  .hero-title-block .hero-label {
+    font-size: 10px; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--muted); font-weight: 600; margin-bottom: 2px;
+  }
+  .hero-title-block .hero-title {
+    font-size: 22px; font-weight: 700; color: var(--navy);
+  }
+  .hero-search {
+    flex: 1; max-width: 480px;
+    background: var(--bg); border: 1px solid var(--border); border-radius: 40px;
+    display: flex; align-items: center; padding: 0 16px; height: 40px;
+  }
+  .hero-search input {
+    border: none; outline: none; width: 100%; font-size: 13px;
+    color: var(--text); background: transparent;
+  }
+  .hero-search input::placeholder { color: #aab2c8; }
+
+  /* ── Body layout ── */
+  .body-layout {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+  }
+
+  /* ── Sidebar ── */
+  .sidebar {
+    width: var(--sidebar-w);
+    background: #fff;
+    border-right: 1px solid var(--border);
+    flex-shrink: 0;
+    overflow-y: auto;
+    padding: 16px 0 32px;
+  }
+
+  .sidebar-section { }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 20px;
+    cursor: pointer;
+    user-select: none;
+    border-radius: 0;
+    transition: background .12s;
+  }
+  .section-header:hover { background: #f5f7fa; }
+  .section-header-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .section-header.has-active .section-header-label {
+    color: var(--navy);
+  }
+  .chevron {
+    width: 14px; height: 14px;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform .2s;
+    flex-shrink: 0;
+  }
+  .chevron svg { display: block; }
+  .section-header.open .chevron { transform: rotate(180deg); }
+
+  .section-items {
+    display: none;
+    padding: 2px 0 8px;
+  }
+  .section-items.open { display: block; }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 8px 20px 8px 28px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--navy);
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    border-left: 3px solid transparent;
+    transition: background .1s, color .1s;
+    position: relative;
+  }
+  .nav-item:hover { background: #f5f7fa; }
+  .nav-item.active {
+    border-left-color: var(--active-border);
+    background: #f0f4fa;
+    color: var(--active-border);
+    font-weight: 600;
+  }
+
+  /* ── Main content ── */
+  .main {
+    flex: 1;
+    padding: 28px 32px 48px;
+    overflow-y: auto;
+    min-width: 0;
+  }
+
+  /* ── Content panel ── */
+  .content-panel {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,.05);
+    animation: fadeIn .2s ease;
+  }
+  .tabs {
+    display: flex; border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+  }
+  .tab {
+    padding: 14px 4px; margin-right: 28px;
+    font-size: 14px; font-weight: 500; color: var(--muted);
+    cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px;
+    transition: color .12s;
+  }
+  .tab.active { color: var(--tab-active); border-bottom-color: var(--tab-active); font-weight: 600; }
+  .tab:hover:not(.active) { color: var(--navy); }
+
+  .tab-content { display: none; padding: 28px 24px; }
+  .tab-content.active { display: block; }
+
+  .section-title { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+  .section-subtitle { font-size: 16px; font-weight: 600; margin: 18px 0 8px; }
+  .section-desc { font-size: 14px; color: var(--muted); line-height: 1.6; max-width: 640px; margin-bottom: 20px; }
+
+  /* Filter pills */
+  .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; align-items: center; }
+  .filter-label { font-size: 13px; color: var(--muted); font-weight: 500; margin-right: 4px; }
+  .pill {
+    padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500;
+    border: 1px solid var(--border); background: #fff; color: var(--navy);
+    cursor: pointer; transition: all .12s;
+  }
+  .pill:hover { background: #f0f4fa; }
+  .pill.active { background: var(--pill-active-bg); color: var(--pill-active-text); border-color: var(--pill-active-bg); }
+
+  /* Table */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .data-table th {
+    text-align: left; padding: 10px 16px; font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .06em;
+    color: var(--muted); background: #f8f9fc; border-bottom: 1px solid var(--border);
+  }
+  .data-table td { padding: 12px 16px; border-bottom: 1px solid #f0f2f7; }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:hover td { background: #fafbfd; }
+  .badge {
+    display: inline-block; padding: 3px 10px; border-radius: 20px;
+    font-size: 11px; font-weight: 600;
+  }
+  .badge-green { background: #e3f5ec; color: #1a7a45; }
+  .badge-yellow { background: #fef3cd; color: #856404; }
+  .badge-red { background: #fde8e8; color: #9b1c1c; }
+  .badge-blue { background: #e0eaff; color: #1a3a8f; }
+
+  /* Work queue */
+  .queue-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 0; border-bottom: 1px solid #f0f2f7;
+  }
+  .queue-item:last-child { border-bottom: none; }
+  .queue-title { font-size: 14px; font-weight: 500; margin-bottom: 3px; }
+  .queue-meta { font-size: 12px; color: var(--muted); }
+  .queue-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+  .priority { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+  .priority-high { background: #fde8e8; color: #9b1c1c; }
+  .priority-med { background: #fef3cd; color: #856404; }
+  .priority-low { background: #e3f5ec; color: #1a7a45; }
+  .due { font-size: 12px; color: var(--muted); }
+
+  /* Stat row */
+  .stats-row { display: flex; gap: 16px; margin-bottom: 24px; }
+  .stat-card {
+    flex: 1; border: 1px solid var(--border); border-radius: 10px;
+    padding: 16px 20px; background: #fafbfd;
+  }
+  .stat-val { font-size: 28px; font-weight: 700; color: var(--navy); }
+  .stat-lbl { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  /* ── Consent dashboard ── */
+  .overview-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+  .stat-grid-8 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+  .activities-box { background: #f5f7fb; border: 1px solid #ccd4e4; border-radius: 14px; padding: 16px 18px 18px; margin-bottom: 20px; }
+  .activities-box-title { font-size: 13px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px; }
+  .stat-card-v2 { border: 1px solid var(--border); border-radius: 12px; padding: 18px 16px; background: #fff; text-align: center; }
+  .stat-card-v2 .sv { font-size: 24px; font-weight: 700; color: #1a2e6e; }
+  .stat-card-v2 .sl { font-size: 12px; color: var(--muted); margin-top: 4px; line-height: 1.4; }
+  .chart-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .chart-card { border: 1px solid var(--border); border-radius: 12px; padding: 20px; background: #fff; }
+  .chart-title { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 3px; }
+  .chart-sub { font-size: 12px; color: var(--muted); margin-bottom: 14px; }
+  /* Key controls */
+  .control-card { border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px; margin-bottom: 10px; background: #fff; }
+  .control-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 6px; }
+  .control-name { font-size: 14px; font-weight: 700; color: var(--navy); }
+  .control-desc { font-size: 13px; color: var(--muted); margin-bottom: 12px; line-height: 1.5; }
+  .control-meta { display: flex; gap: 48px; }
+  .control-meta-item .cml { font-size: 11px; font-weight: 600; color: var(--navy); margin-bottom: 2px; }
+  .control-meta-item .cmv { font-size: 13px; color: var(--text); }
+  .tags { display: flex; gap: 6px; flex-wrap: wrap; flex-shrink: 0; }
+  .tag { font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 4px; letter-spacing: .04em; white-space: nowrap; }
+  .tag-high-risk { background: #fff0f0; color: #c0392b; border: 1px solid #f5c0c0; }
+  .tag-med-risk { background: #fff8e6; color: #c87d0e; border: 1px solid #fce4a0; }
+  .tag-compliant { background: #eafaf1; color: #1e8449; border: 1px solid #a9dfbf; }
+  .tag-inprogress { background: #eaf4ff; color: #1a6bb5; border: 1px solid #a9d0f0; }
+  .tag-automated { background: #f4f0ff; color: #6c3483; border: 1px solid #d2b4de; }
+  .tag-manual { background: #f4f0ff; color: #6c3483; border: 1px solid #d2b4de; }
+  /* Reports */
+  .reports-section { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 24px; }
+  .reports-title { font-size: 15px; font-weight: 700; color: var(--navy); padding: 16px 20px 0; }
+  .rpt-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .rpt-table th { text-align: left; padding: 10px 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); background: #f8f9fc; border-bottom: 1px solid var(--border); }
+  .rpt-table td { padding: 13px 20px; border-bottom: 1px solid #f0f2f7; }
+  .rpt-table tr:last-child td { border-bottom: none; }
+  .rpt-table td:first-child { font-weight: 600; }
+  .btn-open { background: #fff; border: 1px solid var(--border); color: var(--navy); padding: 5px 14px; border-radius: 6px; font-size: 12px; font-weight: 500; cursor: pointer; }
+  .btn-open:hover { background: #f5f7fa; }
+  /* By persona */
+  .persona-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .persona-card { border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; background: #fff; }
+  .persona-type { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #5b4fcf; margin-bottom: 6px; }
+  .persona-desc { font-size: 13px; color: var(--muted); margin-bottom: 12px; line-height: 1.4; }
+  .persona-links a { display: block; font-size: 13px; color: #5b4fcf; text-decoration: none; margin-bottom: 6px; font-weight: 500; }
+  .persona-links a:hover { text-decoration: underline; }
+
+  /* ── DSR dashboard ── */
+  .dsr-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .dsr-outer { border: 1px solid var(--border); border-radius: 12px; padding: 20px; background: var(--bg); }
+  .dsr-outer-hdr { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px; }
+  .dsr-outer-ttl { font-size: 15px; font-weight: 700; color: var(--navy); }
+  .chart-inner { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; }
+  .ci-title { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 2px; }
+  .ci-sub { font-size: 12px; color: var(--muted); margin-bottom: 12px; }
+  .dsr-chips { display: flex; gap: 6px; }
+  .dsr-chip { background: #fff; border: 1px solid var(--border); color: var(--navy); padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 500; cursor: pointer; }
+  .dsr-chip:hover { background: #f0f4fa; }
+  .type-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tp { font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 4px; color: #4a5568; }
+  .tp-purple { background: #c0b4e0; } .tp-yellow { background: #e6ce90; } .tp-blue { background: #96cce0; } .tp-green { background: #96d0ae; }
+  .vol-legend { display: flex; gap: 10px; margin-top: 12px; }
+  .vc { font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 4px; color: #fff; }
+  .vc-green { background: #22C55E; } .vc-dark { background: #1a2e4a; }
+  .pie-legend { display: flex; flex-direction: column; gap: 5px; margin-top: 12px; }
+  .pie-row { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--navy); }
+  .pie-dot { width: 11px; height: 11px; border-radius: 2px; flex-shrink: 0; }
+  /* Region totals */
+  .region-totals { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 24px; }
+  .rc { border-radius: 10px; padding: 16px 18px; border: 1px solid rgba(0,0,0,0.07); display: flex; flex-direction: column; align-items: center; text-align: center; gap: 4px; }
+  .rc-label { font-size: 10px; font-weight: 800; letter-spacing: .06em; }
+  .rc-val { font-size: 20px; font-weight: 700; }
+  /* Status pipeline */
+  .status-pipeline { display: block; width: 100%; }
+  .sp-label { font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 4px; }
+  .sp-val { font-size: 20px; font-weight: 700; }
+
+  /* ── Governance Overview ── */
+  .gov-4col { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px; }
+  .gov-3col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 16px; }
+  .gov-metric-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 20px 20px 16px; position: relative; display: flex; flex-direction: column; min-height: 148px; }
+  .gov-metric-card.clickable { cursor: pointer; transition: box-shadow 0.15s, border-color 0.15s; }
+  .gov-metric-card.clickable:hover { box-shadow: 0 4px 16px rgba(26,46,74,0.12); border-color: #4f7fe8; }
+  .gov-info { position: absolute; top: 12px; right: 14px; color: #b8c2d4; font-size: 14px; cursor: help; }
+  .gov-metric-name { font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 10px; padding-right: 20px; line-height: 1.35; min-height: 52px; }
+  .pci-section-box { background: #fbfcfe; border: 1px solid #e4e8f0; border-radius: 14px; padding: 18px; margin-bottom: 16px; }
+  .gov-metric-val { font-size: 40px; font-weight: 800; color: #8896b3; line-height: 1; text-align: center; }
+  .gov-4col .gov-metric-val { color: var(--navy); }
+  .gov-metric-desc { font-size: 12px; color: var(--muted); line-height: 1.5; margin-top: auto; padding-top: 12px; }
+  .gov-section { margin-bottom: 28px; }
+  .gov-divider { border: none; border-top: 1px solid #d0d6e2; margin: 28px 0; }
+  .gov-section-ttl { font-size: 22px; font-weight: 700; color: var(--navy); margin-bottom: 3px; }
+  .gov-section-sub { font-size: 13px; color: var(--muted); margin-bottom: 14px; }
+  .gov-index-row { display: grid; grid-template-columns: 1fr 2.6fr; gap: 16px; }
+  .gov-index-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 24px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+  .gov-index-name { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 10px; }
+  .gov-index-val { font-size: 40px; font-weight: 800; color: var(--navy); }
+  .gov-trend-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; }
+  /* ── PCI formula bar ── */
+  .pci-formula-wrap { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; margin-bottom: 16px; }
+  .pci-bar { display: flex; border-radius: 8px; overflow: hidden; height: 44px; margin-bottom: 14px; }
+  .pci-seg { display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #fff; flex: 1; letter-spacing: .02em; }
+  .pci-seg-crr  { background: #4f7fe8; }
+  .pci-seg-tcea { background: #7c5cbf; }
+  .pci-seg-der  { background: #2a9d8f; }
+  .pci-legend { display: flex; gap: 18px; flex-wrap: wrap; margin-bottom: 14px; }
+  .pci-legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--navy); }
+  .pci-legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+  .pci-result-banner { background: #dce2ee; border: 1px solid #c4cde0; border-radius: 8px; padding: 20px 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 4px; }
+  .pci-result-label { font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 3px; }
+  .pci-result-sub { font-size: 13px; color: var(--muted); }
+  .pci-result-val { font-size: 40px; font-weight: 800; color: var(--navy); }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+</head>
+<body>
+
+<!-- Top nav -->
+<nav class="topbar">
+  <div class="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </div>
+  <div class="breadcrumb">
+    Navigator <span id="breadcrumb-section">Governance Overview</span>
+  </div>
+  <div class="topbar-right">
+    <button class="btn-outline">Open auditor view</button>
+    <button class="btn-primary">Export evidence package</button>
+  </div>
+</nav>
+
+<!-- Slim hero -->
+<div class="hero">
+  <div class="hero-title-block" style="display:flex;align-items:center;gap:12px">
+    <svg viewBox="0 0 520 520" xmlns="http://www.w3.org/2000/svg" style="width:52px;height:52px;flex-shrink:0">
+      <defs>
+        <linearGradient id="logoArmL" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#82aece"/><stop offset="100%" stop-color="#a8c8e0"/></linearGradient>
+        <linearGradient id="logoArmR" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#8eb8d0"/><stop offset="100%" stop-color="#b0ceE4"/></linearGradient>
+        <linearGradient id="logoNodeBig" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#80accc"/><stop offset="100%" stop-color="#a4c4dc"/></linearGradient>
+        <linearGradient id="logoNodeSmR" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#88b0cc"/><stop offset="100%" stop-color="#aacadc"/></linearGradient>
+        <linearGradient id="logoRings" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#84aecc"/><stop offset="100%" stop-color="#a4c6dc"/></linearGradient>
+      </defs>
+      <circle cx="260" cy="260" r="160" fill="none" stroke="url(#logoRings)" stroke-width="10" opacity="0.55"/>
+      <circle cx="260" cy="260" r="130" fill="none" stroke="url(#logoRings)" stroke-width="10" opacity="0.65"/>
+      <circle cx="260" cy="260" r="100" fill="none" stroke="url(#logoRings)" stroke-width="10" opacity="0.78"/>
+      <circle cx="260" cy="260" r="70"  fill="none" stroke="url(#logoRings)" stroke-width="10" opacity="0.9"/>
+      <circle cx="260" cy="260" r="40"  fill="none" stroke="url(#logoRings)" stroke-width="10" opacity="1"/>
+      <circle cx="260" cy="260" r="14" fill="#6a9aba"/>
+      <line x1="260" y1="260" x2="118" y2="290" stroke="url(#logoArmL)" stroke-width="9" stroke-linecap="round"/>
+      <circle cx="105" cy="294" r="22" fill="none" stroke="#7aaac4" stroke-width="9"/>
+      <circle cx="178" cy="274" r="13" fill="#8ab8d0"/>
+      <line x1="260" y1="260" x2="278" y2="120" stroke="url(#logoArmL)" stroke-width="9" stroke-linecap="round"/>
+      <circle cx="281" cy="105" r="34" fill="url(#logoNodeBig)"/>
+      <circle cx="172" cy="148" r="14" fill="#96bcd4"/>
+      <line x1="260" y1="260" x2="388" y2="356" stroke="url(#logoArmR)" stroke-width="9" stroke-linecap="round"/>
+      <circle cx="404" cy="368" r="38" fill="url(#logoNodeSmR)"/>
+      <circle cx="330" cy="138" r="10" fill="#a0c2d8"/>
+      <circle cx="348" cy="390" r="13" fill="#8ab6cc"/>
+      <circle cx="178" cy="370" r="9"  fill="#96bcd0"/>
+    </svg>
+    <div>
+      <div class="hero-label">Privacy &amp; Data Governance</div>
+      <div class="hero-title">Navigator</div>
+    </div>
+  </div>
+  <div class="hero-search">
+    <svg width="14" height="14" viewBox="0 0 20 20" fill="none" style="margin-right:10px;flex-shrink:0">
+      <circle cx="8.5" cy="8.5" r="5.75" stroke="#aab2c8" stroke-width="1.5"/>
+      <path d="M13 13l3.5 3.5" stroke="#aab2c8" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    <input type="text" placeholder="Search policies, cases, controls, and assets..." />
+  </div>
+</div>
+
+<!-- Body layout -->
+<div class="body-layout">
+
+  <!-- Left sidebar -->
+  <aside class="sidebar" id="sidebar">
+
+    <!-- Governance Overview -->
+    <div style="padding: 10px 0 10px; border-bottom: 1px solid var(--border); margin-bottom: 8px;">
+      <button class="nav-item active" onclick="navigate('overview','home')" style="padding: 10px 20px; border-radius: 0; font-weight: 600;">Governance Overview</button>
+    </div>
+
+    <!-- Privacy -->
+    <div class="sidebar-section" id="section-privacy">
+      <div class="section-header open" onclick="toggleSection('privacy')">
+        <span class="section-header-label">Privacy</span>
+        <span class="chevron">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M2 4l4 4 4-4" stroke="#6b7a99" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </div>
+      <div class="section-items open" id="items-privacy">
+        <button class="nav-item" onclick="navigate('privacy','consent')">Consent</button>
+        <button class="nav-item" onclick="navigate('privacy','dsrs')">Data Subject Rights</button>
+        <button class="nav-item" onclick="navigate('privacy','tracker')">Tracker Remediation</button>
+      </div>
+    </div>
+
+    <!-- Platform -->
+    <div class="sidebar-section" id="section-platform">
+      <div class="section-header open" onclick="toggleSection('platform')">
+        <span class="section-header-label">Platform</span>
+        <span class="chevron">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M2 4l4 4 4-4" stroke="#6b7a99" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </div>
+      <div class="section-items open" id="items-platform">
+        <button class="nav-item" onclick="navigate('platform','catalog')">Business Data Catalog</button>
+        <button class="nav-item" onclick="navigate('platform','classifications')">Classifications</button>
+        <button class="nav-item" onclick="navigate('platform','policies')">Policies</button>
+      </div>
+    </div>
+
+    <!-- Security -->
+    <div class="sidebar-section" id="section-security">
+      <div class="section-header open" onclick="toggleSection('security')">
+        <span class="section-header-label">Security</span>
+        <span class="chevron">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M2 4l4 4 4-4" stroke="#6b7a99" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </div>
+      <div class="section-items open" id="items-security">
+        <button class="nav-item" onclick="navigate('security','access')">Access</button>
+        <button class="nav-item" onclick="navigate('security','gis')">GIS</button>
+        <button class="nav-item" onclick="navigate('security','dataUse')">Data Use</button>
+      </div>
+    </div>
+
+    <!-- Regulatory -->
+    <div class="sidebar-section" id="section-regulatory">
+      <div class="section-header open has-active" onclick="toggleSection('regulatory')">
+        <span class="section-header-label">Regulatory</span>
+        <span class="chevron">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M2 4l4 4 4-4" stroke="#6b7a99" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </div>
+      <div class="section-items open" id="items-regulatory">
+        <button class="nav-item" onclick="navigate('regulatory','laws')">Laws &amp; Regulations</button>
+        <button class="nav-item" onclick="navigate('regulatory','incidents')">Incidents</button>
+        <button class="nav-item" onclick="navigate('regulatory','inventory')">Sustainable Business Inventory</button>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- Main content -->
+  <main class="main">
+    <div class="content-panel" id="content-panel">
+      <div class="tabs">
+        <div class="tab active" onclick="switchTab('overview')">Overview</div>
+        <div class="tab" onclick="switchTab('workqueue')">Work queue</div>
+      </div>
+
+      <div class="tab-content active" id="tab-overview"></div>
+
+      <div class="tab-content" id="tab-workqueue">
+        <div class="section-title" id="wq-title">Laws &amp; Regulations – Work Queue</div>
+        <div class="section-desc">Open action items and tasks requiring attention for this section.</div>
+        <div id="workqueue-body"></div>
+      </div>
+    </div>
+  </main>
+
+</div>
+
+<script>
+// ── Content definitions ────────────────────────────────────────────────────
+
+const CONTENT = {
+
+  overview: {
+    home: {
+      label: 'Governance Overview',
+      breadcrumb: 'Governance Overview',
+      overview: `
+        <div class="pci-section-box">
+        <div style="font-size:22px;font-weight:700;color:var(--navy);margin-bottom:4px">Data Governance Core Metrics</div>
+        <div style="font-size:13px;color:var(--muted);margin-bottom:16px">Privacy Compliance Index (PCI) plus section index posture for Platform, Security, and Regulatory.</div>
+        <div class="gov-4col" style="margin-bottom:0">
+          <div class="gov-metric-card"><span class="gov-info">ⓘ</span><div class="gov-metric-name">Privacy Compliance Index (PCI)</div><div class="gov-metric-val">98%</div></div>
+          <div class="gov-metric-card"><span class="gov-info">ⓘ</span><div class="gov-metric-name">Platform Index</div><div class="gov-metric-val">91%</div></div>
+          <div class="gov-metric-card"><span class="gov-info">ⓘ</span><div class="gov-metric-name">Security Index</div><div class="gov-metric-val">86.1%</div></div>
+          <div class="gov-metric-card"><span class="gov-info">ⓘ</span><div class="gov-metric-name">Regulatory Index</div><div class="gov-metric-val">88.3%</div></div>
+        </div>
+        </div><!-- /pci-section-box -->
+
+        <hr class="gov-divider">
+        <div class="gov-section">
+          <div class="gov-section-ttl">Privacy</div>
+          <div class="gov-section-sub">Three PCI factor metrics in a row; Privacy Compliance Index trend below.</div>
+          <div class="pci-section-box">
+          <div class="gov-3col">
+            <div class="gov-metric-card clickable" onclick="navigate('privacy','consent')"><span class="gov-info">ⓘ</span><div class="gov-metric-name">Consent Reconciliation Rate (CRR)</div><div class="gov-metric-val">99.5%</div></div>
+            <div class="gov-metric-card clickable" onclick="navigate('privacy','tracker')"><span class="gov-info">ⓘ</span><div class="gov-metric-name">Tracker Consent Enforcement Accuracy (TCEA)</div><div class="gov-metric-val">98.5%</div></div>
+            <div class="gov-metric-card clickable" onclick="navigate('privacy','dsrs')"><span class="gov-info">ⓘ</span><div class="gov-metric-name">Data Subject Rights Execution Reliability (DER)</div><div class="gov-metric-val">95%</div></div>
+          </div>
+          <div class="pci-result-banner">
+            <div class="pci-result-label">Privacy Compliance Index (PCI)</div>
+            <div class="pci-result-val">98%</div>
+            <div class="pci-result-sub">Weighted average of CRR · TCEA · DER</div>
+          </div>
+          </div><!-- /pci-section-box -->
+
+          <div class="gov-index-row">
+            <div class="gov-index-card"><div class="gov-index-name">Privacy Compliance Index (PCI)</div><div class="gov-index-val">98%</div></div>
+            <div class="gov-trend-card">
+              <svg viewBox="0 0 620 155" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+                <defs><linearGradient id="gpa" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c5d3e8" stop-opacity="0.55"/><stop offset="100%" stop-color="#c5d3e8" stop-opacity="0"/></linearGradient></defs>
+                <line x1="50" y1="10" x2="610" y2="10" stroke="#d0d6e2" stroke-width="1"/>
+                <line x1="50" y1="45" x2="610" y2="45" stroke="#d0d6e2" stroke-width="1"/>
+                <line x1="50" y1="80" x2="610" y2="80" stroke="#d0d6e2" stroke-width="1"/>
+                <line x1="50" y1="125" x2="610" y2="125" stroke="#d0d6e2" stroke-width="1"/>
+                <text x="44" y="129" text-anchor="end" font-size="10" fill="#6b7a99">95.0%</text>
+                <text x="44" y="84" text-anchor="end" font-size="10" fill="#6b7a99">96.3%</text>
+                <text x="44" y="49" text-anchor="end" font-size="10" fill="#6b7a99">97.7%</text>
+                <text x="44" y="14" text-anchor="end" font-size="10" fill="#6b7a99">99.0%</text>
+                <path d="M50,89 143,81 237,70 330,62 423,51 517,37 610,29 L610,125 50,125 Z" fill="url(#gpa)"/>
+                <polyline points="50,89 143,81 237,70 330,62 423,51 517,37 610,29" fill="none" stroke="#4f7fe8" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+                <text x="50" y="148" text-anchor="middle" font-size="10" fill="#6b7a99">5/16</text>
+                <text x="143" y="148" text-anchor="middle" font-size="10" fill="#6b7a99">5/17</text>
+                <text x="237" y="148" text-anchor="middle" font-size="10" fill="#6b7a99">5/18</text>
+                <text x="330" y="148" text-anchor="middle" font-size="10" fill="#6b7a99">5/19</text>
+                <text x="423" y="148" text-anchor="middle" font-size="10" fill="#6b7a99">5/20</text>
+                <text x="517" y="148" text-anchor="middle" font-size="10" fill="#6b7a99">5/21</text>
+                <text x="610" y="148" text-anchor="middle" font-size="10" fill="#6b7a99">5/22</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <hr class="gov-divider">
+        <div class="gov-section">
+          <div class="gov-section-ttl">Platform</div>
+          <div class="gov-section-sub">Section metrics for Business Data Catalog, Classifications, and Policies, with a trend row below.</div>
+          <div class="pci-section-box">
+          <div class="gov-3col">
+            <div class="gov-metric-card clickable" onclick="navigate('platform','catalog')"><span class="gov-info">ⓘ</span><div class="gov-metric-name">Business Data Catalog (BDC)</div><div class="gov-metric-val">87%</div></div>
+            <div class="gov-metric-card clickable" onclick="navigate('platform','classifications')"><span class="gov-info">ⓘ</span><div class="gov-metric-name">Classifications (CLS)</div><div class="gov-metric-val">92%</div></div>
+            <div class="gov-metric-card clickable" onclick="navigate('platform','policies')"><span class="gov-info">ⓘ</span><div class="gov-metric-name">Policies (POL)</div><div class="gov-metric-val">94%</div></div>
+          </div>
+          <div class="pci-result-banner">
+            <div class="pci-result-label">Platform Index</div>
+            <div class="pci-result-val">91%</div>
+            <div class="pci-result-sub">Average of BDC · Classifications · Policies</div>
+          </div>
+          </div><!-- /pci-section-box -->
+          <div class="gov-index-row">
+            <div class="gov-index-card"><div class="gov-index-name">Platform Index</div><div class="gov-index-val">91%</div></div>
+            <div class="gov-trend-card">
+              <svg viewBox="0 0 620 155" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+                <defs><linearGradient id="gpla" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c5d3e8" stop-opacity="0.55"/><stop offset="100%" stop-color="#c5d3e8" stop-opacity="0"/></linearGradient></defs>
+                <line x1="50" y1="10" x2="610" y2="10" stroke="#d0d6e2" stroke-width="1"/>
+                <line x1="50" y1="47" x2="610" y2="47" stroke="#d0d6e2" stroke-width="1"/>
+                <line x1="50" y1="84" x2="610" y2="84" stroke="#d0d6e2" stroke-width="1"/>
+                <line x1="50" y1="125" x2="610" y2="125" stroke="#d0d6e2" stroke-width="1"/>
+                <text x="44" y="129" text-anchor="end" font-size="10" fill="#6b7a99">86.0%</text>
+                <text x="44" y="88" text-anchor="end" font-size="10" fill="#6b7a99">88.0%</text>
+                <text x="44" y="51" text-anchor="end" font-size="10" fill="#6b7a99">90.0%</text>
+                <text x="44" y="14" text-anchor="end" font-size="10" fill="#6b7a99">92.0%</text>
+                <path d="M50,72 143,66 237,59 330,52 423,43 517,34 610,24 L610,125 50,125 Z" fill="url(#gpla)"/>
+                <polyline points="50,72 143,66 237,59 330,52 423,43 517,34 610,24" fill="none" stroke="#4f7fe8" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+                <text x="50" y="148" text-anchor="middle" font-size="10" fill="#6b7a99">5/16</text>
+                <text x="143" y="148" text-anchor="middle" font-size="10" fill="#6b7a99">5/17</text>
+                <text x="237" y="148" text-anchor="middle" font-size="10" fill="#6b7a99">5/18</text>
+                <text x="330" y="148" text-anchor="middle" font-size="10" fill="#6b7a99">5/19</text>
+                <text x="423" y="148" text-anchor="middle" font-size="10" fill="#6b7a99">5/20</text>
+                <text x="517" y="148" text-anchor="middle" font-size="10" fill="#6b7a99">5/21</text>
+                <text x="610" y="148" text-anchor="middle" font-size="10" fill="#6b7a99">5/22</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <hr class="gov-divider">
+        <div class="gov-section">
+          <div class="gov-section-ttl">Security</div>
+          <div class="gov-section-sub">Section metrics for Access, GIS, and Data Use, with a trend row below.</div>
+          <div class="pci-section-box">
+          <div class="gov-3col">
+            <div class="gov-metric-card clickable" onclick="navigate('security','access')"><span class="gov-info">ⓘ</span><div class="gov-metric-name">Access (ACC)</div><div class="gov-metric-val">83.3%</div></div>
+            <div class="gov-metric-card clickable" onclick="navigate('security','gis')"><span class="gov-info">ⓘ</span><div class="gov-metric-name">GIS (GIS)</div><div class="gov-metric-val">85%</div></div>
+            <div class="gov-metric-card clickable" onclick="navigate('security','dataUse')"><span class="gov-info">ⓘ</span><div class="gov-metric-name">Data Use (DU)</div><div class="gov-metric-val">90%</div></div>
+          </div>
+          <div class="pci-result-banner">
+            <div class="pci-result-label">Security Index</div>
+            <div class="pci-result-val">86.1%</div>
+            <div class="pci-result-sub">Average of ACC · GIS · Data Use</div>
+          </div>
+          </div><!-- /pci-section-box -->
+          <div class="gov-index-row">
+            <div class="gov-index-card"><div class="gov-index-name">Security Index</div><div class="gov-index-val">86.1%</div></div>
+            <div class="gov-trend-card">
+              <svg viewBox="0 0 620 155" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+                <defs><linearGradient id="gsa" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c5d3e8" stop-opacity="0.55"/><stop offset="100%" stop-color="#c5d3e8" stop-opacity="0"/></linearGradient></defs>
+                <line x1="50" y1="10" x2="610" y2="10" stroke="#d0d6e2" stroke-width="1"/>
+                <line x1="50" y1="47" x2="610" y2="47" stroke="#d0d6e2" stroke-width="1"/>
+                <line x1="50" y1="84" x2="610" y2="84" stroke="#d0d6e2" stroke-width="1"/>
+                <line x1="50" y1="125" x2="610" y2="125" stroke="#d0d6e2" stroke-width="1"/>
+                <text x="44" y="129" text-anchor="end" font-size="10" fill="#6b7a99">81.0%</text>
+                <text x="44" y="88" text-anchor="end" font-size="10" fill="#6b7a99">83.3%</text>
+                <text x="44" y="51" text-anchor="end" font-size="10" fill="#6b7a99">85.7%</text>
+                <text x="44" y="14" text-anchor="end" font-size="10" fill="#6b7a99">88.0%</text>
+                <path d="M50,89 143,83 237,75 330,67 423,59 517,51 610,46 L610,125 50,125 Z" fill="url(#gsa)"/>
+                <polyline points="50,89 143,83 237,75 330,67 423,59 517,51 610,46" fill="none" stroke="#4f7fe8" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+                <text x="50" y="148" text-anchor="middle" font-size="10" fill="#6b7a99">5/16</text>
+                <text x="143" y="148" text-anchor="middle" font-size="10" fill="#6b7a99">5/17</text>
+                <text x="237" y="148" text-anchor="middle" font-size="10" fill="#6b7a99">5/18</text>
+                <text x="330" y="148" text-anchor="middle" font-size="10" fill="#6b7a99">5/19</text>
+                <text x="423" y="148" text-anchor="middle" font-size="10" fill="#6b7a99">5/20</text>
+                <text x="517" y="148" text-anchor="middle" font-size="10" fill="#6b7a99">5/21</text>
+                <text x="610" y="148" text-anchor="middle" font-size="10" fill="#6b7a99">5/22</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <hr class="gov-divider">
+        <div class="gov-section" style="margin-bottom:0">
+          <div class="gov-section-ttl">Regulatory</div>
+          <div class="gov-section-sub">Section metrics for Laws &amp; Regulations, Incidents, and Inventory, with a trend row below.</div>
+          <div class="pci-section-box">
+          <div class="gov-3col">
+            <div class="gov-metric-card clickable" onclick="navigate('regulatory','laws')"><span class="gov-info">ⓘ</span><div class="gov-metric-name">Laws &amp; Regulations (REG)</div><div class="gov-metric-val">91%</div></div>
+            <div class="gov-metric-card clickable" onclick="navigate('regulatory','incidents')"><span class="gov-info">ⓘ</span><div class="gov-metric-name">Incidents (INC)</div><div class="gov-metric-val">88%</div></div>
+            <div class="gov-metric-card clickable" onclick="navigate('regulatory','inventory')"><span class="gov-info">ⓘ</span><div class="gov-metric-name">Sustainable Business Inventory (SBI)</div><div class="gov-metric-val">86%</div></div>
+          </div>
+          <div class="pci-result-banner">
+            <div class="pci-result-label">Regulatory Index</div>
+            <div class="pci-result-val">88.3%</div>
+            <div class="pci-result-sub">Average of REG · INC · SBI</div>
+          </div>
+          </div><!-- /pci-section-box -->
+          <div class="gov-index-row">
+            <div class="gov-index-card"><div class="gov-index-name">Regulatory Index</div><div class="gov-index-val">88.3%</div></div>
+            <div class="gov-trend-card">
+              <svg viewBox="0 0 620 155" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+                <defs><linearGradient id="gra" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c5d3e8" stop-opacity="0.55"/><stop offset="100%" stop-color="#c5d3e8" stop-opacity="0"/></linearGradient></defs>
+                <line x1="50" y1="10" x2="610" y2="10" stroke="#d0d6e2" stroke-width="1"/>
+                <line x1="50" y1="47" x2="610" y2="47" stroke="#d0d6e2" stroke-width="1"/>
+                <line x1="50" y1="84" x2="610" y2="84" stroke="#d0d6e2" stroke-width="1"/>
+                <line x1="50" y1="125" x2="610" y2="125" stroke="#d0d6e2" stroke-width="1"/>
+                <text x="44" y="129" text-anchor="end" font-size="10" fill="#6b7a99">84.0%</text>
+                <text x="44" y="88" text-anchor="end" font-size="10" fill="#6b7a99">86.0%</text>
+                <text x="44" y="51" text-anchor="end" font-size="10" fill="#6b7a99">88.0%</text>
+                <text x="44" y="14" text-anchor="end" font-size="10" fill="#6b7a99">90.0%</text>
+                <path d="M50,88 143,81 237,74 330,66 423,57 517,48 610,43 L610,125 50,125 Z" fill="url(#gra)"/>
+                <polyline points="50,88 143,81 237,74 330,66 423,57 517,48 610,43" fill="none" stroke="#4f7fe8" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+                <text x="50" y="148" text-anchor="middle" font-size="10" fill="#6b7a99">5/16</text>
+                <text x="143" y="148" text-anchor="middle" font-size="10" fill="#6b7a99">5/17</text>
+                <text x="237" y="148" text-anchor="middle" font-size="10" fill="#6b7a99">5/18</text>
+                <text x="330" y="148" text-anchor="middle" font-size="10" fill="#6b7a99">5/19</text>
+                <text x="423" y="148" text-anchor="middle" font-size="10" fill="#6b7a99">5/20</text>
+                <text x="517" y="148" text-anchor="middle" font-size="10" fill="#6b7a99">5/21</text>
+                <text x="610" y="148" text-anchor="middle" font-size="10" fill="#6b7a99">5/22</text>
+              </svg>
+            </div>
+          </div>
+        </div>`,
+      workqueue: [
+        { title: 'LGPD data mapping gap remediation', meta: 'Regulatory · Assigned to: Data Governance Team', priority: 'high', due: 'Due Jun 24' },
+        { title: 'Analytics Platform access recertification', meta: 'Security · Assigned to: IT Security', priority: 'high', due: 'Due Jun 21' },
+        { title: 'ABC News consent banner remediation', meta: 'Privacy · Assigned to: Engineering', priority: 'high', due: 'Due Jun 20' },
+        { title: 'Third-party audience sharing legal review', meta: 'Security · Assigned to: Legal & DPO', priority: 'high', due: 'Due Jun 19' },
+        { title: 'VCDPA opt-out mechanism update', meta: 'Regulatory · Assigned to: Engineering', priority: 'med', due: 'Due Jul 2' },
+        { title: 'Assign owners to 342 unowned assets', meta: 'Platform · Assigned to: Data Governance', priority: 'med', due: 'Due Jun 30' },
+      ]
+    }
+  },
+
+  regulatory: {
+    laws: {
+      label: 'Laws & Regulations',
+      breadcrumb: 'Laws & Regulations',
+      overview: `
+        <div class="section-title">Laws &amp; Regulations</div>
+        <div class="section-subtitle">Privacy laws &amp; regulations</div>
+        <div class="section-desc">Posture against global privacy and compliance frameworks for guest and consumer data in media and entertainment. Select a law for framework detail, mapped controls, and related workstreams.</div>
+        <div class="filters">
+          <span class="filter-label">Filter</span>
+          <span class="pill active" onclick="togglePill(this)">All frameworks</span>
+          <span class="pill" onclick="togglePill(this)">European Union</span>
+          <span class="pill" onclick="togglePill(this)">UK &amp; Switzerland</span>
+          <span class="pill active" onclick="togglePill(this)">Americas</span>
+          <span class="pill" onclick="togglePill(this)">US state privacy</span>
+          <span class="pill" onclick="togglePill(this)">US sector &amp; federal</span>
+        </div>
+        <table class="data-table">
+          <thead><tr><th>Framework</th><th>Jurisdiction</th><th>Effective date</th><th>Controls mapped</th><th>Compliance status</th></tr></thead>
+          <tbody>
+            <tr><td>GDPR</td><td>European Union</td><td>May 2018</td><td>142 / 148</td><td><span class="badge badge-green">Compliant</span></td></tr>
+            <tr><td>CCPA / CPRA</td><td>California, USA</td><td>Jan 2020</td><td>87 / 92</td><td><span class="badge badge-green">Compliant</span></td></tr>
+            <tr><td>LGPD</td><td>Brazil</td><td>Aug 2020</td><td>61 / 78</td><td><span class="badge badge-yellow">In progress</span></td></tr>
+            <tr><td>UK GDPR</td><td>United Kingdom</td><td>Jan 2021</td><td>130 / 148</td><td><span class="badge badge-green">Compliant</span></td></tr>
+            <tr><td>VCDPA</td><td>Virginia, USA</td><td>Jan 2023</td><td>44 / 55</td><td><span class="badge badge-yellow">In progress</span></td></tr>
+            <tr><td>COPPA</td><td>USA Federal</td><td>Apr 2000</td><td>22 / 22</td><td><span class="badge badge-green">Compliant</span></td></tr>
+            <tr><td>PIPEDA</td><td>Canada</td><td>Jan 2001</td><td>38 / 50</td><td><span class="badge badge-red">Needs review</span></td></tr>
+          </tbody>
+        </table>`,
+      workqueue: [
+        { title: 'LGPD data mapping gap remediation', meta: 'Assigned to: Data Governance Team', priority: 'high', due: 'Due Jun 24' },
+        { title: 'VCDPA opt-out mechanism update', meta: 'Assigned to: Engineering', priority: 'med', due: 'Due Jul 2' },
+        { title: 'PIPEDA annual review', meta: 'Assigned to: Legal', priority: 'high', due: 'Due Jun 20' },
+        { title: 'CPRA annual notice refresh', meta: 'Assigned to: Privacy Ops', priority: 'low', due: 'Due Jul 15' },
+      ]
+    },
+    incidents: {
+      label: 'Incidents',
+      breadcrumb: 'Incidents',
+      overview: `
+        <div class="section-title">Governance Incidents</div>
+        <div class="section-subtitle">Active &amp; resolved incidents</div>
+        <div class="section-desc">Track and manage privacy and regulatory incidents across business units. Click an incident for full details, timelines, and remediation steps.</div>
+        <div class="stats-row">
+          <div class="stat-card"><div class="stat-val">3</div><div class="stat-lbl">Open incidents</div></div>
+          <div class="stat-card"><div class="stat-val">12</div><div class="stat-lbl">Resolved (90 days)</div></div>
+          <div class="stat-card"><div class="stat-val">1</div><div class="stat-lbl">Pending escalation</div></div>
+        </div>
+        <table class="data-table">
+          <thead><tr><th>Incident ID</th><th>Description</th><th>Severity</th><th>Status</th><th>Opened</th></tr></thead>
+          <tbody>
+            <tr><td>INC-2024-041</td><td>Unauthorized third-party tracker on checkout page</td><td><span class="badge badge-red">High</span></td><td>Open</td><td>Jun 10, 2026</td></tr>
+            <tr><td>INC-2024-038</td><td>Data Subject Rights response SLA breach – EU region</td><td><span class="badge badge-yellow">Medium</span></td><td>Open</td><td>Jun 5, 2026</td></tr>
+            <tr><td>INC-2024-035</td><td>Cookie consent banner failure on mobile</td><td><span class="badge badge-yellow">Medium</span></td><td>Pending escalation</td><td>May 28, 2026</td></tr>
+            <tr><td>INC-2024-030</td><td>Data retention policy non-compliance</td><td><span class="badge badge-green">Low</span></td><td>Resolved</td><td>May 15, 2026</td></tr>
+          </tbody>
+        </table>`,
+      workqueue: [
+        { title: 'INC-2024-041: Remove unauthorized tracker', meta: 'Assigned to: Engineering', priority: 'high', due: 'Due Jun 18' },
+        { title: 'INC-2024-038: Data Subject Rights SLA remediation plan', meta: 'Assigned to: Privacy Ops', priority: 'high', due: 'Due Jun 19' },
+        { title: 'INC-2024-035: Mobile consent banner fix', meta: 'Assigned to: Engineering', priority: 'med', due: 'Due Jun 25' },
+      ]
+    },
+    inventory: {
+      label: 'Sustainable Business Inventory',
+      breadcrumb: 'Sustainable Business Inventory',
+      overview: `
+        <div class="section-title">Sustainable Business Inventory</div>
+        <div class="section-subtitle">Data assets &amp; system inventory</div>
+        <div class="section-desc">Complete inventory of business systems, data assets, and third-party relationships for sustainability and regulatory reporting.</div>
+        <div class="stats-row">
+          <div class="stat-card"><div class="stat-val">284</div><div class="stat-lbl">Registered systems</div></div>
+          <div class="stat-card"><div class="stat-val">61</div><div class="stat-lbl">Third-party vendors</div></div>
+          <div class="stat-card"><div class="stat-val">18</div><div class="stat-lbl">Pending classification</div></div>
+        </div>
+        <table class="data-table">
+          <thead><tr><th>System</th><th>Owner</th><th>Data categories</th><th>Retention</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>Guest Profile DB</td><td>Platform Engineering</td><td>PII, preferences</td><td>7 years</td><td><span class="badge badge-green">Classified</span></td></tr>
+            <tr><td>Ticketing System</td><td>Parks Operations</td><td>PII, transactions</td><td>10 years</td><td><span class="badge badge-green">Classified</span></td></tr>
+            <tr><td>Analytics Pipeline</td><td>Data Science</td><td>Behavioral, derived</td><td>2 years</td><td><span class="badge badge-yellow">Under review</span></td></tr>
+            <tr><td>Loyalty Program CRM</td><td>Consumer Products</td><td>PII, financial</td><td>7 years</td><td><span class="badge badge-green">Classified</span></td></tr>
+            <tr><td>Ad Targeting Engine</td><td>Marketing</td><td>Behavioral, inferred</td><td>1 year</td><td><span class="badge badge-red">Needs classification</span></td></tr>
+          </tbody>
+        </table>`,
+      workqueue: [
+        { title: 'Classify Ad Targeting Engine data categories', meta: 'Assigned to: Data Governance', priority: 'high', due: 'Due Jun 22' },
+        { title: 'Analytics Pipeline retention review', meta: 'Assigned to: Legal & Compliance', priority: 'med', due: 'Due Jun 30' },
+        { title: 'Annual vendor contract review — 12 contracts', meta: 'Assigned to: Procurement', priority: 'low', due: 'Due Jul 10' },
+      ]
+    }
+  },
+
+  privacy: {
+    consent: {
+      label: 'Consent',
+      breadcrumb: 'Consent',
+      overview: `
+        <div class="overview-header" style="align-items:center">
+          <div>
+            <div class="section-title">Consent</div>
+            <div class="section-desc" style="margin-top:6px;margin-bottom:0;max-width:600px">Consumer consent posture across streaming and web—coverage, preference sync, and open gaps.</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;flex-shrink:0">
+            <button class="btn-outline" style="font-weight:600;white-space:nowrap;">Download evidence package</button>
+            <!-- Icon inline with Consent text; Explore details sits below without affecting center alignment -->
+            <div style="position:relative;display:inline-flex;flex-direction:column;align-items:center;gap:2px;padding-bottom:18px">
+              <div style="display:flex;align-items:center;gap:8px;cursor:pointer" onclick="">
+                <svg width="52" height="52" viewBox="0 0 680 520" role="img" xmlns="http://www.w3.org/2000/svg" style="display:block;flex-shrink:0">
+                  <defs>
+                    <mask id="cookie-bite">
+                      <rect width="680" height="520" fill="white"/>
+                      <circle cx="458" cy="180" r="132" fill="black"/>
+                    </mask>
+                  </defs>
+                  <circle cx="340" cy="260" r="235" fill="#9eb2c4"/>
+                  <g transform="rotate(-20, 340, 260)">
+                    <circle cx="308" cy="258" r="167" fill="white" mask="url(#cookie-bite)"/>
+                    <circle cx="190" cy="278" r="34" fill="#9eb2c4"/>
+                    <circle cx="190" cy="278" r="14" fill="white"/>
+                    <circle cx="218" cy="215" r="11" fill="#9eb2c4"/>
+                    <circle cx="242" cy="335" r="12" fill="#9eb2c4"/>
+                    <circle cx="268" cy="175" r="10" fill="#9eb2c4"/>
+                    <circle cx="455" cy="268" r="6" fill="white" opacity="0.75"/>
+                    <circle cx="480" cy="232" r="4.5" fill="white" opacity="0.65"/>
+                    <circle cx="450" cy="305" r="5" fill="white" opacity="0.6"/>
+                    <circle cx="492" cy="262" r="3.5" fill="white" opacity="0.5"/>
+                    <g transform="translate(312, 382) scale(2.592)">
+                      <path fill-rule="evenodd" fill="#9eb2c4" d="M 21.04,-6.43 L 33.25,-7.07 A 34,34 0 0,1 33.25,7.07 L 21.04,6.43 A 22,22 0 0,1 19.42,10.33 L 28.52,18.52 A 34,34 0 0,1 18.52,28.52 L 10.33,19.42 A 22,22 0 0,1 6.43,21.04 L 7.07,33.25 A 34,34 0 0,1 -7.07,33.25 L -6.43,21.04 A 22,22 0 0,1 -10.33,19.42 L -18.52,28.52 A 34,34 0 0,1 -28.52,18.52 L -19.42,10.33 A 22,22 0 0,1 -21.04,6.43 L -33.25,7.07 A 34,34 0 0,1 -33.25,-7.07 L -21.04,-6.43 A 22,22 0 0,1 -19.42,-10.33 L -28.52,-18.52 A 34,34 0 0,1 -18.52,-28.52 L -10.33,-19.42 A 22,22 0 0,1 -6.43,-21.04 L -7.07,-33.25 A 34,34 0 0,1 7.07,-33.25 L 6.43,-21.04 A 22,22 0 0,1 10.33,-19.42 L 18.52,-28.52 A 34,34 0 0,1 28.52,-18.52 L 19.42,-10.33 A 22,22 0 0,1 21.04,-6.43 Z M 14,0 A 14,14 0 0,1 -14,0 A 14,14 0 0,1 14,0 Z"/>
+                    </g>
+                  </g>
+                </svg>
+                <span style="font-size:13px;font-weight:700;color:#1a2e4a;white-space:nowrap">Consent</span>
+              </div>
+              <span style="position:absolute;bottom:0;font-size:10px;color:#8896b3;font-weight:600;letter-spacing:.04em;white-space:nowrap">Explore details</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="activities-box-title">Activities</div>
+        <div class="activities-box">
+          <div class="stat-grid-8" style="margin-bottom:0">
+            <div class="stat-card-v2"><div class="sv">101</div><div class="sl">Completed Assessments</div></div>
+            <div class="stat-card-v2"><div class="sv">24</div><div class="sl">Completed Data Subject Requests</div></div>
+            <div class="stat-card-v2"><div class="sv">88</div><div class="sl">Mitigated Risks</div></div>
+            <div class="stat-card-v2"><div class="sv">39</div><div class="sl">Processing Activities</div></div>
+          </div>
+        </div>
+        <div class="activities-box-title">Time Performance Indicators</div>
+        <div class="activities-box" style="margin-bottom:20px">
+          <div class="stat-grid-8" style="grid-template-columns:repeat(2,1fr);margin-bottom:0">
+            <div class="stat-card-v2"><div class="sv">84.78</div><div class="sl">Avg. days to complete Assessments</div></div>
+            <div class="stat-card-v2"><div class="sv">16.51</div><div class="sl">Avg. days to complete Requests</div></div>
+          </div>
+        </div>
+        <div class="activities-box-title">Inventory Progress Summary</div>
+        <div class="activities-box" style="margin-bottom:0">
+          <div class="stat-grid-8" style="grid-template-columns:repeat(2,1fr);margin-bottom:0">
+            <div class="stat-card-v2"><div class="sv">134</div><div class="sl">of total XXX Assets</div></div>
+            <div class="stat-card-v2"><div class="sv">117</div><div class="sl">of total XXX Vendors</div></div>
+          </div>
+        </div>
+
+        <div class="chart-row">
+          <div class="chart-card">
+            <div class="chart-title">Consent rate by channel</div>
+            <div class="chart-sub">In-scope experiences · last 7 days</div>
+            <svg viewBox="0 0 340 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto">
+              <defs>
+                <linearGradient id="cg-web" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ddd8f4"/><stop offset="100%" stop-color="#c0b4e0"/></linearGradient>
+                <linearGradient id="cg-ios" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c4e4f0"/><stop offset="100%" stop-color="#96cce0"/></linearGradient>
+                <linearGradient id="cg-android" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f4e6b8"/><stop offset="100%" stop-color="#e6ce90"/></linearGradient>
+                <linearGradient id="cg-parks" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c0e4cc"/><stop offset="100%" stop-color="#96d0ae"/></linearGradient>
+              </defs>
+              <!-- Baseline -->
+              <line x1="15" y1="173" x2="325" y2="173" stroke="#d0d6e2" stroke-width="1.5"/>
+              <!-- Guide lines -->
+              <line x1="15" y1="133" x2="325" y2="133" stroke="#e4e8f0" stroke-width="1" stroke-dasharray="4 4"/>
+              <line x1="15" y1="93"  x2="325" y2="93"  stroke="#e4e8f0" stroke-width="1" stroke-dasharray="4 4"/>
+              <line x1="15" y1="53"  x2="325" y2="53"  stroke="#e4e8f0" stroke-width="1" stroke-dasharray="4 4"/>
+              <line x1="15" y1="13"  x2="325" y2="13"  stroke="#e4e8f0" stroke-width="1" stroke-dasharray="4 4"/>
+              <text x="50" y="13" text-anchor="middle" font-size="12" font-weight="700" fill="#1a2e4a">96%</text>
+              <rect x="20" y="18" width="60" height="155" rx="7" fill="url(#cg-web)"/>
+              <text x="50" y="194" text-anchor="middle" font-size="12" fill="#6b7a99">Web</text>
+              <text x="130" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="#1a2e4a">91%</text>
+              <rect x="100" y="27" width="60" height="146" rx="7" fill="url(#cg-ios)"/>
+              <text x="130" y="194" text-anchor="middle" font-size="12" fill="#6b7a99">iOS</text>
+              <text x="210" y="26" text-anchor="middle" font-size="12" font-weight="700" fill="#1a2e4a">88%</text>
+              <rect x="180" y="31" width="60" height="142" rx="7" fill="url(#cg-android)"/>
+              <text x="210" y="194" text-anchor="middle" font-size="12" fill="#6b7a99">Android</text>
+              <text x="290" y="15" text-anchor="middle" font-size="12" font-weight="700" fill="#1a2e4a">94%</text>
+              <rect x="260" y="20" width="60" height="152" rx="7" fill="url(#cg-parks)"/>
+              <text x="290" y="194" text-anchor="middle" font-size="12" fill="#6b7a99">Parks</text>
+            </svg>
+          </div>
+          <div class="chart-card">
+            <div class="chart-title">Marketing opt-in rate</div>
+            <div class="chart-sub">90-day trend</div>
+            <svg viewBox="0 0 360 210" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto">
+              <defs>
+                <linearGradient id="cg-area" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#8B6CF7" stop-opacity="0.25"/>
+                  <stop offset="100%" stop-color="#8B6CF7" stop-opacity="0.02"/>
+                </linearGradient>
+              </defs>
+              <!-- Y-axis labels -->
+              <text x="30" y="152" text-anchor="end" font-size="9" fill="#9aa8bc">65%</text>
+              <text x="30" y="120" text-anchor="end" font-size="9" fill="#9aa8bc">75%</text>
+              <text x="30" y="88"  text-anchor="end" font-size="9" fill="#9aa8bc">85%</text>
+              <text x="30" y="56"  text-anchor="end" font-size="9" fill="#9aa8bc">95%</text>
+              <!-- Baseline -->
+              <line x1="34" y1="180" x2="350" y2="180" stroke="#d0d6e2" stroke-width="1.5"/>
+              <!-- Guide lines -->
+              <line x1="34" y1="148" x2="350" y2="148" stroke="#e4e8f0" stroke-width="1" stroke-dasharray="4 4"/>
+              <line x1="34" y1="116" x2="350" y2="116" stroke="#e4e8f0" stroke-width="1" stroke-dasharray="4 4"/>
+              <line x1="34" y1="84"  x2="350" y2="84"  stroke="#e4e8f0" stroke-width="1" stroke-dasharray="4 4"/>
+              <line x1="34" y1="52"  x2="350" y2="52"  stroke="#e4e8f0" stroke-width="1" stroke-dasharray="4 4"/>
+              <!-- Area + line (shifted right by 24px) -->
+              <path d="M34,162 L74,148 L114,155 L154,138 L184,128 L214,115 L244,108 L279,90 L314,72 L350,48 L350,180 L34,180 Z" fill="url(#cg-area)"/>
+              <path d="M34,162 L74,148 L114,155 L154,138 L184,128 L214,115 L244,108 L279,90 L314,72 L350,48" fill="none" stroke="#8B6CF7" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+              <!-- X-axis date labels -->
+              <text x="34"  y="196" text-anchor="middle" font-size="9" fill="#9aa8bc">Mar 1</text>
+              <text x="114" y="196" text-anchor="middle" font-size="9" fill="#9aa8bc">Mar 21</text>
+              <text x="184" y="196" text-anchor="middle" font-size="9" fill="#9aa8bc">Apr 9</text>
+              <text x="279" y="196" text-anchor="middle" font-size="9" fill="#9aa8bc">May 4</text>
+              <text x="350" y="196" text-anchor="middle" font-size="9" fill="#9aa8bc">May 29</text>
+            </svg>
+          </div>
+        </div>
+
+        <div style="font-size:16px;font-weight:700;color:var(--navy);margin-bottom:12px">Key controls</div>
+
+        <div class="control-card">
+          <div class="control-header">
+            <div class="control-name">Preference center &amp; lawful basis registry</div>
+            <div class="tags">
+              <span class="tag tag-high-risk">HIGH RISK</span>
+              <span class="tag tag-compliant">COMPLIANT</span>
+              <span class="tag tag-automated">AUTOMATED</span>
+            </div>
+          </div>
+          <div class="control-desc">Every in-scope experience maps to purpose, lawful basis, and preference center IDs in OMS.</div>
+          <div class="control-meta">
+            <div class="control-meta-item"><div class="cml">Owner</div><div class="cmv">Privacy Ops</div></div>
+            <div class="control-meta-item"><div class="cml">Last check</div><div class="cmv">2026-05-10</div></div>
+            <div class="control-meta-item"><div class="cml">Next check</div><div class="cmv">2026-05-24</div></div>
+          </div>
+        </div>
+
+        <div class="control-card">
+          <div class="control-header">
+            <div class="control-name">Kids &amp; family parental consent</div>
+            <div class="tags">
+              <span class="tag tag-high-risk">HIGH RISK</span>
+              <span class="tag tag-inprogress">IN PROGRESS</span>
+              <span class="tag tag-manual">MANUAL ATTESTATION</span>
+            </div>
+          </div>
+          <div class="control-desc">Verifiable parental consent for under-13 surfaces; three vendor attestations pending.</div>
+          <div class="control-meta">
+            <div class="control-meta-item"><div class="cml">Owner</div><div class="cmv">Youth Privacy</div></div>
+            <div class="control-meta-item"><div class="cml">Last check</div><div class="cmv">2026-05-01</div></div>
+            <div class="control-meta-item"><div class="cml">Next check</div><div class="cmv">2026-05-18</div></div>
+          </div>
+        </div>
+
+        <div class="control-card" style="margin-bottom:24px">
+          <div class="control-header">
+            <div class="control-name">Cross-border consent propagation</div>
+            <div class="tags">
+              <span class="tag tag-med-risk">MEDIUM RISK</span>
+              <span class="tag tag-compliant">COMPLIANT</span>
+              <span class="tag tag-automated">AUTOMATED</span>
+            </div>
+          </div>
+          <div class="control-desc">EU / UK / US state signals synced to ad-tech and analytics within SLA.</div>
+          <div class="control-meta">
+            <div class="control-meta-item"><div class="cml">Owner</div><div class="cmv">MarTech Privacy</div></div>
+            <div class="control-meta-item"><div class="cml">Last check</div><div class="cmv">2026-05-12</div></div>
+            <div class="control-meta-item"><div class="cml">Next check</div><div class="cmv">2026-05-26</div></div>
+          </div>
+        </div>
+
+        <div class="reports-section">
+          <div class="reports-title">Reports</div>
+          <table class="rpt-table">
+            <thead><tr><th>Report</th><th>Freshness</th><th></th></tr></thead>
+            <tbody>
+              <tr><td>Consent coverage by experience</td><td style="color:var(--muted)">Daily</td><td style="text-align:right"><button class="btn-open">Open</button></td></tr>
+              <tr><td>Marketing opt-in / opt-out audit</td><td style="color:var(--muted)">Hourly</td><td style="text-align:right"><button class="btn-open">Open</button></td></tr>
+              <tr><td>Kids &amp; family consent registry</td><td style="color:var(--muted)">Daily</td><td style="text-align:right"><button class="btn-open">Open</button></td></tr>
+              <tr><td>Cross-border consent transfers</td><td style="color:var(--muted)">Daily</td><td style="text-align:right"><button class="btn-open">Open</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div style="font-size:15px;font-weight:700;color:var(--navy);margin-bottom:12px">By persona</div>
+        <div class="persona-grid">
+          <div class="persona-card">
+            <div class="persona-type">Privacy &amp; Compliance</div>
+            <div class="persona-desc">Attestations, lawful basis, audit exports</div>
+            <div class="persona-links">
+              <a href="#">Consent coverage by experience</a>
+              <a href="#">Kids &amp; family consent registry</a>
+              <a href="#">Cross-border consent transfers</a>
+            </div>
+          </div>
+          <div class="persona-card">
+            <div class="persona-type">Business</div>
+            <div class="persona-desc">Experience coverage &amp; marketing opt-in</div>
+            <div class="persona-links">
+              <a href="#">Consent coverage by experience</a>
+              <a href="#">Marketing opt-in / opt-out audit</a>
+            </div>
+          </div>
+          <div class="persona-card">
+            <div class="persona-type">Technical</div>
+            <div class="persona-desc">Preference sync &amp; cross-border propagation</div>
+            <div class="persona-links">
+              <a href="#">Marketing opt-in / opt-out audit</a>
+              <a href="#">Cross-border consent transfers</a>
+            </div>
+          </div>
+        </div>`,
+      workqueue: [
+        { title: 'ABC News consent banner remediation', meta: 'Assigned to: Engineering', priority: 'high', due: 'Due Jun 20' },
+        { title: 'Hulu consent coverage gap analysis', meta: 'Assigned to: Privacy Ops', priority: 'med', due: 'Due Jun 28' },
+        { title: 'Quarterly consent record audit', meta: 'Assigned to: Compliance', priority: 'low', due: 'Due Jul 1' },
+      ]
+    },
+    dsrs: {
+      label: 'Data Subject Rights',
+      breadcrumb: 'Data Subject Rights',
+      overview: `
+        <div class="overview-header">
+          <div>
+            <div class="section-title">Data Subject Rights</div>
+            <div class="section-desc" style="margin-top:6px;margin-bottom:0;max-width:600px">Data subject rights—explore volume, type, region, processing time, and queue status (MAUI-style operational view).</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;flex-shrink:0">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+              <button onclick="" style="background:none;border:none;border-radius:12px;padding:6px 10px;cursor:pointer;display:flex;align-items:center;gap:10px;">
+                <img src="MauiLogo-1024-32bit.png" width="36" height="36" style="display:block;flex-shrink:0"/>
+                <span style="font-size:13px;font-weight:700;color:#1a2e4a;white-space:nowrap">MAUI – Data Subject Rights</span>
+              </button>
+              <span style="font-size:10px;color:#8896b3;font-weight:600;letter-spacing:.04em">Explore details</span>
+            </div>
+            <button class="btn-outline" style="font-weight:600;">Export</button>
+          </div>
+        </div>
+
+        <div class="dsr-2col" style="margin-bottom:24px;align-items:stretch">
+          <!-- Request volume -->
+          <div class="dsr-outer" style="display:flex;flex-direction:column">
+            <div class="dsr-outer-ttl" style="margin-bottom:14px">Request volume</div>
+            <div class="chart-inner" style="flex:1;display:flex;flex-direction:column">
+            <svg viewBox="0 0 545 215" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+              <!-- Y-axis line -->
+              <line x1="40" y1="10" x2="40" y2="190" stroke="#d0d6e2" stroke-width="1.5"/>
+              <!-- Horizontal gridlines -->
+              <line x1="40" y1="10"  x2="530" y2="10"  stroke="#e4e8f0" stroke-width="1"/>
+              <line x1="40" y1="55"  x2="530" y2="55"  stroke="#e4e8f0" stroke-width="1"/>
+              <line x1="40" y1="100" x2="530" y2="100" stroke="#e4e8f0" stroke-width="1"/>
+              <line x1="40" y1="145" x2="530" y2="145" stroke="#e4e8f0" stroke-width="1"/>
+              <line x1="40" y1="190" x2="530" y2="190" stroke="#d0d6e2" stroke-width="1"/>
+              <!-- Y-axis labels -->
+              <text x="34" y="14"  text-anchor="end" font-size="10" fill="#8896b3">800</text>
+              <text x="34" y="59"  text-anchor="end" font-size="10" fill="#8896b3">600</text>
+              <text x="34" y="104" text-anchor="end" font-size="10" fill="#8896b3">400</text>
+              <text x="34" y="149" text-anchor="end" font-size="10" fill="#8896b3">200</text>
+              <text x="34" y="194" text-anchor="end" font-size="10" fill="#8896b3">0</text>
+              <!-- Data lines -->
+              <polyline points="40,179 94,152 149,128 203,145 258,117 312,93 367,74 421,101 476,67 530,81" fill="none" stroke="#4a7fc1" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+              <polyline points="40,188 94,183 149,164 203,169 258,153 312,135 367,122 421,144 476,128 530,135" fill="none" stroke="#a0aab8" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="5 3"/>
+              <!-- X-axis week labels -->
+              <text x="40"  y="208" text-anchor="middle" font-size="10" fill="#8896b3">Wk 1</text>
+              <text x="94"  y="208" text-anchor="middle" font-size="10" fill="#8896b3">Wk 2</text>
+              <text x="149" y="208" text-anchor="middle" font-size="10" fill="#8896b3">Wk 3</text>
+              <text x="203" y="208" text-anchor="middle" font-size="10" fill="#8896b3">Wk 4</text>
+              <text x="258" y="208" text-anchor="middle" font-size="10" fill="#8896b3">Wk 5</text>
+              <text x="312" y="208" text-anchor="middle" font-size="10" fill="#8896b3">Wk 6</text>
+              <text x="367" y="208" text-anchor="middle" font-size="10" fill="#8896b3">Wk 7</text>
+              <text x="421" y="208" text-anchor="middle" font-size="10" fill="#8896b3">Wk 8</text>
+              <text x="476" y="208" text-anchor="middle" font-size="10" fill="#8896b3">Wk 9</text>
+              <text x="530" y="208" text-anchor="middle" font-size="10" fill="#8896b3">Wk 10</text>
+            </svg>
+            <div class="vol-legend" style="display:flex;gap:18px;margin-top:10px;align-items:center">
+              <span style="display:flex;align-items:center;gap:6px;font-size:11px;color:#6b7a99"><span style="width:9px;height:9px;border-radius:50%;background:#4a7fc1;display:inline-block;flex-shrink:0"></span>Current period</span>
+              <span style="display:flex;align-items:center;gap:6px;font-size:11px;color:#6b7a99"><span style="width:9px;height:9px;border-radius:50%;background:#a0aab8;display:inline-block;flex-shrink:0"></span>Last period</span>
+            </div>
+            </div>
+          </div>
+
+          <!-- Request by type -->
+          <div class="dsr-outer" style="display:flex;flex-direction:column">
+            <div class="dsr-outer-hdr">
+              <span class="dsr-outer-ttl">Request by type</span>
+            </div>
+            <div class="chart-inner" style="flex:1;display:flex;flex-direction:column">
+              <div class="ci-sub">Jan – Jun, by request type</div>
+              <svg viewBox="0 0 530 210" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+                <!-- Y-axis line -->
+                <line x1="45" y1="10" x2="45" y2="165" stroke="#d0d6e2" stroke-width="1.5"/>
+                <!-- Gridlines -->
+                <line x1="45" y1="10"  x2="510" y2="10"  stroke="#e4e8f0" stroke-width="1"/>
+                <line x1="45" y1="54"  x2="510" y2="54"  stroke="#e4e8f0" stroke-width="1"/>
+                <line x1="45" y1="99"  x2="510" y2="99"  stroke="#e4e8f0" stroke-width="1"/>
+                <line x1="45" y1="143" x2="510" y2="143" stroke="#e4e8f0" stroke-width="1"/>
+                <line x1="45" y1="165" x2="510" y2="165" stroke="#d0d6e2" stroke-width="1"/>
+                <!-- Y-axis labels -->
+                <text x="40" y="14"  text-anchor="end" font-size="10" fill="#8896b3">600</text>
+                <text x="40" y="58"  text-anchor="end" font-size="10" fill="#8896b3">400</text>
+                <text x="40" y="103" text-anchor="end" font-size="10" fill="#8896b3">200</text>
+                <text x="40" y="169" text-anchor="end" font-size="10" fill="#8896b3">0</text>
+                <!-- Access (lavender) -->
+                <polyline points="45,76 138,88 231,70 324,81 417,63 510,72" fill="none" stroke="#a090cc" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+                <circle cx="45"  cy="76" r="3.5" fill="#a090cc"/><circle cx="138" cy="88" r="3.5" fill="#a090cc"/>
+                <circle cx="231" cy="70" r="3.5" fill="#a090cc"/><circle cx="324" cy="81" r="3.5" fill="#a090cc"/>
+                <circle cx="417" cy="63" r="3.5" fill="#a090cc"/><circle cx="510" cy="72" r="3.5" fill="#a090cc"/>
+                <!-- Subpoena delete (teal) -->
+                <polyline points="45,99 138,103 231,94 324,88 417,96 510,81" fill="none" stroke="#5ab0c8" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+                <circle cx="45"  cy="99"  r="3.5" fill="#5ab0c8"/><circle cx="138" cy="103" r="3.5" fill="#5ab0c8"/>
+                <circle cx="231" cy="94"  r="3.5" fill="#5ab0c8"/><circle cx="324" cy="88"  r="3.5" fill="#5ab0c8"/>
+                <circle cx="417" cy="96"  r="3.5" fill="#5ab0c8"/><circle cx="510" cy="81"  r="3.5" fill="#5ab0c8"/>
+                <!-- Identity (gold) -->
+                <polyline points="45,32 138,36 231,21 324,28 417,14 510,25" fill="none" stroke="#c8a040" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+                <circle cx="45"  cy="32" r="3.5" fill="#c8a040"/><circle cx="138" cy="36" r="3.5" fill="#c8a040"/>
+                <circle cx="231" cy="21" r="3.5" fill="#c8a040"/><circle cx="324" cy="28" r="3.5" fill="#c8a040"/>
+                <circle cx="417" cy="14" r="3.5" fill="#c8a040"/><circle cx="510" cy="25" r="3.5" fill="#c8a040"/>
+                <!-- Accounts (sage) -->
+                <polyline points="45,121 138,116 231,125 324,112 417,121 510,107" fill="none" stroke="#5aaa7e" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+                <circle cx="45"  cy="121" r="3.5" fill="#5aaa7e"/><circle cx="138" cy="116" r="3.5" fill="#5aaa7e"/>
+                <circle cx="231" cy="125" r="3.5" fill="#5aaa7e"/><circle cx="324" cy="112" r="3.5" fill="#5aaa7e"/>
+                <circle cx="417" cy="121" r="3.5" fill="#5aaa7e"/><circle cx="510" cy="107" r="3.5" fill="#5aaa7e"/>
+                <!-- X-axis labels -->
+                <text x="45"  y="180" text-anchor="middle" font-size="10" fill="#8896b3">Jan</text>
+                <text x="138" y="180" text-anchor="middle" font-size="10" fill="#8896b3">Feb</text>
+                <text x="231" y="180" text-anchor="middle" font-size="10" fill="#8896b3">Mar</text>
+                <text x="324" y="180" text-anchor="middle" font-size="10" fill="#8896b3">Apr</text>
+                <text x="417" y="180" text-anchor="middle" font-size="10" fill="#8896b3">May</text>
+                <text x="510" y="180" text-anchor="middle" font-size="10" fill="#8896b3">Jun</text>
+                <!-- Legend -->
+                <circle cx="50"  cy="200" r="4" fill="#a090cc"/><text x="58"  y="204" font-size="10" fill="#6b7a99">Access</text>
+                <circle cx="120" cy="200" r="4" fill="#5ab0c8"/><text x="128" y="204" font-size="10" fill="#6b7a99">Subpoena delete</text>
+                <circle cx="265" cy="200" r="4" fill="#c8a040"/><text x="273" y="204" font-size="10" fill="#6b7a99">Identity</text>
+                <circle cx="328" cy="200" r="4" fill="#5aaa7e"/><text x="336" y="204" font-size="10" fill="#6b7a99">Accounts</text>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Request by region -->
+          <div class="dsr-outer" style="display:flex;flex-direction:column">
+            <div class="dsr-outer-hdr">
+              <span class="dsr-outer-ttl">Request by region</span>
+              <div class="dsr-chips">
+                <button class="dsr-chip">Region &#x25BE;</button>
+                <button class="dsr-chip">Country &#x25BE;</button>
+                <button class="dsr-chip">Last 30 days &#x25BE;</button>
+              </div>
+            </div>
+            <div class="chart-inner" style="flex:1;display:flex;flex-direction:column;padding:0">
+              <div class="ci-sub" style="padding:8px 10px 0">Last 30 days</div>
+              <div style="display:flex;align-items:center;justify-content:center;gap:14px;flex:1">
+                <svg viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:320px;height:auto;display:block;flex-shrink:0">
+                  <!-- US 28% lavender --> <path d="M130,130 L130,30 A100,100,0,0,1,230,133 Z" fill="#ddd8f4" stroke="#fff" stroke-width="2"/>
+                  <!-- EMEA 18% sage --> <path d="M130,130 L230,133 A100,100,0,0,1,179,217 Z" fill="#c0e4cc" stroke="#fff" stroke-width="2"/>
+                  <!-- ANZ 12% teal --> <path d="M130,130 L179,217 A100,100,0,0,1,113,229 Z" fill="#c4e4f0" stroke="#fff" stroke-width="2"/>
+                  <!-- LGPD 10% gold --> <path d="M130,130 L113,229 A100,100,0,0,1,62,204 Z" fill="#f4e6b8" stroke="#fff" stroke-width="2"/>
+                  <!-- MENA 8% lavender-mid --> <path d="M130,130 L62,204 A100,100,0,0,1,37,166 Z" fill="#c8c0e8" stroke="#fff" stroke-width="2"/>
+                  <!-- RoW 14% sage-mid --> <path d="M130,130 L37,166 A100,100,0,0,1,39,88 Z" fill="#a8d4b4" stroke="#fff" stroke-width="2"/>
+                  <!-- APAC 20% teal-mid --> <path d="M130,130 L39,88 A100,100,0,0,1,130,30 Z" fill="#96cce0" stroke="#fff" stroke-width="2"/>
+                  <!-- Doughnut hole -->
+                  <circle cx="130" cy="130" r="42" fill="#fff"/>
+                </svg>
+                <div class="pie-legend" style="margin-top:0">
+                  <div class="pie-row"><div class="pie-dot" style="background:#ddd8f4"></div>US · 28%</div>
+                  <div class="pie-row"><div class="pie-dot" style="background:#c0e4cc"></div>EMEA · 18%</div>
+                  <div class="pie-row"><div class="pie-dot" style="background:#c4e4f0"></div>ANZ · 12%</div>
+                  <div class="pie-row"><div class="pie-dot" style="background:#f4e6b8"></div>LGPD · 10%</div>
+                  <div class="pie-row"><div class="pie-dot" style="background:#c8c0e8"></div>MENA · 8%</div>
+                  <div class="pie-row"><div class="pie-dot" style="background:#a8d4b4"></div>RoW · 14%</div>
+                  <div class="pie-row"><div class="pie-dot" style="background:#96cce0"></div>APAC · 20%</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Average processing time -->
+
+          <div class="dsr-outer">
+            <div class="dsr-outer-ttl" style="margin-bottom:14px">Average processing time (days)</div>
+            <div class="chart-inner">
+              <div class="ci-sub">By request type</div>
+              <svg viewBox="0 0 360 195" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+                <defs>
+                  <linearGradient id="dsr-access" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ddd8f4"/><stop offset="100%" stop-color="#c0b4e0"/></linearGradient>
+                  <linearGradient id="dsr-accdel" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c4e4f0"/><stop offset="100%" stop-color="#96cce0"/></linearGradient>
+                  <linearGradient id="dsr-iddel" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f4e6b8"/><stop offset="100%" stop-color="#e6ce90"/></linearGradient>
+                  <linearGradient id="dsr-others" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c0e4cc"/><stop offset="100%" stop-color="#96d0ae"/></linearGradient>
+                </defs>
+                <!-- Access 4 --> <text x="52" y="69" text-anchor="middle" font-size="11" font-weight="700" fill="#1a2e4a">4</text><rect x="22" y="73" width="60" height="92" rx="6" fill="url(#dsr-access)"/>
+                <!-- Account delete 5 --> <text x="137" y="46" text-anchor="middle" font-size="11" font-weight="700" fill="#1a2e4a">5</text><rect x="107" y="50" width="60" height="115" rx="6" fill="url(#dsr-accdel)"/>
+                <!-- Identity delete 6 --> <text x="222" y="23" text-anchor="middle" font-size="11" font-weight="700" fill="#1a2e4a">6</text><rect x="192" y="27" width="60" height="138" rx="6" fill="url(#dsr-iddel)"/>
+                <!-- Others 3 --> <text x="307" y="92" text-anchor="middle" font-size="11" font-weight="700" fill="#1a2e4a">3</text><rect x="277" y="96" width="60" height="69" rx="6" fill="url(#dsr-others)"/>
+                <!-- x-axis labels -->
+                <text x="52" y="185" text-anchor="middle" font-size="11" fill="#6b7a99">Access</text>
+                <text x="137" y="185" text-anchor="middle" font-size="11" fill="#6b7a99">Account delete</text>
+                <text x="222" y="185" text-anchor="middle" font-size="11" fill="#6b7a99">Identity delete</text>
+                <text x="307" y="185" text-anchor="middle" font-size="11" fill="#6b7a99">(Others)</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Region-specific totals -->
+        <div class="activities-box-title">Region-specific totals</div>
+        <div class="activities-box" style="margin-bottom:24px">
+          <div class="region-totals" style="margin-bottom:0">
+            <div class="rc" style="background:#dde6f4"><span class="rc-val" style="color:#4a6a9a">123,000</span><span class="rc-label" style="color:#4a6a9a">CCPA</span></div>
+            <div class="rc" style="background:#d4ece6"><span class="rc-val" style="color:#3a7a6e">123,000</span><span class="rc-label" style="color:#3a7a6e">LGPD</span></div>
+            <div class="rc" style="background:#d8eedd"><span class="rc-val" style="color:#3a7a50">123,000</span><span class="rc-label" style="color:#3a7a50">EMEA</span></div>
+            <div class="rc" style="background:#e4dff4"><span class="rc-val" style="color:#6654a0">123,000</span><span class="rc-label" style="color:#6654a0">APAC</span></div>
+            <div class="rc" style="background:#f2e8d8"><span class="rc-val" style="color:#8a5a30">123,000</span><span class="rc-label" style="color:#8a5a30">ANZ</span></div>
+          </div>
+        </div>
+
+        <!-- Request status -->
+        <div class="activities-box-title">Request status</div>
+        <div class="activities-box" style="margin-bottom:0">
+          <div class="status-pipeline">
+            <svg viewBox="0 0 760 90" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+              <!-- Step 1: Received — flat left, arrow right -->
+              <polygon points="0,0 168,0 194,45 168,90 0,90" fill="#c4e4f0"/>
+              <text x="84" y="34" text-anchor="middle" font-size="10" font-weight="800" fill="#3a7a9a" letter-spacing="1">RECEIVED</text>
+              <text x="84" y="60" text-anchor="middle" font-size="20" font-weight="700" fill="#3a7a9a">123,000</text>
+
+              <!-- Step 2: Processing — notched left, arrow right -->
+              <polygon points="198,0 366,0 392,45 366,90 198,90 224,45" fill="#f4e6b8"/>
+              <text x="295" y="34" text-anchor="middle" font-size="10" font-weight="800" fill="#8a6a20" letter-spacing="1">PROCESSING</text>
+              <text x="295" y="60" text-anchor="middle" font-size="20" font-weight="700" fill="#8a6a20">123,000</text>
+
+              <!-- Step 3: Pending — notched left, arrow right -->
+              <polygon points="396,0 564,0 590,45 564,90 396,90 422,45" fill="#f0d8ec"/>
+              <text x="493" y="34" text-anchor="middle" font-size="10" font-weight="800" fill="#8a4a78" letter-spacing="1">PENDING</text>
+              <text x="493" y="60" text-anchor="middle" font-size="20" font-weight="700" fill="#8a4a78">123,000</text>
+
+              <!-- Step 4: Complete — notched left, flat right -->
+              <polygon points="594,0 760,0 760,90 594,90 620,45" fill="#c0e4cc"/>
+              <text x="687" y="34" text-anchor="middle" font-size="10" font-weight="800" fill="#3a7a50" letter-spacing="1">COMPLETE</text>
+              <text x="687" y="60" text-anchor="middle" font-size="20" font-weight="700" fill="#3a7a50">123,000</text>
+            </svg>
+          </div>
+        </div>`,
+      workqueue: [
+        { title: 'Resolve 2 portability SLA breaches', meta: 'Assigned to: Privacy Ops', priority: 'high', due: 'Due Jun 17' },
+        { title: 'Correction request backlog review', meta: 'Assigned to: Privacy Ops', priority: 'med', due: 'Due Jun 24' },
+        { title: 'Automate deletion verification step', meta: 'Assigned to: Engineering', priority: 'low', due: 'Due Jul 8' },
+      ]
+    },
+    tracker: {
+      label: 'Tracker Remediation',
+      breadcrumb: 'Tracker Remediation',
+      overview: `
+        <div class="overview-header" style="align-items:center">
+          <div>
+            <div class="section-title">Tracker Remediation</div>
+            <div class="section-subtitle">Third-party tracker inventory</div>
+            <div class="section-desc" style="margin-top:6px;margin-bottom:0;max-width:600px">Identify, classify, and remediate unauthorized or non-compliant trackers across all web and mobile properties.</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;flex-shrink:0">
+            <div style="position:relative;display:inline-flex;flex-direction:column;align-items:center;gap:2px;padding-bottom:18px">
+              <div style="display:flex;align-items:center;gap:8px;cursor:pointer" onclick="">
+                <img src="Tracker icon.png" width="40" height="40" style="display:block;flex-shrink:0;border-radius:8px;"/>
+                <span style="font-size:13px;font-weight:700;color:#1a2e4a;white-space:nowrap">Tracker Remediation</span>
+              </div>
+              <span style="position:absolute;bottom:0;font-size:10px;color:#8896b3;font-weight:600;letter-spacing:.04em;white-space:nowrap">Explore details</span>
+            </div>
+          </div>
+        </div>
+        <div class="stats-row">
+          <div class="stat-card"><div class="stat-val">1,204</div><div class="stat-lbl">Trackers scanned</div></div>
+          <div class="stat-card"><div class="stat-val">38</div><div class="stat-lbl">Flagged for review</div></div>
+          <div class="stat-card"><div class="stat-val">7</div><div class="stat-lbl">Unauthorized (must remove)</div></div>
+        </div>
+        <table class="data-table">
+          <thead><tr><th>Tracker</th><th>Property</th><th>Category</th><th>Consent required</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>Google Analytics 4</td><td>DisneyWorld.com</td><td>Analytics</td><td>Yes</td><td><span class="badge badge-green">Authorized</span></td></tr>
+            <tr><td>Meta Pixel</td><td>ESPN.com</td><td>Advertising</td><td>Yes</td><td><span class="badge badge-yellow">Review</span></td></tr>
+            <tr><td>Unknown tracking script</td><td>ABCNews.com</td><td>Unknown</td><td>—</td><td><span class="badge badge-red">Remove</span></td></tr>
+            <tr><td>Salesforce Marketing</td><td>Disney+</td><td>CRM / Email</td><td>Yes</td><td><span class="badge badge-green">Authorized</span></td></tr>
+            <tr><td>TikTok Pixel</td><td>Hulu</td><td>Advertising</td><td>Yes</td><td><span class="badge badge-yellow">Review</span></td></tr>
+          </tbody>
+        </table>`,
+      workqueue: [
+        { title: 'Remove unknown tracking script from ABCNews.com', meta: 'Assigned to: Engineering', priority: 'high', due: 'Due Jun 18' },
+        { title: 'TikTok Pixel consent mapping audit', meta: 'Assigned to: Privacy Ops', priority: 'med', due: 'Due Jun 27' },
+        { title: 'Meta Pixel data flow documentation', meta: 'Assigned to: Privacy & Legal', priority: 'med', due: 'Due Jun 30' },
+      ]
+    }
+  },
+
+  platform: {
+    catalog: {
+      label: 'Business Data Catalog',
+      breadcrumb: 'Business Data Catalog',
+      overview: `
+        <div class="overview-header" style="align-items:center">
+          <div>
+            <div class="section-title">Business Data Catalog</div>
+            <div class="section-subtitle">Registered data assets</div>
+            <div class="section-desc" style="margin-top:6px;margin-bottom:0;max-width:600px">Centralized catalog of all business data assets, their ownership, classification status, and lineage across the enterprise.</div>
+          </div>
+          <div style="flex-shrink:0">
+            <img src="Business Catalog Original.svg" width="80" height="80" alt="Business Data Catalog" style="display:block"/>
+          </div>
+        </div>
+        <div class="stats-row">
+          <div class="stat-card"><div class="stat-val">3,841</div><div class="stat-lbl">Registered assets</div></div>
+          <div class="stat-card"><div class="stat-val">91%</div><div class="stat-lbl">Classified</div></div>
+          <div class="stat-card"><div class="stat-val">342</div><div class="stat-lbl">Pending owner assignment</div></div>
+        </div>
+        <table class="data-table">
+          <thead><tr><th>Dataset</th><th>Domain</th><th>Data owner</th><th>Sensitivity</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>Guest transaction history</td><td>Commerce</td><td>Consumer Products</td><td><span class="badge badge-red">Confidential</span></td><td><span class="badge badge-green">Classified</span></td></tr>
+            <tr><td>Content engagement metrics</td><td>Streaming</td><td>Data Science</td><td><span class="badge badge-yellow">Internal</span></td><td><span class="badge badge-green">Classified</span></td></tr>
+            <tr><td>Park sensor telemetry</td><td>Operations</td><td>Parks Technology</td><td><span class="badge badge-blue">Public</span></td><td><span class="badge badge-green">Classified</span></td></tr>
+            <tr><td>Employee HR records</td><td>HR</td><td>People & Culture</td><td><span class="badge badge-red">Restricted</span></td><td><span class="badge badge-yellow">Under review</span></td></tr>
+          </tbody>
+        </table>`,
+      workqueue: [
+        { title: 'Assign owners to 342 unowned assets', meta: 'Assigned to: Data Governance', priority: 'high', due: 'Due Jun 30' },
+        { title: 'HR records sensitivity reclassification', meta: 'Assigned to: Legal & HR', priority: 'med', due: 'Due Jul 5' },
+        { title: 'Quarterly catalog accuracy audit', meta: 'Assigned to: Data Governance', priority: 'low', due: 'Due Jul 15' },
+      ]
+    },
+    classifications: {
+      label: 'Classifications',
+      breadcrumb: 'Classifications',
+      overview: `
+        <div class="overview-header" style="align-items:center">
+          <div>
+            <div class="section-title">Data Classifications</div>
+            <div class="section-subtitle">Classification schema &amp; coverage</div>
+            <div class="section-desc" style="margin-top:6px;margin-bottom:0;max-width:600px">Manage the enterprise data classification taxonomy and track classification coverage across business units and data domains.</div>
+          </div>
+          <div style="flex-shrink:0">
+            <img src="Classification.svg" width="80" height="80" alt="Data Classifications" style="display:block"/>
+          </div>
+        </div>
+        <div class="stats-row">
+          <div class="stat-card"><div class="stat-val">4</div><div class="stat-lbl">Classification tiers</div></div>
+          <div class="stat-card"><div class="stat-val">89%</div><div class="stat-lbl">Coverage across catalog</div></div>
+          <div class="stat-card"><div class="stat-val">421</div><div class="stat-lbl">Assets unclassified</div></div>
+        </div>
+        <table class="data-table">
+          <thead><tr><th>Tier</th><th>Label</th><th>Description</th><th>Asset count</th><th>Coverage</th></tr></thead>
+          <tbody>
+            <tr><td>T1</td><td><span class="badge badge-red">Restricted</span></td><td>Legal, HR, personal health data</td><td>384</td><td>98%</td></tr>
+            <tr><td>T2</td><td><span class="badge badge-red">Confidential</span></td><td>PII, financial, transactional</td><td>1,204</td><td>94%</td></tr>
+            <tr><td>T3</td><td><span class="badge badge-yellow">Internal</span></td><td>Operational, aggregated analytics</td><td>1,832</td><td>88%</td></tr>
+            <tr><td>T4</td><td><span class="badge badge-blue">Public</span></td><td>Press, marketing, product info</td><td>421</td><td>72%</td></tr>
+          </tbody>
+        </table>`,
+      workqueue: [
+        { title: 'Classify 421 unclassified T4 assets', meta: 'Assigned to: Data Governance', priority: 'med', due: 'Due Jul 1' },
+        { title: 'Annual classification schema review', meta: 'Assigned to: Legal & Compliance', priority: 'low', due: 'Due Jul 20' },
+      ]
+    },
+    policies: {
+      label: 'Policies',
+      breadcrumb: 'Policies',
+      overview: `
+        <div class="overview-header" style="align-items:center">
+          <div>
+            <div class="section-title">Data Policies</div>
+            <div class="section-subtitle">Enterprise policy library</div>
+            <div class="section-desc" style="margin-top:6px;margin-bottom:0;max-width:600px">Centralized repository for all data governance, privacy, and security policies. Track approval status, review cycles, and attestation.</div>
+          </div>
+          <div style="flex-shrink:0">
+            <img src="policies.svg" width="80" height="80" alt="Data Policies" style="display:block"/>
+          </div>
+        </div>
+        <div class="stats-row">
+          <div class="stat-card"><div class="stat-val">48</div><div class="stat-lbl">Active policies</div></div>
+          <div class="stat-card"><div class="stat-val">5</div><div class="stat-lbl">Awaiting approval</div></div>
+          <div class="stat-card"><div class="stat-val">3</div><div class="stat-lbl">Overdue for review</div></div>
+        </div>
+        <table class="data-table">
+          <thead><tr><th>Policy</th><th>Owner</th><th>Last reviewed</th><th>Next review</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>Data Retention Policy</td><td>Legal</td><td>Jan 2026</td><td>Jan 2027</td><td><span class="badge badge-green">Active</span></td></tr>
+            <tr><td>Acceptable Use Policy</td><td>IT Security</td><td>Mar 2026</td><td>Mar 2027</td><td><span class="badge badge-green">Active</span></td></tr>
+            <tr><td>Cookie & Tracking Policy</td><td>Privacy Ops</td><td>Oct 2025</td><td>Oct 2026</td><td><span class="badge badge-yellow">Review due</span></td></tr>
+            <tr><td>Third-Party Data Sharing Policy</td><td>Legal</td><td>Dec 2024</td><td>Dec 2025</td><td><span class="badge badge-red">Overdue</span></td></tr>
+          </tbody>
+        </table>`,
+      workqueue: [
+        { title: 'Update Third-Party Data Sharing Policy', meta: 'Assigned to: Legal', priority: 'high', due: 'Due Jun 20' },
+        { title: 'Cookie & Tracking Policy annual review', meta: 'Assigned to: Privacy Ops', priority: 'med', due: 'Due Jun 30' },
+        { title: 'Approve 5 pending policy updates', meta: 'Assigned to: DPO', priority: 'med', due: 'Due Jun 25' },
+      ]
+    }
+  },
+
+  security: {
+    access: {
+      label: 'Access',
+      breadcrumb: 'Access',
+      overview: `
+        <div class="section-title">Access Management</div>
+        <div class="section-subtitle">Role-based access &amp; permissions</div>
+        <div class="section-desc">Monitor and manage access controls across systems and data assets. Review privileged access, anomalies, and certification campaigns.</div>
+        <div class="stats-row">
+          <div class="stat-card"><div class="stat-val">12,483</div><div class="stat-lbl">Active user accounts</div></div>
+          <div class="stat-card"><div class="stat-val">94</div><div class="stat-lbl">Privileged accounts</div></div>
+          <div class="stat-card"><div class="stat-val">31</div><div class="stat-lbl">Certifications pending</div></div>
+        </div>
+        <table class="data-table">
+          <thead><tr><th>System</th><th>Access model</th><th>Last certified</th><th>Open exceptions</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>Data Warehouse</td><td>RBAC</td><td>Mar 2026</td><td>2</td><td><span class="badge badge-yellow">Review</span></td></tr>
+            <tr><td>Guest Identity Platform</td><td>RBAC + MFA</td><td>Apr 2026</td><td>0</td><td><span class="badge badge-green">Certified</span></td></tr>
+            <tr><td>Analytics Platform</td><td>ABAC</td><td>Jan 2026</td><td>7</td><td><span class="badge badge-red">Recertify</span></td></tr>
+            <tr><td>Corporate AD</td><td>RBAC</td><td>May 2026</td><td>0</td><td><span class="badge badge-green">Certified</span></td></tr>
+          </tbody>
+        </table>`,
+      workqueue: [
+        { title: 'Analytics Platform access recertification', meta: 'Assigned to: IT Security', priority: 'high', due: 'Due Jun 21' },
+        { title: 'Resolve 7 Analytics open exceptions', meta: 'Assigned to: Engineering', priority: 'high', due: 'Due Jun 24' },
+        { title: 'Data Warehouse quarterly review', meta: 'Assigned to: IT Security', priority: 'med', due: 'Due Jun 30' },
+      ]
+    },
+    gis: {
+      label: 'GIS',
+      breadcrumb: 'GIS Security Compliance',
+      overview: `
+        <div class="section-title">GIS Security Compliance</div>
+        <div class="section-subtitle">Geographic information system controls</div>
+        <div class="section-desc">Track security compliance for GIS data collection, storage, and distribution. Monitor for data sovereignty and cross-border transfer risks.</div>
+        <div class="stats-row">
+          <div class="stat-card"><div class="stat-val">18</div><div class="stat-lbl">GIS data flows</div></div>
+          <div class="stat-card"><div class="stat-val">4</div><div class="stat-lbl">Cross-border transfers</div></div>
+          <div class="stat-card"><div class="stat-val">2</div><div class="stat-lbl">Compliance gaps</div></div>
+        </div>
+        <table class="data-table">
+          <thead><tr><th>Data flow</th><th>Origin</th><th>Destination</th><th>Transfer mechanism</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>Park visitor telemetry</td><td>USA</td><td>USA</td><td>Internal</td><td><span class="badge badge-green">Compliant</span></td></tr>
+            <tr><td>EU guest location</td><td>EU</td><td>USA</td><td>SCC</td><td><span class="badge badge-green">Compliant</span></td></tr>
+            <tr><td>Asia-Pacific analytics</td><td>APAC</td><td>USA</td><td>BCR</td><td><span class="badge badge-yellow">Review</span></td></tr>
+            <tr><td>Brazil PII transfer</td><td>Brazil</td><td>USA</td><td>None defined</td><td><span class="badge badge-red">Gap</span></td></tr>
+          </tbody>
+        </table>`,
+      workqueue: [
+        { title: 'Define transfer mechanism for Brazil PII', meta: 'Assigned to: Legal', priority: 'high', due: 'Due Jun 22' },
+        { title: 'APAC analytics BCR renewal', meta: 'Assigned to: Legal & Compliance', priority: 'med', due: 'Due Jul 1' },
+      ]
+    },
+    dataUse: {
+      label: 'Data Use',
+      breadcrumb: 'Data Use',
+      overview: `
+        <div class="section-title">Data Use</div>
+        <div class="section-subtitle">Approved &amp; monitored data use cases</div>
+        <div class="section-desc">Review approved data use cases, purposes, and secondary use requests. Ensure data use aligns with consent, legal basis, and policy.</div>
+        <div class="stats-row">
+          <div class="stat-card"><div class="stat-val">214</div><div class="stat-lbl">Approved use cases</div></div>
+          <div class="stat-card"><div class="stat-val">17</div><div class="stat-lbl">Pending review</div></div>
+          <div class="stat-card"><div class="stat-val">4</div><div class="stat-lbl">Rejected (90 days)</div></div>
+        </div>
+        <table class="data-table">
+          <thead><tr><th>Use case</th><th>Purpose</th><th>Legal basis</th><th>Data categories</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>Personalized content recs</td><td>Service improvement</td><td>Legitimate interest</td><td>Behavioral</td><td><span class="badge badge-green">Approved</span></td></tr>
+            <tr><td>Targeted advertising</td><td>Marketing</td><td>Consent</td><td>PII, behavioral</td><td><span class="badge badge-yellow">Under review</span></td></tr>
+            <tr><td>Fraud detection ML model</td><td>Security</td><td>Legal obligation</td><td>Transactional</td><td><span class="badge badge-green">Approved</span></td></tr>
+            <tr><td>Third-party audience sharing</td><td>Monetization</td><td>Consent</td><td>PII, inferred</td><td><span class="badge badge-red">Pending</span></td></tr>
+          </tbody>
+        </table>`,
+      workqueue: [
+        { title: 'Third-party audience sharing legal review', meta: 'Assigned to: Legal & DPO', priority: 'high', due: 'Due Jun 19' },
+        { title: 'Targeted advertising consent basis audit', meta: 'Assigned to: Privacy Ops', priority: 'med', due: 'Due Jun 28' },
+        { title: 'Quarterly use case registry audit', meta: 'Assigned to: Compliance', priority: 'low', due: 'Due Jul 10' },
+      ]
+    }
+  }
+};
+
+// ── State ──────────────────────────────────────────────────────────────────
+let activeSection = { category: 'overview', item: 'home' };
+let activeTab = 'overview';
+
+// ── Toggle section collapse ────────────────────────────────────────────────
+function toggleSection(category) {
+  const header = document.querySelector(`#section-${category} .section-header`);
+  const items = document.getElementById(`items-${category}`);
+  const isOpen = items.classList.contains('open');
+  if (isOpen) {
+    items.classList.remove('open');
+    header.classList.remove('open');
+  } else {
+    items.classList.add('open');
+    header.classList.add('open');
+  }
+}
+
+// ── Navigate ───────────────────────────────────────────────────────────────
+function navigate(category, item) {
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.section-header').forEach(el => el.classList.remove('has-active'));
+
+  const allBtns = document.querySelectorAll('.nav-item');
+  allBtns.forEach(btn => {
+    if (btn.getAttribute('onclick') === `navigate('${category}','${item}')`) {
+      btn.classList.add('active');
+    }
+  });
+
+  const header = document.querySelector(`#section-${category} .section-header`);
+  if (header) header.classList.add('has-active');
+
+  // Ensure section is expanded
+  const items = document.getElementById(`items-${category}`);
+  if (items && !items.classList.contains('open')) {
+    items.classList.add('open');
+    if (header) header.classList.add('open');
+  }
+
+  activeSection = { category, item };
+  document.getElementById('breadcrumb-section').textContent = CONTENT[category][item].breadcrumb;
+  renderContent();
+}
+
+function renderContent() {
+  const data = CONTENT[activeSection.category][activeSection.item];
+  document.getElementById('tab-overview').innerHTML = data.overview;
+  document.getElementById('wq-title').innerHTML = data.label + ' &ndash; Work Queue';
+  const wqBody = document.getElementById('workqueue-body');
+  wqBody.innerHTML = data.workqueue.map(item => `
+    <div class="queue-item">
+      <div>
+        <div class="queue-title">${item.title}</div>
+        <div class="queue-meta">${item.meta}</div>
+      </div>
+      <div class="queue-right">
+        <span class="priority priority-${item.priority === 'high' ? 'high' : item.priority === 'med' ? 'med' : 'low'}">${item.priority === 'high' ? 'High' : item.priority === 'med' ? 'Medium' : 'Low'}</span>
+        <span class="due">${item.due}</span>
+      </div>
+    </div>`).join('');
+}
+
+function switchTab(tab) {
+  activeTab = tab;
+  document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelector(`.tab[onclick="switchTab('${tab}')"]`).classList.add('active');
+  document.getElementById(`tab-${tab}`).classList.add('active');
+}
+
+function togglePill(el) {
+  el.classList.toggle('active');
+}
+
+// Init
+renderContent();
+</script>
+</body>
+</html>

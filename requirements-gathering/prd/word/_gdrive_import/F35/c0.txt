@@ -1,0 +1,32 @@
+PRD — Feature 35: Overview section
+Product Requirements Document
+Source: Feature Inventory Matrix — Alation to Internal Solution Migration (DEEPT). Document control: link this file from the matrix column **PRD page link**.
+Priority (matrix): Medium
+Primary use case (matrix): Discovery via community usage patterns
+Validation notes (matrix): Must not expose individual activity; partnership + enforcement note from matrix
+1. Summary
+This PRD specifies **Overview section** for the in-house data catalog / OMS program. It expands the single matrix row into implementable components, UX expectations, and acceptance criteria.
+2. Problem & outcomes
+Users and stewards need predictable behavior, clear accountability, and parity with current Alation workflows where this capability is in use. Success is measured by adoption, reduced time-to-answer, and governance coverage—not feature count alone.
+3. Scope
+3.1 In scope
+End-to-end behavior for: Overview section.
+DEEPT / enterprise personas: steward, analyst, engineer, governance, admin.
+Accessibility: WCAG-oriented patterns for core flows (exact tier set by program).
+3.2 Out of scope (unless added by change request)
+Duplicating full warehouse compute consoles unless explicitly linked as deep integration.
+Non-catalog products (e.g. full ITSM) except via links or thin embeds.
+4. Personas
+5. Component breakdown (piece by piece)
+Widgets & KPIs
+Popular tables (aggregated), trending searches (hashed or bucketed), quality/completeness rollups.
+Optional social feed: announcements, curated highlights—not raw user timelines.
+Privacy
+No per-user public leaderboards; minimum aggregation thresholds; redaction rules.
+Data pipeline
+Telemetry warehouse (e.g. PostgreSQL) feeds widgets with SLAs and freshness labels.
+6. User stories
+As a steward, I can perform core curation tasks for **Overview section** without leaving the catalog shell.
+As an analyst, I can rely on **Overview section** to decide whether a dataset is appropriate for my use case.
+As an engineer, I can integrate or automate **Overview section** via documented APIs where applicable.
+7. Use cases & examples

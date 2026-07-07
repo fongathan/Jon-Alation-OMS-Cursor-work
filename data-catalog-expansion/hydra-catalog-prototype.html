@@ -1,0 +1,1657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hydra — Data Catalog</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #08090c;
+      --bg: #0e1016;
+      --surface: #151821;
+      --surface-2: #1b1f2a;
+      --border: rgba(255, 255, 255, 0.06);
+      --border-strong: rgba(255, 255, 255, 0.12);
+      --text: #e8eaef;
+      --muted: #8b93a7;
+      --dim: #5c6478;
+      --accent: #f06b52;
+      --accent-soft: rgba(240, 107, 82, 0.14);
+      --violet: #9b87f5;
+      --violet-soft: rgba(155, 135, 245, 0.12);
+      --mint: #5eead4;
+      --amber: #fbbf24;
+      --danger: #fb7185;
+      --ok: #4ade80;
+      --radius: 14px;
+      --radius-sm: 8px;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+      --font: "Sora", system-ui, sans-serif;
+      --serif: "Instrument Serif", Georgia, serif;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+      --nav-w: 240px;
+      --header-h: 64px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg-deep);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button, input { font: inherit; color: inherit; }
+
+    button { cursor: pointer; border: none; background: none; }
+
+    :focus-visible {
+      outline: 2px solid var(--violet);
+      outline-offset: 2px;
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: var(--nav-w) 1fr;
+      min-height: 100vh;
+    }
+
+    @media (max-width: 960px) {
+      .app { grid-template-columns: 1fr; }
+      .nav-rail { display: none; }
+      .mobile-nav { display: flex !important; }
+    }
+
+    /* Ambient */
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse 80% 60% at 50% -10%, black, transparent);
+    }
+
+    .glow {
+      position: fixed;
+      width: 520px;
+      height: 520px;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.35;
+      pointer-events: none;
+      top: -120px;
+      right: -80px;
+      background: radial-gradient(circle, var(--violet) 0%, transparent 70%);
+    }
+
+    /* Nav */
+    .nav-rail {
+      border-right: 1px solid var(--border);
+      background: linear-gradient(180deg, var(--bg) 0%, #0a0c10 100%);
+      padding: 1.25rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      z-index: 5;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.35rem 0.5rem;
+    }
+
+    .brand-mark {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent), #c084fc);
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: -0.02em;
+      box-shadow: 0 8px 24px rgba(240, 107, 82, 0.35);
+    }
+
+    .brand h1 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+    }
+
+    .brand span {
+      display: block;
+      font-size: 0.7rem;
+      color: var(--dim);
+      font-weight: 500;
+    }
+
+    .nav-section-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--dim);
+      padding: 0 0.5rem;
+      margin-top: 0.25rem;
+    }
+
+    .nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      width: 100%;
+      text-align: left;
+      padding: 0.55rem 0.65rem;
+      border-radius: var(--radius-sm);
+      color: var(--muted);
+      font-size: 0.88rem;
+      font-weight: 500;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .nav-btn:hover {
+      background: var(--surface);
+      color: var(--text);
+    }
+
+    .nav-btn.active {
+      background: var(--violet-soft);
+      color: var(--text);
+      box-shadow: inset 0 0 0 1px rgba(155, 135, 245, 0.25);
+    }
+
+    .nav-icon {
+      width: 1.15rem;
+      text-align: center;
+      opacity: 0.9;
+    }
+
+    .nav-footer {
+      margin-top: auto;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.72rem;
+      color: var(--dim);
+      line-height: 1.45;
+    }
+
+    .nav-footer kbd {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      padding: 0.1rem 0.35rem;
+      border-radius: 4px;
+      background: var(--surface-2);
+      border: 1px solid var(--border-strong);
+    }
+
+    /* Main */
+    .main {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      position: relative;
+    }
+
+    .mobile-nav {
+      display: none;
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--border);
+      gap: 0.35rem;
+      overflow-x: auto;
+      background: var(--bg);
+    }
+
+    .mobile-nav button {
+      padding: 0.4rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      white-space: nowrap;
+      background: var(--surface);
+      border: 1px solid var(--border);
+    }
+
+    .mobile-nav button.active {
+      border-color: var(--violet);
+      background: var(--violet-soft);
+    }
+
+    .top-bar {
+      height: var(--header-h);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0 1.5rem;
+      background: rgba(14, 16, 22, 0.85);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 4;
+    }
+
+    .search-wrap {
+      flex: 1;
+      max-width: 640px;
+      position: relative;
+    }
+
+    .search-wrap input {
+      width: 100%;
+      padding: 0.65rem 1rem 0.65rem 2.65rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-strong);
+      background: var(--surface);
+      font-size: 0.9rem;
+    }
+
+    .search-wrap input::placeholder { color: var(--dim); }
+
+    .search-wrap .search-icon {
+      position: absolute;
+      left: 0.95rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--dim);
+      font-size: 0.95rem;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .pill-btn {
+      padding: 0.45rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      border: 1px solid var(--border-strong);
+      background: var(--surface);
+      color: var(--muted);
+    }
+
+    .pill-btn:hover { color: var(--text); border-color: var(--violet); }
+
+    /* Discovery ideas (for catalog users — not admin metrics) */
+    .insights-strip {
+      padding: 1rem 1.5rem 1.35rem;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(240, 107, 82, 0.05), transparent);
+    }
+
+    .insights-strip-head {
+      margin-bottom: 0.85rem;
+    }
+
+    .insights-strip-head h2 {
+      font-family: var(--serif);
+      font-size: 1.15rem;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+
+    .insights-strip-head p {
+      font-size: 0.8rem;
+      color: var(--dim);
+      margin-top: 0.25rem;
+      max-width: 52ch;
+    }
+
+    .insights-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 0.65rem;
+    }
+
+    @media (min-width: 1200px) {
+      .insights-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .insight-card {
+      padding: 0.75rem 0.85rem;
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      text-align: left;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+    }
+
+    .insight-card:hover {
+      border-color: rgba(155, 135, 245, 0.45);
+      background: var(--surface-2);
+    }
+
+    .insight-card:focus-visible {
+      outline: 2px solid var(--violet);
+      outline-offset: 2px;
+    }
+
+    .insight-card h3 {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--dim);
+      font-weight: 600;
+    }
+
+    .insight-card .insight-hint {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 0.4rem;
+      line-height: 1.4;
+    }
+
+    .insight-card ul {
+      margin-top: 0.45rem;
+      font-size: 0.75rem;
+      color: var(--text);
+      padding-left: 1rem;
+      line-height: 1.45;
+    }
+
+    .insight-card .insight-cta {
+      margin-top: 0.55rem;
+      font-size: 0.68rem;
+      color: var(--violet);
+      font-weight: 600;
+    }
+
+    /* Admin analytics tab only */
+    .admin-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .admin-kpi {
+      padding: 0.85rem 1rem;
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      border: 1px solid var(--border);
+    }
+
+    .admin-kpi label {
+      display: block;
+      font-size: 0.62rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--dim);
+      margin-bottom: 0.3rem;
+    }
+
+    .admin-kpi strong {
+      font-size: 1.25rem;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.03em;
+    }
+
+    .admin-kpi .sub {
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-top: 0.2rem;
+    }
+
+    .admin-section-title {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--dim);
+      margin: 1.25rem 0 0.65rem;
+    }
+
+    .admin-note {
+      font-size: 0.78rem;
+      color: var(--dim);
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-sm);
+      border: 1px dashed var(--border-strong);
+      margin-top: 1.25rem;
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    /* Content area */
+    .content {
+      display: grid;
+      grid-template-columns: minmax(280px, 380px) 1fr;
+      flex: 1;
+      min-height: 0;
+    }
+
+    @media (max-width: 1100px) {
+      .content { grid-template-columns: 1fr; }
+      .detail-panel { border-left: none; border-top: 1px solid var(--border); max-height: none; }
+    }
+
+    .list-panel {
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      background: var(--bg);
+    }
+
+    .panel-header {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .panel-header h2 {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--dim);
+      width: 100%;
+      margin-bottom: 0.15rem;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+    }
+
+    .chip {
+      padding: 0.25rem 0.55rem;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      background: var(--surface-2);
+      border: 1px solid transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: 0.15s;
+    }
+
+    .chip:hover { border-color: var(--border-strong); color: var(--text); }
+
+    .chip.on {
+      background: var(--accent-soft);
+      border-color: rgba(240, 107, 82, 0.35);
+      color: var(--text);
+    }
+
+    .scroll-list {
+      overflow-y: auto;
+      flex: 1;
+      padding: 0.5rem;
+    }
+
+    .result-card {
+      padding: 0.85rem 1rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid transparent;
+      cursor: pointer;
+      margin-bottom: 0.35rem;
+      transition: 0.12s;
+    }
+
+    .result-card:hover {
+      background: var(--surface);
+      border-color: var(--border);
+    }
+
+    .result-card.selected {
+      background: var(--violet-soft);
+      border-color: rgba(155, 135, 245, 0.35);
+    }
+
+    .result-card .title {
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .type-badge {
+      font-size: 0.62rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      background: var(--surface-2);
+      color: var(--muted);
+    }
+
+    .type-badge.table { color: var(--mint); background: rgba(94, 234, 212, 0.1); }
+    .type-badge.term { color: var(--violet); background: var(--violet-soft); }
+    .type-badge.article { color: var(--amber); background: rgba(251, 191, 36, 0.1); }
+    .type-badge.query { color: #93c5fd; background: rgba(147, 197, 253, 0.12); }
+    .type-badge.dataflow { color: #f9a8d4; background: rgba(249, 168, 212, 0.1); }
+
+    .result-card .path {
+      font-size: 0.75rem;
+      color: var(--dim);
+      font-family: var(--mono);
+      margin-top: 0.25rem;
+    }
+
+    .result-card .snippet {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 0.4rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .detail-panel {
+      overflow-y: auto;
+      padding: 1.25rem 1.5rem 2rem;
+      background: linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
+      min-height: 420px;
+    }
+
+    .empty-detail {
+      display: grid;
+      place-items: center;
+      min-height: 320px;
+      color: var(--dim);
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .empty-detail .serif {
+      font-family: var(--serif);
+      font-size: 1.75rem;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .asset-hero {
+      margin-bottom: 1.25rem;
+    }
+
+    .asset-hero .serif-title {
+      font-family: var(--serif);
+      font-size: 2rem;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 0.5rem;
+    }
+
+    .asset-meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .flag {
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 0.2rem 0.5rem;
+      border-radius: 6px;
+    }
+
+    .flag.endorsed { background: rgba(74, 222, 128, 0.15); color: var(--ok); }
+    .flag.deprecated { background: rgba(251, 113, 133, 0.15); color: var(--danger); }
+    .flag.warning { background: rgba(251, 191, 36, 0.15); color: var(--amber); }
+
+    .tabs {
+      display: flex;
+      gap: 0.25rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .tab {
+      padding: 0.5rem 0.85rem;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--dim);
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+    }
+
+    .tab:hover { color: var(--text); }
+
+    .tab.active {
+      color: var(--text);
+      border-bottom-color: var(--accent);
+    }
+
+    .tab-panel { display: none; }
+
+    .tab-panel.active { display: block; animation: fade 0.2s ease; }
+
+    @keyframes fade {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: none; }
+    }
+
+    .prose {
+      font-size: 0.9rem;
+      color: var(--muted);
+      max-width: 65ch;
+    }
+
+    .prose p + p { margin-top: 0.75rem; }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .meta-tile {
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      border: 1px solid var(--border);
+    }
+
+    .meta-tile dt {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--dim);
+    }
+
+    .meta-tile dd {
+      font-size: 0.88rem;
+      margin-top: 0.25rem;
+      font-weight: 500;
+    }
+
+    /* Table */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+      margin-top: 0.5rem;
+    }
+
+    .data-table th,
+    .data-table td {
+      text-align: left;
+      padding: 0.5rem 0.65rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .data-table th {
+      color: var(--dim);
+      font-weight: 600;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .data-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .dq-bar {
+      height: 4px;
+      border-radius: 2px;
+      background: var(--surface-2);
+      overflow: hidden;
+      margin-top: 0.25rem;
+    }
+
+    .dq-bar > span {
+      display: block;
+      height: 100%;
+      border-radius: 2px;
+      background: linear-gradient(90deg, var(--mint), var(--violet));
+    }
+
+    /* Lineage SVG */
+    .lineage-box {
+      padding: 1rem;
+      border-radius: var(--radius);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      overflow-x: auto;
+    }
+
+    .lineage-svg {
+      min-width: 520px;
+      height: 200px;
+    }
+
+    .ln-node {
+      cursor: pointer;
+      transition: 0.15s;
+    }
+
+    .ln-node:hover rect { filter: brightness(1.15); }
+
+    .ln-node.selected rect {
+      stroke: var(--accent);
+      stroke-width: 2;
+    }
+
+    .activity-item {
+      display: flex;
+      gap: 0.75rem;
+      padding: 0.65rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.82rem;
+    }
+
+    .activity-item:last-child { border-bottom: none; }
+
+    .activity-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-top: 0.35rem;
+      flex-shrink: 0;
+    }
+
+    .glossary-grid {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .term-card {
+      padding: 1rem;
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      cursor: pointer;
+    }
+
+    .term-card:hover { border-color: var(--violet); }
+
+    .term-card h3 {
+      font-family: var(--serif);
+      font-size: 1.25rem;
+      font-weight: 400;
+      margin-bottom: 0.35rem;
+    }
+
+    .analytics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1rem;
+    }
+
+    .chart-placeholder {
+      height: 140px;
+      border-radius: var(--radius-sm);
+      background: linear-gradient(135deg, var(--surface-2), var(--surface));
+      border: 1px dashed var(--border-strong);
+      display: grid;
+      place-items: center;
+      color: var(--dim);
+      font-size: 0.8rem;
+    }
+
+    .bar-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+      height: 100px;
+      padding: 0.5rem;
+    }
+
+    .bar {
+      flex: 1;
+      background: linear-gradient(180deg, var(--violet), var(--accent));
+      border-radius: 4px 4px 0 0;
+      opacity: 0.85;
+      min-height: 8px;
+    }
+
+    .sql-block {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      background: #0a0c10;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      overflow-x: auto;
+      color: #c4b5fd;
+    }
+
+    .policy-list li {
+      padding: 0.65rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .hidden { display: none !important; }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="glow" aria-hidden="true"></div>
+
+  <div class="app">
+    <aside class="nav-rail" aria-label="Primary">
+      <div class="brand">
+        <div class="brand-mark">H</div>
+        <div>
+          <h1>Hydra</h1>
+          <span>Data catalog</span>
+        </div>
+      </div>
+
+      <div>
+        <div class="nav-section-label">Explore</div>
+        <nav class="nav-group">
+          <button type="button" class="nav-btn active" data-view="catalog">
+            <span class="nav-icon">◇</span> Catalog
+          </button>
+          <button type="button" class="nav-btn" data-view="glossary">
+            <span class="nav-icon">◎</span> Glossary
+          </button>
+          <button type="button" class="nav-btn" data-view="lineage">
+            <span class="nav-icon">→</span> Lineage hub
+          </button>
+        </nav>
+      </div>
+
+      <div>
+        <div class="nav-section-label">Govern</div>
+        <nav class="nav-group">
+          <button type="button" class="nav-btn" data-view="governance">
+            <span class="nav-icon">✦</span> Trust &amp; flags
+          </button>
+          <button type="button" class="nav-btn" data-view="queries">
+            <span class="nav-icon">{}</span> Saved queries
+          </button>
+        </nav>
+      </div>
+
+      <div>
+        <div class="nav-section-label">Admin</div>
+        <nav class="nav-group">
+          <button type="button" class="nav-btn" data-view="analytics">
+            <span class="nav-icon">▤</span> Admin analytics
+          </button>
+        </nav>
+      </div>
+
+      <div class="nav-footer">
+        Press <kbd>⌘</kbd><kbd>K</kbd> to focus search. Prototype UI — not production.
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="mobile-nav" role="tablist" aria-label="Views"></div>
+
+      <header class="top-bar">
+        <div class="search-wrap">
+          <span class="search-icon" aria-hidden="true">⌕</span>
+          <label for="q" class="visually-hidden">Search catalog</label>
+          <input id="q" type="search" placeholder="Search tables, terms, columns, articles, queries…" autocomplete="off" />
+        </div>
+        <div class="top-actions">
+          <button type="button" class="pill-btn" id="btn-filter-popular">Popular</button>
+          <button type="button" class="pill-btn" id="btn-filter-steward">Needs steward</button>
+        </div>
+      </header>
+
+      <section class="insights-strip" id="insights-strip" aria-label="Discovery ideas from how others use the catalog">
+        <div class="insights-strip-head">
+          <h2>Discovery ideas</h2>
+          <p>Real patterns from the community—use them as starting points for your own searches. (Operational stats like MAU and coverage % live under Admin analytics.)</p>
+        </div>
+        <div class="insights-grid" id="insights-grid"></div>
+      </section>
+
+      <div class="content" id="split-view">
+        <section class="list-panel" id="list-panel" aria-label="Results">
+          <div class="panel-header">
+            <h2 id="list-heading">Catalog</h2>
+            <div class="chips" id="type-chips"></div>
+          </div>
+          <div class="scroll-list" id="results"></div>
+        </section>
+
+        <section class="detail-panel" id="detail" aria-label="Details">
+          <div class="empty-detail" id="empty-state">
+            <div>
+              <p class="serif">Select an asset</p>
+              <p>Browse the hierarchy or search across glossary terms, tables, and documentation.</p>
+            </div>
+          </div>
+          <div id="detail-body" class="hidden"></div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script>
+(function () {
+  const DATA = {
+    /** Shown only on Admin analytics tab */
+    adminAnalytics: {
+      mau: 1842,
+      avgDau: 412,
+      newUsers90d: 96,
+      searches30d: 12640,
+      pageViews30d: 84200,
+      descCoveragePct: 78,
+      stewardCoveragePct: 72,
+      endorsedTablesPct: 64,
+      searchToClickPct: 41
+    },
+    /**
+     * User-facing discovery cards (not operational KPIs).
+     * Each card suggests how others use the catalog to help searches.
+     */
+    discoveryInsights: [
+      {
+        title: "Top tables viewed",
+        hint: "These datasets get opened most often—often a good place to start.",
+        items: ["dim_date", "fct_subscriber_daily", "mart_retention_summary"],
+        applySearch: "dim_date"
+      },
+      {
+        title: "Most endorsed by stewards",
+        hint: "Stewards marked these as trusted for production use.",
+        items: ["fct_subscriber_daily", "dim_date", "Monthly Recurring Revenue (term)"],
+        applySearch: "endorsed subscriber"
+      },
+      {
+        title: "Trending glossary terms",
+        hint: "Definitions others are linking to columns right now.",
+        items: ["Monthly Recurring Revenue", "Reporting Calendar Day", "Fiscal Year"],
+        applySearch: "Monthly Recurring Revenue"
+      },
+      {
+        title: "Popular saved queries",
+        hint: "SQL others saved and re-run—reuse before writing from scratch.",
+        items: ["Weekly retention cohort (saved)", "ARR bridge (shared)"],
+        applySearch: "retention cohort"
+      },
+      {
+        title: "Articles people open first",
+        hint: "How-tos ranked by helpful views this month.",
+        items: ["How to join subscriber facts to campaigns", "Getting started with shared dimensions"],
+        applySearch: "join subscriber"
+      },
+      {
+        title: "Tags people combine",
+        hint: "Try filtering by these when you need similar context.",
+        items: ["PII + certified", "revenue + subscriber", "shared + dimension"],
+        applySearch: "certified"
+      },
+      {
+        title: "Recently curated",
+        hint: "Fresh descriptions and endorsements—you’ll see the latest context.",
+        items: ["fct_subscriber_daily (updated 1d ago)", "dim_date (steward note)"],
+        applySearch: "fct_subscriber"
+      },
+      {
+        title: "Searches that worked well",
+        hint: "Phrases that led to clicks—borrow the wording.",
+        items: ["subscriber revenue mrr", "dim date grain fiscal", "campaign spend join"],
+        applySearch: "subscriber revenue"
+      },
+      {
+        title: "Lineage hot spots",
+        hint: "Pipelines and tables others trace most for impact analysis.",
+        items: ["airflow.daily_subscriber_enrich", "raw_billing_events → fct_subscriber_daily"],
+        applySearch: "airflow daily"
+      },
+      {
+        title: "Domains with active traffic",
+        hint: "Where teams are browsing this week.",
+        items: ["Subscriber Analytics", "DEET Data", "Ad Platforms", "Atlas"],
+        applySearch: "Subscriber Analytics"
+      }
+    ],
+    domains: ["Ad Platforms", "DEET Data", "Atlas", "Subscriber Analytics"],
+    assets: [
+      {
+        id: "tbl-fct-sub",
+        type: "table",
+        name: "fct_subscriber_daily",
+        path: "snowflake.prod.analytics",
+        domain: "Subscriber Analytics",
+        description: "Grain: one row per subscriber per day. Used for churn and LTV models. Join to dim_date on report_date.",
+        steward: "Jamie Chen",
+        owner: "Data Products",
+        tags: ["PII", "certified", "revenue"],
+        endorsed: true,
+        deprecated: false,
+        warning: false,
+        quality: 0.91,
+        popularity: 98,
+        columns: [
+          { name: "subscriber_id", type: "VARCHAR(64)", pii: true, term: "Subscriber ID", desc: "Hashed platform identifier." },
+          { name: "report_date", type: "DATE", pii: false, term: "Reporting Calendar Day", desc: "Date in reporting timezone (UTC)." },
+          { name: "mrr_usd", type: "NUMERIC(18,4)", pii: false, term: "Monthly Recurring Revenue", desc: "Normalized MRR in USD." },
+          { name: "churn_risk_score", type: "FLOAT", pii: false, term: null, desc: "Model score 0–1; refreshed nightly." }
+        ],
+        lineage: { upstream: ["raw_billing_events"], downstream: ["mart_retention_summary", "looker_subscriber_health"] },
+        policies: ["Retention: 24 months rolling", "Classification: Confidential — subscriber data"],
+        activity: [
+          { t: "2h ago", text: "Endorsement added by Jamie Chen", kind: "ok" },
+          { t: "1d ago", text: "Description updated (glossary link)", kind: "neutral" },
+          { t: "4d ago", text: "Column term tagged: mrr_usd → Monthly Recurring Revenue", kind: "neutral" }
+        ]
+      },
+      {
+        id: "tbl-dim-date",
+        type: "table",
+        name: "dim_date",
+        path: "snowflake.prod.shared_dimensions",
+        domain: "DEET Data",
+        description: "Conformed date dimension with fiscal calendar attributes for DEET reporting.",
+        steward: "Priya Nair",
+        owner: "Platform Engineering",
+        tags: ["shared", "dimension"],
+        endorsed: true,
+        deprecated: false,
+        warning: false,
+        quality: 0.97,
+        popularity: 100,
+        columns: [
+          { name: "date_key", type: "INT", pii: false, term: null, desc: "YYYYMMDD surrogate key." },
+          { name: "fiscal_year", type: "INT", pii: false, term: "Fiscal Year", desc: "DEET fiscal year." }
+        ],
+        lineage: { upstream: ["seed_calendar"], downstream: ["fct_subscriber_daily", "fct_ad_impressions"] },
+        policies: ["Public dimension — no PII"],
+        activity: [
+          { t: "3d ago", text: "Referenced in 412 saved queries", kind: "neutral" }
+        ]
+      },
+      {
+        id: "term-mrr",
+        type: "term",
+        name: "Monthly Recurring Revenue",
+        path: "Business glossary",
+        domain: "Subscriber Analytics",
+        definition: "Normalized subscription revenue recognized per month in USD, excluding one-time charges.",
+        steward: "Finance Data Council",
+        linkedAssets: ["fct_subscriber_daily.mrr_usd", "mart_finance_kpis.arr_bridge"],
+        tags: ["finance", "KPI"],
+        endorsed: true,
+        activity: [{ t: "1w ago", text: "Definition approved (v3)", kind: "ok" }]
+      },
+      {
+        id: "art-onboarding",
+        type: "article",
+        name: "How to join subscriber facts to campaigns",
+        path: "Documentation / How-to",
+        domain: "Ad Platforms",
+        description: "Step-by-step join paths and common pitfalls when blending subscriber data with campaign spend.",
+        steward: "Atlas Guild",
+        tags: ["how-to", "joins"],
+        popularity: 76,
+        activity: [{ t: "6h ago", text: "View spike after town hall", kind: "neutral" }]
+      },
+      {
+        id: "qry-retention",
+        type: "query",
+        name: "Weekly retention cohort (saved)",
+        path: "Compose / Shared",
+        domain: "Subscriber Analytics",
+        sql: "SELECT cohort_week,\n       COUNT(DISTINCT subscriber_id) AS cohort_size,\n       SUM(CASE WHEN week_n = 4 THEN 1 END) / COUNT(*) AS w4_retention\nFROM analytics.retention_cohorts\nWHERE cohort_week >= DATEADD('week', -12, CURRENT_DATE)\nGROUP BY 1\nORDER BY 1;",
+        steward: "Jamie Chen",
+        tags: ["retention", "shared"],
+        lastRun: "2026-03-30",
+        rowCount: 52
+      },
+      {
+        id: "df-daily-load",
+        type: "dataflow",
+        name: "airflow.daily_subscriber_enrich",
+        path: "Dataflows / Airflow",
+        domain: "DEET Data",
+        description: "Daily job: enriches subscriber facts with billing and product entitlement attributes.",
+        steward: "Data Engineering",
+        tags: ["airflow", "batch"],
+        lineage: { upstream: ["raw_billing_events"], downstream: ["fct_subscriber_daily"] },
+        activity: [{ t: "12h ago", text: "Run succeeded (duration 18m)", kind: "ok" }]
+      },
+      {
+        id: "tbl-legacy",
+        type: "table",
+        name: "legacy_subscriber_snapshot_2023",
+        path: "snowflake.archive.legacy",
+        domain: "Subscriber Analytics",
+        description: "Deprecated snapshot retained for audit. Do not use for new analytics.",
+        steward: "Unassigned",
+        owner: "Data Governance",
+        tags: ["deprecated", "archive"],
+        endorsed: false,
+        deprecated: true,
+        warning: true,
+        quality: 0.42,
+        popularity: 5,
+        columns: [],
+        lineage: { upstream: [], downstream: [] },
+        policies: ["Read-only; retirement scheduled Q4"],
+        activity: [{ t: "30d ago", text: "Deprecation flag set", kind: "warn" }]
+      }
+    ]
+  };
+
+  const typeLabels = {
+    all: "All types",
+    table: "Tables",
+    term: "Terms",
+    article: "Articles",
+    query: "Queries",
+    dataflow: "Dataflows"
+  };
+
+  let view = "catalog";
+  let selectedId = null;
+  let typeFilter = "all";
+  let searchQuery = "";
+  let popularOnly = false;
+  let needsStewardOnly = false;
+
+  const els = {
+    q: document.getElementById("q"),
+    results: document.getElementById("results"),
+    detail: document.getElementById("detail"),
+    empty: document.getElementById("empty-state"),
+    detailBody: document.getElementById("detail-body"),
+    typeChips: document.getElementById("type-chips"),
+    listHeading: document.getElementById("list-heading"),
+    insightsStrip: document.getElementById("insights-strip"),
+    insightsGrid: document.getElementById("insights-grid"),
+    splitView: document.getElementById("split-view"),
+    listPanel: document.getElementById("list-panel"),
+    mobileNav: document.querySelector(".mobile-nav")
+  };
+
+  function formatNum(n) {
+    return n >= 1000 ? (n / 1000).toFixed(1) + "k" : String(n);
+  }
+
+  function renderDiscoveryStrip() {
+    if (!els.insightsGrid) return;
+    els.insightsGrid.innerHTML = "";
+    DATA.discoveryInsights.forEach((ins) => {
+      const card = document.createElement("button");
+      card.type = "button";
+      card.className = "insight-card";
+      card.setAttribute("aria-label", ins.title + ": apply suggested search");
+      card.innerHTML = `
+        <h3>${escapeHtml(ins.title)}</h3>
+        <p class="insight-hint">${escapeHtml(ins.hint)}</p>
+        <ul>${ins.items.map((line) => `<li>${escapeHtml(line)}</li>`).join("")}</ul>
+        <div class="insight-cta">Try search →</div>
+      `;
+      card.addEventListener("click", () => {
+        searchQuery = ins.applySearch;
+        els.q.value = ins.applySearch;
+        if (view === "analytics") setView("catalog");
+        else renderResults();
+      });
+      els.insightsGrid.appendChild(card);
+    });
+  }
+
+  function assetScore(a, q) {
+    if (!q) return 0;
+    const hay = (a.name + " " + (a.path || "") + " " + (a.description || "") + " " + (a.definition || "") + " " + (a.tags || []).join(" ")).toLowerCase();
+    const words = q.toLowerCase().split(/\s+/).filter(Boolean);
+    let s = 0;
+    words.forEach(w => {
+      if (hay.includes(w)) s += 3;
+    });
+    if (a.name.toLowerCase().includes(q.toLowerCase())) s += 5;
+    return s;
+  }
+
+  function getCurrentListForView() {
+    if (view === "glossary") return DATA.assets.filter(a => a.type === "term");
+    if (view === "queries") return DATA.assets.filter(a => a.type === "query");
+    if (view === "lineage") return DATA.assets.filter(a => a.type === "table" || a.type === "dataflow");
+    if (view === "governance") return DATA.assets.filter(a => a.type === "table" || a.type === "term");
+    return filterAssets();
+  }
+
+  function filterAssets() {
+    let list = DATA.assets.slice();
+    if (typeFilter !== "all") list = list.filter(a => a.type === typeFilter);
+    if (popularOnly) list = list.filter(a => (a.popularity || 0) >= 70);
+    if (needsStewardOnly) list = list.filter(a => !a.steward || a.steward === "Unassigned");
+    if (searchQuery.trim()) {
+      const q = searchQuery.trim();
+      list = list
+        .map(a => ({ a, s: assetScore(a, q) }))
+        .filter(x => x.s > 0 || hayMatch(x.a, q))
+        .sort((x, y) => y.s - x.s)
+        .map(x => x.a);
+      if (!list.length) {
+        list = DATA.assets.filter(a => hayMatch(a, q));
+      }
+    }
+    return list;
+  }
+
+  function hayMatch(a, q) {
+    const hay = (a.name + " " + (a.path || "") + " " + (a.description || "") + " " + (a.definition || "")).toLowerCase();
+    return hay.includes(q.toLowerCase());
+  }
+
+  function renderTypeChips() {
+    els.typeChips.innerHTML = "";
+    Object.keys(typeLabels).forEach(key => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "chip" + (typeFilter === key ? " on" : "");
+      b.textContent = typeLabels[key];
+      b.addEventListener("click", () => {
+        typeFilter = key;
+        renderTypeChips();
+        renderResults();
+      });
+      els.typeChips.appendChild(b);
+    });
+  }
+
+  function renderResults() {
+    const list = view === "analytics" ? [] : getCurrentListForView();
+
+    els.results.innerHTML = "";
+    if (view === "analytics") {
+      els.empty.classList.add("hidden");
+      els.detailBody.classList.remove("hidden");
+      els.detailBody.innerHTML = renderAnalyticsView();
+      selectedId = null;
+      return;
+    }
+
+    if (!list.length) {
+      const p = document.createElement("p");
+      p.style.cssText = "padding:1rem;color:var(--dim);font-size:0.85rem;";
+      p.textContent = "No matching assets. Try clearing filters or search.";
+      els.results.appendChild(p);
+    }
+
+    list.forEach(asset => {
+      const card = document.createElement("article");
+      card.className = "result-card" + (selectedId === asset.id ? " selected" : "");
+      card.tabIndex = 0;
+      card.addEventListener("click", () => selectAsset(asset.id));
+      card.addEventListener("keydown", e => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          selectAsset(asset.id);
+        }
+      });
+
+      const title = document.createElement("div");
+      title.className = "title";
+      const badge = document.createElement("span");
+      badge.className = "type-badge " + asset.type;
+      badge.textContent = asset.type;
+      title.appendChild(badge);
+      const name = document.createElement("span");
+      name.textContent = asset.name;
+      title.appendChild(name);
+
+      const path = document.createElement("div");
+      path.className = "path";
+      path.textContent = asset.path + " · " + asset.domain;
+
+      card.appendChild(title);
+      card.appendChild(path);
+
+      const snippet = asset.description || asset.definition || "";
+      if (snippet) {
+        const sn = document.createElement("div");
+        sn.className = "snippet";
+        sn.textContent = snippet;
+        card.appendChild(sn);
+      }
+
+      els.results.appendChild(card);
+    });
+
+    if (selectedId) {
+      const still = list.some(a => a.id === selectedId);
+      if (!still) {
+        selectedId = null;
+        showEmpty();
+      } else {
+        renderDetail(DATA.assets.find(a => a.id === selectedId));
+      }
+    }
+  }
+
+  function showEmpty() {
+    els.empty.classList.remove("hidden");
+    els.detailBody.classList.add("hidden");
+    els.detailBody.innerHTML = "";
+  }
+
+  function selectAsset(id) {
+    selectedId = id;
+    const cur = getCurrentListForView();
+    document.querySelectorAll(".result-card").forEach((c, i) => {
+      c.classList.toggle("selected", cur[i] && cur[i].id === id);
+    });
+    const asset = DATA.assets.find(a => a.id === id);
+    if (asset) renderDetail(asset);
+  }
+
+  function renderDetail(a) {
+    els.empty.classList.add("hidden");
+    els.detailBody.classList.remove("hidden");
+
+    const flags = [];
+    if (a.endorsed) flags.push('<span class="flag endorsed">Endorsed</span>');
+    if (a.deprecated) flags.push('<span class="flag deprecated">Deprecated</span>');
+    if (a.warning) flags.push('<span class="flag warning">Warning</span>');
+
+    let tabs = ["Overview"];
+    if (a.type === "table") tabs.push("Columns", "Lineage", "Governance", "Activity");
+    if (a.type === "term") tabs.push("Linked assets", "Activity");
+    if (a.type === "dataflow" || a.type === "table") {
+      if (!tabs.includes("Lineage")) tabs.push("Lineage");
+    }
+    if (a.type === "query") tabs.push("SQL", "Activity");
+    if (a.type === "article") tabs.push("Activity");
+
+    const body = `
+      <div class="asset-hero">
+        <h2 class="serif-title">${escapeHtml(a.name)}</h2>
+        <div class="asset-meta-row">${flags.join(" ")}</div>
+        <p class="prose">${escapeHtml(a.description || a.definition || "")}</p>
+        <dl class="meta-grid">
+          <div class="meta-tile"><dt>Domain</dt><dd>${escapeHtml(a.domain)}</dd></div>
+          <div class="meta-tile"><dt>Path</dt><dd style="font-family:var(--mono);font-size:0.8rem;">${escapeHtml(a.path)}</dd></div>
+          <div class="meta-tile"><dt>Steward</dt><dd>${escapeHtml(a.steward || "—")}</dd></div>
+          ${a.owner ? `<div class="meta-tile"><dt>Owner</dt><dd>${escapeHtml(a.owner)}</dd></div>` : ""}
+          ${a.quality != null ? `<div class="meta-tile"><dt>Quality score</dt><dd>${Math.round(a.quality * 100)}%<div class="dq-bar"><span style="width:${a.quality * 100}%"></span></div></dd></div>` : ""}
+          ${a.popularity != null ? `<div class="meta-tile"><dt>Popularity</dt><dd>${a.popularity}/100</dd></div>` : ""}
+        </dl>
+        ${(a.tags && a.tags.length) ? `<p style="margin-top:1rem;font-size:0.8rem;color:var(--dim);">Tags: ${a.tags.map(t => `<span class="chip on" style="cursor:default;">${escapeHtml(t)}</span>`).join(" ")}</p>` : ""}
+      </div>
+      <div class="tabs" role="tablist">
+        ${tabs.map((t, i) => `<button type="button" class="tab${i === 0 ? " active" : ""}" data-tab="${i}">${escapeHtml(t)}</button>`).join("")}
+      </div>
+      ${tabs.map((t, i) => `<div class="tab-panel${i === 0 ? " active" : ""}" data-panel="${i}">${renderTab(a, t)}</div>`).join("")}
+    `;
+
+    els.detailBody.innerHTML = body;
+
+    els.detailBody.querySelectorAll(".tab").forEach(tab => {
+      tab.addEventListener("click", () => {
+        const i = tab.getAttribute("data-tab");
+        els.detailBody.querySelectorAll(".tab").forEach(x => x.classList.remove("active"));
+        els.detailBody.querySelectorAll(".tab-panel").forEach(x => x.classList.remove("active"));
+        tab.classList.add("active");
+        els.detailBody.querySelector(`[data-panel="${i}"]`).classList.add("active");
+      });
+    });
+
+    initLineageSvg(a);
+  }
+
+  function renderTab(a, tab) {
+    if (tab === "Columns" && a.columns) {
+      const rows = a.columns.map(c => `
+        <tr>
+          <td style="font-family:var(--mono);font-size:0.78rem;">${escapeHtml(c.name)}</td>
+          <td>${escapeHtml(c.type)}</td>
+          <td>${c.pii ? '<span class="flag warning">PII</span>' : "—"}</td>
+          <td>${c.term ? escapeHtml(c.term) : "—"}</td>
+          <td>${escapeHtml(c.desc || "")}</td>
+        </tr>
+      `).join("");
+      return `<table class="data-table"><thead><tr><th>Column</th><th>Type</th><th>PII</th><th>Glossary term</th><th>Description</th></tr></thead><tbody>${rows}</tbody></table>`;
+    }
+    if (tab === "Lineage") return renderLineagePanel(a);
+    if (tab === "Governance") {
+      const pol = (a.policies || []).map(p => `<li>${escapeHtml(p)}</li>`).join("");
+      return `<ul class="policy-list">${pol || "<li>No policies linked.</li>"}</ul>
+        <p class="prose" style="margin-top:1rem;">Bulk stewardship, change requests, and policy application are supported in the full platform (see PRD G1–G6).</p>`;
+    }
+    if (tab === "Linked assets" && a.linkedAssets) {
+      return `<ul class="policy-list">${a.linkedAssets.map(x => `<li><code style="font-family:var(--mono);font-size:0.85rem;">${escapeHtml(x)}</code></li>`).join("")}</ul>`;
+    }
+    if (tab === "SQL" && a.sql) {
+      return `<pre class="sql-block">${escapeHtml(a.sql)}</pre>
+        <p class="prose" style="margin-top:0.75rem;">Last run: ${escapeHtml(a.lastRun || "—")} · Rows: ${a.rowCount ?? "—"}</p>`;
+    }
+    if (tab === "Activity" && a.activity) {
+      return a.activity.map(ev => `
+        <div class="activity-item">
+          <span class="activity-dot" style="background:${ev.kind === "ok" ? "var(--ok)" : ev.kind === "warn" ? "var(--amber)" : "var(--violet)"}"></span>
+          <div><strong>${escapeHtml(ev.t)}</strong> — ${escapeHtml(ev.text)}</div>
+        </div>
+      `).join("");
+    }
+    if (tab === "Overview") {
+      return `<p class="prose">Use the tabs to explore schema, lineage, governance context, and recent activity. This prototype reflects requirements from Search &amp; Discovery (S1–S4), metadata (M4, D3–D5), lineage (L1–L4), and trust (T1–T5).</p>`;
+    }
+    return "";
+  }
+
+  function renderLineagePanel(a) {
+    const up = (a.lineage && a.lineage.upstream) || [];
+    const down = (a.lineage && a.lineage.downstream) || [];
+    if (!up.length && !down.length) {
+      return `<p class="prose">No lineage edges recorded for this object.</p>`;
+    }
+    return `<div class="lineage-box"><svg class="lineage-svg" viewBox="0 0 640 200" id="lineage-svg" aria-label="Lineage diagram"></svg></div>
+      <p class="prose" style="margin-top:0.75rem;font-size:0.82rem;">Interactive nodes — click upstream/downstream to inspect (demo). Column-level lineage per L3.</p>`;
+  }
+
+  function initLineageSvg(a) {
+    const svg = document.getElementById("lineage-svg");
+    if (!svg || !a.lineage) return;
+    const up = a.lineage.upstream || [];
+    const down = a.lineage.downstream || [];
+    const W = 640, H = 200;
+    const cx = W / 2, cy = H / 2;
+    let html = "";
+    const node = (x, y, label, id) => `
+      <g class="ln-node" data-id="${escapeHtml(id)}">
+        <rect x="${x - 70}" y="${y - 22}" width="140" height="44" rx="8" fill="#1b1f2a" stroke="#30363d" />
+        <text x="${x}" y="${y + 4}" text-anchor="middle" fill="#e8eaef" font-size="11" font-family="Sora, sans-serif">${escapeHtml(label)}</text>
+      </g>`;
+    up.forEach((name, i) => {
+      const x = 100 + i * 30;
+      html += node(x, cy - 50, name, name);
+      html += `<line x1="${x}" y1="${cy - 28}" x2="${cx}" y2="${cy - 22}" stroke="#5c6478" stroke-width="1.5" />`;
+    });
+    html += node(cx, cy, a.name, a.id);
+    down.forEach((name, i) => {
+      const x = 460 - i * 35;
+      html += `<line x1="${cx}" y1="${cy + 22}" x2="${x}" y2="${cy + 50 - 22}" stroke="#5c6478" stroke-width="1.5" />`;
+      html += node(x, cy + 50, name, name);
+    });
+    svg.innerHTML = html;
+    svg.querySelectorAll(".ln-node").forEach(g => {
+      g.addEventListener("click", () => {
+        svg.querySelectorAll(".ln-node").forEach(n => n.classList.remove("selected"));
+        g.classList.add("selected");
+      });
+    });
+  }
+
+  function renderAnalyticsView() {
+    const a = DATA.adminAnalytics;
+    return `
+      <h2 class="serif-title" style="margin-bottom:0.35rem;">Admin analytics</h2>
+      <p class="prose" style="margin-bottom:1.25rem;">Operational view of how the catalog is used: adoption, search volume, and metadata health. For everyone else, the main screen shows <em>discovery ideas</em> instead of these metrics.</p>
+      <p class="prose" style="margin-bottom:1.25rem;font-size:0.9rem;">For the <strong>full multi-tab Alation metrics dashboard</strong> (Executive Summary, User Adoption, Curation, Search &amp; Discovery, Governance with Chart.js), open <a href="../business-data-catalog/oms-ui-on-top.html">Business Data Catalog (on-top) → Admin</a>.</p>
+
+      <div class="admin-kpi-grid">
+        <div class="admin-kpi"><label>MAU</label><strong>${formatNum(a.mau)}</strong><div class="sub">Distinct users with visits</div></div>
+        <div class="admin-kpi"><label>Avg DAU</label><strong>${formatNum(a.avgDau)}</strong><div class="sub">Daily average (period)</div></div>
+        <div class="admin-kpi"><label>New users (90d)</label><strong>${a.newUsers90d}</strong><div class="sub">First-time joiners</div></div>
+        <div class="admin-kpi"><label>Searches (30d)</label><strong>${formatNum(a.searches30d)}</strong><div class="sub">Total catalog searches</div></div>
+        <div class="admin-kpi"><label>Page views (30d)</label><strong>${formatNum(a.pageViews30d)}</strong><div class="sub">Asset visits</div></div>
+        <div class="admin-kpi"><label>Description coverage</label><strong>${a.descCoveragePct}%</strong><div class="sub">Tables with description</div></div>
+        <div class="admin-kpi"><label>Steward coverage</label><strong>${a.stewardCoveragePct}%</strong><div class="sub">Tables with steward</div></div>
+        <div class="admin-kpi"><label>Endorsed tables</label><strong>${a.endorsedTablesPct}%</strong><div class="sub">Of all tables</div></div>
+        <div class="admin-kpi"><label>Search → click</label><strong>${a.searchToClickPct}%</strong><div class="sub">Clicks after search</div></div>
+      </div>
+
+      <div class="admin-section-title">Search volume (sample)</div>
+      <div class="analytics-grid">
+        <div style="grid-column: 1 / -1;">
+          <div class="chart-placeholder" style="padding:0;border-style:solid;">
+            <div class="bar-chart" style="width:100%;height:100px;">
+              ${[40, 55, 48, 62, 70, 58, 75, 80, 72, 88, 90, 85, 92, 95].map(h => `<div class="bar" style="height:${h}%"></div>`).join("")}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-section-title">Top visited objects</div>
+      <table class="data-table">
+        <thead><tr><th>Object</th><th>Views (30d)</th><th>Type</th></tr></thead>
+        <tbody>
+          <tr><td>dim_date</td><td>12.4k</td><td>Table</td></tr>
+          <tr><td>fct_subscriber_daily</td><td>9.1k</td><td>Table</td></tr>
+          <tr><td>How-to: subscriber × campaigns</td><td>3.2k</td><td>Article</td></tr>
+          <tr><td>Monthly Recurring Revenue</td><td>2.8k</td><td>Glossary term</td></tr>
+        </tbody>
+      </table>
+
+      <div class="admin-section-title">Top search queries</div>
+      <table class="data-table">
+        <thead><tr><th>Query text</th><th>Count</th></tr></thead>
+        <tbody>
+          <tr><td>subscriber revenue</td><td>1,240</td></tr>
+          <tr><td>dim date</td><td>980</td></tr>
+          <tr><td>mrr</td><td>756</td></tr>
+          <tr><td>campaign join</td><td>512</td></tr>
+        </tbody>
+      </table>
+
+      <p class="admin-note">Export CSV, query the analytics store (PostgreSQL), or use REST/API tokens per PRD §4.4–4.5. This tab is intended for administrators and data leaders—not required for day-to-day catalog consumers.</p>
+    `;
+  }
+
+  function escapeHtml(s) {
+    if (s == null) return "";
+    return String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function setView(v) {
+    view = v;
+    document.querySelectorAll(".nav-btn").forEach(b => {
+      b.classList.toggle("active", b.getAttribute("data-view") === v);
+    });
+    const titles = {
+      catalog: "Catalog",
+      glossary: "Business glossary",
+      lineage: "Lineage & dataflows",
+      governance: "Trust & stewardship",
+      queries: "Saved queries (Compose)",
+      analytics: "Admin analytics"
+    };
+    els.listHeading.textContent = titles[v] || "Catalog";
+    if (els.insightsStrip) {
+      els.insightsStrip.classList.toggle("hidden", v === "analytics");
+    }
+    if (v === "analytics") {
+      els.splitView.style.gridTemplateColumns = "1fr";
+      els.listPanel.classList.add("hidden");
+    } else {
+      els.splitView.style.gridTemplateColumns = "";
+      els.listPanel.classList.remove("hidden");
+    }
+    selectedId = null;
+    showEmpty();
+    renderTypeChips();
+    renderResults();
+    syncMobileNav();
+  }
+
+  function syncMobileNav() {
+    if (!els.mobileNav) return;
+    const views = ["catalog", "glossary", "lineage", "governance", "queries", "analytics"];
+    const labels = { catalog: "Catalog", glossary: "Glossary", lineage: "Lineage", governance: "Trust", queries: "Queries", analytics: "Admin" };
+    els.mobileNav.innerHTML = views.map(v => `
+      <button type="button" class="${view === v ? "active" : ""}" data-view="${v}">${labels[v] || v}</button>
+    `).join("");
+    els.mobileNav.querySelectorAll("button").forEach(b => {
+      b.addEventListener("click", () => setView(b.getAttribute("data-view")));
+    });
+  }
+
+  document.querySelectorAll(".nav-btn").forEach(b => {
+    b.addEventListener("click", () => setView(b.getAttribute("data-view")));
+  });
+
+  els.q.addEventListener("input", e => {
+    searchQuery = e.target.value;
+    if (view !== "catalog") setView("catalog");
+    renderResults();
+  });
+
+  document.getElementById("btn-filter-popular").addEventListener("click", () => {
+    popularOnly = !popularOnly;
+    document.getElementById("btn-filter-popular").style.borderColor = popularOnly ? "var(--accent)" : "";
+    renderResults();
+  });
+
+  document.getElementById("btn-filter-steward").addEventListener("click", () => {
+    needsStewardOnly = !needsStewardOnly;
+    document.getElementById("btn-filter-steward").style.borderColor = needsStewardOnly ? "var(--violet)" : "";
+    renderResults();
+  });
+
+  document.addEventListener("keydown", e => {
+    if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+      e.preventDefault();
+      els.q.focus();
+    }
+  });
+
+  renderDiscoveryStrip();
+  renderTypeChips();
+  renderResults();
+  syncMobileNav();
+})();
+  </script>
+</body>
+</html>

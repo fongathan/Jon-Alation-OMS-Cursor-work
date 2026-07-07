@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+  <!-- Stat cards -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <a href="{{ url_for('inventory', asset_type='vendors') }}" class="stat-card card p-5 block">
+      <div class="flex items-center justify-between mb-3">
+        <span class="text-sm font-medium text-slate-400">Vendors</span>
+        <div class="w-10 h-10 rounded-lg bg-violet-500/15 flex items-center justify-center">
+          <i class="fa-solid fa-building text-violet-400"></i>
+        </div>
+      </div>
+      <p class="text-3xl font-bold text-white">{{ counts.vendors }}</p>
+      <p class="text-xs text-slate-500 mt-1">{{ counts.vendors_active }} active</p>
+    </a>
+
+    <a href="{{ url_for('inventory', asset_type='trackers') }}" class="stat-card card p-5 block">
+      <div class="flex items-center justify-between mb-3">
+        <span class="text-sm font-medium text-slate-400">Digital Trackers</span>
+        <div class="w-10 h-10 rounded-lg bg-cyan-500/15 flex items-center justify-center">
+          <i class="fa-solid fa-satellite-dish text-cyan-400"></i>
+        </div>
+      </div>
+      <p class="text-3xl font-bold text-white">{{ counts.trackers }}</p>
+      <p class="text-xs text-slate-500 mt-1">{{ counts.trackers_active }} active</p>
+    </a>
+
+    <a href="{{ url_for('inventory', asset_type='systems') }}" class="stat-card card p-5 block">
+      <div class="flex items-center justify-between mb-3">
+        <span class="text-sm font-medium text-slate-400">Systems</span>
+        <div class="w-10 h-10 rounded-lg bg-emerald-500/15 flex items-center justify-center">
+          <i class="fa-solid fa-server text-emerald-400"></i>
+        </div>
+      </div>
+      <p class="text-3xl font-bold text-white">{{ counts.systems }}</p>
+      <p class="text-xs text-slate-500 mt-1">{{ counts.systems_active }} active</p>
+    </a>
+
+    <a href="{{ url_for('inventory', asset_type='use_cases') }}" class="stat-card card p-5 block">
+      <div class="flex items-center justify-between mb-3">
+        <span class="text-sm font-medium text-slate-400">Business Use Cases</span>
+        <div class="w-10 h-10 rounded-lg bg-amber-500/15 flex items-center justify-center">
+          <i class="fa-solid fa-diagram-project text-amber-400"></i>
+        </div>
+      </div>
+      <p class="text-3xl font-bold text-white">{{ counts.use_cases }}</p>
+      <p class="text-xs text-slate-500 mt-1">{{ counts.use_cases_active }} active</p>
+    </a>
+  </div>
+
+  <!-- Second row: governance stats -->
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    <div class="card p-5">
+      <div class="flex items-center justify-between mb-3">
+        <span class="text-sm font-medium text-slate-400">Legal Exceptions</span>
+        <i class="fa-solid fa-scale-balanced text-slate-500"></i>
+      </div>
+      <p class="text-2xl font-bold text-white">{{ counts.legal_exceptions }}</p>
+      <p class="text-xs text-slate-500 mt-1">{{ counts.legal_exceptions_active }} active</p>
+    </div>
+    <div class="card p-5">
+      <div class="flex items-center justify-between mb-3">
+        <span class="text-sm font-medium text-slate-400">Prior Audits</span>
+        <i class="fa-solid fa-clipboard-check text-slate-500"></i>
+      </div>
+      <p class="text-2xl font-bold text-white">{{ counts.audits }}</p>
+      <p class="text-xs text-slate-500 mt-1">{{ counts.audits_open }} open</p>
+    </div>
+    <div class="card p-5">
+      <div class="flex items-center justify-between mb-3">
+        <span class="text-sm font-medium text-slate-400">Total Relationships</span>
+        <i class="fa-solid fa-circle-nodes text-slate-500"></i>
+      </div>
+      <p class="text-2xl font-bold text-white">{{ counts.relationships }}</p>
+      <p class="text-xs text-slate-500 mt-1">M:M asset connections</p>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- Recent activity -->
+    <div class="card">
+      <div class="px-5 py-4 border-b border-slate-700/50">
+        <h2 class="font-semibold">Recent Activity</h2>
+      </div>
+      <div class="divide-y divide-slate-700/30">
+        {% for log in recent_logs %}
+        <div class="px-5 py-3 flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold
+            {% if log.action == 'created' %}bg-emerald-500/15 text-emerald-400
+            {% elif log.action == 'updated' %}bg-blue-500/15 text-blue-400
+            {% else %}bg-red-500/15 text-red-400{% endif %}">
+            {% if log.action == 'created' %}<i class="fa-solid fa-plus"></i>
+            {% elif log.action == 'updated' %}<i class="fa-solid fa-pen"></i>
+            {% else %}<i class="fa-solid fa-xmark"></i>{% endif %}
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-sm"><span class="font-medium text-white">{{ log.changed_by or 'System' }}</span>
+              {{ log.action }} {{ log.asset_type }} <span class="text-kronos-400">{{ log.asset_id }}</span></p>
+            <p class="text-xs text-slate-500">{{ log.change_summary or '' }}</p>
+          </div>
+          <span class="text-xs text-slate-500 whitespace-nowrap">{{ log.timestamp.strftime('%b %d, %H:%M') }}</span>
+        </div>
+        {% else %}
+        <div class="px-5 py-8 text-center text-slate-500 text-sm">No activity recorded yet.</div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Assets by status -->
+    <div class="card">
+      <div class="px-5 py-4 border-b border-slate-700/50">
+        <h2 class="font-semibold">Assets by Status</h2>
+      </div>
+      <div class="p-5 space-y-4">
+        {% for status, count in status_breakdown.items() %}
+        <div>
+          <div class="flex justify-between text-sm mb-1">
+            <span class="capitalize">{{ status }}</span>
+            <span class="text-slate-400">{{ count }}</span>
+          </div>
+          <div class="w-full bg-slate-700/50 rounded-full h-2">
+            <div class="h-2 rounded-full
+              {% if status == 'active' %}bg-emerald-500
+              {% elif status == 'inactive' %}bg-gray-500
+              {% elif status == 'deprecated' %}bg-red-500
+              {% elif status == 'pending' %}bg-amber-500
+              {% else %}bg-blue-500{% endif %}"
+              style="width: {{ (count / total_assets * 100) if total_assets > 0 else 0 }}%"></div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <!-- High-risk vendors -->
+  {% if high_risk_vendors %}
+  <div class="card">
+    <div class="px-5 py-4 border-b border-slate-700/50 flex items-center gap-2">
+      <i class="fa-solid fa-triangle-exclamation text-amber-400"></i>
+      <h2 class="font-semibold">High-Risk Vendors Requiring Attention</h2>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="text-left text-xs text-slate-400 uppercase tracking-wider border-b border-slate-700/50">
+            <th class="px-5 py-3">Vendor</th>
+            <th class="px-5 py-3">Category</th>
+            <th class="px-5 py-3">Risk</th>
+            <th class="px-5 py-3">DPA</th>
+            <th class="px-5 py-3">Contract Expiry</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for v in high_risk_vendors %}
+          <tr class="table-row">
+            <td class="px-5 py-3">
+              <a href="{{ url_for('asset_detail', asset_type='vendor', asset_id=v.asset_id) }}" class="text-kronos-400 hover:text-kronos-300 font-medium">{{ v.name }}</a>
+            </td>
+            <td class="px-5 py-3 text-slate-400">{{ v.vendor_category or '—' }}</td>
+            <td class="px-5 py-3"><span class="badge badge-{{ v.risk_rating }}">{{ v.risk_rating }}</span></td>
+            <td class="px-5 py-3">
+              {% if v.dpa_in_place %}<span class="text-emerald-400"><i class="fa-solid fa-check"></i></span>
+              {% else %}<span class="text-red-400"><i class="fa-solid fa-xmark"></i></span>{% endif %}
+            </td>
+            <td class="px-5 py-3 text-slate-400">{{ v.contract_expiry.strftime('%Y-%m-%d') if v.contract_expiry else '—' }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kronos — Sustainable Inventory Management — What, why, value (3 slides)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #0f2744;
+      --navy-soft: #1a3a5c;
+      --header-blue: #1e5a96;
+      --sidebar-bg: #e4eef8;
+      --sidebar-footer: #3d5166;
+      --page-bg: #e8ecf2;
+      --white: #fff;
+      --text: #1a1a1a;
+      --muted: #5c6570;
+      --accent: #1565c0;
+      --radius: 14px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "DM Sans", system-ui, -apple-system, sans-serif;
+      background: var(--page-bg);
+      color: var(--text);
+      padding: 1.25rem 1.25rem 2rem;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .deck-intro {
+      max-width: 1120px;
+      margin: 0 auto 1rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .deck-intro strong { color: var(--navy); }
+
+    .slide {
+      max-width: 1120px;
+      margin: 0 auto 1.75rem;
+      aspect-ratio: 16 / 9;
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: 0 12px 40px rgba(15, 39, 68, 0.12);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      min-height: 480px;
+      page-break-after: always;
+      break-after: page;
+    }
+
+    .slide:last-of-type {
+      page-break-after: auto;
+      break-after: auto;
+      margin-bottom: 0;
+    }
+
+    .slide-head {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--header-blue) 100%);
+      color: #fff;
+      padding: 0.65rem 1.25rem;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .slide-head h1 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .slide-num {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.85;
+      white-space: nowrap;
+    }
+
+    .slide-body {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      min-height: 0;
+    }
+
+    .col {
+      padding: 1rem 1.15rem 1.1rem;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .col-aside {
+      background: var(--sidebar-bg);
+      border-right: 1px solid rgba(15, 39, 68, 0.08);
+    }
+
+    .col h2 {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 0.45rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .col-main h2 {
+      color: var(--header-blue);
+    }
+
+    .col p,
+    .col li {
+      font-size: 0.72rem;
+      line-height: 1.45;
+      color: var(--text);
+    }
+
+    .col p { margin-bottom: 0.5rem; }
+
+    .col ul {
+      margin: 0.25rem 0 0.5rem 1rem;
+    }
+
+    .col li { margin-bottom: 0.28rem; }
+
+    .callout {
+      font-size: 0.68rem;
+      line-height: 1.42;
+      background: rgba(30, 90, 150, 0.08);
+      border-left: 3px solid var(--header-blue);
+      padding: 0.45rem 0.55rem;
+      margin-top: 0.35rem;
+      border-radius: 0 6px 6px 0;
+    }
+
+    .slide-footer {
+      background: var(--sidebar-footer);
+      color: #c5d4e3;
+      padding: 0.4rem 1.15rem;
+      font-size: 0.6rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .slide-footer a {
+      color: #a8d4ff;
+    }
+
+    .slide-footer .logo {
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      font-size: 0.55rem;
+      color: #9eb0c4;
+    }
+
+    .slide-3 .slide-body {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .slide-3 .col-today {
+      background: var(--sidebar-bg);
+      border-right: 1px solid rgba(15, 39, 68, 0.08);
+    }
+
+    .slide-3 .col-scale {
+      border-right: 1px solid rgba(15, 39, 68, 0.08);
+    }
+
+    @media (max-width: 900px) {
+      .slide-body,
+      .slide-3 .slide-body {
+        grid-template-columns: 1fr;
+      }
+      .slide-3 .col-today,
+      .slide-3 .col-scale {
+        border-right: none;
+        border-bottom: 1px solid rgba(15, 39, 68, 0.08);
+      }
+      .slide { aspect-ratio: auto; min-height: 0; }
+    }
+
+    @media print {
+      body { padding: 0; background: #fff; }
+      .deck-intro { display: none; }
+      .slide {
+        box-shadow: none;
+        max-width: none;
+        margin: 0;
+        border-radius: 0;
+        min-height: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <p class="deck-intro">
+    <strong>Kronos — Sustainable Inventory Management</strong> — stakeholder deck (3 slides) · May 2026. Companion: <a href="kronos-program-slide.html">program one-pager</a> · <a href="../../kronos-ui/index.html">Kronos UI POC</a> · Related: <a href="data-source-navigator-value-deck-3-slides.html">Navigator value deck</a>
+  </p>
+
+  <!-- Slide 1 -->
+  <article class="slide slide-1" aria-labelledby="s1-title">
+    <header class="slide-head">
+      <h1 id="s1-title">What Kronos is — and what it does for us</h1>
+      <span class="slide-num">Slide 1 of 3</span>
+    </header>
+    <div class="slide-body">
+      <div class="col col-aside">
+        <h2>Definitions</h2>
+        <p><strong>Sustainable inventory</strong> — A governed register of <strong>what data-related assets exist</strong> in the business: third-party vendors, digital trackers, internal systems, and the business use cases that connect them. Inventory is the prerequisite for privacy, security, and records obligations — you cannot protect or retire what you cannot name.</p>
+        <p><strong>Kronos (program)</strong> — Disney Streaming’s initiative to move from <strong>spreadsheet- and tribal-knowledge inventories</strong> to a <strong>single, searchable system of record</strong> for sustainable inventory management. The name reflects time-based lifecycle: register, attest, review, and deboard assets on cadence.</p>
+        <p><strong>Kronos UI (POC)</strong> — A stakeholder-facing experience for discovery, relationship mapping, registration workflows, audit exports, and legal-exception tracking — designed to sit on a governed store (e.g. SISU / PostgreSQL or Snowflake-backed inventory tables).</p>
+        <div class="callout">
+          <strong>Program goal:</strong> One place to answer <em>“What vendors, trackers, and systems touch guest data — and who owns them?”</em> without opening five Excel files or Slack threads.
+        </div>
+      </div>
+      <div class="col col-main">
+        <h2>What it does for the organization</h2>
+        <ul>
+          <li><strong>Unified asset types</strong> — Vendors, digital trackers, systems, and business use cases in one model with shared fields (owner, risk, DPA status, region, lifecycle state).</li>
+          <li><strong>Search &amp; discovery</strong> — Cross-inventory search so privacy, marketing, and engineering teams find assets by name, owner, or data shared — not org chart guesswork.</li>
+          <li><strong>Relationship graph</strong> — See how vendors connect to trackers, systems, and use cases; support impact analysis when contracts change or policies update.</li>
+          <li><strong>Register &amp; deboard</strong> — Intake path for new assets and formal decommissioning — reducing “ghost” trackers and orphaned vendor relationships.</li>
+          <li><strong>Reports &amp; audit exports</strong> — Vendor, tracker, and full-inventory CSV exports for governance reviews, RIM attestation, and audit evidence.</li>
+          <li><strong>Legal exceptions</strong> — Track approved deviations from standard policy with owner, expiry, and review status — visible alongside the inventory, not in email.</li>
+          <li><strong>Bridge to enterprise governance</strong> — Inventory feeds privacy remediation (trackers), vendor risk (DPAs), and records management (RIM / disposition) programs.</li>
+        </ul>
+        <p class="callout" style="margin-top: 0.5rem;">
+          <strong>Architecture:</strong> Inventory store as system of record; Kronos UI as the <strong>operational face</strong> for stewards and program owners. Deep links to specialist tools (DSAR, consent, RIM) where execution stays authoritative.
+        </p>
+      </div>
+    </div>
+    <footer class="slide-footer">
+      <span>Data Governance · Kronos — Sustainable Inventory Management</span>
+      <span class="logo">INTERNAL — STEWARD &amp; LEADERSHIP</span>
+    </footer>
+  </article>
+
+  <!-- Slide 2 -->
+  <article class="slide slide-2" aria-labelledby="s2-title">
+    <header class="slide-head">
+      <h1 id="s2-title">Why it matters — privacy, compliance, and operational risk</h1>
+      <span class="slide-num">Slide 2 of 3</span>
+    </header>
+    <div class="slide-body">
+      <div class="col col-aside">
+        <h2>Why it matters now</h2>
+        <ul>
+          <li><strong>Tracker and vendor sprawl</strong> — Marketing, product, and analytics teams onboard tools faster than central inventories update — creating blind spots for consent, DSAR, and security review.</li>
+          <li><strong>Privacy regulations expect inventory</strong> — CCPA, GDPR, and internal GIS standards require knowing <strong>what collects data</strong>, <strong>why</strong>, and <strong>who is accountable</strong> — not after an incident.</li>
+          <li><strong>Remediation depends on a source list</strong> — Tracker remediation, vendor DPAs, and access reviews all need the same asset register; duplicate spreadsheets diverge within weeks.</li>
+          <li><strong>Records &amp; retention</strong> — RIM programs (legal holds, disposition, attestation) require linked inventory context — which systems and vendors hold which record classes.</li>
+        </ul>
+        <h2 style="margin-top: 0.65rem;">Data Governance benefits</h2>
+        <ul>
+          <li><strong>Single inventory truth</strong> — Federated stewardship with domain owners updating their assets on cadence.</li>
+          <li><strong>Risk visibility</strong> — Vendor risk ratings, DPA status, and tracker consent posture surfaced at discovery time.</li>
+          <li><strong>Audit-ready exports</strong> — Repeatable reports for internal audit, privacy assessments, and regulatory inquiry prep.</li>
+          <li><strong>Lifecycle discipline</strong> — Register → active → under review → deprecated/deboarded — reduces “zombie” assets.</li>
+        </ul>
+      </div>
+      <div class="col col-main">
+        <h2>Benefits for the whole org</h2>
+        <ul>
+          <li><strong>Privacy &amp; legal</strong> — Complete tracker and vendor landscape for consent programs, DSAR scoping, and remediation prioritization.</li>
+          <li><strong>Marketing &amp; product</strong> — Self-service lookup before launching a new pixel or SDK; fewer emergency “is this approved?” escalations.</li>
+          <li><strong>Security &amp; GIS</strong> — Vendor inventory with data-shared fields and contract expiry supports third-party risk and access reviews.</li>
+          <li><strong>Engineering &amp; platform</strong> — Systems registry links technical assets to business use cases — clearer ownership when pipelines or apps change.</li>
+          <li><strong>Records management</strong> — Foundation for Kronos RIM workflows (holds, disposition queues, attestation) referenced from the Governance Portal.</li>
+          <li><strong>Leadership</strong> — Portfolio view of inventory coverage, open legal exceptions, and remediation backlog — not anecdotal status in slide decks.</li>
+        </ul>
+        <div class="callout" style="margin-top: 0.55rem;">
+          <strong>FY27 framing:</strong> Kronos is the <strong>supply-side inventory layer</strong> that feeds catalog migration (Navigator/OMS), privacy operations, and compliance posture — sustainable inventory is a named enabler for governed data use, not a one-time audit exercise.
+        </div>
+      </div>
+    </div>
+    <footer class="slide-footer">
+      <span>Data Governance · Kronos — Sustainable Inventory Management</span>
+      <span class="logo">INTERNAL — STEWARD &amp; LEADERSHIP</span>
+    </footer>
+  </article>
+
+  <!-- Slide 3 -->
+  <article class="slide slide-3" aria-labelledby="s3-title">
+    <header class="slide-head">
+      <h1 id="s3-title">Value now — value at scale — and how we measure success</h1>
+      <span class="slide-num">Slide 3 of 3</span>
+    </header>
+    <div class="slide-body">
+      <div class="col col-today">
+        <h2>Foundation &amp; near-term</h2>
+        <ul>
+          <li><strong>Inventory baseline</strong> — Import and reconcile Disney Streaming inventories (vendors, trackers, systems, use cases) from legacy Excel sources into a governed model.</li>
+          <li><strong>Kronos UI POC</strong> — Dashboard, search, detail views, relationship graph, and export paths validated with stewards and privacy partners.</li>
+          <li><strong>Registration workflow</strong> — JIRA / intake handoff for net-new assets until full self-service registration is production-ready.</li>
+          <li><strong>Legal exceptions module</strong> — Track approved policy deviations with owner and review dates alongside core inventory.</li>
+          <li><strong>Cross-program alignment</strong> — Shared asset IDs and fields consumed by tracker remediation and Governance Portal RIM views.</li>
+        </ul>
+      </div>
+      <div class="col col-scale">
+        <h2>Value at scale</h2>
+        <ul>
+          <li><strong>System of record</strong> — PostgreSQL / Snowflake-backed inventory with API access for downstream privacy and catalog tools.</li>
+          <li><strong>Automated freshness</strong> — Connectors from contract systems, tag managers, and CMDB reduce manual spreadsheet drift.</li>
+          <li><strong>Attestation cadences</strong> — Domain owners confirm inventory accuracy on schedule; exceptions escalate to governance queue.</li>
+          <li><strong>Enterprise expansion</strong> — Extend beyond Disney Streaming to additional segments with shared taxonomy and federated ownership.</li>
+          <li><strong>Integrated remediation</strong> — Tracker findings, vendor reviews, and RIM disposition queues pre-filtered from live inventory — not static exports.</li>
+        </ul>
+      </div>
+      <div class="col col-main">
+        <h2>How we measure success</h2>
+        <ul>
+          <li><strong>Coverage</strong> — % of in-scope vendors, trackers, and systems registered with owner, risk tier, and lifecycle status.</li>
+          <li><strong>Freshness</strong> — % of assets attested within the last review cycle; count of assets past due for review.</li>
+          <li><strong>Discovery efficiency</strong> — Reduction in ad hoc “what trackers do we use?” requests to governance / privacy teams.</li>
+          <li><strong>Remediation linkage</strong> — % of open tracker findings mapped to a registered inventory asset.</li>
+          <li><strong>Deboarding discipline</strong> — Time from deprecation decision to inventory status update and contract/tool removal.</li>
+          <li><strong>Audit readiness</strong> — Successful export of full inventory for privacy / RIM audits without manual consolidation.</li>
+        </ul>
+        <div class="callout" style="margin-top: 0.4rem;">
+          Phasing: <strong>Baseline + POC</strong> → <strong>governed store + attestation</strong> → <strong>automation + enterprise expansion</strong> → <strong>federated execution</strong> with Governance Portal and Navigator.
+        </div>
+      </div>
+    </div>
+    <footer class="slide-footer">
+      <span>Data Governance · Kronos — Sustainable Inventory Management</span>
+      <span class="logo">INTERNAL — STEWARD &amp; LEADERSHIP</span>
+    </footer>
+  </article>
+</body>
+</html>

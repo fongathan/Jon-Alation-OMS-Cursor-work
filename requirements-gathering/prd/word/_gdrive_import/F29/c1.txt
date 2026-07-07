@@ -1,0 +1,29 @@
+Edge case: partial metadata from source systems; UI states 'unknown' or 'stale' with last sync time.
+Governance case: auditor requests evidence of who changed business metadata related to **Data Dictionary download & uploads**.
+8. UI / UX notes
+Use clear hierarchy: primary action visible, destructive actions confirmed.
+Tables: pagination, sticky headers, column resize where appropriate.
+Mobile: read-mostly experience acceptable unless program mandates full edit on mobile.
+Integrated OMS vs. dedicated BDC shell: follow program IA decision; deep-link between shells.
+9. Data model & APIs
+Prefer OMS as operational system of record for technical metadata.
+Business metadata via versioned REST (or program-standard) contracts; document error codes.
+Bulk operations return job ids for large writes; support dry-run where risk is high.
+10. Non-functional requirements
+Performance: define P95 targets per surface (search, browse, detail).
+Reliability: graceful degradation when telemetry or optional AI services are down.
+Security: RBAC on every read/write; no PII in analytics where matrix calls for aggregation (esp. Feature 35).
+11. Acceptance criteria (samples)
+Given an authenticated user with appropriate role, when they use the primary flow then the matrix **Primary use case** is achievable without error.
+Given insufficient permissions, when the user attempts a restricted action then the system denies with an explanatory message (not silent failure).
+Given stale connector data, when the user views dependent UI then stale state is visible with last successful sync timestamp.
+12. Dependencies & risks
+Depends on: identity (SSO), connector health, glossary/tags where referenced.
+Risks: scope creep between OMS integrated and BDC-on-top; mitigate with shared API and UX contract.
+Matrix note to resolve in interviews: Steward assignments, descriptions, custom fields at scale
+13. Open questions
+MVP vs. phase-2 cut line for this feature?
+Which environments (prod / staging) ship first?
+Executive reporting: which KPIs prove value for this capability?
+14. References
+Feature Inventory Matrix (Google Doc): Feature row 29

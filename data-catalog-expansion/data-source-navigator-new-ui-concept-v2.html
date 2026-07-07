@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New UI concept v2 — Data Source Navigator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="themes/theme-midnight-ops.css">
+  <style>
+    .shell.shell-wide {
+      max-width: min(1680px, 100%);
+    }
+    .app-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem 1rem;
+      margin-bottom: 1rem;
+      padding: 0.65rem 0.85rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+    }
+    .app-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+    .app-brand strong { font-size: 0.95rem; letter-spacing: -0.02em; }
+    .app-brand span { font-size: 0.72rem; color: var(--muted); max-width: 48ch; }
+    .badge-v2 {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.25rem 0.5rem;
+      border-radius: 6px;
+      background: rgba(34, 211, 238, 0.2);
+      color: var(--cyan);
+    }
+    .persona-seg {
+      display: inline-flex;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      background: var(--surface2);
+    }
+    .persona-seg button {
+      font: inherit;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.4rem 0.85rem;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+    }
+    .persona-seg button[aria-pressed="true"] {
+      background: rgba(34, 211, 238, 0.15);
+      color: var(--cyan);
+    }
+    .search-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    .search-row input[type="search"] {
+      flex: 1 1 220px;
+      min-width: 0;
+      padding: 0.55rem 0.85rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--text);
+      font: inherit;
+      font-size: 0.88rem;
+    }
+    .search-row input::placeholder { color: var(--muted); }
+
+    /* Default: three columns. Expanded: left browse + right half = detail */
+    .layout-workspace {
+      display: grid;
+      grid-template-columns: minmax(200px, 240px) minmax(0, 1fr) minmax(280px, 360px);
+      gap: 1rem;
+      align-items: stretch;
+      transition: grid-template-columns 0.2s ease;
+    }
+    .layout-workspace.is-detail-expanded {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 1rem;
+    }
+    .browse-column {
+      display: contents;
+    }
+    .layout-workspace.is-detail-expanded .browse-column {
+      display: grid;
+      grid-template-columns: minmax(200px, 260px) minmax(0, 1fr);
+      gap: 1rem;
+      min-width: 0;
+    }
+    .layout-workspace.is-detail-expanded .nav-panel,
+    .layout-workspace.is-detail-expanded .list-panel {
+      max-height: min(72vh, 720px);
+    }
+    .layout-workspace.is-detail-expanded .detail-panel {
+      grid-column: 2;
+      grid-row: 1;
+      min-height: min(72vh, 720px);
+      display: flex;
+      flex-direction: column;
+    }
+    .layout-workspace.is-detail-expanded .detail-panel .detail-body {
+      flex: 1;
+      max-height: none;
+      min-height: 0;
+    }
+    @media (max-width: 900px) {
+      .layout-workspace,
+      .layout-workspace.is-detail-expanded {
+        grid-template-columns: 1fr;
+      }
+      .layout-workspace.is-detail-expanded .browse-column {
+        grid-template-columns: 1fr;
+      }
+      .layout-workspace.is-detail-expanded .detail-panel {
+        grid-column: 1;
+      }
+    }
+    .nav-panel, .list-panel, .detail-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .nav-panel .panel-head,
+    .list-panel .panel-head,
+    .detail-panel .panel-head {
+      margin: 0;
+      border-radius: 0;
+      border-left: none;
+      border-right: none;
+      border-top: none;
+    }
+    .source-list { list-style: none; max-height: min(62vh, 520px); overflow: auto; }
+    .layout-workspace.is-detail-expanded .source-list { max-height: min(68vh, 680px); }
+    .source-list button {
+      width: 100%;
+      text-align: left;
+      padding: 0.65rem 0.85rem;
+      border: none;
+      border-bottom: 1px solid var(--border);
+      background: transparent;
+      color: inherit;
+      font: inherit;
+      font-size: 0.82rem;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+    .source-list button:hover { background: var(--surface2); }
+    .source-list button[aria-current="true"] {
+      background: rgba(167, 139, 250, 0.12);
+      box-shadow: inset 3px 0 0 var(--violet);
+    }
+    .source-list .src-meta { font-size: 0.7rem; color: var(--muted); }
+    .asset-table-wrap { max-height: min(62vh, 520px); overflow: auto; }
+    .layout-workspace.is-detail-expanded .asset-table-wrap { max-height: min(68vh, 680px); }
+    .asset-table-wrap table.vendor-table th,
+    .asset-table-wrap table.vendor-table td { font-size: 0.78rem; }
+    .asset-table-wrap table.vendor-table button.linkish {
+      background: none;
+      border: none;
+      color: var(--cyan);
+      font: inherit;
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      padding: 0;
+    }
+    .bdc-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      padding: 0.65rem 0.85rem;
+      background: linear-gradient(90deg, rgba(34, 211, 238, 0.08), rgba(167, 139, 250, 0.08));
+      border-bottom: 1px solid var(--border);
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+    .bdc-strip .label { font-weight: 700; color: var(--text); margin-right: 0.25rem; }
+    .pill.attested { background: rgba(74, 222, 128, 0.15); color: var(--green); }
+    .pill.policy { background: rgba(96, 165, 250, 0.15); color: var(--blue); }
+    .pill.glossary { background: rgba(244, 114, 182, 0.15); color: var(--pink); }
+    .pill.lineage { background: rgba(34, 211, 238, 0.15); color: var(--cyan); }
+    .pill.readonly-src { background: rgba(148, 163, 184, 0.2); color: #cbd5e1; }
+    .detail-body {
+      padding: 0.85rem 1rem;
+      max-height: min(58vh, 480px);
+      overflow: auto;
+    }
+    .detail-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      margin-bottom: 0.75rem;
+    }
+    .detail-tabs button {
+      font: inherit;
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 0.35rem 0.65rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--muted);
+      cursor: pointer;
+    }
+    .detail-tabs button[aria-selected="true"] {
+      border-color: rgba(34, 211, 238, 0.45);
+      color: var(--cyan);
+      background: rgba(34, 211, 238, 0.1);
+    }
+    .tab-panel { display: none; font-size: 0.8rem; color: var(--muted); }
+    .tab-panel.active { display: block; }
+    .tab-panel dl {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.35rem 0.75rem;
+    }
+    .tab-panel dt { color: var(--muted); font-weight: 600; }
+    .tab-panel dd { color: var(--text); }
+    .oms-cta { margin-top: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .hint-banner {
+      font-size: 0.78rem;
+      color: var(--muted);
+      padding: 0.6rem 0.85rem;
+      border: 1px dashed var(--border);
+      border-radius: var(--radius-sm);
+      margin-bottom: 1rem;
+      background: rgba(15, 23, 42, 0.35);
+    }
+    .hint-banner a { color: var(--cyan); }
+
+    /* Glossary / metric cards */
+    .glossary-stack { display: flex; flex-direction: column; gap: 1rem; }
+    .metric-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--surface2);
+      overflow: hidden;
+    }
+    .metric-card-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.5rem;
+      padding: 0.65rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+      background: rgba(0, 0, 0, 0.2);
+    }
+    .metric-card-head h4 {
+      margin: 0;
+      font-size: 0.88rem;
+      color: var(--text);
+      font-weight: 700;
+    }
+    .metric-card .readonly-block {
+      padding: 0.65rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .metric-card .readonly-block .ro-title {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      margin-bottom: 0.35rem;
+    }
+    .metric-card .definition-quote {
+      font-size: 0.8rem;
+      color: var(--text);
+      line-height: 1.45;
+      margin: 0;
+      padding: 0.5rem 0.65rem;
+      border-left: 3px solid var(--violet);
+      background: rgba(167, 139, 250, 0.06);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    }
+    .metric-card .source-line {
+      margin-top: 0.5rem;
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+    .metric-card .source-line a,
+    .metric-card .source-line button.fake-link {
+      color: var(--cyan);
+      background: none;
+      border: none;
+      font: inherit;
+      cursor: pointer;
+      text-decoration: underline;
+      padding: 0;
+    }
+    .metric-card .editable-block {
+      padding: 0.65rem 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+    .metric-card label.field-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--green);
+    }
+    .metric-card textarea.steward-field {
+      width: 100%;
+      min-height: 4rem;
+      padding: 0.5rem 0.6rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      font: inherit;
+      font-size: 0.78rem;
+      resize: vertical;
+    }
+    .metric-card textarea.steward-field:focus {
+      outline: none;
+      border-color: rgba(74, 222, 128, 0.45);
+      box-shadow: 0 0 0 1px rgba(74, 222, 128, 0.2);
+    }
+    .comments-block {
+      padding: 0.65rem 0.75rem;
+      border-top: 1px solid var(--border);
+      background: rgba(15, 23, 42, 0.4);
+    }
+    .comments-block .field-label { color: var(--pink); }
+    .comment-list {
+      list-style: none;
+      max-height: 180px;
+      overflow: auto;
+      margin: 0.4rem 0 0.5rem;
+      padding: 0;
+    }
+    .comment-list li {
+      font-size: 0.75rem;
+      padding: 0.4rem 0.5rem;
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      margin-bottom: 0.35rem;
+    }
+    .comment-list .meta { font-size: 0.65rem; color: var(--muted); margin-bottom: 0.2rem; }
+    .comment-form { display: flex; flex-wrap: wrap; gap: 0.35rem; align-items: flex-end; }
+    .comment-form input[type="text"] {
+      flex: 1 1 140px;
+      min-width: 0;
+      padding: 0.45rem 0.55rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--text);
+      font: inherit;
+      font-size: 0.78rem;
+    }
+    .detail-panel .panel-head .expand-hint {
+      font-size: 0.65rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .layout-workspace.is-detail-expanded .detail-panel .panel-head .expand-hint::before {
+      content: "Expanded · ";
+      color: var(--cyan);
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="glow a" aria-hidden="true"></div>
+  <div class="glow b" aria-hidden="true"></div>
+
+  <div class="shell shell-wide">
+    <div class="app-top">
+      <div class="app-brand">
+        <strong>Data Source Navigator <span class="badge-v2">New UI concept v2</span></strong>
+        <span>Select an asset to expand detail to the right half of the workspace. Glossary links pull metric definitions from authoritative sources (read-only); stewards add notes, comments, and editable fields.</span>
+      </div>
+      <div class="persona-seg" role="group" aria-label="Primary persona">
+        <button type="button" id="p-analyst" aria-pressed="true">Analyst</button>
+        <button type="button" id="p-steward" aria-pressed="false">Steward</button>
+        <button type="button" id="p-engineer" aria-pressed="false">Engineer</button>
+      </div>
+    </div>
+
+    <header style="margin-bottom:1rem;">
+      <div class="title-block">
+        <h1>Browse left · <span style="-webkit-text-fill-color:var(--cyan);">Detail right</span></h1>
+        <p>v2: choosing an asset grows the detail pane to half the screen. Linked glossary entries show definitions synced from tools you already trust — not editable here — with space for human curation and discussion.</p>
+      </div>
+      <div class="header-actions">
+        <a class="btn btn-ghost" href="data-source-navigator-ui-mock.html">v1 mock</a>
+        <a class="btn btn-primary" href="../business-data-catalog/oms-ui-on-top.html">BDC shell</a>
+      </div>
+    </header>
+
+    <section class="kpis" aria-label="Program signals">
+      <div class="kpi c1">
+        <div class="kpi-label">Definition sources</div>
+        <div class="kpi-value">Linked</div>
+        <div class="kpi-sub">LookML · dbt Semantic · Amplitude (demo)</div>
+      </div>
+      <div class="kpi c2">
+        <div class="kpi-label">Human layer</div>
+        <div class="kpi-value">On</div>
+        <div class="kpi-sub">Steward fields + comments persist (demo)</div>
+      </div>
+      <div class="kpi c3">
+        <div class="kpi-label">Lineage depth</div>
+        <div class="kpi-value">3 hops</div>
+        <div class="kpi-sub">Hand off to OMS graph</div>
+      </div>
+      <div class="kpi c4">
+        <div class="kpi-label">Authoritative</div>
+        <div class="kpi-value">RO</div>
+        <div class="kpi-sub">External defs not edited in catalog</div>
+      </div>
+    </section>
+
+    <p class="hint-banner" role="note">
+      <strong>v2 layout:</strong> with no asset selected, the third column stays compact. After you pick an asset, the grid becomes <em>50% browse</em> (sources + list) / <em>50% detail</em>. Glossary metrics below use <code>localStorage</code> keys <code>dsn-v2-*</code> so comments and steward fields survive refresh in this mock.
+    </p>
+
+    <div class="search-row">
+      <input type="search" id="global-search" placeholder="Search tables, terms, owners, tags…" autocomplete="off" aria-label="Global catalog search">
+      <select class="filter" id="facet-domain" aria-label="Domain">
+        <option value="all">All domains</option>
+        <option value="deept">DEEPT</option>
+        <option value="mci">MCI / engagement</option>
+        <option value="privacy">Privacy &amp; classification</option>
+      </select>
+      <select class="filter" id="facet-tier" aria-label="Sensitivity tier">
+        <option value="all">All tiers</option>
+        <option value="public">Non-sensitive</option>
+        <option value="internal">Internal</option>
+        <option value="restricted">Restricted</option>
+      </select>
+    </div>
+
+    <div class="layout-workspace" id="layout-workspace" aria-label="Catalog workspace">
+      <div class="browse-column">
+        <aside class="nav-panel" aria-label="Data sources">
+          <div class="panel-head">
+            <h2>Registered <span>sources</span></h2>
+          </div>
+          <ul class="source-list" id="source-list"></ul>
+        </aside>
+
+        <section class="list-panel" aria-labelledby="assets-heading">
+          <div class="panel-head">
+            <h2 id="assets-heading">Assets in <span id="source-title">source</span></h2>
+            <span class="pill warehouse" id="source-pill">OMS</span>
+          </div>
+          <div class="asset-table-wrap">
+            <table class="vendor-table">
+              <thead>
+                <tr>
+                  <th>Asset</th>
+                  <th>Type</th>
+                  <th>Owner</th>
+                  <th>Trust</th>
+                </tr>
+              </thead>
+              <tbody id="asset-body"></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+
+      <section class="detail-panel" aria-labelledby="detail-heading">
+        <div class="panel-head">
+          <h2 id="detail-heading">Asset <span>detail</span> <span class="expand-hint" id="expand-hint">pick an asset to expand</span></h2>
+          <button type="button" class="btn btn-ghost" id="btn-lineage" style="font-size:0.75rem;padding:0.35rem 0.65rem;">Lineage in OMS</button>
+        </div>
+        <div class="bdc-strip" id="bdc-strip" hidden>
+          <span class="label">Business context</span>
+        </div>
+        <div class="detail-body">
+          <p id="detail-empty" style="font-size:0.85rem;color:var(--muted);">Select a table or object from the list. The detail column will expand to the <strong>right half</strong> of the workspace for reading tabs, glossary links, and comments.</p>
+          <div id="detail-content" hidden>
+            <h3 style="font-size:1.05rem;margin-bottom:0.35rem;color:var(--text);" id="detail-name"></h3>
+            <p style="font-size:0.78rem;color:var(--muted);margin-bottom:0.75rem;" id="detail-path"></p>
+            <div class="detail-tabs" role="tablist" aria-label="Detail sections">
+              <button type="button" role="tab" aria-selected="true" data-tab="overview">Overview</button>
+              <button type="button" role="tab" aria-selected="false" data-tab="business">Business</button>
+              <button type="button" role="tab" aria-selected="false" data-tab="glossary">Glossary &amp; metrics</button>
+              <button type="button" role="tab" aria-selected="false" data-tab="technical">Technical</button>
+              <button type="button" role="tab" aria-selected="false" data-tab="lineage">Lineage</button>
+            </div>
+            <div class="tab-panel active" id="tab-overview" role="tabpanel"></div>
+            <div class="tab-panel" id="tab-business" role="tabpanel"></div>
+            <div class="tab-panel" id="tab-glossary" role="tabpanel"></div>
+            <div class="tab-panel" id="tab-technical" role="tabpanel"></div>
+            <div class="tab-panel" id="tab-lineage" role="tabpanel"></div>
+            <div class="oms-cta">
+              <a class="btn btn-primary" href="#" id="open-oms">Open in OMS</a>
+              <button type="button" class="btn btn-ghost" id="request-access">Request access</button>
+              <button type="button" class="btn btn-ghost" id="btn-clear-selection">Clear selection</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <footer class="nav-foot" style="margin-top:1.75rem;">
+      <strong>New UI concept v2</strong> — sibling of <a href="data-source-navigator-ui-mock.html">data-source-navigator-ui-mock.html</a>. Glossary definitions are intentionally read-only mirrors of external systems; steward narrative and comments live in the catalog layer.
+    </footer>
+  </div>
+
+  <script>
+(function () {
+  var STORAGE_PREFIX = 'dsn-v2-';
+
+  var sources = [
+    { id: 'snowflake', name: 'Snowflake — analytics', pill: 'warehouse', meta: '4.2k tables · primary store', domain: 'deept' },
+    { id: 'databricks', name: 'Databricks / Unity Catalog', pill: 'warehouse', meta: 'Jobs + ML features', domain: 'deept' },
+    { id: 'pipelines', name: 'Stream / batch pipelines', pill: 'cdp', meta: 'CPL-governed flows', domain: 'mci' },
+    { id: 'activation', name: 'Reverse ETL — Hightouch', pill: 'activation', meta: 'SaaS destinations', domain: 'mci' },
+    { id: 'warehouse_export', name: 'Reporting — Tableau / Looker', pill: 'engage', meta: 'Certified datasets', domain: 'deept' }
+  ];
+
+  var assetsBySource = {
+    snowflake: [
+      {
+        id: 't1',
+        name: 'fct_subscriber_daily',
+        type: 'Table',
+        owner: 'DEEPT Steward',
+        trust: 'Attested',
+        tier: 'internal',
+        term: 'Active Subscriber',
+        policy: 'ROW_ACCESS_POLICY',
+        pipeline: 'dbt_marts.subscriber_daily',
+        glossaryLinks: [
+          {
+            id: 'm-active-sub',
+            title: 'Active subscribers (rolling 30d)',
+            sourceType: 'Looker LookML',
+            sourceHref: 'https://example.invalid/lookml/metrics.view.lkml',
+            sourcePath: 'lookml/views/subscriber_metrics.view.lkml',
+            definition: 'Distinct subscriber IDs with at least one qualifying stream event in the trailing 30 days, de-duplicated per business rules in the finance addendum. This text is synced from LookML and cannot be edited in the catalog.'
+          },
+          {
+            id: 'm-dbt-revenue',
+            title: 'Revenue (recognized)',
+            sourceType: 'dbt Semantic Layer',
+            sourceHref: 'https://example.invalid/dbt/semantic/revenue.yml',
+            sourcePath: 'semantic_models/finance/revenue.yaml',
+            definition: 'Sum of invoice_line.amount_usd where status = \'posted\' and recognition_date in the selected period. Authoritative definition lives in dbt Cloud; edits must occur in the semantic project.'
+          }
+        ]
+      },
+      {
+        id: 't2',
+        name: 'dim_account',
+        type: 'Table',
+        owner: 'Platform',
+        trust: 'Partial',
+        tier: 'public',
+        term: 'Account',
+        policy: 'TAG_SET_DEFAULT',
+        pipeline: 'dbt_core.dim_account',
+        glossaryLinks: [
+          {
+            id: 'm-account',
+            title: 'Account (CRM)',
+            sourceType: 'Salesforce Field Bundle',
+            sourceHref: '#',
+            sourcePath: 'SFDC: Account.Standard.* (read replica)',
+            definition: 'Commercial relationship entity as defined in Salesforce data dictionary export 2026-Q1. Not editable here; refresh nightly from MDM sync.'
+          }
+        ]
+      },
+      {
+        id: 't3',
+        name: 'stg_events_raw',
+        type: 'Table',
+        owner: 'Ingestion',
+        trust: 'Raw',
+        tier: 'restricted',
+        term: 'Event (raw)',
+        policy: 'MASK_PII',
+        pipeline: 'snowpipe.events',
+        glossaryLinks: []
+      }
+    ],
+    databricks: [
+      {
+        id: 'd1',
+        name: 'feature_churn_30d',
+        type: 'Feature table',
+        owner: 'ML Platform',
+        trust: 'Attested',
+        tier: 'internal',
+        term: 'Churn (30d)',
+        policy: 'MODEL_CARD_REQUIRED',
+        pipeline: 'jobs/train_churn',
+        glossaryLinks: [
+          {
+            id: 'm-churn',
+            title: 'Churn probability (30d)',
+            sourceType: 'Amplitude Behavioral Cohort',
+            sourceHref: '#',
+            sourcePath: 'Amplitude › Cohorts › churn_30d_v3',
+            definition: 'Model score + cohort membership as published by the experimentation platform. Definition string is pulled via integration; catalog users cannot override the formula.'
+          }
+        ]
+      }
+    ],
+    pipelines: [
+      {
+        id: 'p1',
+        name: 'kafka_to_lake.subscriptions',
+        type: 'Pipeline',
+        owner: 'Data Eng',
+        trust: 'Attested',
+        tier: 'internal',
+        term: 'Subscription events',
+        policy: 'CPL_TIER_2',
+        pipeline: 'repo/streaming/subscriptions',
+        glossaryLinks: []
+      }
+    ],
+    activation: [
+      {
+        id: 'a1',
+        name: 'sync.audience_winback',
+        type: 'Sync',
+        owner: 'Lifecycle',
+        trust: 'Attested',
+        tier: 'restricted',
+        term: 'Winback audience',
+        policy: 'CONSENT_CHECK',
+        pipeline: 'hightouch.project winback',
+        glossaryLinks: [
+          {
+            id: 'm-winback',
+            title: 'Winback eligible audience',
+            sourceType: 'Hightouch Audience spec',
+            sourceHref: '#',
+            sourcePath: 'Hightouch › Audiences › winback_eligible',
+            definition: 'Users meeting consent flags A/B and inactivity window per marketing policy doc v4. Synced definition; editing happens in Hightouch or the policy system of record.'
+          }
+        ]
+      }
+    ],
+    warehouse_export: [
+      {
+        id: 'r1',
+        name: 'Executive KPIs (certified)',
+        type: 'Report',
+        owner: 'BI COE',
+        trust: 'Certified',
+        tier: 'internal',
+        term: 'KPI definitions',
+        policy: 'CERTIFIED_DATASET',
+        pipeline: 'looker.model.executive',
+        glossaryLinks: [
+          {
+            id: 'm-arr',
+            title: 'ARR (reporting)',
+            sourceType: 'Looker LookML',
+            sourceHref: '#',
+            sourcePath: 'lookml/projects/exec/kpis.view.lkml',
+            definition: 'Annual recurring revenue per CFO office memo 2025-11; ties to Snowflake marts.fct_revenue_daily. Certified LookML is the metric source of truth for this dashboard.'
+          }
+        ]
+      }
+    ]
+  };
+
+  var currentSource = 'snowflake';
+  var currentAsset = null;
+  var persona = 'analyst';
+
+  function $(id) { return document.getElementById(id); }
+
+  function storageKey(assetId, metricId, field) {
+    return STORAGE_PREFIX + assetId + '-' + metricId + '-' + field;
+  }
+
+  function loadField(assetId, metricId, field, defaultVal) {
+    try {
+      var v = localStorage.getItem(storageKey(assetId, metricId, field));
+      return v !== null ? v : defaultVal;
+    } catch (e) {
+      return defaultVal;
+    }
+  }
+
+  function saveField(assetId, metricId, field, value) {
+    try {
+      localStorage.setItem(storageKey(assetId, metricId, field), value);
+    } catch (e) { /* ignore */ }
+  }
+
+  function loadComments(assetId, metricId) {
+    try {
+      var raw = localStorage.getItem(storageKey(assetId, metricId, 'comments'));
+      if (!raw) return [];
+      var arr = JSON.parse(raw);
+      return Array.isArray(arr) ? arr : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function saveComments(assetId, metricId, list) {
+    try {
+      localStorage.setItem(storageKey(assetId, metricId, 'comments'), JSON.stringify(list));
+    } catch (e) { /* ignore */ }
+  }
+
+  function setPersona(p) {
+    persona = p;
+    ['analyst', 'steward', 'engineer'].forEach(function (key) {
+      var btn = $('p-' + key);
+      if (btn) btn.setAttribute('aria-pressed', key === p ? 'true' : 'false');
+    });
+    renderDetail();
+  }
+
+  function setLayoutExpanded(on) {
+    var root = $('layout-workspace');
+    if (on) root.classList.add('is-detail-expanded');
+    else root.classList.remove('is-detail-expanded');
+  }
+
+  function renderSources() {
+    var ul = $('source-list');
+    ul.innerHTML = '';
+    sources.forEach(function (s) {
+      var li = document.createElement('li');
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.setAttribute('aria-current', s.id === currentSource ? 'true' : 'false');
+      b.dataset.id = s.id;
+      var t = document.createElement('span');
+      t.textContent = s.name;
+      var m = document.createElement('span');
+      m.className = 'src-meta';
+      m.textContent = s.meta;
+      b.appendChild(t);
+      b.appendChild(m);
+      b.addEventListener('click', function () {
+        currentSource = s.id;
+        currentAsset = null;
+        renderSources();
+        renderAssets();
+        renderDetail();
+      });
+      li.appendChild(b);
+      ul.appendChild(li);
+    });
+  }
+
+  function domainOk(asset) {
+    var d = $('facet-domain').value;
+    if (d === 'all') return true;
+    var src = sources.find(function (x) { return x.id === currentSource; });
+    return src && src.domain === d;
+  }
+
+  function tierOk(asset) {
+    var t = $('facet-tier').value;
+    if (t === 'all') return true;
+    return asset.tier === t;
+  }
+
+  function renderAssets() {
+    var src = sources.find(function (x) { return x.id === currentSource; });
+    $('source-title').textContent = src ? src.name : '—';
+    $('source-pill').textContent = src ? src.pill : '—';
+    $('source-pill').className = 'pill ' + (src && src.pill ? src.pill : 'warehouse');
+
+    var rows = assetsBySource[currentSource] || [];
+    var tbody = $('asset-body');
+    tbody.innerHTML = '';
+    var q = ($('global-search').value || '').toLowerCase().trim();
+
+    rows.filter(domainOk).filter(tierOk).forEach(function (a) {
+      if (q && [a.name, a.owner, a.term, a.type].join(' ').toLowerCase().indexOf(q) === -1) return;
+      var tr = document.createElement('tr');
+      tr.innerHTML =
+        '<td><button type="button" class="linkish" data-asset="' + a.id + '">' + escapeHtml(a.name) + '</button></td>' +
+        '<td>' + escapeHtml(a.type) + '</td>' +
+        '<td>' + escapeHtml(a.owner) + '</td>' +
+        '<td><span class="pill ' + trustClass(a.trust) + '">' + escapeHtml(a.trust) + '</span></td>';
+      tbody.appendChild(tr);
+    });
+
+    tbody.querySelectorAll('button.linkish').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var id = btn.getAttribute('data-asset');
+        currentAsset = rows.find(function (x) { return x.id === id; }) || null;
+        renderDetail();
+      });
+    });
+  }
+
+  function trustClass(t) {
+    if (t === 'Attested' || t === 'Certified') return 'activation';
+    if (t === 'Partial' || t === 'Raw') return 'engage';
+    return 'cdp';
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function wireGlossaryTab() {
+    var container = $('tab-glossary');
+    if (!container || !currentAsset) return;
+
+    container.querySelectorAll('[data-metric-textarea]').forEach(function (ta) {
+      function persist() {
+        var mid = ta.getAttribute('data-metric-id');
+        saveField(currentAsset.id, mid, ta.getAttribute('data-field'), ta.value);
+      }
+      ta.addEventListener('change', persist);
+      ta.addEventListener('blur', persist);
+      ta.addEventListener('input', persist);
+    });
+
+    container.querySelectorAll('[data-add-comment]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var mid = btn.getAttribute('data-metric-id');
+        var input = container.querySelector('input[data-comment-input="' + mid + '"]');
+        if (!input || !input.value.trim()) return;
+        var list = loadComments(currentAsset.id, mid);
+        list.push({ at: new Date().toISOString(), text: input.value.trim(), who: 'You (demo)' });
+        saveComments(currentAsset.id, mid, list);
+        input.value = '';
+        renderDetail();
+        var tabs = document.querySelectorAll('.detail-tabs [role="tab"]');
+        tabs.forEach(function (t) {
+          t.setAttribute('aria-selected', t.getAttribute('data-tab') === 'glossary' ? 'true' : 'false');
+        });
+        document.querySelectorAll('.tab-panel').forEach(function (p) {
+          p.classList.toggle('active', p.id === 'tab-glossary');
+        });
+      });
+    });
+  }
+
+  function renderGlossaryHtml() {
+    var links = currentAsset.glossaryLinks || [];
+    if (!links.length) {
+      return '<p>No linked glossary metrics for this asset. Stewards can attach LookML, dbt Semantic, Amplitude, or other <strong>read-only</strong> definition sources from the full product.</p>';
+    }
+    var blocks = links.map(function (m) {
+      var steward = loadField(currentAsset.id, m.id, 'steward', '');
+      var usage = loadField(currentAsset.id, m.id, 'usage', '');
+      var comments = loadComments(currentAsset.id, m.id);
+      var commentsHtml = comments.map(function (c) {
+        return '<li><div class="meta">' + escapeHtml(c.who) + ' · ' + escapeHtml(c.at.slice(0, 16)) + '</div>' + escapeHtml(c.text) + '</li>';
+      }).join('');
+      return (
+        '<article class="metric-card" data-metric-card="' + escapeHtml(m.id) + '">' +
+        '<div class="metric-card-head">' +
+        '<h4>' + escapeHtml(m.title) + '</h4>' +
+        '<span class="pill readonly-src">Read-only source</span></div>' +
+        '<div class="readonly-block">' +
+        '<div class="ro-title">Definition (synced from ' + escapeHtml(m.sourceType) + ')</div>' +
+        '<p class="definition-quote">' + escapeHtml(m.definition) + '</p>' +
+        '<div class="source-line">Path: <code style="color:var(--violet);font-size:0.7rem;">' + escapeHtml(m.sourcePath) + '</code> · ' +
+        '<a href="' + escapeHtml(m.sourceHref) + '" target="_blank" rel="noopener">Open in system of record</a></div></div>' +
+        '<div class="editable-block">' +
+        '<div><label class="field-label" for="ta-st-' + escapeHtml(m.id) + '">Steward interpretation (editable)</label>' +
+        '<textarea id="ta-st-' + escapeHtml(m.id) + '" class="steward-field" data-metric-textarea data-metric-id="' + escapeHtml(m.id) + '" data-field="steward" placeholder="Clarify how this metric should be used in this mart, caveats, or finance alignment.">' + escapeHtml(steward) + '</textarea></div>' +
+        '<div><label class="field-label" for="ta-us-' + escapeHtml(m.id) + '">Business usage notes (editable)</label>' +
+        '<textarea id="ta-us-' + escapeHtml(m.id) + '" class="steward-field" data-metric-textarea data-metric-id="' + escapeHtml(m.id) + '" data-field="usage" placeholder="Who should use this, typical filters, related dashboards.">' + escapeHtml(usage) + '</textarea></div></div>' +
+        '<div class="comments-block">' +
+        '<div class="field-label">Comments</div>' +
+        '<ul class="comment-list">' + (commentsHtml || '<li style="border-style:dashed;color:var(--muted);">No comments yet.</li>') + '</ul>' +
+        '<div class="comment-form">' +
+        '<input type="text" data-comment-input="' + escapeHtml(m.id) + '" placeholder="Add a comment…" aria-label="New comment for ' + escapeHtml(m.title) + '">' +
+        '<button type="button" class="btn btn-primary" data-add-comment data-metric-id="' + escapeHtml(m.id) + '">Post</button></div></div>' +
+        '</article>'
+      );
+    }).join('');
+    return (
+      '<p style="margin-bottom:0.75rem;">Linked metrics pull <strong>definitions</strong> from external tools. Those strings stay read-only in the catalog; your team layers steward text, usage guidance, and threaded comments below.</p>' +
+      '<div class="glossary-stack">' + blocks + '</div>'
+    );
+  }
+
+  function renderDetail() {
+    var strip = $('bdc-strip');
+    var empty = $('detail-empty');
+    var content = $('detail-content');
+    var hint = $('expand-hint');
+
+    if (!currentAsset) {
+      setLayoutExpanded(false);
+      empty.hidden = false;
+      content.hidden = true;
+      strip.hidden = true;
+      if (hint) hint.textContent = 'pick an asset to expand';
+      return;
+    }
+
+    setLayoutExpanded(true);
+    empty.hidden = true;
+    content.hidden = false;
+    strip.hidden = false;
+    if (hint) hint.textContent = 'right half workspace';
+
+    strip.innerHTML = '<span class="label">Business context</span>' +
+      '<span class="pill glossary">Term: ' + escapeHtml(currentAsset.term) + '</span>' +
+      '<span class="pill policy">Policy: ' + escapeHtml(currentAsset.policy) + '</span>' +
+      '<span class="pill attested">Implementation: ' + escapeHtml(currentAsset.pipeline) + '</span>' +
+      '<span class="pill lineage">Lineage: OMS</span>';
+
+    $('detail-name').textContent = currentAsset.name;
+    $('detail-path').textContent = sources.find(function (x) { return x.id === currentSource; }).name + ' › … › ' + currentAsset.name;
+
+    var overview = $('tab-overview');
+    var business = $('tab-business');
+    var glossary = $('tab-glossary');
+    var technical = $('tab-technical');
+    var lineage = $('tab-lineage');
+
+    var stewardNote = persona === 'steward' ? '<p style="margin-top:0.5rem;">Steward: glossary tab is where you reconcile <em>external</em> definitions with how this asset is actually consumed.</p>' : '';
+
+    overview.innerHTML =
+      '<dl><dt>Purpose</dt><dd>Curated ' + escapeHtml(currentAsset.type.toLowerCase()) + ' for downstream reporting and models.</dd>' +
+      '<dt>Layout (v2)</dt><dd>Detail uses the <strong>right 50%</strong> of the workspace so tabs, glossary cards, and comments have room.</dd>' +
+      '<dt>Trust posture</dt><dd>' + escapeHtml(currentAsset.trust) + ' — metadata last verified from pipeline deploy <strong>2026-05-02</strong>.</dd></dl>' + stewardNote;
+
+    var glen = (currentAsset.glossaryLinks || []).length;
+    business.innerHTML =
+      '<dl><dt>Glossary term</dt><dd>' + escapeHtml(currentAsset.term) + '</dd>' +
+      '<dt>Linked metrics</dt><dd>' + glen + ' definition source(s) — see <strong>Glossary &amp; metrics</strong> tab.</dd>' +
+      '<dt>Data owner</dt><dd>' + escapeHtml(currentAsset.owner) + '</dd>' +
+      '<dt>Classification</dt><dd>' + escapeHtml(currentAsset.tier) + '</dd></dl>';
+
+    glossary.innerHTML = renderGlossaryHtml();
+
+    technical.innerHTML =
+      '<dl><dt>Physical name</dt><dd>' + escapeHtml(currentAsset.name) + '</dd>' +
+      '<dt>Materialization</dt><dd>Incremental (daily) · warehouse: Snowflake</dd>' +
+      '<dt>Upstream</dt><dd>Raw events → staging → this asset (open OMS for graph)</dd></dl>';
+
+    lineage.innerHTML =
+      '<p>Lineage is authoritative in OMS. Metric definitions may reference upstream marts named in the graph.</p>' +
+      '<ul style="margin-top:0.5rem;padding-left:1.1rem;"><li>External glossary links do not replace lineage — they annotate meaning.</li></ul>';
+
+    $('open-oms').href = '../business-data-catalog/oms-ui-on-top.html#catalog';
+
+    var req = $('request-access');
+    req.style.display = persona === 'analyst' ? 'inline-flex' : 'none';
+
+    wireGlossaryTab();
+  }
+
+  document.querySelectorAll('.detail-tabs [role="tab"]').forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      var name = tab.getAttribute('data-tab');
+      document.querySelectorAll('.detail-tabs [role="tab"]').forEach(function (t) {
+        t.setAttribute('aria-selected', t === tab ? 'true' : 'false');
+      });
+      document.querySelectorAll('.tab-panel').forEach(function (p) {
+        p.classList.toggle('active', p.id === 'tab-' + name);
+      });
+    });
+  });
+
+  $('global-search').addEventListener('input', function () { renderAssets(); });
+  $('facet-domain').addEventListener('change', function () { renderAssets(); });
+  $('facet-tier').addEventListener('change', function () { renderAssets(); });
+
+  $('p-analyst').addEventListener('click', function () { setPersona('analyst'); });
+  $('p-steward').addEventListener('click', function () { setPersona('steward'); });
+  $('p-engineer').addEventListener('click', function () { setPersona('engineer'); });
+
+  $('btn-lineage').addEventListener('click', function () {
+    window.open('../business-data-catalog/oms-ui-on-top.html#lineage', '_blank', 'noopener');
+  });
+
+  $('btn-clear-selection').addEventListener('click', function () {
+    currentAsset = null;
+    renderDetail();
+    renderAssets();
+  });
+
+  renderSources();
+  renderAssets();
+  renderDetail();
+})();
+  </script>
+</body>
+</html>

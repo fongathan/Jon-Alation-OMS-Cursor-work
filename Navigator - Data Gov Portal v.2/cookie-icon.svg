@@ -1,0 +1,30 @@
+<svg width="680" height="520" viewBox="0 0 680 520" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>Cookie settings icon in light olive green circular badge style</title>
+<desc>Light olive green circle containing a white crescent cookie with bite on the right, chocolate chip dots, cookie crumbs, and a gear</desc>
+<defs>
+  <mask id="bite">
+    <rect width="680" height="520" fill="white"/>
+    <circle cx="458" cy="180" r="132" fill="black"/>
+  </mask>
+</defs>
+
+<circle cx="340" cy="260" r="235" fill="#9eb2c4"/>
+
+<g transform="translate(22, 10) rotate(-15, 340, 260)">
+<circle cx="308" cy="258" r="167" fill="white" mask="url(#bite)"/>
+
+<circle cx="190" cy="278" r="34" fill="#9eb2c4"/>
+<circle cx="190" cy="278" r="14" fill="white"/>
+<circle cx="218" cy="215" r="11" fill="#9eb2c4"/>
+<circle cx="268" cy="175" r="10" fill="#9eb2c4"/>
+
+<circle cx="455" cy="268" r="6" fill="white" opacity="0.75"/>
+<circle cx="480" cy="232" r="4.5" fill="white" opacity="0.65"/>
+<circle cx="450" cy="305" r="5" fill="white" opacity="0.6"/>
+<circle cx="492" cy="262" r="3.5" fill="white" opacity="0.5"/>
+
+<g transform="translate(314, 367) rotate(-5) scale(3.279)">
+  <path fill-rule="evenodd" fill="#9eb2c4" d="M 21.04,-6.43 L 33.25,-7.07 A 34,34 0 0,1 33.25,7.07 L 21.04,6.43 A 22,22 0 0,1 19.42,10.33 L 28.52,18.52 A 34,34 0 0,1 18.52,28.52 L 10.33,19.42 A 22,22 0 0,1 6.43,21.04 L 7.07,33.25 A 34,34 0 0,1 -7.07,33.25 L -6.43,21.04 A 22,22 0 0,1 -10.33,19.42 L -18.52,28.52 A 34,34 0 0,1 -28.52,18.52 L -19.42,10.33 A 22,22 0 0,1 -21.04,6.43 L -33.25,7.07 A 34,34 0 0,1 -33.25,-7.07 L -21.04,-6.43 A 22,22 0 0,1 -19.42,-10.33 L -28.52,-18.52 A 34,34 0 0,1 -18.52,-28.52 L -10.33,-19.42 A 22,22 0 0,1 -6.43,-21.04 L -7.07,-33.25 A 34,34 0 0,1 7.07,-33.25 L 6.43,-21.04 A 22,22 0 0,1 10.33,-19.42 L 18.52,-28.52 A 34,34 0 0,1 28.52,-18.52 L 19.42,-10.33 A 22,22 0 0,1 21.04,-6.43 Z M 14,0 A 14,14 0 0,1 -14,0 A 14,14 0 0,1 14,0 Z"/>
+</g>
+</g>
+</svg>

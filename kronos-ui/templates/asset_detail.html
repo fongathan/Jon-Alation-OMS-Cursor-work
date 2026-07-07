@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+{% block title %}{{ asset.name }}{% endblock %}
+{% block page_title %}
+  <div class="flex items-center gap-3">
+    <a href="{{ back_url }}" class="text-slate-400 hover:text-white"><i class="fa-solid fa-arrow-left"></i></a>
+    {{ asset.name }}
+  </div>
+{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+  <!-- Header card -->
+  <div class="card p-6">
+    <div class="flex items-start justify-between">
+      <div class="flex items-center gap-4">
+        <div class="w-14 h-14 rounded-xl flex items-center justify-center text-xl
+          {% if asset_type == 'vendor' %}bg-violet-500/15 text-violet-400
+          {% elif asset_type == 'tracker' %}bg-cyan-500/15 text-cyan-400
+          {% elif asset_type == 'system' %}bg-emerald-500/15 text-emerald-400
+          {% else %}bg-amber-500/15 text-amber-400{% endif %}">
+          {% if asset_type == 'vendor' %}<i class="fa-solid fa-building"></i>
+          {% elif asset_type == 'tracker' %}<i class="fa-solid fa-satellite-dish"></i>
+          {% elif asset_type == 'system' %}<i class="fa-solid fa-server"></i>
+          {% else %}<i class="fa-solid fa-diagram-project"></i>{% endif %}
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h2 class="text-xl font-bold text-white">{{ asset.name }}</h2>
+            <span class="badge badge-{{ asset.status }}">{{ asset.status }}</span>
+          </div>
+          <p class="text-sm text-slate-400 mt-0.5">
+            <span class="font-mono">{{ asset.asset_id }}</span>
+            &middot; {{ asset_type | replace('_', ' ') | title }}
+            {% if asset.owner %}&middot; Owner: {{ asset.owner }}{% endif %}
+          </p>
+        </div>
+      </div>
+      <div class="flex gap-2">
+        <a href="{{ url_for('edit_asset', asset_type=asset_type, asset_id=asset.asset_id) }}" class="btn-secondary text-sm">
+          <i class="fa-solid fa-pen mr-1"></i> Edit
+        </a>
+        <form method="post" action="{{ url_for('deboard_asset', asset_type=asset_type, asset_id=asset.asset_id) }}"
+              onsubmit="return confirm('Are you sure you want to deboard this asset?');">
+          <button class="bg-red-500/10 hover:bg-red-500/20 text-red-400 px-4 py-2 rounded-lg font-medium text-sm transition-colors">
+            <i class="fa-solid fa-xmark mr-1"></i> Deboard
+          </button>
+        </form>
+      </div>
+    </div>
+    {% if asset.description %}
+    <p class="mt-4 text-slate-300 text-sm leading-relaxed">{{ asset.description }}</p>
+    {% endif %}
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Properties -->
+    <div class="lg:col-span-2 card">
+      <div class="px-5 py-4 border-b border-slate-700/50">
+        <h3 class="font-semibold">Properties</h3>
+      </div>
+      <div class="p-5">
+        <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 text-sm">
+          {% for label, value in properties %}
+          <div>
+            <dt class="text-slate-500 text-xs uppercase tracking-wider mb-0.5">{{ label }}</dt>
+            <dd class="text-slate-200">{{ value if value else '—' }}</dd>
+          </div>
+          {% endfor %}
+        </dl>
+      </div>
+    </div>
+
+    <!-- Metadata -->
+    <div class="card">
+      <div class="px-5 py-4 border-b border-slate-700/50">
+        <h3 class="font-semibold">Metadata</h3>
+      </div>
+      <div class="p-5 space-y-3 text-sm">
+        <div>
+          <span class="text-slate-500 text-xs uppercase tracking-wider block">Created</span>
+          <span>{{ asset.created_at.strftime('%Y-%m-%d %H:%M') if asset.created_at else '—' }}</span>
+        </div>
+        <div>
+          <span class="text-slate-500 text-xs uppercase tracking-wider block">Last Updated</span>
+          <span>{{ asset.updated_at.strftime('%Y-%m-%d %H:%M') if asset.updated_at else '—' }}</span>
+        </div>
+        {% if asset.region %}
+        <div>
+          <span class="text-slate-500 text-xs uppercase tracking-wider block">Region</span>
+          <span>{{ asset.region }}</span>
+        </div>
+        {% endif %}
+        {% if asset.notes %}
+        <div>
+          <span class="text-slate-500 text-xs uppercase tracking-wider block">Notes</span>
+          <span class="text-slate-400">{{ asset.notes }}</span>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Relationships -->
+  {% if related_assets %}
+  <div class="card">
+    <div class="px-5 py-4 border-b border-slate-700/50 flex items-center gap-2">
+      <i class="fa-solid fa-circle-nodes text-kronos-400"></i>
+      <h3 class="font-semibold">Related Assets</h3>
+      <span class="text-xs text-slate-500">({{ related_assets | length }} connections)</span>
+    </div>
+    <div class="divide-y divide-slate-700/30">
+      {% for rel in related_assets %}
+      <a href="{{ url_for('asset_detail', asset_type=rel.type, asset_id=rel.asset_id) }}"
+         class="px-5 py-3 flex items-center gap-3 hover:bg-slate-800/50 transition-colors block">
+        <div class="w-8 h-8 rounded-lg flex items-center justify-center text-xs
+          {% if rel.type == 'vendor' %}bg-violet-500/15 text-violet-400
+          {% elif rel.type == 'tracker' %}bg-cyan-500/15 text-cyan-400
+          {% elif rel.type == 'system' %}bg-emerald-500/15 text-emerald-400
+          {% else %}bg-amber-500/15 text-amber-400{% endif %}">
+          {% if rel.type == 'vendor' %}<i class="fa-solid fa-building"></i>
+          {% elif rel.type == 'tracker' %}<i class="fa-solid fa-satellite-dish"></i>
+          {% elif rel.type == 'system' %}<i class="fa-solid fa-server"></i>
+          {% else %}<i class="fa-solid fa-diagram-project"></i>{% endif %}
+        </div>
+        <div class="flex-1">
+          <span class="text-white font-medium text-sm">{{ rel.name }}</span>
+          <span class="text-xs text-slate-500 ml-2 capitalize">{{ rel.type | replace('_', ' ') }}</span>
+        </div>
+        <span class="badge badge-{{ rel.status }}">{{ rel.status }}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Change history -->
+  {% if change_log %}
+  <div class="card">
+    <div class="px-5 py-4 border-b border-slate-700/50">
+      <h3 class="font-semibold">Change History</h3>
+    </div>
+    <div class="divide-y divide-slate-700/30">
+      {% for log in change_log %}
+      <div class="px-5 py-3 flex items-center gap-3 text-sm">
+        <span class="w-20 text-xs text-slate-500">{{ log.timestamp.strftime('%m/%d %H:%M') }}</span>
+        <span class="badge badge-{{ 'active' if log.action == 'created' else 'under_review' if log.action == 'updated' else 'deprecated' }}">{{ log.action }}</span>
+        <span class="text-slate-400">{{ log.change_summary or '' }}</span>
+        <span class="text-slate-500 ml-auto text-xs">{{ log.changed_by or 'System' }}</span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

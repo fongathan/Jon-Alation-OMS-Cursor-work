@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Data Navigator — What, why, value (3 slides)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #0f2744;
+      --navy-soft: #1a3a5c;
+      --header-blue: #1e5a96;
+      --sidebar-bg: #e4eef8;
+      --sidebar-footer: #3d5166;
+      --page-bg: #e8ecf2;
+      --white: #fff;
+      --text: #1a1a1a;
+      --muted: #5c6570;
+      --accent: #1565c0;
+      --radius: 14px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "DM Sans", system-ui, -apple-system, sans-serif;
+      background: var(--page-bg);
+      color: var(--text);
+      padding: 1.25rem 1.25rem 2rem;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .deck-intro {
+      max-width: 1120px;
+      margin: 0 auto 1rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .deck-intro strong { color: var(--navy); }
+
+    .slide {
+      max-width: 1120px;
+      margin: 0 auto 1.75rem;
+      aspect-ratio: 16 / 9;
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: 0 12px 40px rgba(15, 39, 68, 0.12);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      min-height: 480px;
+      page-break-after: always;
+      break-after: page;
+    }
+
+    .slide:last-of-type {
+      page-break-after: auto;
+      break-after: auto;
+      margin-bottom: 0;
+    }
+
+    .slide-head {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--header-blue) 100%);
+      color: #fff;
+      padding: 0.65rem 1.25rem;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .slide-head h1 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .slide-num {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.85;
+      white-space: nowrap;
+    }
+
+    .slide-body {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      min-height: 0;
+    }
+
+    .col {
+      padding: 1rem 1.15rem 1.1rem;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .col-aside {
+      background: var(--sidebar-bg);
+      border-right: 1px solid rgba(15, 39, 68, 0.08);
+    }
+
+    .col h2 {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 0.45rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .col-main h2 {
+      color: var(--header-blue);
+    }
+
+    .col p,
+    .col li {
+      font-size: 0.72rem;
+      line-height: 1.45;
+      color: var(--text);
+    }
+
+    .col p { margin-bottom: 0.5rem; }
+
+    .col ul {
+      margin: 0.25rem 0 0.5rem 1rem;
+    }
+
+    .col li { margin-bottom: 0.28rem; }
+
+    .callout {
+      font-size: 0.68rem;
+      line-height: 1.42;
+      background: rgba(30, 90, 150, 0.08);
+      border-left: 3px solid var(--header-blue);
+      padding: 0.45rem 0.55rem;
+      margin-top: 0.35rem;
+      border-radius: 0 6px 6px 0;
+    }
+
+    .slide-footer {
+      background: var(--sidebar-footer);
+      color: #c5d4e3;
+      padding: 0.4rem 1.15rem;
+      font-size: 0.6rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .slide-footer a {
+      color: #a8d4ff;
+    }
+
+    .slide-footer .logo {
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      font-size: 0.55rem;
+      color: #9eb0c4;
+    }
+
+    .slide-3 .slide-body {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .slide-3 .col-today {
+      background: var(--sidebar-bg);
+      border-right: 1px solid rgba(15, 39, 68, 0.08);
+    }
+
+    .slide-3 .col-scale {
+      border-right: 1px solid rgba(15, 39, 68, 0.08);
+    }
+
+    @media (max-width: 900px) {
+      .slide-body,
+      .slide-3 .slide-body {
+        grid-template-columns: 1fr;
+      }
+      .slide-3 .col-today,
+      .slide-3 .col-scale {
+        border-right: none;
+        border-bottom: 1px solid rgba(15, 39, 68, 0.08);
+      }
+      .slide { aspect-ratio: auto; min-height: 0; }
+    }
+
+    @media print {
+      body { padding: 0; background: #fff; }
+      .deck-intro { display: none; }
+      .slide {
+        box-shadow: none;
+        max-width: none;
+        margin: 0;
+        border-radius: 0;
+        min-height: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <p class="deck-intro">
+    <strong>Data Navigator</strong> — stakeholder deck (3 slides) · May 2026 intake · Alation → OMS migration. Companion: <a href="data-source-navigator-program-slide.html">program one-pager</a> · <a href="../meetings/data-platforms-intake-2026-05-28-navigator-report.md">28 May intake report</a> · <a href="../../data-navigator-governance/index.html">Navigator demo</a>
+  </p>
+
+  <!-- Slide 1 -->
+  <article class="slide slide-1" aria-labelledby="s1-title">
+    <header class="slide-head">
+      <h1 id="s1-title">What Data Navigator is — and what it does for us</h1>
+      <span class="slide-num">Slide 1 of 3</span>
+    </header>
+    <div class="slide-body">
+      <div class="col col-aside">
+        <h2>Definitions</h2>
+        <p><strong>Data Navigator</strong> — The <strong>governed discovery experience on OMS</strong>: search, browse, glossary, classifications (read), gold/provenance, and steward-facing workflows. It is where <strong>business metadata and metric definitions live</strong> for business and analyst personas—and the target home for <strong>Alation content migrated via APIs</strong>.</p>
+        <p><strong>Not Navigator</strong> — Scrapers, collectors, MCP/agentic catalog access, and automated metadata reconciliation. Those sit in <strong>Data 626 / MCI, OMS backend</strong>, and the metadata working group. Navigator <strong>surfaces</strong> upstream outcomes; it does not perform the AI anchoring itself.</p>
+        <p><strong>Alation (transitioning out)</strong> — Current vendor catalog for ~531 users: glossary, articles, stewardship, search, lineage views. Contract end <strong>Oct 1, 2026</strong>; renewal likely Aug/Sep 2026 while we build toward <strong>Sep 2027</strong> cutover.</p>
+        <div class="callout">
+          <strong>Stack:</strong> <em>626 / MCI → metadata supply · OMS → store · Navigator → governed UX.</em> One spine; Navigator is the experience layer only.
+        </div>
+      </div>
+      <div class="col col-main">
+        <h2>What it does for the organization</h2>
+        <ul>
+          <li><strong>Find and trust governed metadata</strong> — Business and DNA consumers search and browse with owner, classification, and provenance visible—without tribal knowledge or ad hoc Slack threads.</li>
+          <li><strong>Home for definitions</strong> — Glossary-linked business meaning and corporate metric definitions (aligned with DNA / Metrics Council) composed from OMS—not a passive wiki that drifts.</li>
+          <li><strong>Surface upstream AI &amp; automation</strong> — When MCI / Data 626 produce enriched descriptions, lineage, or suggested mappings, Navigator is where stewards and consumers <strong>see and act on</strong> that work.</li>
+          <li><strong>Migrate Alation</strong> — APIs and UX paths to move glossary, articles, endorsements, and discovery workflows into the in-house stack without losing steward habits.</li>
+          <li><strong>Persona-first defaults</strong> — Primary: business/DNA consumer &amp; analyst. Secondary: thin steward workflows; privacy/compliance read views. Engineers deep-link to OMS UI.</li>
+          <li><strong>Enterprise UX</strong> — Governed by enterprise design (Dave Hoffman / Sage-style patterns); wireframes are exploratory—iterate with users in the loop.</li>
+          <li><strong>Read API for integrators</strong> — DRE and downstream tools consume governed metadata from OMS; Navigator is not the only channel.</li>
+        </ul>
+        <p class="callout" style="margin-top: 0.5rem;">
+          <strong>Boundary:</strong> Governance Portal (privacy/compliance command center) is <strong>phase 2 / adjacent</strong>—not in Navigator MVP scope.
+        </p>
+      </div>
+    </div>
+    <footer class="slide-footer">
+      <span>Data Governance · Data Navigator (Alation → OMS)</span>
+      <span class="logo">INTERNAL — STEWARD &amp; LEADERSHIP</span>
+    </footer>
+  </article>
+
+  <!-- Slide 2 -->
+  <article class="slide slide-2" aria-labelledby="s2-title">
+    <header class="slide-head">
+      <h1 id="s2-title">Why it matters — migration, personas, and program boundaries</h1>
+      <span class="slide-num">Slide 2 of 3</span>
+    </header>
+    <div class="slide-body">
+      <div class="col col-aside">
+        <h2>Why it matters now</h2>
+        <ul>
+          <li><strong>Alation exit pressure</strong> — ~531 users depend on a vendor catalog that cannot be replaced in 3–4 months; we need an honest renewal + build narrative (Aug 2026 renewal; Sep 2027 cutover target).</li>
+          <li><strong>Passive catalog drift</strong> — Manual curation decouples from production; Navigator on OMS gives a durable home as technical metadata strengthens underneath.</li>
+          <li><strong>Competing-program confusion</strong> — Intake asked for crisp boundaries: 626 improves supply, OMS stores, Navigator composes the governed experience—no duplicate scrapers in this L3.</li>
+          <li><strong>Users in the loop</strong> — Romit/Suman/Tony: involve stewards, business users, privacy, and DNA during build—not a six-month surprise reveal.</li>
+        </ul>
+        <h2 style="margin-top: 0.65rem;">Data Governance benefits</h2>
+        <ul>
+          <li><strong>Single vocabulary</strong> — Metric and glossary definitions governed in one place; DNA / Metrics Council handover to GIS stays aligned.</li>
+          <li><strong>Stewardship continuity</strong> — Migrate Alation workflows; federated ownership and attestation visible in Navigator thin paths.</li>
+          <li><strong>Metadata working group</strong> — Shared picture of how Navigator slots vs. MCI, Data 626, and classification—fewer duplicate bets.</li>
+          <li><strong>AI exposure elsewhere</strong> — Tony’s MCP/agentic patterns belong in MCI / Data 626; Navigator stays a traditional UI that surfaces trusted outputs.</li>
+        </ul>
+      </div>
+      <div class="col col-main">
+        <h2>Benefits for the whole org</h2>
+        <ul>
+          <li><strong>Business &amp; DNA consumers</strong> — Authoritative metric definitions and dataset discovery; answers “which number is official?” without engineering escalation.</li>
+          <li><strong>Analysts &amp; BI</strong> — Shared browse/search spine with gold definitions and known conflicts surfaced at discovery time.</li>
+          <li><strong>Stewards &amp; DPMs</strong> — Endorse, reconcile, and route metadata work; upstream automation lands in a UI they already use for discovery.</li>
+          <li><strong>Privacy &amp; compliance</strong> — Read-oriented, role-filtered views; Governance Portal handles posture/triage in phase 2.</li>
+          <li><strong>Engineering &amp; platform</strong> — OMS remains technical SoR; fewer “which tool?” questions; stable read APIs for automation.</li>
+          <li><strong>Leadership &amp; procurement</strong> — Credible migration plan supporting renewal flexibility and Sep 2027 exit with dev complete ~Mar 2027.</li>
+        </ul>
+        <div class="callout" style="margin-top: 0.55rem;">
+          <strong>Intake framing (28 May):</strong> Navigator is the <strong>bridge</strong> from Alation to in-house OMS—<strong>MVP UX + migration APIs</strong>, persona-first, enterprise design–governed—not a metadata engine or governance portal rebuild.
+        </div>
+      </div>
+    </div>
+    <footer class="slide-footer">
+      <span>Data Governance · Data Navigator (Alation → OMS)</span>
+      <span class="logo">INTERNAL — STEWARD &amp; LEADERSHIP</span>
+    </footer>
+  </article>
+
+  <!-- Slide 3 -->
+  <article class="slide slide-3" aria-labelledby="s3-title">
+    <header class="slide-head">
+      <h1 id="s3-title">Value now — value at scale — and how we measure success</h1>
+      <span class="slide-num">Slide 3 of 3</span>
+    </header>
+    <div class="slide-body">
+      <div class="col col-today">
+        <h2>Foundation &amp; near-term</h2>
+        <ul>
+          <li><strong>Intake &amp; scope lock</strong> — Document MVP vs. out-of-scope (UI migration vs. MCI/Data 626 vs. MCP); complete RICE in Airtable.</li>
+          <li><strong>Persona stories</strong> — Five stories each for business consumer, analyst, steward; validate with Sarah/Suman/privacy/DNA.</li>
+          <li><strong>Exploratory wireframes</strong> — Persona/filter UX (filters vs. access-based vs. dual entry)—prototype &amp; A/B when greenlit.</li>
+          <li><strong>MVP in scope</strong> — Search/browse, gold/provenance, glossary, classifications read, read API, Open in OMS, Alation migration APIs.</li>
+          <li><strong>MVP out of scope</strong> — DSAR/tracker/consent consoles, DRE remediation UI, governance queue, MCP/agentic access, SQL/social admin.</li>
+        </ul>
+      </div>
+      <div class="col col-scale">
+        <h2>Value at scale</h2>
+        <ul>
+          <li><strong>Full Alation decommission</strong> — Users migrated; glossary, articles, and discovery parity on Navigator/OMS (Sep 2027 target).</li>
+          <li><strong>Richer upstream feeds</strong> — As 626/MCI improve metadata supply, Navigator shows fresher definitions, lineage context, and AI-suggested updates without owning the engines.</li>
+          <li><strong>Semantic / metrics integration</strong> — Corporate metric definitions federated; catalog linked to platform-agnostic semantic layer where policy aligns.</li>
+          <li><strong>Phase 2: Governance Portal</strong> — Privacy/compliance command center adjacent to Navigator; same OMS spine, different persona defaults.</li>
+          <li><strong>Enterprise expansion</strong> — Role-aware views, domain coverage growth, adoption across segments beyond initial MVP personas.</li>
+        </ul>
+      </div>
+      <div class="col col-main">
+        <h2>How we measure success</h2>
+        <ul>
+          <li><strong>Migration</strong> — Alation content migrated via APIs; decommission by contract milestones; user training and domain champions.</li>
+          <li><strong>Adoption</strong> — Weekly active users vs. ~531 Alation baseline; time-to-answer for supported consumer/analyst journeys.</li>
+          <li><strong>Definition coverage</strong> — Priority domains with glossary/metric definitions reachable in Navigator.</li>
+          <li><strong>Stewardship</strong> — % of in-scope assets with active steward and current attestation post-migration.</li>
+          <li><strong>Boundary health</strong> — No scope creep (scrapers/MCP in Navigator); clear handoffs documented in metadata WG.</li>
+          <li><strong>Design maturity</strong> — Enterprise design sign-off on IA before lock; user validation sessions completed per intake asks.</li>
+        </ul>
+        <div class="callout" style="margin-top: 0.4rem;">
+          Phasing: <strong>intake + MVP scope</strong> → <strong>build on OMS + Alation migration APIs</strong> → <strong>user migration (Mar–Sep 2027)</strong> → <strong>Governance Portal phase 2</strong>.
+        </div>
+      </div>
+    </div>
+    <footer class="slide-footer">
+      <span>Data Governance · Data Navigator (Alation → OMS)</span>
+      <span class="logo">INTERNAL — STEWARD &amp; LEADERSHIP</span>
+    </footer>
+  </article>
+</body>
+</html>

@@ -1,0 +1,58 @@
+/* Marked-up mockups: yellow feature callouts + info icons (hover = requirement text) */
+
+.marked-page {
+  --mark-yellow: #fff3b0;
+  --mark-border: #f9a825;
+}
+
+.bdc-feature-mark {
+  position: relative;
+  border: 3px solid var(--mark-yellow);
+  border-radius: 10px;
+  padding: 0.75rem;
+  margin: 0.75rem 0;
+  background: rgba(255, 243, 176, 0.15);
+  box-shadow: 0 0 0 1px rgba(249, 168, 37, 0.25);
+}
+
+.bdc-feature-mark > .bdc-i {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 3px solid var(--mark-yellow);
+  background: #1565c0;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  font-style: italic;
+  line-height: 1;
+  cursor: help;
+  display: grid;
+  place-items: center;
+  z-index: 3;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.bdc-feature-mark > .bdc-i:hover,
+.bdc-feature-mark > .bdc-i:focus-visible {
+  background: #0d47a1;
+  outline: none;
+}
+
+/* Native tooltip via title on .bdc-i — also support custom attribute for longer text */
+.bdc-i[title] {
+  pointer-events: auto;
+}
+
+.marked-banner {
+  background: linear-gradient(90deg, #fff9e6, #fffde7);
+  border: 1px solid var(--mark-border);
+  border-radius: var(--oms-radius-sm);
+  padding: 0.65rem 1rem;
+  font-size: 13px;
+  margin-bottom: 1rem;
+  color: #5d4037;
+}

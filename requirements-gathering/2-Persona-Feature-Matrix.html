@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Persona–Feature Matrix</title>
+</head>
+<body style="font-family: Arial, Helvetica, sans-serif; font-size: 11pt; line-height: 1.5; color: #333333; max-width: 750px; margin: 0 auto; padding: 40px;">
+
+<h1 style="font-size: 24pt; font-weight: bold; color: #0f3460; margin: 0 0 6px 0; padding-bottom: 10px; border-bottom: 3px solid #0f3460;">Persona–Feature Matrix</h1>
+<p style="font-size: 11pt; color: #555555; margin: 0 0 24px 0;"><strong>Alation to OMS Migration — Current Use Documentation</strong><br>Disney Streaming Services &nbsp;|&nbsp; Version: 1.0 &nbsp;|&nbsp; Date: March 19, 2026</p>
+
+<hr style="border: none; border-top: 1px solid #cccccc; margin: 24px 0;">
+
+<h2 style="font-size: 16pt; font-weight: bold; color: #0f3460; margin: 28px 0 10px 0;">Purpose</h2>
+<p style="margin: 0 0 16px 0;">This matrix maps which Alation features each user persona uses. Use it to prioritize OMS build, plan training, and ensure no persona loses critical functionality. Validate with stakeholders during interviews.</p>
+
+<hr style="border: none; border-top: 1px solid #cccccc; margin: 24px 0;">
+
+<h2 style="font-size: 16pt; font-weight: bold; color: #0f3460; margin: 28px 0 10px 0;">Persona Definitions</h2>
+
+<table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse; font-size: 10pt; margin: 12px 0 24px 0;">
+  <thead>
+    <tr style="background-color: #0f3460; color: white;">
+      <th style="text-align: left; font-weight: bold; padding: 10px; border: 1px solid #0d2d52;">Persona</th>
+      <th style="text-align: left; font-weight: bold; padding: 10px; border: 1px solid #0d2d52;">Description</th>
+      <th style="text-align: left; font-weight: bold; padding: 10px; border: 1px solid #0d2d52;">Example Roles</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 10px; border: 1px solid #cccccc;"><strong>Data Steward</strong></td><td style="padding: 10px; border: 1px solid #cccccc;">Owns and maintains metadata quality for a domain; creates glossary terms, tags, descriptions</td><td style="padding: 10px; border: 1px solid #cccccc;">Domain stewards, data owners</td></tr>
+    <tr><td style="padding: 10px; border: 1px solid #cccccc;"><strong>Data Analyst / BI User</strong></td><td style="padding: 10px; border: 1px solid #cccccc;">Consumes data for reporting and analysis; discovers and evaluates data assets</td><td style="padding: 10px; border: 1px solid #cccccc;">Analysts, BI developers, report builders</td></tr>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 10px; border: 1px solid #cccccc;"><strong>Data Engineer</strong></td><td style="padding: 10px; border: 1px solid #cccccc;">Builds and maintains pipelines; needs lineage, technical metadata, impact analysis</td><td style="padding: 10px; border: 1px solid #cccccc;">DEs, platform engineers</td></tr>
+    <tr><td style="padding: 10px; border: 1px solid #cccccc;"><strong>Governance / Compliance</strong></td><td style="padding: 10px; border: 1px solid #cccccc;">Ensures policies are followed; runs compliance reports; manages risk</td><td style="padding: 10px; border: 1px solid #cccccc;">Governance leads, compliance officers</td></tr>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 10px; border: 1px solid #cccccc;"><strong>Leadership</strong></td><td style="padding: 10px; border: 1px solid #cccccc;">Consumes high-level reports; needs adoption and usage visibility</td><td style="padding: 10px; border: 1px solid #cccccc;">Directors, VPs</td></tr>
+  </tbody>
+</table>
+
+<h2 style="font-size: 16pt; font-weight: bold; color: #0f3460; margin: 28px 0 10px 0;">Persona–Feature Matrix</h2>
+<p style="margin: 0 0 12px 0;"><strong>Legend:</strong> ● Primary user (uses daily/weekly) &nbsp;|&nbsp; ○ Secondary user (uses occasionally) &nbsp;|&nbsp; — Not used</p>
+
+<table border="1" cellpadding="8" cellspacing="0" style="width: 100%; border-collapse: collapse; font-size: 9pt; margin: 12px 0 24px 0;">
+  <thead>
+    <tr style="background-color: #0f3460; color: white;">
+      <th style="text-align: left; font-weight: bold; padding: 8px; border: 1px solid #0d2d52;">Feature</th>
+      <th style="text-align: center; font-weight: bold; padding: 8px; border: 1px solid #0d2d52;">Data Steward</th>
+      <th style="text-align: center; font-weight: bold; padding: 8px; border: 1px solid #0d2d52;">Data Analyst / BI</th>
+      <th style="text-align: center; font-weight: bold; padding: 8px; border: 1px solid #0d2d52;">Data Engineer</th>
+      <th style="text-align: center; font-weight: bold; padding: 8px; border: 1px solid #0d2d52;">Governance</th>
+      <th style="text-align: center; font-weight: bold; padding: 8px; border: 1px solid #0d2d52;">Leadership</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 8px; border: 1px solid #cccccc;">Search & Discovery</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">●</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">●</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">●</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">○</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">—</td></tr>
+    <tr><td style="padding: 8px; border: 1px solid #cccccc;">Business Glossary</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">●</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">○</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">○</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">●</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">—</td></tr>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 8px; border: 1px solid #cccccc;">Catalog Browse</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">○</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">●</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">●</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">○</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">—</td></tr>
+    <tr><td style="padding: 8px; border: 1px solid #cccccc;">Table / Asset Detail</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">●</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">●</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">●</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">○</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">—</td></tr>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 8px; border: 1px solid #cccccc;">Data Lineage</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">○</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">●</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">●</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">●</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">—</td></tr>
+    <tr><td style="padding: 8px; border: 1px solid #cccccc;">Tags & Classification</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">●</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">○</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">○</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">●</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">—</td></tr>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 8px; border: 1px solid #cccccc;">Custom Fields</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">●</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">—</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">○</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">○</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">—</td></tr>
+    <tr><td style="padding: 8px; border: 1px solid #cccccc;">Documentation / Articles</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">●</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">●</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">○</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">○</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">—</td></tr>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 8px; border: 1px solid #cccccc;">Ownership / Stewardship</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">●</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">—</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">○</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">●</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">—</td></tr>
+    <tr><td style="padding: 8px; border: 1px solid #cccccc;">Usage / Access Metrics</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">○</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">○</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">○</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">●</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">●</td></tr>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 8px; border: 1px solid #cccccc;">Data Sources & Connectors</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">○</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">●</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">●</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">—</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">—</td></tr>
+    <tr><td style="padding: 8px; border: 1px solid #cccccc;">Policy Center</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">○</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">—</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">—</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">●</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">○</td></tr>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 8px; border: 1px solid #cccccc;">Compilation / Data Quality</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">○</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">○</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">○</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">●</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">—</td></tr>
+    <tr><td style="padding: 8px; border: 1px solid #cccccc;">API & Integrations</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">○</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">○</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">●</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">○</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">—</td></tr>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 8px; border: 1px solid #cccccc;">Version Control</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">●</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">—</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">○</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">●</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">—</td></tr>
+    <tr><td style="padding: 8px; border: 1px solid #cccccc;">Recommendations</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">●</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">○</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">—</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">—</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">—</td></tr>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 8px; border: 1px solid #cccccc;">Saved Queries / Favorites</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">○</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">●</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">●</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">○</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">—</td></tr>
+    <tr><td style="padding: 8px; border: 1px solid #cccccc;">Comments / Discussions</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">●</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">●</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">○</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">○</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">—</td></tr>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 8px; border: 1px solid #cccccc;">Export / Reports</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">○</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">○</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">○</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">●</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">●</td></tr>
+    <tr><td style="padding: 8px; border: 1px solid #cccccc;">Authentication / SSO</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">●</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">●</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">●</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">●</td><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">●</td></tr>
+  </tbody>
+</table>
+
+<h2 style="font-size: 16pt; font-weight: bold; color: #0f3460; margin: 28px 0 10px 0;">Persona-Specific Summary</h2>
+
+<h3 style="font-size: 13pt; font-weight: bold; color: #1a1a2e; margin: 20px 0 8px 0;">Data Steward — Critical Features</h3>
+<table border="1" cellpadding="8" cellspacing="0" style="width: 100%; border-collapse: collapse; font-size: 10pt; margin: 8px 0 16px 0;">
+  <thead>
+    <tr style="background-color: #0f3460; color: white;">
+      <th style="text-align: left; font-weight: bold; padding: 10px; border: 1px solid #0d2d52;">Feature</th>
+      <th style="text-align: left; font-weight: bold; padding: 10px; border: 1px solid #0d2d52;">Why Critical</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td style="padding: 8px; border: 1px solid #cccccc;">Business Glossary</td><td style="padding: 8px; border: 1px solid #cccccc;">Create and maintain terms; link to assets</td></tr>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 8px; border: 1px solid #cccccc;">Tags & Classification</td><td style="padding: 8px; border: 1px solid #cccccc;">Apply and manage tags for domain</td></tr>
+    <tr><td style="padding: 8px; border: 1px solid #cccccc;">Documentation / Articles</td><td style="padding: 8px; border: 1px solid #cccccc;">Write and update descriptions</td></tr>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 8px; border: 1px solid #cccccc;">Ownership / Stewardship</td><td style="padding: 8px; border: 1px solid #cccccc;">Assign and track ownership</td></tr>
+    <tr><td style="padding: 8px; border: 1px solid #cccccc;">Search & Discovery</td><td style="padding: 8px; border: 1px solid #cccccc;">Find assets to steward</td></tr>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 8px; border: 1px solid #cccccc;">Table / Asset Detail</td><td style="padding: 8px; border: 1px solid #cccccc;">View and edit metadata</td></tr>
+  </tbody>
+</table>
+
+<h3 style="font-size: 13pt; font-weight: bold; color: #1a1a2e; margin: 20px 0 8px 0;">Data Analyst / BI User — Critical Features</h3>
+<table border="1" cellpadding="8" cellspacing="0" style="width: 100%; border-collapse: collapse; font-size: 10pt; margin: 8px 0 16px 0;">
+  <thead>
+    <tr style="background-color: #0f3460; color: white;">
+      <th style="text-align: left; font-weight: bold; padding: 10px; border: 1px solid #0d2d52;">Feature</th>
+      <th style="text-align: left; font-weight: bold; padding: 10px; border: 1px solid #0d2d52;">Why Critical</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td style="padding: 8px; border: 1px solid #cccccc;">Search & Discovery</td><td style="padding: 8px; border: 1px solid #cccccc;">Find relevant data for analysis</td></tr>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 8px; border: 1px solid #cccccc;">Catalog Browse</td><td style="padding: 8px; border: 1px solid #cccccc;">Explore by source/schema</td></tr>
+    <tr><td style="padding: 8px; border: 1px solid #cccccc;">Table / Asset Detail</td><td style="padding: 8px; border: 1px solid #cccccc;">Evaluate data before use</td></tr>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 8px; border: 1px solid #cccccc;">Data Lineage</td><td style="padding: 8px; border: 1px solid #cccccc;">Understand data flow and freshness</td></tr>
+    <tr><td style="padding: 8px; border: 1px solid #cccccc;">Documentation / Articles</td><td style="padding: 8px; border: 1px solid #cccccc;">Learn how to use data</td></tr>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 8px; border: 1px solid #cccccc;">Saved Queries / Favorites</td><td style="padding: 8px; border: 1px solid #cccccc;">Quick access to frequent assets</td></tr>
+  </tbody>
+</table>
+
+<h3 style="font-size: 13pt; font-weight: bold; color: #1a1a2e; margin: 20px 0 8px 0;">Data Engineer — Critical Features</h3>
+<table border="1" cellpadding="8" cellspacing="0" style="width: 100%; border-collapse: collapse; font-size: 10pt; margin: 8px 0 16px 0;">
+  <thead>
+    <tr style="background-color: #0f3460; color: white;">
+      <th style="text-align: left; font-weight: bold; padding: 10px; border: 1px solid #0d2d52;">Feature</th>
+      <th style="text-align: left; font-weight: bold; padding: 10px; border: 1px solid #0d2d52;">Why Critical</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td style="padding: 8px; border: 1px solid #cccccc;">Data Lineage</td><td style="padding: 8px; border: 1px solid #cccccc;">Impact analysis, dependency mapping</td></tr>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 8px; border: 1px solid #cccccc;">Catalog Browse</td><td style="padding: 8px; border: 1px solid #cccccc;">Navigate technical structure</td></tr>
+    <tr><td style="padding: 8px; border: 1px solid #cccccc;">Table / Asset Detail</td><td style="padding: 8px; border: 1px solid #cccccc;">Technical metadata, schema</td></tr>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 8px; border: 1px solid #cccccc;">Data Sources & Connectors</td><td style="padding: 8px; border: 1px solid #cccccc;">Source connectivity</td></tr>
+    <tr><td style="padding: 8px; border: 1px solid #cccccc;">API & Integrations</td><td style="padding: 8px; border: 1px solid #cccccc;">Automation, CI/CD</td></tr>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 8px; border: 1px solid #cccccc;">Saved Queries / Favorites</td><td style="padding: 8px; border: 1px solid #cccccc;">Frequently used assets</td></tr>
+  </tbody>
+</table>
+
+<h3 style="font-size: 13pt; font-weight: bold; color: #1a1a2e; margin: 20px 0 8px 0;">Governance / Compliance — Critical Features</h3>
+<table border="1" cellpadding="8" cellspacing="0" style="width: 100%; border-collapse: collapse; font-size: 10pt; margin: 8px 0 16px 0;">
+  <thead>
+    <tr style="background-color: #0f3460; color: white;">
+      <th style="text-align: left; font-weight: bold; padding: 10px; border: 1px solid #0d2d52;">Feature</th>
+      <th style="text-align: left; font-weight: bold; padding: 10px; border: 1px solid #0d2d52;">Why Critical</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td style="padding: 8px; border: 1px solid #cccccc;">Business Glossary</td><td style="padding: 8px; border: 1px solid #cccccc;">Standardized terminology for policies</td></tr>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 8px; border: 1px solid #cccccc;">Tags & Classification</td><td style="padding: 8px; border: 1px solid #cccccc;">PII, sensitivity classification</td></tr>
+    <tr><td style="padding: 8px; border: 1px solid #cccccc;">Policy Center</td><td style="padding: 8px; border: 1px solid #cccccc;">Policy definition and enforcement</td></tr>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 8px; border: 1px solid #cccccc;">Usage / Access Metrics</td><td style="padding: 8px; border: 1px solid #cccccc;">Audit, usage reporting</td></tr>
+    <tr><td style="padding: 8px; border: 1px solid #cccccc;">Ownership / Stewardship</td><td style="padding: 8px; border: 1px solid #cccccc;">Accountability</td></tr>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 8px; border: 1px solid #cccccc;">Export / Reports</td><td style="padding: 8px; border: 1px solid #cccccc;">Compliance reporting</td></tr>
+  </tbody>
+</table>
+
+<h3 style="font-size: 13pt; font-weight: bold; color: #1a1a2e; margin: 20px 0 8px 0;">Leadership — Critical Features</h3>
+<table border="1" cellpadding="8" cellspacing="0" style="width: 100%; border-collapse: collapse; font-size: 10pt; margin: 8px 0 16px 0;">
+  <thead>
+    <tr style="background-color: #0f3460; color: white;">
+      <th style="text-align: left; font-weight: bold; padding: 10px; border: 1px solid #0d2d52;">Feature</th>
+      <th style="text-align: left; font-weight: bold; padding: 10px; border: 1px solid #0d2d52;">Why Critical</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td style="padding: 8px; border: 1px solid #cccccc;">Usage / Access Metrics</td><td style="padding: 8px; border: 1px solid #cccccc;">Adoption, ROI visibility</td></tr>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 8px; border: 1px solid #cccccc;">Export / Reports</td><td style="padding: 8px; border: 1px solid #cccccc;">Executive dashboards</td></tr>
+  </tbody>
+</table>
+
+<h2 style="font-size: 16pt; font-weight: bold; color: #0f3460; margin: 28px 0 10px 0;">Training Implications</h2>
+<table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse; font-size: 10pt; margin: 12px 0 24px 0;">
+  <thead>
+    <tr style="background-color: #0f3460; color: white;">
+      <th style="text-align: left; font-weight: bold; padding: 10px; border: 1px solid #0d2d52;">Persona</th>
+      <th style="text-align: left; font-weight: bold; padding: 10px; border: 1px solid #0d2d52;">Training Focus</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td style="padding: 10px; border: 1px solid #cccccc;">Data Steward</td><td style="padding: 10px; border: 1px solid #cccccc;">Glossary, tags, documentation, stewardship workflows in OMS</td></tr>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 10px; border: 1px solid #cccccc;">Data Analyst / BI</td><td style="padding: 10px; border: 1px solid #cccccc;">Search, discovery, lineage, how to find and evaluate data</td></tr>
+    <tr><td style="padding: 10px; border: 1px solid #cccccc;">Data Engineer</td><td style="padding: 10px; border: 1px solid #cccccc;">Lineage, technical metadata, APIs</td></tr>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 10px; border: 1px solid #cccccc;">Governance / Compliance</td><td style="padding: 10px; border: 1px solid #cccccc;">Policy center equivalent, reporting, compliance workflows</td></tr>
+    <tr><td style="padding: 10px; border: 1px solid #cccccc;">Leadership</td><td style="padding: 10px; border: 1px solid #cccccc;">Reporting and dashboards in OMS</td></tr>
+  </tbody>
+</table>
+
+<h3 style="font-size: 13pt; font-weight: bold; color: #1a1a2e; margin: 24px 0 8px 0;">Validation Checklist</h3>
+<ul style="margin: 0 0 24px 0; padding-left: 24px;">
+  <li>☐ Matrix validated with at least one representative per persona</li>
+  <li>☐ "Primary" vs. "Secondary" usage confirmed</li>
+  <li>☐ Any persona-specific features not in main list documented</li>
+  <li>☐ Training implications reviewed with L&D or change management</li>
+</ul>
+
+<p style="font-size: 10pt; color: #666666; margin-top: 32px; padding-top: 16px; border-top: 1px solid #cccccc;"><em>Document owner: Data Governance | Update after stakeholder interviews</em></p>
+
+</body>
+</html>

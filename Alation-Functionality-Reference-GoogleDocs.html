@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alation Functionality Reference</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap');
+    
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+      color: #1a1d21;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 48px 40px 80px;
+      background: #fff;
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 48px;
+      padding-bottom: 32px;
+      border-bottom: 3px solid #0066cc;
+    }
+    .header h1 {
+      font-size: 28px;
+      font-weight: 700;
+      color: #0066cc;
+      margin: 0 0 12px;
+      letter-spacing: -0.02em;
+    }
+    .header .subtitle {
+      font-size: 15px;
+      color: #5c6370;
+      margin: 0;
+    }
+    
+    .section {
+      margin-bottom: 36px;
+    }
+    .section-number {
+      display: inline-block;
+      width: 28px;
+      height: 28px;
+      background: #0066cc;
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+      text-align: center;
+      line-height: 28px;
+      border-radius: 6px;
+      margin-right: 12px;
+      vertical-align: middle;
+    }
+    .section h2 {
+      display: inline;
+      font-size: 18px;
+      font-weight: 600;
+      color: #1a1d21;
+      margin: 0;
+      vertical-align: middle;
+    }
+    .section .how-it-works {
+      margin: 16px 0 12px;
+      padding: 14px 18px;
+      background: #f4f7fa;
+      border-left: 4px solid #0066cc;
+      border-radius: 0 8px 8px 0;
+      font-size: 14px;
+      color: #2d3748;
+    }
+    .section .label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #0066cc;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin: 12px 0 6px;
+    }
+    .section ul {
+      margin: 8px 0 0;
+      padding-left: 22px;
+    }
+    .section li {
+      margin-bottom: 6px;
+    }
+    .section a {
+      color: #0066cc;
+      text-decoration: none;
+    }
+    .section a:hover {
+      text-decoration: underline;
+    }
+    .section .example {
+      font-size: 14px;
+      color: #2d3748;
+    }
+    .section .doc-link {
+      font-size: 13px;
+      margin-top: 8px;
+    }
+    
+    .summary-section {
+      margin-top: 56px;
+      padding-top: 40px;
+      border-top: 2px solid #e2e8f0;
+    }
+    .summary-section h2 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #1a1d21;
+      margin: 0 0 24px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    th {
+      background: #0066cc;
+      color: white;
+      text-align: left;
+      padding: 14px 18px;
+      font-weight: 600;
+      font-size: 13px;
+    }
+    td {
+      padding: 12px 18px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:nth-child(even) { background: #f8fafc; }
+    tr:hover { background: #f1f5f9; }
+    
+    .docs-section {
+      margin-top: 48px;
+      padding: 28px;
+      background: linear-gradient(135deg, #f4f7fa 0%, #e8eef5 100%);
+      border-radius: 12px;
+    }
+    .docs-section h2 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1a1d21;
+      margin: 0 0 16px;
+    }
+    .docs-section ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .docs-section li {
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      margin: 0;
+    }
+    .docs-section li:last-child { border-bottom: none; }
+    
+    .footer {
+      margin-top: 48px;
+      padding-top: 24px;
+      font-size: 12px;
+      color: #718096;
+      text-align: center;
+    }
+    
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      background: #e2e8f0;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Alation Functionality Reference</h1>
+  <p class="subtitle">Core functionalities with documentation links, explanations, and examples from Disney Data Alation</p>
+</div>
+
+<div class="section">
+  <span class="section-number">1</span>
+  <h2>Search / Catalog Search</h2>
+  <div class="how-it-works">Full-text search across the catalog by keyword. Filter by object type (table, article, schema, column, datasource). Results are ranked by relevance and usage statistics.</div>
+  <div class="label">Documentation</div>
+  <div class="doc-link"><a href="https://docs.alation.com/en/latest/welcome/CatalogBasics/FullPageSearch.html">Full Page Search →</a></div>
+  <div class="label">Example (search "customer")</div>
+  <ul class="example">
+    <li><strong>DIM_DISNEY_CUSTOMER_ENGAGEMENT</strong> — Snowflake - DSS → CONFORMED schema</li>
+    <li><strong>VIEW_DIM_CUSTOMER</strong> — Snowflake - Hulu → SUBSCRIPTIONS schema</li>
+    <li><strong>DIM_CUSTOMER_TYPES</strong> — Snowflake - Hulu → SUBS schema</li>
+  </ul>
+  <div class="doc-link"><a href="https://disney-data.alationcloud.com/full_search/?q=customer&limit=5">Search results for "customer" →</a></div>
+</div>
+
+<div class="section">
+  <span class="section-number">2</span>
+  <h2>Data Sources</h2>
+  <div class="how-it-works">Top-level connections to databases (Snowflake, PostgreSQL, etc.). Each source has schemas, tables, and columns. Alation extracts metadata, supports profiling, and runs Compose queries.</div>
+  <div class="label">Example</div>
+  <ul class="example">
+    <li><strong>Alation Analytics V2</strong> — PostgreSQL, for user behavior and catalog analytics</li>
+    <li><strong>Snowflake - DSS</strong>, <strong>Snowflake - Hulu</strong>, <strong>Snowflake - DTCI - UP</strong></li>
+  </ul>
+  <div class="doc-link"><a href="https://docs.alation.com/en/latest/datasources/AddDataSources/index.html">Adding Data Sources →</a></div>
+</div>
+
+<div class="section">
+  <span class="section-number">3</span>
+  <h2>Schemas, Tables, and Columns</h2>
+  <div class="how-it-works">Hierarchical metadata: Data Source → Schema → Table → Column. Each level has descriptions, stewards, custom fields, and tags. Supports synonyms and popularity metrics.</div>
+  <div class="label">Example</div>
+  <ul class="example">
+    <li><strong>Schemas:</strong> CONFORMED, SUBSCRIPTIONS, SUBS</li>
+    <li><strong>Tables:</strong> DIM_CUSTOMER, VIEW_DIM_CUSTOMER, DIM_CUSTOMER_TYPES</li>
+  </ul>
+  <div class="doc-link"><a href="https://docs.alation.com/en/latest/sources/WorkwithCatalogData/index.html">Working with Catalog Data →</a></div>
+</div>
+
+<div class="section">
+  <span class="section-number">4</span>
+  <h2>Articles (Knowledge Base)</h2>
+  <div class="how-it-works">Rich-text documentation pages. Articles can be nested in folders, linked to data objects, and edited collaboratively. Used for stewardship frameworks, onboarding, and process docs.</div>
+  <div class="label">Example</div>
+  <ul class="example">
+    <li><strong>Data Stewardship Framework</strong> — Operating model, governing groups (DSComm, DSC, DWG)</li>
+    <li><strong>Welcome to Alation</strong> — D.E.E.T. Data Catalog resources</li>
+  </ul>
+  <div class="doc-link"><a href="https://disneystreaming.alationcloud.com/article/3/">Article example →</a> · <a href="https://docs.alation.com/en/latest/welcome/DocumentHubs/index.html">Document Hubs →</a></div>
+</div>
+
+<div class="section">
+  <span class="section-number">5</span>
+  <h2>Business Glossary</h2>
+  <div class="how-it-works">Centralized definitions of business terms and metrics. Terms include descriptions, aliases, custom fields (Business Formula, Query, Stewards), and links to related queries or tables.</div>
+  <div class="label">Example</div>
+  <ul class="example">
+    <li><strong>Paid Subscribers</strong> — Dimensional cuts, business formulas, Compose query links</li>
+    <li><strong>Total Time Streamed per Entitled Account (HPS)</strong> — Formula and SQL</li>
+  </ul>
+  <div class="doc-link"><a href="https://disneystreaming-dev.alationcloud.com/docs/glossary/1/">D.E.E.T. Unified Glossary →</a> · <a href="https://docs.alation.com/en/latest/welcome/Glossary/index.html">Alation Glossary →</a></div>
+</div>
+
+<div class="section">
+  <span class="section-number">6</span>
+  <h2>Data Lineage</h2>
+  <div class="how-it-works">Visualizes upstream and downstream data flow for tables, columns, and dataflows. Auto-generated from query logs, metadata extraction, and Compose. Supports column-level and cross-source lineage.</div>
+  <div class="label">Example</div>
+  <ul class="example">
+    <li>For <strong>VIEW_DIM_CUSTOMER</strong>: upstream source tables, downstream consumers</li>
+  </ul>
+  <div class="doc-link"><a href="https://disney-data.alationcloud.com/table/364837/">Table lineage example →</a> · <a href="https://docs.alation.com/en/latest/analyst/Lineage/index.html">Discover Lineage →</a></div>
+</div>
+
+<div class="section">
+  <span class="section-number">7</span>
+  <h2>Compose (Saved Queries)</h2>
+  <div class="how-it-works">SQL editor integrated with the catalog. Users write, save, and share queries. Saved queries appear in the catalog, contribute to lineage, and can be scheduled or exported.</div>
+  <div class="label">Example</div>
+  <ul class="example">
+    <li>Glossary terms link to Compose queries (e.g., Metric table version, Metric build version)</li>
+  </ul>
+  <div class="doc-link"><a href="https://disney-data.alationcloud.com/compose/">Compose →</a> · <a href="https://www.alation.com/glossary/alation-compose/">Alation Compose →</a></div>
+</div>
+
+<div class="section">
+  <span class="section-number">8</span>
+  <h2>Dataflows</h2>
+  <div class="how-it-works">ETL/ELT jobs, stored procedures, or transformation pipelines. They appear in lineage and can be documented like tables.</div>
+  <div class="label">Example</div>
+  <ul class="example">
+    <li>Filter by datasource_id to see ETL jobs for a given Snowflake or other source</li>
+  </ul>
+</div>
+
+<div class="section">
+  <span class="section-number">9</span>
+  <h2>Tags</h2>
+  <div class="how-it-works">Labels applied to catalog objects for classification, compliance, or discovery. Tags can have descriptions and show object counts.</div>
+  <div class="label">Example</div>
+  <ul class="example">
+    <li><strong>Core Table</strong> (28 objects) · <strong>GDPR Scoped</strong> (8) · <strong>CCPA Scoped</strong> (15)</li>
+    <li><strong>Content360</strong>, <strong>Session360</strong>, <strong>Adobe</strong> — Domain/project tags</li>
+  </ul>
+  <div class="doc-link"><a href="https://disney-data.alationcloud.com/tags/">Tags →</a></div>
+</div>
+
+<div class="section">
+  <span class="section-number">10</span>
+  <h2>Tagged Objects</h2>
+  <div class="how-it-works">Returns all catalog objects with a specific tag. Useful for compliance reporting (e.g., all "GDPR Scoped" tables).</div>
+</div>
+
+<div class="section">
+  <span class="section-number">11</span>
+  <h2>Flags (Endorsements, Warnings, Deprecations)</h2>
+  <div class="how-it-works">Data quality signals: <strong>ENDORSEMENT</strong> = trusted, production-ready; <strong>WARNING</strong> = known issues; <strong>DEPRECATION</strong> = being phased out.</div>
+  <div class="label">Example</div>
+  <ul class="example">
+    <li>Schemas endorsed by stewards indicate trusted data sources</li>
+  </ul>
+</div>
+
+<div class="section">
+  <span class="section-number">12</span>
+  <h2>Domains</h2>
+  <div class="how-it-works">Logical groupings by business area. Organize data by department, product, or use case. Objects can be filtered and searched by domain.</div>
+  <div class="label">Example</div>
+  <ul class="example">
+    <li><strong>Ad Platforms Domain</strong> · <strong>DEET Data Domain</strong> · <strong>Atlas Domain</strong></li>
+  </ul>
+  <div class="doc-link"><a href="https://disney-data.alationcloud.com/domains/">Domains →</a> · <a href="https://docs.alation.com/en/latest/welcome/Domains/DomainsOverview.html">Domains Overview →</a></div>
+</div>
+
+<div class="section">
+  <span class="section-number">13</span>
+  <h2>Custom Fields</h2>
+  <div class="how-it-works">Admin-defined attributes (Business Steward, Data Domain, Business Formula) on glossary terms, tables, columns. Supports text, users, groups, multi-select.</div>
+  <div class="label">Example</div>
+  <ul class="example">
+    <li>"Paid Subscribers" has: Background Context, Data Domain, Aliases, Stewards, Business Segment</li>
+  </ul>
+  <div class="doc-link"><a href="https://docs.alation.com/en/latest/steward/TemplatesAndCustomFields/index.html">Custom Fields and Templates →</a></div>
+</div>
+
+<div class="section">
+  <span class="section-number">14</span>
+  <h2>Folders</h2>
+  <div class="how-it-works">Organizational structure for articles. Folders can contain subfolders and articles for a clear knowledge base hierarchy.</div>
+</div>
+
+<div class="section">
+  <span class="section-number">15</span>
+  <h2>Query Results & SQL</h2>
+  <div class="how-it-works">Retrieve query metadata, SQL text, and (where permitted) results for saved Compose queries. Supports sharing and exporting.</div>
+  <div class="doc-link"><a href="https://docs.alation.com/en/latest/analyst/WorkwithQueryResults/index.html">Work with Query Results →</a></div>
+</div>
+
+<div class="section">
+  <span class="section-number">16</span>
+  <h2>Create/Update Articles</h2>
+  <div class="how-it-works">Create or update knowledge base articles via API. Supports rich HTML, attachments, and custom fields.</div>
+</div>
+
+<div class="section">
+  <span class="section-number">17</span>
+  <h2>Update Custom Field Values</h2>
+  <div class="how-it-works">Programmatically set or update custom field values (e.g., assign a steward, update a description).</div>
+</div>
+
+<div class="section">
+  <span class="section-number">18</span>
+  <h2>Get Current User</h2>
+  <div class="how-it-works">Returns the authenticated user's profile for API context and permissions.</div>
+</div>
+
+<div class="summary-section">
+  <h2>Summary Table</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Functionality</th>
+        <th>Purpose</th>
+        <th>Example / Link</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Search Catalog</td><td>Find tables, articles, columns by keyword</td><td><a href="https://disney-data.alationcloud.com/full_search/?q=customer">Search "customer"</a></td></tr>
+      <tr><td>Data Sources</td><td>Database connections</td><td>Snowflake - DSS, Hulu, Alation Analytics V2</td></tr>
+      <tr><td>Tables & Columns</td><td>Metadata hierarchy</td><td>DIM_CUSTOMER, VIEW_DIM_CUSTOMER</td></tr>
+      <tr><td>Articles</td><td>Knowledge base docs</td><td>Data Stewardship Framework, Welcome to Alation</td></tr>
+      <tr><td>Glossary</td><td>Business term definitions</td><td>Paid Subscribers, Total Time Streamed per Entitled Account</td></tr>
+      <tr><td>Lineage</td><td>Data flow visualization</td><td>Table/column upstream & downstream</td></tr>
+      <tr><td>Compose / Queries</td><td>Saved SQL queries</td><td>Metric table version, Metric build version</td></tr>
+      <tr><td>Dataflows</td><td>ETL/transformation jobs</td><td>Filter by datasource</td></tr>
+      <tr><td>Tags</td><td>Classification labels</td><td>Core Table, GDPR Scoped, CCPA Scoped</td></tr>
+      <tr><td>Flags</td><td>Endorsement, Warning, Deprecation</td><td>Endorsed schemas</td></tr>
+      <tr><td>Domains</td><td>Business area groupings</td><td>Ad Platforms, DEET Data, Atlas</td></tr>
+      <tr><td>Custom Fields</td><td>Extended metadata</td><td>Stewards, Data Domain, Business Formula</td></tr>
+      <tr><td>Folders</td><td>Content organization</td><td>Article hierarchy</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="docs-section">
+  <h2>Official Documentation Links</h2>
+  <ul>
+    <li><a href="https://docs.alation.com/en/latest/index.html">Alation User Guide (main)</a></li>
+    <li><a href="https://docs.alation.com/en/latest/welcome/CatalogPages/NewUserExperience.html">New User Experience</a></li>
+    <li><a href="https://docs.alation.com/en/latest/welcome/CatalogBasics/FullPageSearch.html">Full Page Search</a></li>
+    <li><a href="https://docs.alation.com/en/latest/analyst/Lineage/index.html">Discover Lineage</a></li>
+    <li><a href="https://docs.alation.com/en/latest/welcome/Glossary/index.html">Alation Glossary</a></li>
+    <li><a href="https://docs.alation.com/en/latest/sources/WorkwithCatalogData/index.html">Working with Catalog Data</a></li>
+    <li><a href="https://docs.alation.com/en/latest/welcome/Domains/DomainsOverview.html">Domains Overview</a></li>
+    <li><a href="https://docs.alation.com/en/latest/steward/TemplatesAndCustomFields/index.html">Custom Fields and Templates</a></li>
+    <li><a href="https://docs.alation.com/en/latest/steward/PolicyCenter/index.html">Policy Center</a></li>
+    <li><a href="https://docs.alation.com/en/latest/steward/DataDictionaries/index.html">Data Dictionaries</a></li>
+  </ul>
+</div>
+
+<div class="footer">
+  Generated from Alation MCP tools and Disney Data Alation instance. Documentation links may include screenshots.
+</div>
+
+</body>
+</html>

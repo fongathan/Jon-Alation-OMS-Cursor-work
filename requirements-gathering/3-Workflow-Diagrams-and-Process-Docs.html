@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workflow Diagrams & Process Documentation</title>
+</head>
+<body style="font-family: Arial, Helvetica, sans-serif; font-size: 11pt; line-height: 1.5; color: #333333; max-width: 750px; margin: 0 auto; padding: 40px;">
+
+<h1 style="font-size: 24pt; font-weight: bold; color: #0f3460; margin: 0 0 6px 0; padding-bottom: 10px; border-bottom: 3px solid #0f3460;">Workflow Diagrams & Process Documentation</h1>
+<p style="font-size: 11pt; color: #555555; margin: 0 0 24px 0;"><strong>Alation to OMS Migration — Current Use Documentation</strong><br>Disney Streaming Services &nbsp;|&nbsp; Version: 1.0 &nbsp;|&nbsp; Date: March 19, 2026</p>
+
+<hr style="border: none; border-top: 1px solid #cccccc; margin: 24px 0;">
+
+<h2 style="font-size: 16pt; font-weight: bold; color: #0f3460; margin: 28px 0 10px 0;">Purpose</h2>
+<p style="margin: 0 0 16px 0;">This document captures end-to-end workflows for how Alation is used today. Use these workflows to design OMS equivalents and ensure process continuity. Validate each workflow with stakeholders during interviews.</p>
+
+<hr style="border: none; border-top: 1px solid #cccccc; margin: 24px 0;">
+
+<h2 style="font-size: 16pt; font-weight: bold; color: #0f3460; margin: 28px 0 10px 0;">Workflow 1: Glossary Term Creation & Approval</h2>
+<p style="margin: 0 0 8px 0;"><strong>Description:</strong> How a new business glossary term gets created, reviewed, and published in Alation.</p>
+
+<div style="background-color: #f5f9fc; border: 1px solid #d0e3f0; padding: 20px; margin: 16px 0; font-size: 10pt;">
+  <p style="margin: 0 0 8px 0; font-weight: bold; color: #0f3460;">Process Flow</p>
+  <p style="margin: 0 0 4px 0;">1. Steward identifies need for new term</p>
+  <p style="margin: 0 0 4px 0; text-align: center;">↓</p>
+  <p style="margin: 0 0 4px 0;">2. Create term in Alation Glossary</p>
+  <p style="margin: 0 0 4px 0; text-align: center;">↓</p>
+  <p style="margin: 0 0 4px 0;">3. Add definition, synonyms, examples</p>
+  <p style="margin: 0 0 4px 0; text-align: center;">↓</p>
+  <p style="margin: 0 0 4px 0;">4. Approval required? → Yes: Submit for review → Governance approves → Publish</p>
+  <p style="margin: 0 0 4px 0; padding-left: 20px;">→ No: Publish directly</p>
+  <p style="margin: 0 0 4px 0; text-align: center;">↓</p>
+  <p style="margin: 0 0 4px 0;">5. Link term to tables/columns</p>
+  <p style="margin: 0 0 0; text-align: center;">↓</p>
+  <p style="margin: 4px 0 0 0;">6. (Optional) Notify stakeholders</p>
+</div>
+
+<h3 style="font-size: 13pt; font-weight: bold; color: #1a1a2e; margin: 20px 0 8px 0;">Step-by-Step Process</h3>
+<table border="1" cellpadding="8" cellspacing="0" style="width: 100%; border-collapse: collapse; font-size: 10pt; margin: 8px 0 16px 0;">
+  <thead>
+    <tr style="background-color: #0f3460; color: white;">
+      <th style="text-align: center; font-weight: bold; padding: 8px; border: 1px solid #0d2d52;">Step</th>
+      <th style="text-align: left; font-weight: bold; padding: 8px; border: 1px solid #0d2d52;">Actor</th>
+      <th style="text-align: left; font-weight: bold; padding: 8px; border: 1px solid #0d2d52;">Action</th>
+      <th style="text-align: left; font-weight: bold; padding: 8px; border: 1px solid #0d2d52;">Alation Location</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">1</td><td style="padding: 8px; border: 1px solid #cccccc;">Data Steward</td><td style="padding: 8px; border: 1px solid #cccccc;">Identifies need for new term</td><td style="padding: 8px; border: 1px solid #cccccc;">—</td></tr>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">2</td><td style="padding: 8px; border: 1px solid #cccccc;">Data Steward</td><td style="padding: 8px; border: 1px solid #cccccc;">Navigates to Glossary in Alation</td><td style="padding: 8px; border: 1px solid #cccccc;">Glossary tab / menu</td></tr>
+    <tr><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">3</td><td style="padding: 8px; border: 1px solid #cccccc;">Data Steward</td><td style="padding: 8px; border: 1px solid #cccccc;">Clicks "Create Term"</td><td style="padding: 8px; border: 1px solid #cccccc;">Glossary UI</td></tr>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">4</td><td style="padding: 8px; border: 1px solid #cccccc;">Data Steward</td><td style="padding: 8px; border: 1px solid #cccccc;">Enters term name, definition, synonyms, examples</td><td style="padding: 8px; border: 1px solid #cccccc;">Term form</td></tr>
+    <tr><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">5</td><td style="padding: 8px; border: 1px solid #cccccc;">Data Steward</td><td style="padding: 8px; border: 1px solid #cccccc;">Submits for approval (if workflow enabled)</td><td style="padding: 8px; border: 1px solid #cccccc;">Submit button</td></tr>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">6</td><td style="padding: 8px; border: 1px solid #cccccc;">Governance / Lead</td><td style="padding: 8px; border: 1px solid #cccccc;">Reviews and approves term</td><td style="padding: 8px; border: 1px solid #cccccc;">Approval queue</td></tr>
+    <tr><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">7</td><td style="padding: 8px; border: 1px solid #cccccc;">System</td><td style="padding: 8px; border: 1px solid #cccccc;">Term published</td><td style="padding: 8px; border: 1px solid #cccccc;">—</td></tr>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">8</td><td style="padding: 8px; border: 1px solid #cccccc;">Data Steward</td><td style="padding: 8px; border: 1px solid #cccccc;">Links term to relevant tables/columns</td><td style="padding: 8px; border: 1px solid #cccccc;">Asset detail > Glossary</td></tr>
+    <tr><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">9</td><td style="padding: 8px; border: 1px solid #cccccc;">Data Steward</td><td style="padding: 8px; border: 1px solid #cccccc;">(Optional) Notifies domain users</td><td style="padding: 8px; border: 1px solid #cccccc;">Email / Slack</td></tr>
+  </tbody>
+</table>
+
+<p style="margin: 8px 0 4px 0;"><strong>Variations to Document:</strong></p>
+<ul style="margin: 0 0 12px 0; padding-left: 24px;"><li>☐ Is approval required for all terms or only certain domains?</li><li>☐ Who can create vs. approve terms?</li><li>☐ Are there term templates or required fields?</li></ul>
+<p style="margin: 8px 0 0 0;"><strong>OMS Requirements:</strong> Glossary creation UI; Approval workflow; Ability to link terms to tables/columns</p>
+
+<hr style="border: none; border-top: 1px solid #cccccc; margin: 24px 0;">
+
+<h2 style="font-size: 16pt; font-weight: bold; color: #0f3460; margin: 28px 0 10px 0;">Workflow 2: Data Discovery (Analyst Finding a Table)</h2>
+<p style="margin: 0 0 8px 0;"><strong>Description:</strong> How an analyst typically searches for and evaluates a data asset before using it in a report or analysis.</p>
+
+<div style="background-color: #f5f9fc; border: 1px solid #d0e3f0; padding: 20px; margin: 16px 0; font-size: 10pt;">
+  <p style="margin: 0 0 8px 0; font-weight: bold; color: #0f3460;">Process Flow</p>
+  <p style="margin: 0 0 4px 0;">1. Analyst has business question</p>
+  <p style="margin: 0 0 4px 0; text-align: center;">↓</p>
+  <p style="margin: 0 0 4px 0;">2. Search Alation — keyword or term</p>
+  <p style="margin: 0 0 4px 0; text-align: center;">↓</p>
+  <p style="margin: 0 0 4px 0;">3. Review search results → Found? No: Refine search / Browse by schema → back to step 2</p>
+  <p style="margin: 0 0 4px 0; text-align: center;">↓ Yes</p>
+  <p style="margin: 0 0 4px 0;">4. Open table/asset detail</p>
+  <p style="margin: 0 0 4px 0; text-align: center;">↓</p>
+  <p style="margin: 0 0 4px 0;">5. Review description, lineage, tags; check ownership, last updated</p>
+  <p style="margin: 0 0 4px 0; text-align: center;">↓</p>
+  <p style="margin: 0 0 4px 0;">6. (Optional) View sample data</p>
+  <p style="margin: 0 0 4px 0; text-align: center;">↓</p>
+  <p style="margin: 0 0 0;">7. Use asset? Yes: Use in analysis / Add to favorites &nbsp;|&nbsp; No: Continue searching</p>
+</div>
+
+<h3 style="font-size: 13pt; font-weight: bold; color: #1a1a2e; margin: 20px 0 8px 0;">Step-by-Step Process</h3>
+<table border="1" cellpadding="8" cellspacing="0" style="width: 100%; border-collapse: collapse; font-size: 10pt; margin: 8px 0 16px 0;">
+  <thead>
+    <tr style="background-color: #0f3460; color: white;">
+      <th style="text-align: center; font-weight: bold; padding: 8px; border: 1px solid #0d2d52;">Step</th>
+      <th style="text-align: left; font-weight: bold; padding: 8px; border: 1px solid #0d2d52;">Actor</th>
+      <th style="text-align: left; font-weight: bold; padding: 8px; border: 1px solid #0d2d52;">Action</th>
+      <th style="text-align: left; font-weight: bold; padding: 8px; border: 1px solid #0d2d52;">Alation Location</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">1</td><td style="padding: 8px; border: 1px solid #cccccc;">Analyst</td><td style="padding: 8px; border: 1px solid #cccccc;">Has business question or report need</td><td style="padding: 8px; border: 1px solid #cccccc;">—</td></tr>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">2</td><td style="padding: 8px; border: 1px solid #cccccc;">Analyst</td><td style="padding: 8px; border: 1px solid #cccccc;">Enters search (keyword, glossary term, table name)</td><td style="padding: 8px; border: 1px solid #cccccc;">Search bar (global)</td></tr>
+    <tr><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">3</td><td style="padding: 8px; border: 1px solid #cccccc;">Analyst</td><td style="padding: 8px; border: 1px solid #cccccc;">Reviews search results (tables, articles, glossary)</td><td style="padding: 8px; border: 1px solid #cccccc;">Search results page</td></tr>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">4</td><td style="padding: 8px; border: 1px solid #cccccc;">Analyst</td><td style="padding: 8px; border: 1px solid #cccccc;">If not found, browses by datasource / schema</td><td style="padding: 8px; border: 1px solid #cccccc;">Catalog browse</td></tr>
+    <tr><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">5</td><td style="padding: 8px; border: 1px solid #cccccc;">Analyst</td><td style="padding: 8px; border: 1px solid #cccccc;">Clicks on relevant table to open detail</td><td style="padding: 8px; border: 1px solid #cccccc;">Asset detail page</td></tr>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">6–9</td><td style="padding: 8px; border: 1px solid #cccccc;">Analyst</td><td style="padding: 8px; border: 1px solid #cccccc;">Reads description, lineage, tags; checks ownership, usage</td><td style="padding: 8px; border: 1px solid #cccccc;">Overview, Lineage, Tags tabs</td></tr>
+    <tr><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">10</td><td style="padding: 8px; border: 1px solid #cccccc;">Analyst</td><td style="padding: 8px; border: 1px solid #cccccc;">(Optional) Saves to favorites</td><td style="padding: 8px; border: 1px solid #cccccc;">Favorites / Saved</td></tr>
+  </tbody>
+</table>
+
+<p style="margin: 8px 0 0 0;"><strong>OMS Requirements:</strong> Global search; Asset detail with description, lineage, tags, ownership; Browse by datasource/schema; Favorites</p>
+
+<hr style="border: none; border-top: 1px solid #cccccc; margin: 24px 0;">
+
+<h2 style="font-size: 16pt; font-weight: bold; color: #0f3460; margin: 28px 0 10px 0;">Workflow 3: Metadata Stewardship (Tagging & Documentation)</h2>
+<p style="margin: 0 0 8px 0;"><strong>Description:</strong> How a data steward adds or updates metadata (tags, description) on a catalog asset.</p>
+
+<div style="background-color: #f5f9fc; border: 1px solid #d0e3f0; padding: 20px; margin: 16px 0; font-size: 10pt;">
+  <p style="margin: 0 0 8px 0; font-weight: bold; color: #0f3460;">Process Flow</p>
+  <p style="margin: 0 0 4px 0;">1. Steward identifies asset needing metadata</p>
+  <p style="margin: 0 0 4px 0; text-align: center;">↓</p>
+  <p style="margin: 0 0 4px 0;">2. Open asset in Alation → Add/edit description</p>
+  <p style="margin: 0 0 4px 0; text-align: center;">↓</p>
+  <p style="margin: 0 0 4px 0;">3. Apply tags (PII, domain, etc.)</p>
+  <p style="margin: 0 0 4px 0; text-align: center;">↓</p>
+  <p style="margin: 0 0 4px 0;">4. Link glossary terms if applicable</p>
+  <p style="margin: 0 0 4px 0; text-align: center;">↓</p>
+  <p style="margin: 0 0 4px 0;">5. Set ownership if unassigned</p>
+  <p style="margin: 0 0 4px 0; text-align: center;">↓</p>
+  <p style="margin: 0 0 0;">6. Save changes → More assets? Repeat or Done</p>
+</div>
+
+<h3 style="font-size: 13pt; font-weight: bold; color: #1a1a2e; margin: 20px 0 8px 0;">Step-by-Step Process</h3>
+<table border="1" cellpadding="8" cellspacing="0" style="width: 100%; border-collapse: collapse; font-size: 10pt; margin: 8px 0 16px 0;">
+  <thead>
+    <tr style="background-color: #0f3460; color: white;">
+      <th style="text-align: center; font-weight: bold; padding: 8px; border: 1px solid #0d2d52;">Step</th>
+      <th style="text-align: left; font-weight: bold; padding: 8px; border: 1px solid #0d2d52;">Actor</th>
+      <th style="text-align: left; font-weight: bold; padding: 8px; border: 1px solid #0d2d52;">Action</th>
+      <th style="text-align: left; font-weight: bold; padding: 8px; border: 1px solid #0d2d52;">Alation Location</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">1</td><td style="padding: 8px; border: 1px solid #cccccc;">Steward</td><td style="padding: 8px; border: 1px solid #cccccc;">Identifies asset (from report, request, or backlog)</td><td style="padding: 8px; border: 1px solid #cccccc;">—</td></tr>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">2–3</td><td style="padding: 8px; border: 1px solid #cccccc;">Steward</td><td style="padding: 8px; border: 1px solid #cccccc;">Navigates to asset (search or browse), opens detail</td><td style="padding: 8px; border: 1px solid #cccccc;">Search / Catalog</td></tr>
+    <tr><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">4</td><td style="padding: 8px; border: 1px solid #cccccc;">Steward</td><td style="padding: 8px; border: 1px solid #cccccc;">Clicks Edit</td><td style="padding: 8px; border: 1px solid #cccccc;">Edit button</td></tr>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">5–8</td><td style="padding: 8px; border: 1px solid #cccccc;">Steward</td><td style="padding: 8px; border: 1px solid #cccccc;">Adds description, tags, glossary links, owner</td><td style="padding: 8px; border: 1px solid #cccccc;">Description, Tags, Glossary, Owner fields</td></tr>
+    <tr><td style="padding: 8px; border: 1px solid #cccccc; text-align: center;">9</td><td style="padding: 8px; border: 1px solid #cccccc;">Steward</td><td style="padding: 8px; border: 1px solid #cccccc;">Saves changes</td><td style="padding: 8px; border: 1px solid #cccccc;">Save button</td></tr>
+  </tbody>
+</table>
+
+<p style="margin: 8px 0 0 0;"><strong>OMS Requirements:</strong> Edit metadata on assets; Tag management; Glossary linking</p>
+
+<hr style="border: none; border-top: 1px solid #cccccc; margin: 24px 0;">
+
+<h2 style="font-size: 16pt; font-weight: bold; color: #0f3460; margin: 28px 0 10px 0;">Workflow 4: Impact Analysis (Engineer Assessing Change)</h2>
+<p style="margin: 0 0 8px 0;"><strong>Description:</strong> How a data engineer uses lineage to assess impact before making a change to a table or pipeline.</p>
+
+<div style="background-color: #f5f9fc; border: 1px solid #d0e3f0; padding: 20px; margin: 16px 0; font-size: 10pt;">
+  <p style="margin: 0 0 8px 0; font-weight: bold; color: #0f3460;">Process Flow</p>
+  <p style="margin: 0 0 4px 0;">1. Engineer plans to change table/pipeline</p>
+  <p style="margin: 0 0 4px 0; text-align: center;">↓</p>
+  <p style="margin: 0 0 4px 0;">2. Open asset in Alation</p>
+  <p style="margin: 0 0 4px 0; text-align: center;">↓</p>
+  <p style="margin: 0 0 4px 0;">3. View lineage — downstream</p>
+  <p style="margin: 0 0 4px 0; text-align: center;">↓</p>
+  <p style="margin: 0 0 4px 0;">4. Identify dependent tables, reports, dashboards</p>
+  <p style="margin: 0 0 4px 0; text-align: center;">↓</p>
+  <p style="margin: 0 0 4px 0;">5. Assess impact → Notify stakeholders if needed</p>
+  <p style="margin: 0 0 0; text-align: center;">↓</p>
+  <p style="margin: 4px 0 0 0;">6. Proceed with change or defer</p>
+</div>
+
+<p style="margin: 8px 0 0 0;"><strong>OMS Requirements:</strong> Lineage view (downstream, upstream); Table and ideally column-level lineage; Links to reports, dashboards, pipelines</p>
+
+<hr style="border: none; border-top: 1px solid #cccccc; margin: 24px 0;">
+
+<h2 style="font-size: 16pt; font-weight: bold; color: #0f3460; margin: 28px 0 10px 0;">Workflow 5: Compliance & Compliance Reporting</h2>
+<p style="margin: 0 0 8px 0;"><strong>Description:</strong> How governance/compliance runs reports and ensures policy adherence in Alation.</p>
+
+<div style="background-color: #f5f9fc; border: 1px solid #d0e3f0; padding: 20px; margin: 16px 0; font-size: 10pt;">
+  <p style="margin: 0 0 8px 0; font-weight: bold; color: #0f3460;">Process Flow</p>
+  <p style="margin: 0 0 4px 0;">1. Governance runs compliance report</p>
+  <p style="margin: 0 0 4px 0; text-align: center;">↓</p>
+  <p style="margin: 0 0 4px 0;">2. Open Policy Center or Reports → Select report type</p>
+  <p style="margin: 0 0 4px 0; text-align: center;">↓</p>
+  <p style="margin: 0 0 4px 0;">3. Run report / Export</p>
+  <p style="margin: 0 0 4px 0; text-align: center;">↓</p>
+  <p style="margin: 0 0 4px 0;">4. Review results → Identify gaps (untagged, unowned)</p>
+  <p style="margin: 0 0 4px 0; text-align: center;">↓</p>
+  <p style="margin: 0 0 4px 0;">5. Assign to stewards or escalate</p>
+  <p style="margin: 0 0 4px 0; text-align: center;">↓</p>
+  <p style="margin: 0 0 0;">6. Track remediation → Re-run report for validation</p>
+</div>
+
+<p style="margin: 8px 0 0 0;"><strong>OMS Requirements:</strong> Reporting on metadata coverage; Export capability; Policy/compliance reporting</p>
+
+<hr style="border: none; border-top: 1px solid #cccccc; margin: 24px 0;">
+
+<h2 style="font-size: 16pt; font-weight: bold; color: #0f3460; margin: 28px 0 10px 0;">Workflow Summary Table</h2>
+<table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse; font-size: 10pt; margin: 12px 0 24px 0;">
+  <thead>
+    <tr style="background-color: #0f3460; color: white;">
+      <th style="text-align: left; font-weight: bold; padding: 10px; border: 1px solid #0d2d52;">Workflow</th>
+      <th style="text-align: left; font-weight: bold; padding: 10px; border: 1px solid #0d2d52;">Primary Persona</th>
+      <th style="text-align: left; font-weight: bold; padding: 10px; border: 1px solid #0d2d52;">Key Alation Features</th>
+      <th style="text-align: left; font-weight: bold; padding: 10px; border: 1px solid #0d2d52;">OMS Priority</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td style="padding: 10px; border: 1px solid #cccccc;">Glossary term creation</td><td style="padding: 10px; border: 1px solid #cccccc;">Data Steward</td><td style="padding: 10px; border: 1px solid #cccccc;">Glossary, approval</td><td style="padding: 10px; border: 1px solid #cccccc;">High</td></tr>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 10px; border: 1px solid #cccccc;">Data discovery</td><td style="padding: 10px; border: 1px solid #cccccc;">Analyst / BI</td><td style="padding: 10px; border: 1px solid #cccccc;">Search, asset detail, lineage</td><td style="padding: 10px; border: 1px solid #cccccc;">High</td></tr>
+    <tr><td style="padding: 10px; border: 1px solid #cccccc;">Metadata stewardship</td><td style="padding: 10px; border: 1px solid #cccccc;">Data Steward</td><td style="padding: 10px; border: 1px solid #cccccc;">Tags, description, glossary link</td><td style="padding: 10px; border: 1px solid #cccccc;">High</td></tr>
+    <tr style="background-color: #f9f9f9;"><td style="padding: 10px; border: 1px solid #cccccc;">Impact analysis</td><td style="padding: 10px; border: 1px solid #cccccc;">Data Engineer</td><td style="padding: 10px; border: 1px solid #cccccc;">Lineage</td><td style="padding: 10px; border: 1px solid #cccccc;">High</td></tr>
+    <tr><td style="padding: 10px; border: 1px solid #cccccc;">Compliance reporting</td><td style="padding: 10px; border: 1px solid #cccccc;">Governance</td><td style="padding: 10px; border: 1px solid #cccccc;">Policy Center, Reports, Export</td><td style="padding: 10px; border: 1px solid #cccccc;">Medium</td></tr>
+  </tbody>
+</table>
+
+<h3 style="font-size: 13pt; font-weight: bold; color: #1a1a2e; margin: 24px 0 8px 0;">Validation Checklist</h3>
+<ul style="margin: 0 0 24px 0; padding-left: 24px;">
+  <li>☐ Each workflow validated with at least one stakeholder</li>
+  <li>☐ Step-by-step tables completed with actual Alation locations</li>
+  <li>☐ Variations documented</li>
+  <li>☐ OMS requirements captured for each workflow</li>
+</ul>
+
+<p style="font-size: 10pt; color: #666666; margin-top: 32px; padding-top: 16px; border-top: 1px solid #cccccc;"><em>Document owner: Data Governance | Update after stakeholder interviews</em></p>
+
+</body>
+</html>

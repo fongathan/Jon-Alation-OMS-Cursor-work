@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% block title %}Reports & Audits{% endblock %}
+{% block page_title %}Reports & Audits{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+  <!-- Quick reports -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <a href="{{ url_for('export_csv', asset_type='vendors') }}" class="card p-5 hover:border-kronos-600/40 transition-colors block">
+      <div class="flex items-center gap-3 mb-2">
+        <div class="w-10 h-10 rounded-lg bg-violet-500/15 flex items-center justify-center">
+          <i class="fa-solid fa-building text-violet-400"></i>
+        </div>
+        <div>
+          <h3 class="font-medium text-white">Vendor Report</h3>
+          <p class="text-xs text-slate-500">All vendors with risk ratings and DPA status</p>
+        </div>
+      </div>
+      <span class="text-xs text-kronos-400"><i class="fa-solid fa-download mr-1"></i> Export CSV</span>
+    </a>
+    <a href="{{ url_for('export_csv', asset_type='trackers') }}" class="card p-5 hover:border-kronos-600/40 transition-colors block">
+      <div class="flex items-center gap-3 mb-2">
+        <div class="w-10 h-10 rounded-lg bg-cyan-500/15 flex items-center justify-center">
+          <i class="fa-solid fa-satellite-dish text-cyan-400"></i>
+        </div>
+        <div>
+          <h3 class="font-medium text-white">Tracker Report</h3>
+          <p class="text-xs text-slate-500">All digital trackers with consent and vendor info</p>
+        </div>
+      </div>
+      <span class="text-xs text-kronos-400"><i class="fa-solid fa-download mr-1"></i> Export CSV</span>
+    </a>
+    <a href="{{ url_for('export_csv', asset_type='all') }}" class="card p-5 hover:border-kronos-600/40 transition-colors block">
+      <div class="flex items-center gap-3 mb-2">
+        <div class="w-10 h-10 rounded-lg bg-kronos-500/15 flex items-center justify-center">
+          <i class="fa-solid fa-file-export text-kronos-400"></i>
+        </div>
+        <div>
+          <h3 class="font-medium text-white">Full Audit Export</h3>
+          <p class="text-xs text-slate-500">Complete inventory with all relationships</p>
+        </div>
+      </div>
+      <span class="text-xs text-kronos-400"><i class="fa-solid fa-download mr-1"></i> Export CSV</span>
+    </a>
+  </div>
+
+  <!-- Prior audits -->
+  <div class="card">
+    <div class="px-5 py-4 border-b border-slate-700/50 flex items-center justify-between">
+      <h2 class="font-semibold">Prior Audits</h2>
+      <span class="text-sm text-slate-400">{{ audits | length }} records</span>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="text-left text-xs text-slate-400 uppercase tracking-wider border-b border-slate-700/50">
+            <th class="px-5 py-3">Audit</th>
+            <th class="px-5 py-3">Type</th>
+            <th class="px-5 py-3">Date</th>
+            <th class="px-5 py-3">Auditor</th>
+            <th class="px-5 py-3">Findings</th>
+            <th class="px-5 py-3">Critical</th>
+            <th class="px-5 py-3">Status</th>
+            <th class="px-5 py-3">Remediation Due</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for a in audits %}
+          <tr class="table-row">
+            <td class="px-5 py-3 font-medium text-white">{{ a.name }}</td>
+            <td class="px-5 py-3 text-slate-400 capitalize">{{ a.audit_type or '—' }}</td>
+            <td class="px-5 py-3 text-slate-400">{{ a.audit_date.strftime('%Y-%m-%d') if a.audit_date else '—' }}</td>
+            <td class="px-5 py-3 text-slate-400">{{ a.auditor or '—' }}</td>
+            <td class="px-5 py-3 font-mono">{{ a.findings_count }}</td>
+            <td class="px-5 py-3">
+              {% if a.critical_findings and a.critical_findings > 0 %}
+              <span class="text-red-400 font-bold">{{ a.critical_findings }}</span>
+              {% else %}
+              <span class="text-slate-500">0</span>
+              {% endif %}
+            </td>
+            <td class="px-5 py-3">
+              <span class="badge badge-{{ a.status }}">{{ a.status }}</span>
+            </td>
+            <td class="px-5 py-3 text-slate-400">{{ a.remediation_due.strftime('%Y-%m-%d') if a.remediation_due else '—' }}</td>
+          </tr>
+          {% else %}
+          <tr>
+            <td colspan="8" class="px-5 py-12 text-center text-slate-500">No audit records found.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Change log -->
+  <div class="card">
+    <div class="px-5 py-4 border-b border-slate-700/50 flex items-center justify-between">
+      <h2 class="font-semibold">Activity Log</h2>
+      <span class="text-sm text-slate-400">Last 50 entries</span>
+    </div>
+    <div class="divide-y divide-slate-700/30 max-h-96 overflow-y-auto">
+      {% for log in change_logs %}
+      <div class="px-5 py-3 flex items-center gap-3 text-sm">
+        <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs
+          {% if log.action == 'created' %}bg-emerald-500/15 text-emerald-400
+          {% elif log.action == 'updated' %}bg-blue-500/15 text-blue-400
+          {% else %}bg-red-500/15 text-red-400{% endif %}">
+          {% if log.action == 'created' %}<i class="fa-solid fa-plus"></i>
+          {% elif log.action == 'updated' %}<i class="fa-solid fa-pen"></i>
+          {% else %}<i class="fa-solid fa-xmark"></i>{% endif %}
+        </div>
+        <div class="flex-1">
+          <span class="font-medium text-white">{{ log.changed_by or 'System' }}</span>
+          <span class="text-slate-400">{{ log.action }} {{ log.asset_type }}</span>
+          <span class="text-kronos-400 font-mono text-xs">{{ log.asset_id }}</span>
+          {% if log.change_summary %}<span class="text-slate-500"> — {{ log.change_summary }}</span>{% endif %}
+        </div>
+        <span class="text-xs text-slate-500 whitespace-nowrap">{{ log.timestamp.strftime('%Y-%m-%d %H:%M') }}</span>
+      </div>
+      {% else %}
+      <div class="px-5 py-12 text-center text-slate-500">No activity recorded yet.</div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

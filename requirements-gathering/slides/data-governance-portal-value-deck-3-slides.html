@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Data Governance Portal — What, why, value (3 slides)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #0f2744;
+      --navy-soft: #1a3a5c;
+      --header-blue: #1e5a96;
+      --sidebar-bg: #e4eef8;
+      --sidebar-footer: #3d5166;
+      --page-bg: #e8ecf2;
+      --white: #fff;
+      --text: #1a1a1a;
+      --muted: #5c6570;
+      --accent: #1565c0;
+      --radius: 14px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "DM Sans", system-ui, -apple-system, sans-serif;
+      background: var(--page-bg);
+      color: var(--text);
+      padding: 1.25rem 1.25rem 2rem;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .deck-intro {
+      max-width: 1120px;
+      margin: 0 auto 1rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .deck-intro strong { color: var(--navy); }
+
+    .slide {
+      max-width: 1120px;
+      margin: 0 auto 1.75rem;
+      aspect-ratio: 16 / 9;
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: 0 12px 40px rgba(15, 39, 68, 0.12);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      min-height: 480px;
+      page-break-after: always;
+      break-after: page;
+    }
+
+    .slide:last-of-type {
+      page-break-after: auto;
+      break-after: auto;
+      margin-bottom: 0;
+    }
+
+    .slide-head {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--header-blue) 100%);
+      color: #fff;
+      padding: 0.65rem 1.25rem;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .slide-head h1 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .slide-num {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.85;
+      white-space: nowrap;
+    }
+
+    .slide-body {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      min-height: 0;
+    }
+
+    .col {
+      padding: 1rem 1.15rem 1.1rem;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .col-aside {
+      background: var(--sidebar-bg);
+      border-right: 1px solid rgba(15, 39, 68, 0.08);
+    }
+
+    .col h2 {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 0.45rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .col-main h2 {
+      color: var(--header-blue);
+    }
+
+    .col p,
+    .col li {
+      font-size: 0.72rem;
+      line-height: 1.45;
+      color: var(--text);
+    }
+
+    .col p { margin-bottom: 0.5rem; }
+
+    .col ul {
+      margin: 0.25rem 0 0.5rem 1rem;
+    }
+
+    .col li { margin-bottom: 0.28rem; }
+
+    .callout {
+      font-size: 0.68rem;
+      line-height: 1.42;
+      background: rgba(30, 90, 150, 0.08);
+      border-left: 3px solid var(--header-blue);
+      padding: 0.45rem 0.55rem;
+      margin-top: 0.35rem;
+      border-radius: 0 6px 6px 0;
+    }
+
+    .slide-footer {
+      background: var(--sidebar-footer);
+      color: #c5d4e3;
+      padding: 0.4rem 1.15rem;
+      font-size: 0.6rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .slide-footer a {
+      color: #a8d4ff;
+    }
+
+    .slide-footer .logo {
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      font-size: 0.55rem;
+      color: #9eb0c4;
+    }
+
+    .slide-3 .slide-body {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .slide-3 .col-today {
+      background: var(--sidebar-bg);
+      border-right: 1px solid rgba(15, 39, 68, 0.08);
+    }
+
+    .slide-3 .col-scale {
+      border-right: 1px solid rgba(15, 39, 68, 0.08);
+    }
+
+    @media (max-width: 900px) {
+      .slide-body,
+      .slide-3 .slide-body {
+        grid-template-columns: 1fr;
+      }
+      .slide-3 .col-today,
+      .slide-3 .col-scale {
+        border-right: none;
+        border-bottom: 1px solid rgba(15, 39, 68, 0.08);
+      }
+      .slide { aspect-ratio: auto; min-height: 0; }
+    }
+
+    @media print {
+      body { padding: 0; background: #fff; }
+      .deck-intro { display: none; }
+      .slide {
+        box-shadow: none;
+        max-width: none;
+        margin: 0;
+        border-radius: 0;
+        min-height: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <p class="deck-intro">
+    <strong>Data Governance Portal</strong> — stakeholder deck (3 slides) · May 2026 · UDGE. Companion: <a href="data-governance-portal-program-slide.html">program one-pager</a> · <a href="../../data-navigator-governance/index.html">Portal demo</a> · <a href="data-source-navigator-value-deck-3-slides.html">Navigator value deck</a>
+  </p>
+
+  <!-- Slide 1 -->
+  <article class="slide slide-1" aria-labelledby="s1-title">
+    <header class="slide-head">
+      <h1 id="s1-title">What the Data Governance Portal is — and what it does for us</h1>
+      <span class="slide-num">Slide 1 of 3</span>
+    </header>
+    <div class="slide-body">
+      <div class="col col-aside">
+        <h2>Definitions</h2>
+        <p><strong>Data Governance Portal</strong> — The <strong>privacy and data governance command center</strong> in the shared OMS shell: one place for posture, exceptions, and evidence across guest and consumer data — organized by functional dimensions, not org titles.</p>
+        <p><strong>Unified Data Governance Experience (UDGE)</strong> — The broader program story: a single shell (<em>Data Navigator &amp; Governance Portal</em>) that connects the Portal (govern &amp; prove) with <strong>Business Data Navigator</strong> (discover &amp; steward catalog assets) without collapsing specialist backends into one screen.</p>
+        <p><strong>Four dimensions</strong> — <strong>Privacy</strong> (consent, DSRs, tracker remediation) · <strong>Platform</strong> (stewards, classifications, policies) · <strong>Security</strong> (access, GIS, data use) · <strong>Regulatory</strong> (laws &amp; regulations, incidents, audits).</p>
+        <div class="callout">
+          <strong>Design principle:</strong> <em>Unified experience, federated execution</em> — one portal for privacy, platform, security, and regulatory posture; specialist systems (MAUI, consent platform, Kronos RIM, Navigator Requests) remain authoritative for deep workflow.
+        </div>
+      </div>
+      <div class="col col-main">
+        <h2>What it does for the organization</h2>
+        <ul>
+          <li><strong>Governance Overview</strong> — Top-line Privacy Compliance Index (PCI) plus Platform, Security, and Regulatory section indices — executives see “are we in policy?” in one glance.</li>
+          <li><strong>Dimension hubs</strong> — Purpose-built views for Privacy, Platform, Security, and Regulatory — each with KPIs, trend charts, Overview + Work queue tabs, and the top items needing attention.</li>
+          <li><strong>Per-function work queues</strong> — Unified queue model filtered by dimension — DSR SLA breaches, tracker findings, classification sign-offs, data-use intake — with handoff to the right tool.</li>
+          <li><strong>Defined vs observed</strong> — Side-by-side policy intent and operational reality on shared catalog assets — definitions, classifications, and what OMS actually sees.</li>
+          <li><strong>Evidence &amp; auditor view</strong> — Export evidence packages and open auditor-oriented summaries from the Portal header for regulatory and internal audit requests.</li>
+          <li><strong>Navigator spine links</strong> — Platform dimension links stewards to Navigator (Data Sources, Catalog); Classifications and Policies stay in Portal with deep ties to catalog assets.</li>
+          <li><strong>Reduce dashboard sprawl</strong> — One front door instead of five disconnected privacy/compliance URLs with no shared story.</li>
+        </ul>
+        <p class="callout" style="margin-top: 0.5rem;">
+          <strong>Architecture:</strong> Governance Portal lands first for privacy &amp; compliance stakeholders; Business Data Navigator remains the action layer for stewards and analysts. Same OMS metadata underneath — two modes in one shell, one truth.
+        </p>
+      </div>
+    </div>
+    <footer class="slide-footer">
+      <span>Data Governance · Data Governance Portal (UDGE)</span>
+      <span class="logo">INTERNAL — PRIVACY, COMPLIANCE &amp; LEADERSHIP</span>
+    </footer>
+  </article>
+
+  <!-- Slide 2 -->
+  <article class="slide slide-2" aria-labelledby="s2-title">
+    <header class="slide-head">
+      <h1 id="s2-title">Why it matters — stakeholders, risk, and the wider org</h1>
+      <span class="slide-num">Slide 2 of 3</span>
+    </header>
+    <div class="slide-body">
+      <div class="col col-aside">
+        <h2>Why it matters now</h2>
+        <ul>
+          <li><strong>Fragmented dashboards</strong> — Each workstream (consent, DSRs, trackers, access, GIS, data use) has its own tool; stakeholders cannot see overall posture or prioritize across dimensions.</li>
+          <li><strong>Privacy stakeholder mandate</strong> — Leadership asked for a holistic, Abacus-inspired <strong>single unified experience</strong> for Privacy, Legal, Compliance, GIS, and technical data owners — without rebuilding every backend.</li>
+          <li><strong>Action vs reporting gap</strong> — Posture charts alone do not answer “what needs a human this week?” — the Portal must triage and route, not only report.</li>
+          <li><strong>Catalog migration context</strong> — As Alation exits (<strong>Oct 1, 2026</strong>), governance and privacy teams need a stable home that links to OMS-backed catalog assets — not another silo.</li>
+        </ul>
+        <h2 style="margin-top: 0.65rem;">Data Governance benefits</h2>
+        <ul>
+          <li><strong>Persona-appropriate defaults</strong> — Privacy/legal land on Portal overview; DPMs/engineers complete work in Navigator Requests with Portal visibility for SLA breaches.</li>
+          <li><strong>Functional IA</strong> — Dimensions grouped by job (Privacy, Platform, Security, Regulatory) — not by internal org names like “Operations” or legacy “Compliance.”</li>
+          <li><strong>Audit trail narrative</strong> — Exceptions and approvals tied to catalog objects support explainable data use and regulatory inquiry.</li>
+          <li><strong>Program alignment</strong> — Connects FY27 privacy &amp; governance priorities to operational metrics teams already track downstream.</li>
+        </ul>
+      </div>
+      <div class="col col-main">
+        <h2>Benefits for the whole org</h2>
+        <ul>
+          <li><strong>Privacy, legal &amp; GIS</strong> — One map of consent posture, DSR volume, tracker remediation, and GIS security compliance — with drill-down to MAUI-style operational views where needed.</li>
+          <li><strong>Security &amp; compliance</strong> — Access reviews, GIS controls, and data-use approvals visible in the Security dimension — linked to downstream systems (including Kronos RIM where records management execution lives).</li>
+          <li><strong>Platform stewards &amp; DPMs</strong> — Stewardship coverage, classification approvals, and policy mappings surfaced in Platform queues with full asset context in Navigator.</li>
+          <li><strong>Business &amp; analytics consumers</strong> — Indirect benefit: faster resolution of governance blockers on datasets they depend on; clearer trust signals on catalog assets.</li>
+          <li><strong>Executives &amp; program leads</strong> — Governance Overview: PCI-style index, Platform / Security / Regulatory section scores, open exceptions by severity, and exportable evidence for council reviews.</li>
+          <li><strong>Engineering &amp; platform</strong> — Fewer “which dashboard?” questions; clear handoffs from Portal triage to Requests / Workflows in Navigator.</li>
+        </ul>
+        <div class="callout" style="margin-top: 0.55rem;">
+          <strong>FY27 framing:</strong> The Governance Portal is the <strong>operating layer for privacy, platform, security, and regulatory posture</strong> — not a replacement for DSR, consent, or catalog tools, but the shell that makes the whole program legible to non-specialists.
+        </div>
+      </div>
+    </div>
+    <footer class="slide-footer">
+      <span>Data Governance · Data Governance Portal (UDGE)</span>
+      <span class="logo">INTERNAL — PRIVACY, COMPLIANCE &amp; LEADERSHIP</span>
+    </footer>
+  </article>
+
+  <!-- Slide 3 -->
+  <article class="slide slide-3" aria-labelledby="s3-title">
+    <header class="slide-head">
+      <h1 id="s3-title">Value now — value at scale — and how we measure success</h1>
+      <span class="slide-num">Slide 3 of 3</span>
+    </header>
+    <div class="slide-body">
+      <div class="col col-today">
+        <h2>Foundation &amp; near-term</h2>
+        <ul>
+          <li><strong>Portal shell &amp; IA</strong> — Four dimension buckets (Privacy, Platform, Security, Regulatory) with Governance Overview as default landing — validated in UDGE demo.</li>
+          <li><strong>Workstream prototypes</strong> — Consent, DSRs, tracker, stewardship, classifications, policies, access, GIS, data use, laws, incidents, and audits with KPI cards and representative charts.</li>
+          <li><strong>Work queue model</strong> — Overview + Work queue tabs per function; golden-path seeds with Navigator / governance handoffs for classification and metadata approvals.</li>
+          <li><strong>Navigator boundary</strong> — Clear split: Portal for posture &amp; triage; Navigator for catalog discovery and steward execution.</li>
+          <li><strong>Stakeholder reviews</strong> — Privacy, legal, and program leads refine container layout and metrics (Suman: “containers/format first; metric details iterate”).</li>
+        </ul>
+      </div>
+      <div class="col col-scale">
+        <h2>Value at scale</h2>
+        <ul>
+          <li><strong>Live data federation</strong> — KPIs and queue items fed from consent, DSR, tracker, access, GIS, and data-use systems — not static demo numbers.</li>
+          <li><strong>Role-based defaults</strong> — Privacy/compliance default to Governance Overview; stewards default to Navigator Requests; executives to overview + evidence export.</li>
+          <li><strong>Evidence automation</strong> — Scheduled evidence packages and auditor views tied to catalog asset IDs and policy mappings.</li>
+          <li><strong>OMS integration</strong> — Classifications, policies, and stewardship state read from operational metadata store — defined vs observed stays current.</li>
+          <li><strong>Enterprise expansion</strong> — Additional segments and domains inherit dimension model; shared PCI and exception taxonomy across BUs where policy aligns.</li>
+        </ul>
+      </div>
+      <div class="col col-main">
+        <h2>How we measure success</h2>
+        <ul>
+          <li><strong>Posture indices</strong> — Privacy Compliance Index (PCI) and Platform / Security / Regulatory section indices trended month-over-month with target thresholds.</li>
+          <li><strong>Exception SLA</strong> — % of work-queue items closed within SLA; count of breaches by dimension.</li>
+          <li><strong>Portal adoption</strong> — Weekly active users among privacy, legal, compliance, and stewardship roles.</li>
+          <li><strong>Handoff completion</strong> — % of Portal-routed items actioned in Navigator / downstream tools within agreed windows.</li>
+          <li><strong>Evidence readiness</strong> — Time to produce audit / regulatory evidence package from Portal export.</li>
+          <li><strong>Stakeholder satisfaction</strong> — Qualitative feedback from privacy council and intake forums on “single unified experience” vs prior sprawl.</li>
+        </ul>
+        <div class="callout" style="margin-top: 0.4rem;">
+          Phasing: <strong>IA + demo containers</strong> → <strong>live feeds + queue</strong> → <strong>evidence automation + OMS integration</strong> → <strong>enterprise scale</strong> alongside Navigator catalog migration.
+        </div>
+      </div>
+    </div>
+    <footer class="slide-footer">
+      <span>Data Governance · Data Governance Portal (UDGE)</span>
+      <span class="logo">INTERNAL — PRIVACY, COMPLIANCE &amp; LEADERSHIP</span>
+    </footer>
+  </article>
+</body>
+</html>

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Edit {{ asset.name }}{% endblock %}
+{% block page_title %}Edit Asset{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+  <div class="card">
+    <div class="px-6 py-5 border-b border-slate-700/50">
+      <h2 class="text-lg font-semibold">Edit: {{ asset.name }}</h2>
+      <p class="text-sm text-slate-400 mt-0.5 font-mono">{{ asset.asset_id }}</p>
+    </div>
+
+    <form method="post" action="{{ url_for('edit_asset', asset_type=asset_type, asset_id=asset.asset_id) }}" class="p-6 space-y-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="sm:col-span-2">
+          <label class="block text-sm font-medium text-slate-300 mb-1">Name</label>
+          <input type="text" name="name" value="{{ asset.name }}" required class="input-field w-full">
+        </div>
+        <div class="sm:col-span-2">
+          <label class="block text-sm font-medium text-slate-300 mb-1">Description</label>
+          <textarea name="description" rows="3" class="input-field w-full">{{ asset.description or '' }}</textarea>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-300 mb-1">Owner</label>
+          <input type="text" name="owner" value="{{ asset.owner or '' }}" class="input-field w-full">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-300 mb-1">Region</label>
+          <select name="region" class="input-field w-full">
+            <option value="">Select</option>
+            {% for r in ['US','EMEA','LATAM','APAC','Global'] %}
+            <option value="{{ r }}" {{ 'selected' if asset.region == r }}>{{ r }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-300 mb-1">Status</label>
+          <select name="status" class="input-field w-full">
+            {% for s in ['active','inactive','deprecated','pending','under_review'] %}
+            <option value="{{ s }}" {{ 'selected' if asset.status == s }}>{{ s | capitalize }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-slate-300 mb-1">Notes</label>
+        <textarea name="notes" rows="2" class="input-field w-full">{{ asset.notes or '' }}</textarea>
+      </div>
+
+      <div class="flex justify-end gap-3 pt-4 border-t border-slate-700/50">
+        <a href="{{ url_for('asset_detail', asset_type=asset_type, asset_id=asset.asset_id) }}" class="btn-secondary">Cancel</a>
+        <button type="submit" class="btn-primary">Save Changes</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

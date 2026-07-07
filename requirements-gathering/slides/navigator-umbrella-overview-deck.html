@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Navigator — Data governance product family (overview deck)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #0f2744;
+      --navy-soft: #1a3a5c;
+      --header-blue: #1e5a96;
+      --sidebar-bg: #e4eef8;
+      --sidebar-footer: #3d5166;
+      --page-bg: #e8ecf2;
+      --white: #fff;
+      --text: #1a1a1a;
+      --muted: #5c6570;
+      --accent: #1565c0;
+      --radius: 14px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "DM Sans", system-ui, -apple-system, sans-serif;
+      background: var(--page-bg);
+      color: var(--text);
+      padding: 1.25rem 1.25rem 2rem;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .deck-intro {
+      max-width: 1120px;
+      margin: 0 auto 1rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .deck-intro strong { color: var(--navy); }
+    .deck-intro a { color: var(--accent); }
+
+    .slide {
+      max-width: 1120px;
+      margin: 0 auto 1.75rem;
+      aspect-ratio: 16 / 9;
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: 0 12px 40px rgba(15, 39, 68, 0.12);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      min-height: 480px;
+      page-break-after: always;
+      break-after: page;
+    }
+
+    .slide:last-of-type {
+      page-break-after: auto;
+      break-after: auto;
+      margin-bottom: 0;
+    }
+
+    .slide-head {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--header-blue) 100%);
+      color: #fff;
+      padding: 0.65rem 1.25rem;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .slide-head h1 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .slide-num {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.85;
+      white-space: nowrap;
+    }
+
+    .slide-body {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      min-height: 0;
+    }
+
+    .slide-body--triple {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .col {
+      padding: 1rem 1.15rem 1.1rem;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .col-aside,
+    .col-today {
+      background: var(--sidebar-bg);
+      border-right: 1px solid rgba(15, 39, 68, 0.08);
+    }
+
+    .col-scale {
+      border-right: 1px solid rgba(15, 39, 68, 0.08);
+    }
+
+    .col h2 {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 0.45rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .col-main h2 { color: var(--header-blue); }
+
+    .col p,
+    .col li {
+      font-size: 0.72rem;
+      line-height: 1.45;
+      color: var(--text);
+    }
+
+    .col p { margin-bottom: 0.5rem; }
+    .col ul { margin: 0.25rem 0 0.5rem 1rem; }
+    .col li { margin-bottom: 0.28rem; }
+
+    .callout {
+      font-size: 0.68rem;
+      line-height: 1.42;
+      background: rgba(30, 90, 150, 0.08);
+      border-left: 3px solid var(--header-blue);
+      padding: 0.45rem 0.55rem;
+      margin-top: 0.35rem;
+      border-radius: 0 6px 6px 0;
+    }
+
+    .callout-strong {
+      font-size: 0.78rem;
+      line-height: 1.5;
+      background: rgba(15, 39, 68, 0.06);
+      border-left: 4px solid var(--navy);
+      padding: 0.55rem 0.65rem;
+      margin-top: 0.35rem;
+      border-radius: 0 6px 6px 0;
+    }
+
+    .vocab-grid {
+      display: grid;
+      gap: 0.45rem;
+      margin-top: 0.35rem;
+    }
+
+    .vocab-card {
+      background: var(--white);
+      border: 1px solid rgba(15, 39, 68, 0.12);
+      border-radius: 8px;
+      padding: 0.5rem 0.55rem;
+    }
+
+    .vocab-card strong {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--navy);
+      margin-bottom: 0.2rem;
+    }
+
+    .vocab-card span {
+      font-size: 0.68rem;
+      line-height: 1.42;
+      color: var(--text);
+    }
+
+    .slide-footer {
+      background: var(--sidebar-footer);
+      color: #c5d4e3;
+      padding: 0.4rem 1.15rem;
+      font-size: 0.6rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .slide-footer a { color: #a8d4ff; }
+
+    .slide-footer .logo {
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      font-size: 0.55rem;
+      color: #9eb0c4;
+    }
+
+    @media (max-width: 900px) {
+      .slide-body,
+      .slide-body--triple {
+        grid-template-columns: 1fr;
+      }
+      .col-aside,
+      .col-today,
+      .col-scale {
+        border-right: none;
+        border-bottom: 1px solid rgba(15, 39, 68, 0.08);
+      }
+      .slide { aspect-ratio: auto; min-height: 0; }
+    }
+
+    @media print {
+      body { padding: 0; background: #fff; }
+      .deck-intro { display: none; }
+      .slide {
+        box-shadow: none;
+        max-width: none;
+        margin: 0;
+        border-radius: 0;
+        min-height: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <p class="deck-intro">
+    <strong>Navigator</strong> — data governance product family overview · Jun 2026 ·
+    Open in browser → <kbd>Cmd+P</kbd> / Print to PDF for sharing ·
+    Companion: <a href="../../data-navigator-governance/index.html">wireframes</a> ·
+    <a href="../prd/word/PRD-Navigator-Data-Governance-Umbrella.docx">umbrella PRD</a> ·
+    <a href="Navigator-Umbrella-Overview-Deck.pptx">PowerPoint</a> ·
+    <a href="navigator-oms-alignment-deck-3-slides.html">OMS alignment deck</a>
+  </p>
+
+  <!-- Slide 1 -->
+  <article class="slide" aria-labelledby="s1-title">
+    <header class="slide-head">
+      <h1 id="s1-title">Navigator — the collective data governance product family</h1>
+      <span class="slide-num">Slide 1 of 6</span>
+    </header>
+    <div class="slide-body">
+      <div class="col col-aside">
+        <h2>What Navigator is</h2>
+        <div class="callout-strong">
+          <strong>Navigator</strong> is the umbrella name for DEEPT’s data governance products, programs, catalog experience, and operations — one coherent story instead of disconnected tools.
+        </div>
+        <p style="margin-top: 0.45rem;">It reframes what we previously called separate initiatives:</p>
+        <ul>
+          <li><strong>Governance Portal</strong> → <strong>Navigator</strong> (program command center)</li>
+          <li><strong>Business Data Navigator</strong> → <strong>Business Data Catalog</strong> (catalog on OMS)</li>
+          <li><strong>PULS + Access Manager + Gov backend</strong> → <strong>Policy Drive Governance Framework</strong></li>
+          <li><strong>Kronos</strong> → business inventory (linked, not duplicated)</li>
+        </ul>
+        <div class="callout">
+          <strong>Design principle:</strong> <em>Unified experience, federated execution</em> — one portal for orientation and posture; authoritative systems stay authoritative.
+        </div>
+      </div>
+      <div class="col col-main">
+        <h2>What it does for the organization</h2>
+        <ul>
+          <li><strong>Answers two questions</strong> — “Where is my program work?” (Navigator portal) and “Where is the governed data?” (Business Data Catalog).</li>
+          <li><strong>Governance Overview</strong> — Privacy, Platform, Security, and Regulatory posture in one leadership-ready view.</li>
+          <li><strong>Dimension routing</strong> — Consent, DSRs, classifications, policies, access, GIS, regulations, and inventory each have a clear home — with deep links where work lives elsewhere.</li>
+          <li><strong>Catalog continuity</strong> — Stewards and analysts discover and curate metadata on OMS through BDC as Alation exits.</li>
+          <li><strong>Policy truth in PULS</strong> — Classifications, policies, and metrics stay in a governance repository — not scattered across spreadsheets.</li>
+          <li><strong>Inventory via Kronos</strong> — Regulatory dimension links to Kronos for business inventory; Navigator does not fork that system of record.</li>
+          <li><strong>Clear platform boundaries</strong> — OMS is the engine; DG owns business-facing shells; SISU partners on governance backend and inventory.</li>
+        </ul>
+      </div>
+    </div>
+    <footer class="slide-footer">
+      <span>Data Governance · Navigator product family</span>
+      <span class="logo">INTERNAL — PROGRAM &amp; LEADERSHIP</span>
+    </footer>
+  </article>
+
+  <!-- Slide 2 -->
+  <article class="slide" aria-labelledby="s2-title">
+    <header class="slide-head">
+      <h1 id="s2-title">Why Navigator — continuity, coherence, and clarity</h1>
+      <span class="slide-num">Slide 2 of 6</span>
+    </header>
+    <div class="slide-body">
+      <div class="col col-aside">
+        <h2>Why it matters now</h2>
+        <ul>
+          <li><strong>Alation exit (Oct 2026)</strong> — Teams need search, glossary, ownership, and tags on OMS — not a return to ad hoc metadata in Confluence and Slack.</li>
+          <li><strong>Fragmented governance</strong> — PULS, Access Manager, Kronos, consent, DSR, and security tools each work — but no single product narrative connects them.</li>
+          <li><strong>OMS vs DG tension</strong> — Foundations builds the store and APIs; Data Governance must ship business value without building “another OMS.”</li>
+          <li><strong>Dashboard sprawl</strong> — Privacy and compliance stakeholders asked for a holistic unified experience — without rebuilding every backend.</li>
+        </ul>
+        <h2 style="margin-top: 0.65rem;">What success requires</h2>
+        <ul>
+          <li><strong>Continuity</strong> — High-value Alation workflows on OMS for in-scope domains.</li>
+          <li><strong>Coherence</strong> — One portal connecting program dimensions and catalog assets.</li>
+          <li><strong>Clarity</strong> — Documented ownership: who builds shells vs who runs stores.</li>
+        </ul>
+      </div>
+      <div class="col col-main">
+        <h2>Stakeholder benefits</h2>
+        <ul>
+          <li><strong>Privacy, legal &amp; compliance</strong> — One map of consent, DSR, tracker, regulatory, and incident posture — with drill-down to operational tools.</li>
+          <li><strong>Stewards &amp; DPMs</strong> — Platform dimension links to BDC; classifications and policies tie to catalog assets in PULS.</li>
+          <li><strong>Analysts &amp; BI</strong> — Business Data Catalog as daily discovery surface with glossary, ownership, and trust signals.</li>
+          <li><strong>Executives &amp; program leads</strong> — Governance Overview indices, trends, and exportable evidence for council and audit requests.</li>
+          <li><strong>Engineering &amp; platform</strong> — OMS remains technical metadata hub; Navigator consumes APIs — no duplicate ingestion or graph store in DG UI.</li>
+          <li><strong>Inventory operators</strong> — Kronos stays authoritative; Navigator provides one-click access from Regulatory → Inventory.</li>
+        </ul>
+        <div class="callout" style="margin-top: 0.5rem;">
+          <strong>FY27 framing:</strong> Navigator is the <strong>operating layer for data governance</strong> — programs, catalog, policy, and inventory — not a replacement for every specialist system, but the shell that makes the whole program legible.
+        </div>
+      </div>
+    </div>
+    <footer class="slide-footer">
+      <span>Data Governance · Navigator product family</span>
+      <span class="logo">INTERNAL — PROGRAM &amp; LEADERSHIP</span>
+    </footer>
+  </article>
+
+  <!-- Slide 3 -->
+  <article class="slide" aria-labelledby="s3-title">
+    <header class="slide-head">
+      <h1 id="s3-title">Four parts under the Navigator umbrella</h1>
+      <span class="slide-num">Slide 3 of 6</span>
+    </header>
+    <div class="slide-body">
+      <div class="col col-aside">
+        <h2>The umbrella model</h2>
+        <p><strong>Navigator</strong> (the name) is both the governance portal experience <em>and</em> the umbrella for the whole family. The four named parts below are how we explain build scope, ownership, and architecture to executives and engineers.</p>
+        <div class="callout">
+          Navigator orchestrates and connects — it does <strong>not</strong> collapse Kronos, PULS, and OMS into one database.
+        </div>
+      </div>
+      <div class="col col-main">
+        <h2>Named components</h2>
+        <div class="vocab-grid">
+          <div class="vocab-card">
+            <strong>1. Navigator (portal + Gov App backend)</strong>
+            <span>Governance command center: Overview, Privacy / Platform / Security / Regulatory dimensions, workflow UIs, evidence export. Gov App backend read/updates policies and metrics in PULS.</span>
+          </div>
+          <div class="vocab-card">
+            <strong>2. Policy Drive Governance Framework</strong>
+            <span>PULS Postgres (classifications, policies, metrics) + Access Manager + Gov App backend. System of record for control metadata behind Navigator workflows.</span>
+          </div>
+          <div class="vocab-card">
+            <strong>3. Business Data Catalog (BDC)</strong>
+            <span>Business-first UI on OMS APIs — Data Sources, Catalog, Glossary, stewardship. Alation migration target; opened from left nav or Platform → Stewards.</span>
+          </div>
+          <div class="vocab-card">
+            <strong>4. Kronos (business inventory)</strong>
+            <span>SISU Postgres inventory + Kronos UI. Regulatory → Inventory deep link. Business context complements OMS technical metadata.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="slide-footer">
+      <span>Data Governance · Navigator product family</span>
+      <span class="logo">INTERNAL — PROGRAM &amp; LEADERSHIP</span>
+    </footer>
+  </article>
+
+  <!-- Slide 4 -->
+  <article class="slide" aria-labelledby="s4-title">
+    <header class="slide-head">
+      <h1 id="s4-title">Navigator portal &amp; Business Data Catalog</h1>
+      <span class="slide-num">Slide 4 of 6</span>
+    </header>
+    <div class="slide-body">
+      <div class="col col-aside">
+        <h2>Navigator portal</h2>
+        <p>Program operators land here. Four dimension buckets mirror how DEEPT runs governance:</p>
+        <ul>
+          <li><strong>Privacy</strong> — Consent · DSRs · Tracker remediation</li>
+          <li><strong>Platform</strong> — Stewards → BDC · Classifications · Policies</li>
+          <li><strong>Security</strong> — Access · GIS · Data use</li>
+          <li><strong>Regulatory</strong> — Laws &amp; regulations · Incidents · <strong>Inventory → Kronos</strong></li>
+        </ul>
+        <p>Governance Overview aggregates PCI-style and section indices for leadership. Workflow UIs connect to Gov App backend; auditor view and evidence export support attestation cycles.</p>
+      </div>
+      <div class="col col-main">
+        <h2>Business Data Catalog</h2>
+        <p>The daily workspace for metadata consumers and stewards. Built <strong>on top of OMS APIs</strong> — not a second operational metadata store.</p>
+        <ul>
+          <li><strong>Discovery</strong> — Data Sources browse, catalog search, glossary, asset detail, lineage (where OMS graph supports).</li>
+          <li><strong>Stewardship</strong> — Ownership, descriptions, tags/classifications display, suggest-edit flows.</li>
+          <li><strong>Entry points</strong> — Left nav “Business Data Catalog” or Navigator Platform → Stewards.</li>
+          <li><strong>MVP focus</strong> — Proven Alation workflow parity for in-scope domains before contract end.</li>
+        </ul>
+        <div class="callout" style="margin-top: 0.45rem;">
+          <strong>Ownership:</strong> Data Governance owns BDC product &amp; UX · OMS Foundations owns store, connectors &amp; APIs · <em>OMS is the engine; BDC is how the governance program experiences catalog value.</em>
+        </div>
+      </div>
+    </div>
+    <footer class="slide-footer">
+      <span>Data Governance · Navigator product family</span>
+      <span class="logo">INTERNAL — PROGRAM &amp; LEADERSHIP</span>
+    </footer>
+  </article>
+
+  <!-- Slide 5 -->
+  <article class="slide" aria-labelledby="s5-title">
+    <header class="slide-head">
+      <h1 id="s5-title">Policy framework, Kronos &amp; architecture</h1>
+      <span class="slide-num">Slide 5 of 6</span>
+    </header>
+    <div class="slide-body">
+      <div class="col col-aside">
+        <h2>Policy Drive Governance Framework</h2>
+        <p>Authoritative layer behind Navigator workflows:</p>
+        <ul>
+          <li><strong>PULS Postgres</strong> — Classifications &amp; tags, policies, metrics (SF relational SoR).</li>
+          <li><strong>Access Manager</strong> — Bidirectional read/update with classifications; enforcement alignment.</li>
+          <li><strong>Gov App backend</strong> — API for Navigator UIs; audit logging; no direct browser writes to PULS.</li>
+        </ul>
+        <h2 style="margin-top: 0.55rem;">Kronos</h2>
+        <ul>
+          <li>Business inventory on <strong>SISU Postgres</strong>.</li>
+          <li>Edited in <strong>Kronos</strong> — linked from Navigator Regulatory dimension.</li>
+          <li>Complements OMS tables/columns with business purpose and obligations.</li>
+        </ul>
+      </div>
+      <div class="col col-main">
+        <h2>Three platform zones</h2>
+        <ul>
+          <li><strong>OMS</strong> — Technical metadata hub: ingestion, Neptune graph, Snowflake/Databricks relationships, catalog APIs. BDC reads from OMS.</li>
+          <li><strong>Governance stack</strong> — PULS + Access Manager + Gov App backend. Navigator portal UIs read/write via backend.</li>
+          <li><strong>SISU / Kronos</strong> — Business inventory relational store + Kronos UI.</li>
+        </ul>
+        <div class="callout" style="margin-top: 0.45rem;">
+          <strong>Open design question — “Read ?”:</strong> Confirm whether OMS reads classifications, policies, and metrics directly from PULS Postgres or via Gov App backend API. Answer affects BDC classification display and schema ownership.
+        </div>
+        <p class="callout" style="margin-top: 0.35rem;">
+          <strong>Architecture diagram:</strong> <code>data-navigator-governance/governance-product-systems-architecture.drawio</code>
+        </p>
+      </div>
+    </div>
+    <footer class="slide-footer">
+      <span>Data Governance · Navigator product family</span>
+      <span class="logo">INTERNAL — PROGRAM &amp; LEADERSHIP</span>
+    </footer>
+  </article>
+
+  <!-- Slide 6 -->
+  <article class="slide" aria-labelledby="s6-title">
+    <header class="slide-head">
+      <h1 id="s6-title">Who builds what — phasing — and how we measure success</h1>
+      <span class="slide-num">Slide 6 of 6</span>
+    </header>
+    <div class="slide-body slide-body--triple">
+      <div class="col col-today">
+        <h2>Who builds what</h2>
+        <ul>
+          <li><strong>Navigator portal &amp; BDC</strong> — Data Governance (product &amp; UX)</li>
+          <li><strong>OMS store &amp; APIs</strong> — OMS Foundations</li>
+          <li><strong>PULS &amp; Gov backend</strong> — SISU partnership + DG program</li>
+          <li><strong>Kronos inventory</strong> — SISU Postgres + inventory program</li>
+        </ul>
+        <div class="callout" style="margin-top: 0.35rem;">
+          Clear RACI prevents Navigator becoming “the OMS app” and protects Alation exit scope.
+        </div>
+      </div>
+      <div class="col col-scale">
+        <h2>Phased delivery</h2>
+        <ul>
+          <li><strong>Phase 1 (now)</strong> — BDC MVP on OMS APIs; Navigator IA &amp; wireframes; Kronos inventory link.</li>
+          <li><strong>Phase 2</strong> — Gov App backend + PULS paths; classifications &amp; policy workflows in Navigator.</li>
+          <li><strong>Phase 3</strong> — Metrics governance UI; resolve OMS↔PULS read model; evidence automation.</li>
+        </ul>
+        <p style="margin-top: 0.4rem;">Front-load catalog continuity; sequence PULS without blocking BDC on OMS.</p>
+      </div>
+      <div class="col col-main">
+        <h2>Success indicators</h2>
+        <ul>
+          <li><strong>Catalog continuity</strong> — In-scope Alation workflows in BDC before contract end.</li>
+          <li><strong>Navigation coherence</strong> — Platform → BDC and Regulatory → Kronos work in one click.</li>
+          <li><strong>Posture reporting</strong> — Governance Overview metrics traceable to program backends.</li>
+          <li><strong>Adoption</strong> — Weekly active stewards, privacy, and compliance roles in Navigator family UIs.</li>
+          <li><strong>Architecture clarity</strong> — Single alignment story for Foundations, OMS, metadata WG, and DG.</li>
+        </ul>
+        <div class="callout" style="margin-top: 0.35rem;">
+          <strong>Artifacts:</strong> Wireframes · umbrella PRD · this deck · OMS alignment deck — keep naming and links in sync.
+        </div>
+      </div>
+    </div>
+    <footer class="slide-footer">
+      <span>Data Governance · Navigator product family</span>
+      <span class="logo">INTERNAL — PROGRAM &amp; LEADERSHIP</span>
+    </footer>
+  </article>
+</body>
+</html>

@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Navigator personas × restructured 360 taxonomy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f4f6fb;
+      --card: #fff;
+      --ink: #0f172a;
+      --muted: #64748b;
+      --line: #e2e8f0;
+      --violet: #6d28d9;
+      --violet-bg: #ede9fe;
+      --cyan: #0891b2;
+      --cyan-bg: #ecfeff;
+      --slate: #475569;
+      --slate-bg: #f1f5f9;
+      --omit: #cbd5e1;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Outfit, system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 14px;
+      line-height: 1.45;
+      padding: 1.5rem clamp(1rem, 3vw, 2.5rem) 2.5rem;
+    }
+    .page { max-width: 1180px; margin: 0 auto; }
+
+    header {
+      margin-bottom: 1.5rem;
+    }
+    header h1 {
+      font-size: clamp(1.25rem, 3vw, 1.55rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.35rem;
+    }
+    header p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      max-width: 85ch;
+    }
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.75rem;
+    }
+    .pill {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.55rem;
+      border-radius: 999px;
+      background: var(--violet-bg);
+      color: var(--violet);
+    }
+    .pill--muted { background: var(--slate-bg); color: var(--slate); }
+
+    .chart-block {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 1.25rem 1rem 1.35rem;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 8px 30px rgba(15, 23, 42, 0.06);
+      overflow-x: auto;
+    }
+    .chart-block h2 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+    .chart-block .hint {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+
+    /* Matrix */
+    .matrix {
+      border-collapse: collapse;
+      width: 100%;
+      min-width: 880px;
+      font-size: 0.78rem;
+    }
+    .matrix th,
+    .matrix td {
+      border: 1px solid var(--line);
+      padding: 0.45rem 0.4rem;
+      text-align: center;
+      vertical-align: middle;
+    }
+    .matrix thead th {
+      background: #f8fafc;
+      font-weight: 700;
+      font-size: 0.65rem;
+      line-height: 1.25;
+      color: var(--slate);
+      padding: 0.55rem 0.35rem;
+    }
+    .matrix thead th.col-bucket {
+      writing-mode: horizontal-tb;
+      min-width: 4.5rem;
+    }
+    .matrix tbody th.row-persona {
+      text-align: left;
+      font-weight: 600;
+      background: #fafafa;
+      padding-left: 0.65rem;
+      min-width: 11rem;
+      font-size: 0.76rem;
+    }
+    .matrix tbody th .sub {
+      display: block;
+      font-weight: 500;
+      color: var(--muted);
+      font-size: 0.68rem;
+      margin-top: 0.15rem;
+    }
+    .cell-primary {
+      background: var(--violet);
+      color: #fff;
+      font-weight: 800;
+      border-radius: 4px;
+      display: inline-block;
+      min-width: 1.5rem;
+      line-height: 1.5rem;
+    }
+    .cell-secondary {
+      background: var(--violet-bg);
+      color: var(--violet);
+      font-weight: 700;
+      border-radius: 4px;
+      display: inline-block;
+      min-width: 1.5rem;
+      line-height: 1.5rem;
+    }
+    .cell-oms {
+      background: var(--cyan-bg);
+      color: var(--cyan);
+      font-weight: 700;
+      font-size: 0.62rem;
+      padding: 0.15rem 0.25rem;
+      border-radius: 4px;
+      display: inline-block;
+    }
+    .cell-none {
+      color: var(--omit);
+      font-weight: 600;
+    }
+    .cell-backstage {
+      background: var(--slate-bg);
+      color: var(--slate);
+      font-size: 0.62rem;
+      font-weight: 600;
+      padding: 0.1rem 0.2rem;
+      border-radius: 4px;
+    }
+
+    /* Two-column layout: personas + buckets detail */
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+    @media (max-width: 960px) {
+      .split { grid-template-columns: 1fr; }
+    }
+
+    .list-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 1rem 1.1rem;
+      box-shadow: 0 8px 30px rgba(15, 23, 42, 0.06);
+    }
+    .list-card h2 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .persona-item {
+      display: grid;
+      grid-template-columns: 1.75rem 1fr;
+      gap: 0.5rem 0.65rem;
+      margin-bottom: 0.85rem;
+      padding-bottom: 0.85rem;
+      border-bottom: 1px dashed var(--line);
+    }
+    .persona-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .persona-num {
+      width: 1.75rem;
+      height: 1.75rem;
+      border-radius: 8px;
+      background: var(--violet);
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .persona-num.secondary { background: var(--slate); }
+    .persona-item h3 { font-size: 0.82rem; font-weight: 700; margin-bottom: 0.2rem; }
+    .persona-item p { font-size: 0.74rem; color: var(--muted); margin-bottom: 0.35rem; }
+    .tags { display: flex; flex-wrap: wrap; gap: 0.25rem; }
+    .tag {
+      font-size: 0.65rem;
+      font-weight: 600;
+      padding: 0.12rem 0.4rem;
+      border-radius: 999px;
+      background: var(--cyan-bg);
+      color: #0e7490;
+      border: 1px solid rgba(8, 145, 178, 0.2);
+    }
+    .tag--org { background: var(--slate-bg); color: var(--slate); border-color: #cbd5e1; }
+
+    .bucket-item {
+      margin-bottom: 0.7rem;
+      padding-left: 0.65rem;
+      border-left: 3px solid var(--violet);
+    }
+    .bucket-item.platform { border-left-color: var(--cyan); }
+    .bucket-item.backstage { border-left-color: var(--slate); opacity: 0.85; }
+    .bucket-item h3 {
+      font-size: 0.78rem;
+      font-weight: 700;
+      margin-bottom: 0.15rem;
+    }
+    .bucket-item p {
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-bottom: 0.2rem;
+    }
+    .collapse-list {
+      font-size: 0.68rem;
+      color: var(--slate);
+      line-height: 1.35;
+    }
+
+    .flow {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem 0.65rem;
+      padding: 1rem 0.5rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    .flow-box {
+      padding: 0.55rem 0.85rem;
+      border-radius: 10px;
+      border: 2px solid var(--line);
+      background: #fff;
+      text-align: center;
+      max-width: 11rem;
+    }
+    .flow-box strong { display: block; font-size: 0.72rem; margin-bottom: 0.15rem; }
+    .flow-box span { font-size: 0.68rem; font-weight: 500; color: var(--muted); }
+    .flow-box--nav {
+      border-color: var(--violet);
+      background: var(--violet-bg);
+      color: var(--violet);
+    }
+    .flow-arrow { color: var(--muted); font-size: 1.1rem; }
+
+    footer {
+      margin-top: 1.5rem;
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+    .legend-inline {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 0.65rem;
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+    .legend-inline span { display: flex; align-items: center; gap: 0.35rem; }
+    .swatch-p { width: 12px; height: 12px; background: var(--violet); border-radius: 3px; }
+    .swatch-s { width: 12px; height: 12px; background: var(--violet-bg); border: 1px solid var(--violet); border-radius: 3px; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <h1>Navigator role lenses × restructured 360 taxonomy</h1>
+      <p>
+        Aligns <strong>six consumer role lenses</strong> (not stewards) with the
+        <strong>360 Data Product Restructure Proposal</strong> buckets—not 25 Alation folder names.
+        Stewardship stays backstage; metadata + search bridge cross-bucket concepts.
+      </p>
+      <div class="pill-row">
+        <span class="pill">Restructure proposal</span>
+        <span class="pill">8 consumer filter buckets</span>
+        <span class="pill pill--muted">Legacy / Transitional = steward-only</span>
+      </div>
+    </header>
+
+    <section class="chart-block">
+      <h2>How the picker layers fit together</h2>
+      <p class="hint">Role sets defaults; taxonomy bucket narrows scope; physical domains remain under the hood.</p>
+      <div class="flow" role="img" aria-label="Role lens then taxonomy filter then Navigator catalog backed by OMS metadata">
+        <div class="flow-box">
+          <strong>Step 1 · Role</strong>
+          <span>6 lenses (e.g. Analytics)</span>
+        </div>
+        <span class="flow-arrow" aria-hidden="true">→</span>
+        <div class="flow-box">
+          <strong>Step 2 · 360 bucket</strong>
+          <span>Proposal taxonomy (multi-select)</span>
+        </div>
+        <span class="flow-arrow" aria-hidden="true">→</span>
+        <div class="flow-box flow-box--nav">
+          <strong>Data Navigator</strong>
+          <span>Search + governed asset detail</span>
+        </div>
+        <span class="flow-arrow" aria-hidden="true">←</span>
+        <div class="flow-box">
+          <strong>OMS + metadata</strong>
+          <span>Lineage, curation, domain truth</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="chart-block">
+      <h2>Matrix: which roles use which restructured 360 buckets</h2>
+      <p class="hint">
+        ● primary filter default · ○ secondary · — rare · OMS = platform persona routes out · backstage = not in consumer picker
+      </p>
+      <table class="matrix">
+        <thead>
+          <tr>
+            <th class="col-persona">Role lens</th>
+            <th class="col-bucket">1<br>People &amp;<br>Accounts</th>
+            <th class="col-bucket">2<br>Content &amp;<br>Catalog</th>
+            <th class="col-bucket">3<br>Experience &amp;<br>Behavior</th>
+            <th class="col-bucket">4<br>Marketing &amp;<br>Audience</th>
+            <th class="col-bucket">5<br>Commerce &amp;<br>Merch</th>
+            <th class="col-bucket">6<br>Regional &amp;<br>Market</th>
+            <th class="col-bucket">7<br>Platform &amp;<br>Operational</th>
+            <th class="col-bucket">8<br>Trans /<br>Legacy</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th class="row-persona">1 · Business &amp; analytics<span class="sub">Primary MVP</span></th>
+            <td><span class="cell-primary">●</span></td>
+            <td><span class="cell-primary">●</span></td>
+            <td><span class="cell-primary">●</span></td>
+            <td><span class="cell-secondary">○</span></td>
+            <td><span class="cell-secondary">○</span></td>
+            <td><span class="cell-secondary">○</span></td>
+            <td><span class="cell-none">—</span></td>
+            <td><span class="cell-backstage">backstage</span></td>
+          </tr>
+          <tr>
+            <th class="row-persona">2 · Marketing &amp; growth</th>
+            <td><span class="cell-secondary">○</span></td>
+            <td><span class="cell-none">—</span></td>
+            <td><span class="cell-none">—</span></td>
+            <td><span class="cell-primary">●</span></td>
+            <td><span class="cell-secondary">○</span></td>
+            <td><span class="cell-secondary">○</span></td>
+            <td><span class="cell-none">—</span></td>
+            <td><span class="cell-backstage">backstage</span></td>
+          </tr>
+          <tr>
+            <th class="row-persona">3 · Product &amp; experimentation</th>
+            <td><span class="cell-secondary">○</span></td>
+            <td><span class="cell-secondary">○</span></td>
+            <td><span class="cell-primary">●</span></td>
+            <td><span class="cell-none">—</span></td>
+            <td><span class="cell-none">—</span></td>
+            <td><span class="cell-none">—</span></td>
+            <td><span class="cell-none">—</span></td>
+            <td><span class="cell-backstage">backstage</span></td>
+          </tr>
+          <tr>
+            <th class="row-persona">4 · Finance &amp; commercial ops</th>
+            <td><span class="cell-primary">●</span></td>
+            <td><span class="cell-none">—</span></td>
+            <td><span class="cell-secondary">○</span></td>
+            <td><span class="cell-none">—</span></td>
+            <td><span class="cell-secondary">○</span></td>
+            <td><span class="cell-secondary">○</span></td>
+            <td><span class="cell-oms">OMS</span></td>
+            <td><span class="cell-backstage">backstage</span></td>
+          </tr>
+          <tr>
+            <th class="row-persona">5 · Data science &amp; ML</th>
+            <td><span class="cell-secondary">○</span></td>
+            <td><span class="cell-primary">●</span></td>
+            <td><span class="cell-primary">●</span></td>
+            <td><span class="cell-none">—</span></td>
+            <td><span class="cell-none">—</span></td>
+            <td><span class="cell-none">—</span></td>
+            <td><span class="cell-none">—</span></td>
+            <td><span class="cell-backstage">backstage</span></td>
+          </tr>
+          <tr>
+            <th class="row-persona">6 · Privacy &amp; legal (read)<span class="sub">Secondary</span></th>
+            <td><span class="cell-primary">●</span></td>
+            <td><span class="cell-none">—</span></td>
+            <td><span class="cell-secondary">○</span></td>
+            <td><span class="cell-none">—</span></td>
+            <td><span class="cell-none">—</span></td>
+            <td><span class="cell-secondary">○</span></td>
+            <td><span class="cell-none">—</span></td>
+            <td><span class="cell-backstage">backstage</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="legend-inline">
+        <span><i class="swatch-p"></i> Primary bucket when role selected</span>
+        <span><i class="swatch-s"></i> Often relevant</span>
+      </div>
+    </section>
+
+    <div class="split">
+      <section class="list-card">
+        <h2>Six role lenses (Navigator)</h2>
+
+        <article class="persona-item">
+          <div class="persona-num">1</div>
+          <div>
+            <h3>Business &amp; analytics consumer <span class="tag">MVP</span></h3>
+            <p>Find and trust official metrics and tables across domains.</p>
+            <div class="tags">
+              <span class="tag--org tag">Data Analytics · BI PM</span>
+              <span class="tag">Buckets 1–3 default</span>
+            </div>
+          </div>
+        </article>
+        <article class="persona-item">
+          <div class="persona-num">2</div>
+          <div>
+            <h3>Marketing &amp; growth</h3>
+            <p>Campaigns, audiences, activation—Marketing &amp; Audience 360.</p>
+            <div class="tags"><span class="tag">Bucket 4 primary</span></div>
+          </div>
+        </article>
+        <article class="persona-item">
+          <div class="persona-num">3</div>
+          <div>
+            <h3>Product &amp; experimentation</h3>
+            <p>Sessions, playback, experiments—Experience &amp; Behavior 360.</p>
+            <div class="tags"><span class="tag">Bucket 3 primary</span></div>
+          </div>
+        </article>
+        <article class="persona-item">
+          <div class="persona-num">4</div>
+          <div>
+            <h3>Finance &amp; commercial ops</h3>
+            <p>Subscriber, payments, fraud; cost via Platform → OMS link.</p>
+            <div class="tags"><span class="tag">Buckets 1, 5, 7</span></div>
+          </div>
+        </article>
+        <article class="persona-item">
+          <div class="persona-num">5</div>
+          <div>
+            <h3>Data science &amp; ML</h3>
+            <p>Model-ready assets in Experience + Content (incl. sports affinity).</p>
+            <div class="tags"><span class="tag">Buckets 2–3</span></div>
+          </div>
+        </article>
+        <article class="persona-item">
+          <div class="persona-num secondary">6</div>
+          <div>
+            <h3>Privacy &amp; legal evidence (read)</h3>
+            <p>Identity + sensitivity on assets—not DSAR/tracker in Navigator.</p>
+            <div class="tags"><span class="tag">Bucket 1 primary</span></div>
+          </div>
+        </article>
+
+        <p style="margin-top:0.75rem;font-size:0.72rem;color:var(--muted);">
+          <strong>Excluded:</strong> Data Gov / stewards (626, stewardship admin, Transitional/Legacy operations).
+        </p>
+      </section>
+
+      <section class="list-card">
+        <h2>Eight consumer 360 buckets (restructure proposal)</h2>
+
+        <div class="bucket-item">
+          <h3>1 · People &amp; Accounts</h3>
+          <p>Who customers are, identity, subscription, payments, value.</p>
+          <p class="collapse-list">Subscriber, Identity, Perks, Payments, Fraud · Subscriber_Hulu → Legacy</p>
+        </div>
+        <div class="bucket-item">
+          <h3>2 · Content &amp; Catalog</h3>
+          <p>Titles, sports, catalog metadata—what users can watch.</p>
+          <p class="collapse-list">Content, Sports_Affinity, ESPN · Content_Hulu → Legacy</p>
+        </div>
+        <div class="bucket-item">
+          <h3>3 · Experience &amp; Behavior</h3>
+          <p>Sessions, playback, engagement, experiments.</p>
+          <p class="collapse-list">Session, Playback, Engagement, Engagement_DGTL, Experiment · Session_Hulu → Legacy</p>
+        </div>
+        <div class="bucket-item">
+          <h3>4 · Marketing &amp; Audience</h3>
+          <p>Acquire, target, campaigns, ads, activation.</p>
+          <p class="collapse-list">Acquisition, Campaign, Audience, Ads, Activation</p>
+        </div>
+        <div class="bucket-item">
+          <h3>5 · Commerce &amp; Merchandising</h3>
+          <p>Offers and merchandising (adjacent to People/Payments).</p>
+          <p class="collapse-list">Merchandising · Perks dual-anchored with bucket 1</p>
+        </div>
+        <div class="bucket-item">
+          <h3>6 · Regional &amp; Market</h3>
+          <p>Territory overlays on global structures.</p>
+          <p class="collapse-list">LATAM, INTAL</p>
+        </div>
+        <div class="bucket-item platform">
+          <h3>7 · Platform &amp; Operational</h3>
+          <p>Metadata, observability, cost—engineers/platform PMs.</p>
+          <p class="collapse-list">Data_Platform, Data_Observe, Cost · Filter shows “Open in OMS”</p>
+        </div>
+        <div class="bucket-item backstage">
+          <h3>8 · Transitional &amp; Unassigned (+ Legacy)</h3>
+          <p>Steward workflows only—not consumer picker tiles.</p>
+          <p class="collapse-list">Bridge, new 360s TBD · Legacy Hulu/ESPN_BET/DEMO frozen</p>
+        </div>
+      </section>
+    </div>
+
+    <footer>
+      Summary doc: <code>360-Data-Product-Restructure-Proposal-Summary.md</code> ·
+      Proposal target state: domain accountability + scalable metadata (Comparison tab, bottom-right quadrant).
+    </footer>
+  </div>
+</body>
+</html>

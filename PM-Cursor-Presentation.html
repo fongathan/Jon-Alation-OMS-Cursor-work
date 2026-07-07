@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PMs Using Cursor — Wireframes, POCs & Reports</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f0f14;
+      --surface: #18181f;
+      --text: #e6e6f0;
+      --text-muted: #8888a8;
+      --accent: #6366f1;
+      --accent-dim: rgba(99,102,241,0.2);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+    
+    .slide {
+      min-height: 100vh;
+      padding: 60px 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .slide-title { font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem; color: var(--text); }
+    .slide-subtitle { font-size: 1.25rem; color: var(--text-muted); margin-bottom: 2rem; }
+    .slide-content { font-size: 1.1rem; line-height: 1.7; color: var(--text-muted); }
+    .slide-content ul { margin: 1rem 0 0 1.5rem; }
+    .slide-content li { margin-bottom: 0.5rem; }
+    .slide-content strong { color: var(--text); }
+    
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+    .card { background: var(--surface); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 1.5rem; }
+    .card h3 { font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--accent); }
+    .card p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.5; }
+    
+    .example-box { background: var(--surface); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem 1.25rem; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--text-muted); margin: 1rem 0; }
+    .prompt-example { background: #1a1a24; border-left: 4px solid var(--accent); padding: 1rem 1.25rem; font-size: 0.9rem; color: var(--text-muted); margin: 1rem 0; }
+    
+    .section-label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 0.5rem; }
+    .big-number { font-size: 3rem; font-weight: 700; color: var(--accent); }
+    
+    .divider { height: 1px; background: rgba(255,255,255,0.08); margin: 2rem 0; }
+    
+    /* Practical tips — highlighted */
+    .tips-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem; }
+    .tip-card {
+      background: linear-gradient(135deg, rgba(99,102,241,0.12) 0%, rgba(99,102,241,0.04) 100%);
+      border: 1px solid rgba(99,102,241,0.35);
+      border-radius: 10px;
+      padding: 1.25rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .tip-number { font-size: 1.5rem; font-weight: 700; color: var(--accent); flex-shrink: 0; }
+    .tip-text { font-size: 1rem; color: var(--text); line-height: 1.5; }
+    .tip-text small { display: block; font-size: 0.85rem; color: var(--text-muted); margin-top: 0.35rem; }
+    .tips-title { font-size: 1.1rem; font-weight: 600; color: var(--accent); margin-bottom: 0.25rem; }
+    
+    /* Nav buttons */
+    .nav-buttons {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 12px;
+      z-index: 100;
+    }
+    .nav-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 50%;
+      color: var(--text);
+      font-size: 1.25rem;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .nav-btn:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+    .nav-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+    .nav-btn:disabled:hover {
+      background: var(--surface);
+      border-color: rgba(255,255,255,0.12);
+    }
+    
+    @media print {
+      .slide { page-break-after: always; min-height: auto; padding: 40px; }
+      .nav-buttons { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- SLIDE 1: Title -->
+<section class="slide" data-slide="1">
+  <p class="section-label">Jon's Team — Tech Team Presentation</p>
+  <h1 class="slide-title">PMs Using Cursor</h1>
+  <p class="slide-subtitle">Wireframes, POCs & Reports — Without Waiting on Engineering</p>
+  <div class="divider"></div>
+  <p class="slide-content">How Product Managers can turn specs into shareable artifacts in minutes, validate ideas faster, and de-risk before we commit engineering time.</p>
+</section>
+
+<!-- SLIDE 2: The Problem -->
+<section class="slide" data-slide="2">
+  <p class="section-label">Context</p>
+  <h2 class="slide-title">The bottleneck we're solving</h2>
+  <p class="slide-subtitle">PMs often wait for design or engineering to visualize an idea</p>
+  <div class="slide-content">
+    <ul>
+      <li><strong>Wireframes:</strong> Need design time or Figma skills</li>
+      <li><strong>POCs:</strong> Need engineering bandwidth to validate feasibility</li>
+      <li><strong>Reports:</strong> Need scripts, dashboards, or manual data wrangling</li>
+    </ul>
+    <p style="margin-top: 1.5rem;">Cursor lets PMs generate these artifacts themselves — not to replace engineering, but to <strong>validate and communicate</strong> before we commit.</p>
+  </div>
+</section>
+
+<!-- SLIDE 3: What we built (Examples) -->
+<section class="slide" data-slide="3">
+  <p class="section-label">Examples from Jon's Team Docs</p>
+  <h2 class="slide-title">Three artifacts, all PM-led with Cursor</h2>
+  <div class="two-col" style="margin-top: 2rem;">
+    <div class="card">
+      <h3>1. Alation Metrics Dashboard</h3>
+      <p>HTML + Chart.js dashboard. Pulls live data from Alation REST API via Python script. Cron-refreshed. Dark theme, executive-ready.</p>
+      <p class="section-label" style="margin-top: 1rem;">Artifact type: Report / POC</p>
+    </div>
+    <div class="card">
+      <h3>2. Kronos UI</h3>
+      <p>Standalone HTML wireframe/POC for sustainable inventory management. Dashboard, inventory views, search, reports, legal exceptions. Tailwind + Alpine.js.</p>
+      <p class="section-label" style="margin-top: 1rem;">Artifact type: Wireframe / POC</p>
+    </div>
+  </div>
+  <div class="card" style="margin-top: 1.5rem;">
+    <h3>3. Project Status Report</h3>
+    <p>Sleek regular project report synced via Google Drive MCP server (via API) to populate based off an easy-to-update Google Sheet.</p>
+    <p class="section-label" style="margin-top: 1rem;">Artifact type: Report</p>
+  </div>
+</section>
+
+<!-- SLIDE 4: Demo -->
+<section class="slide" data-slide="4">
+  <p class="section-label">Live demo</p>
+  <h2 class="slide-title" style="font-size: 5rem; letter-spacing: 0.02em;">Demo</h2>
+  <p class="slide-subtitle">Three artifacts, quick walkthrough</p>
+  <div class="slide-content">
+    <ol>
+      <li><strong>Alation Metrics Dashboard</strong></li>
+      <li><strong>Kronos UI</strong></li>
+      <li><strong>Project Tracker</strong></li>
+    </ol>
+  </div>
+</section>
+
+<!-- SLIDE 5: The process -->
+<section class="slide" data-slide="5">
+  <p class="section-label">How it works</p>
+  <h2 class="slide-title">PM input → Cursor → Artifact</h2>
+  <p class="slide-subtitle">I wrote the requirements; Cursor generated the code. I iterated on prompts.</p>
+  <div class="slide-content">
+    <p><strong>Example prompt (Kronos wireframe):</strong></p>
+    <div class="prompt-example">
+      "Create a standalone HTML dashboard for an OMS-style inventory tool. Include: sidebar nav (Dashboard, Search, Vendors, Trackers, Systems, Use Cases, Register Asset, Relationships, Reports, Legal Exceptions), stat cards for counts, dark theme with Tailwind. Use Alpine.js for interactivity. Load data from a JSON file."
+    </div>
+    <p><strong>Example prompt (Alation dashboard):</strong></p>
+    <div class="prompt-example">
+      "Build an HTML dashboard that reads from data.json. Show MAU, searches, top users, curation trends. Use Chart.js. Dark theme, executive-style. Include a Python script that fetches from Alation REST API and writes to data.json."
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 6: What my actual prompts were -->
+<section class="slide" data-slide="6">
+  <p class="section-label">The prompts I used</p>
+  <h2 class="slide-title">What my actual prompts were</h2>
+  <div class="slide-content">
+    <p><strong>Example prompt (Kronos wireframe):</strong></p>
+    <div class="prompt-example">
+      "Create a UI for this Kronos project that would sit on top of a postgresQL in SISU or on top of snowflake [Sustainable Inventory Management V5.pdf]"
+    </div>
+    <p><strong>Example prompt (Alation Metrics Dashboard):</strong></p>
+    <div class="prompt-example">
+      "Create an Alation user metrics dashboard that shows me Alation usage and how and where Alation is being used the most, for what purposes, and by how much, made for executive consumption."
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 7: Practical Tips (HIGHLIGHTED) -->
+<section class="slide" data-slide="7">
+  <p class="section-label">Practical Tips on Using AI as a PM</p>
+  <h2 class="slide-title">Five tips that make the difference</h2>
+  <p class="slide-subtitle">These practices improve output quality and save time</p>
+  <div class="tips-grid">
+    <div class="tip-card">
+      <span class="tip-number">1</span>
+      <div>
+        <p class="tips-title">Use screenshots and pictures</p>
+        <p class="tip-text">Paste UI mockups, OMS screenshots, or reference images into Cursor. A picture is worth a thousand words — and tokens.<small>Example: Migration Plan used OMS screenshots for gap analysis.</small></p>
+      </div>
+    </div>
+    <div class="tip-card">
+      <span class="tip-number">2</span>
+      <div>
+        <p class="tips-title">Talk in simplest terms possible</p>
+        <p class="tip-text">Avoid jargon. Say "sidebar with 4 links" not "navigation component with hierarchical menu structure." Clear = better output.<small>Simple prompts get better, more predictable results.</small></p>
+      </div>
+    </div>
+    <div class="tip-card">
+      <span class="tip-number">3</span>
+      <div>
+        <p class="tips-title">Add context when possible</p>
+        <p class="tip-text">Use @ to reference files, specs, or docs. "Match the style of @base.html" or "Use the data shape from @data.json." Context reduces back-and-forth.<small>Cursor uses workspace context — give it something to use.</small></p>
+      </div>
+    </div>
+    <div class="tip-card">
+      <span class="tip-number">4</span>
+      <div>
+        <p class="tips-title">Reverse engineer requirements when needed</p>
+        <p class="tip-text">Have an existing UI or doc? Paste it and ask: "What are the requirements implied by this?" Use the output as your spec.<small>Start from what exists, then formalize.</small></p>
+      </div>
+    </div>
+    <div class="tip-card" style="grid-column: 1 / -1;">
+      <span class="tip-number">5</span>
+      <div>
+        <p class="tips-title">Use expensive tokens on planning, cheaper ones on execution</p>
+        <p class="tip-text">Use a capable model (e.g., Claude, GPT-4) for the initial spec, architecture, and tricky decisions. Use a faster/cheaper model for routine edits, formatting, and small tweaks. Optimize cost without sacrificing quality.<small>Plan once with the best; iterate with the rest.</small></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 8: What I did vs Cursor -->
+<section class="slide" data-slide="8">
+  <p class="section-label">Transparency</p>
+  <h2 class="slide-title">Division of labor</h2>
+  <p class="slide-subtitle">Being clear about who did what</p>
+  <div class="slide-content">
+    <ul>
+      <li><strong>I provided:</strong> User flows, data structures, acceptance criteria, Alation query IDs, cron schedule</li>
+      <li><strong>Cursor generated:</strong> HTML, CSS, JavaScript, Python scripts, Jinja2 templates</li>
+      <li><strong>I iterated:</strong> 2–3 prompt rounds for layout, added SETUP.md for Alation dashboard, tweaked Kronos data model</li>
+    </ul>
+    <p style="margin-top: 1.5rem;">This isn't "AI did it" — it's <strong>PM + AI collaboration</strong>. The PM owns the problem and the spec; Cursor accelerates the artifact.</p>
+  </div>
+</section>
+
+<!-- SLIDE 9: Limitations -->
+<section class="slide" data-slide="9">
+  <p class="section-label">Honest assessment</p>
+  <h2 class="slide-title">Where this helps — and where it doesn't</h2>
+  <div class="slide-content">
+    <p><strong>Good for:</strong></p>
+    <ul>
+      <li>Early-stage mockups and stakeholder alignment</li>
+      <li>Validating flows before design/engineering</li>
+      <li>Internal reports and dashboards with known data shapes</li>
+      <li>Documentation and project plans</li>
+    </ul>
+    <p style="margin-top: 1.5rem;"><strong>Not a replacement for:</strong></p>
+    <ul>
+      <li>Design review and accessibility</li>
+      <li>Production-grade code, error handling, security</li>
+      <li>Real API integrations and data pipelines</li>
+    </ul>
+    <p style="margin-top: 1.5rem;">The goal: <strong>de-risk and communicate faster</strong>, not ship to prod without engineering.</p>
+  </div>
+</section>
+
+<!-- SLIDE 10: Ask -->
+<section class="slide" data-slide="10">
+  <p class="section-label">Next steps</p>
+  <h2 class="slide-title">Questions & feedback</h2>
+  <p class="slide-subtitle">I'd love your input</p>
+  <div class="slide-content">
+    <ul>
+      <li>How could we structure prompts or rules to make this more useful for our stack?</li>
+      <li>What templates would help PMs (e.g., standard dashboard layout, report format)?</li>
+      <li>Any concerns about PMs generating code — and how we can keep boundaries clear?</li>
+    </ul>
+    <p style="margin-top: 2rem; font-size: 1.25rem;"><strong>Goal:</strong> PMs move faster; engineering gets better-specified work. Win-win.</p>
+  </div>
+</section>
+
+<!-- SLIDE 11: Thank you -->
+<section class="slide" data-slide="11">
+  <h1 class="slide-title">Thank you</h1>
+  <p class="slide-subtitle">Questions?</p>
+  <p class="slide-content" style="margin-top: 2rem;">Artifacts: <code style="background: var(--surface); padding: 2px 8px; border-radius: 4px;">alation-metrics-dashboard/</code> · <code style="background: var(--surface); padding: 2px 8px; border-radius: 4px;">kronos-ui/</code> · <code style="background: var(--surface); padding: 2px 8px; border-radius: 4px;">Project Tracker Report</code></p>
+</section>
+
+<div class="nav-buttons">
+  <button class="nav-btn" id="btn-prev" aria-label="Previous slide">←</button>
+  <button class="nav-btn" id="btn-next" aria-label="Next slide">→</button>
+</div>
+
+<script>
+(function() {
+  var slides = document.querySelectorAll('.slide');
+  var total = slides.length;
+  var current = 0;
+
+  function goToSlide(index) {
+    current = Math.max(0, Math.min(index, total - 1));
+    slides[current].scrollIntoView({ behavior: 'smooth', block: 'start' });
+    updateButtons();
+  }
+
+  function updateButtons() {
+    document.getElementById('btn-prev').disabled = current === 0;
+    document.getElementById('btn-next').disabled = current === total - 1;
+  }
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        var idx = Array.prototype.indexOf.call(slides, entry.target);
+        if (idx >= 0) { current = idx; updateButtons(); }
+      }
+    });
+  }, { threshold: 0.5 });
+  slides.forEach(function(s) { observer.observe(s); });
+
+  document.getElementById('btn-prev').addEventListener('click', function() {
+    goToSlide(current - 1);
+  });
+  document.getElementById('btn-next').addEventListener('click', function() {
+    goToSlide(current + 1);
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowLeft') goToSlide(current - 1);
+    if (e.key === 'ArrowRight') goToSlide(current + 1);
+  });
+
+  updateButtons();
+})();
+</script>
+</body>
+</html>

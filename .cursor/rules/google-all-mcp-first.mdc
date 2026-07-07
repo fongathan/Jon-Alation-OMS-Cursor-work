@@ -1,0 +1,25 @@
+---
+description: Prefer user-all-google-mcp for Google Docs, Drive, Sheets, and Gmail instead of anonymous URL fetch
+alwaysApply: true
+---
+
+# Google access: use All Google MCP first
+
+When the user wants to **read, fetch, import, summarize, or “open”** content from **Google Docs**, **Google Drive** files, **Google Sheets**, or **Gmail**—or pastes a `docs.google.com`, `drive.google.com`, `sheets.google.com`, or Gmail-related URL—**do not** rely on generic web fetch or unauthenticated HTTP to those URLs (they often require sign-in and will fail or return HTML login pages).
+
+## What to do instead
+
+1. **Use the MCP server `user-all-google-mcp` first** (the user’s connected “All Google” OAuth session).
+2. **Read the tool schema** for that server before calling (parameter names vary by tool).
+3. **Google Docs:** extract the document id from URLs of the form  
+   `https://docs.google.com/document/d/{DOCUMENT_ID}/edit`  
+   and use the Docs tool (e.g. `docs_get_document`) with `include_plain_text` when the user needs text for analysis, PRDs, or quoting.
+4. **Sheets / Drive / Gmail:** use the corresponding tools on **`user-all-google-mcp`** (e.g. `sheets_get_values`, `drive_list_files`, `gmail_search_messages`) rather than guessing file contents from a link alone.
+
+## Fallback
+
+- If **`user-all-google-mcp`** is unavailable, errors, or lacks a tool for the task, say so clearly and ask the user to **export** the doc/sheet or **paste** the content—or use another **explicitly connected** Google MCP they name.
+
+## Do not
+
+- Assume a pasted Google URL can be retrieved without MCP when the goal is **private or org-only** document access.

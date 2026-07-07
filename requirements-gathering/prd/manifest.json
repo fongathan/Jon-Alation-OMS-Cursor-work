@@ -1,0 +1,214 @@
+{
+  "features": [
+    {
+      "num": 1,
+      "title": "Search & Discovery",
+      "file": "F01-search-discovery.md",
+      "slug": "search-discovery"
+    },
+    {
+      "num": 2,
+      "title": "Business Glossary",
+      "file": "F02-business-glossary.md",
+      "slug": "business-glossary"
+    },
+    {
+      "num": 3,
+      "title": "Catalog Browse",
+      "file": "F03-catalog-browse.md",
+      "slug": "catalog-browse"
+    },
+    {
+      "num": 4,
+      "title": "Table / Asset Detail",
+      "file": "F04-table-asset-detail.md",
+      "slug": "table-asset-detail"
+    },
+    {
+      "num": 5,
+      "title": "Data Lineage",
+      "file": "F05-data-lineage.md",
+      "slug": "data-lineage"
+    },
+    {
+      "num": 6,
+      "title": "Tags & Classification",
+      "file": "F06-tags-classification.md",
+      "slug": "tags-classification"
+    },
+    {
+      "num": 7,
+      "title": "Custom Fields",
+      "file": "F07-custom-fields.md",
+      "slug": "custom-fields"
+    },
+    {
+      "num": 8,
+      "title": "Documentation / Articles",
+      "file": "F08-documentation-articles.md",
+      "slug": "documentation-articles"
+    },
+    {
+      "num": 9,
+      "title": "Ownership / Stewardship",
+      "file": "F09-ownership-stewardship.md",
+      "slug": "ownership-stewardship"
+    },
+    {
+      "num": 10,
+      "title": "Usage / Access Metrics",
+      "file": "F10-usage-access-metrics.md",
+      "slug": "usage-access-metrics"
+    },
+    {
+      "num": 11,
+      "title": "Data Sources & Connectors",
+      "file": "F11-data-sources-connectors.md",
+      "slug": "data-sources-connectors"
+    },
+    {
+      "num": 12,
+      "title": "Policy Center",
+      "file": "F12-policy-center.md",
+      "slug": "policy-center"
+    },
+    {
+      "num": 13,
+      "title": "Compilation / Data Quality",
+      "file": "F13-compilation-data-quality.md",
+      "slug": "compilation-data-quality"
+    },
+    {
+      "num": 14,
+      "title": "API & Integrations",
+      "file": "F14-api-integrations.md",
+      "slug": "api-integrations"
+    },
+    {
+      "num": 15,
+      "title": "Version Control",
+      "file": "F15-version-control.md",
+      "slug": "version-control"
+    },
+    {
+      "num": 16,
+      "title": "Recommendations / Suggestions",
+      "file": "F16-recommendations.md",
+      "slug": "recommendations"
+    },
+    {
+      "num": 17,
+      "title": "Saved Queries / Favorites",
+      "file": "F17-saved-queries-favorites.md",
+      "slug": "saved-queries-favorites"
+    },
+    {
+      "num": 18,
+      "title": "Comments / Discussions",
+      "file": "F18-comments-discussions.md",
+      "slug": "comments-discussions"
+    },
+    {
+      "num": 19,
+      "title": "Export / Reports",
+      "file": "F19-export-reports.md",
+      "slug": "export-reports"
+    },
+    {
+      "num": 20,
+      "title": "Authentication / SSO",
+      "file": "F20-authentication-sso.md",
+      "slug": "authentication-sso"
+    },
+    {
+      "num": 21,
+      "title": "Flags (Endorsements, Warnings, Deprecations)",
+      "file": "F21-flags-endorsements-deprecations.md",
+      "slug": "flags-endorsements-deprecations"
+    },
+    {
+      "num": 22,
+      "title": "Domains",
+      "file": "F22-domains.md",
+      "slug": "domains"
+    },
+    {
+      "num": 23,
+      "title": "Folders",
+      "file": "F23-folders.md",
+      "slug": "folders"
+    },
+    {
+      "num": 24,
+      "title": "Dataflows",
+      "file": "F24-dataflows.md",
+      "slug": "dataflows"
+    },
+    {
+      "num": 25,
+      "title": "Admin Analytics Dashboard",
+      "file": "F25-admin-analytics-dashboard.md",
+      "slug": "admin-analytics-dashboard"
+    },
+    {
+      "num": 26,
+      "title": "Mass / Bulk Edit",
+      "file": "F26-mass-bulk-edit.md",
+      "slug": "mass-bulk-edit"
+    },
+    {
+      "num": 27,
+      "title": "Mass Set Rules / Catalog Sets",
+      "file": "F27-mass-set-rules-catalog-sets.md",
+      "slug": "mass-set-rules-catalog-sets"
+    },
+    {
+      "num": 28,
+      "title": "AI Chat Assistant in App",
+      "file": "F28-ai-chat-assistant.md",
+      "slug": "ai-chat-assistant"
+    },
+    {
+      "num": 29,
+      "title": "Data Dictionary Download & Uploads",
+      "file": "F29-data-dictionary-download-upload.md",
+      "slug": "data-dictionary-download-upload"
+    },
+    {
+      "num": 30,
+      "title": "OMS / BDC Navigation & Information Architecture",
+      "file": "F30-oms-bdc-navigation-ia.md",
+      "slug": "oms-bdc-navigation-ia"
+    },
+    {
+      "num": 31,
+      "title": "Metadata Quality & Completeness Scoring",
+      "file": "F31-metadata-quality-completeness.md",
+      "slug": "metadata-quality-completeness"
+    },
+    {
+      "num": 32,
+      "title": "Catalog & Metadata REST APIs (Developer Surface)",
+      "file": "F32-catalog-metadata-rest-apis.md",
+      "slug": "catalog-metadata-rest-apis"
+    },
+    {
+      "num": 33,
+      "title": "Cross-Source OMS Home & Asset Drill-Down",
+      "file": "F33-cross-source-oms-home-drilldown.md",
+      "slug": "cross-source-oms-home-drilldown"
+    },
+    {
+      "num": 34,
+      "title": "In-Catalog SQL Exploration, Query History & Sample Content",
+      "file": "F34-in-catalog-sql-query-sample.md",
+      "slug": "in-catalog-sql-query-sample"
+    },
+    {
+      "num": 35,
+      "title": "Stewardship Requests, Approvals & Admin Operations",
+      "file": "F35-stewardship-requests-admin.md",
+      "slug": "stewardship-requests-admin"
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+[
+  {
+    "key": "F26",
+    "google_title": "PRD-F26 Mass bulk edit",
+    "source": "PRD-F26-mass-bulk-edit.docx",
+    "chars": 4791,
+    "n_chunks": 3
+  },
+  {
+    "key": "F27",
+    "google_title": "PRD-F27 Mass set rules catalog sets",
+    "source": "PRD-F27-mass-set-rules-catalog-sets.docx",
+    "chars": 5408,
+    "n_chunks": 3
+  },
+  {
+    "key": "F28",
+    "google_title": "PRD-F28 AI chat assistant in app",
+    "source": "PRD-F28-ai-chat-assistant-in-app.docx",
+    "chars": 5416,
+    "n_chunks": 3
+  },
+  {
+    "key": "F29",
+    "google_title": "PRD-F29 Data dictionary download uploads",
+    "source": "PRD-F29-data-dictionary-download-uploads.docx",
+    "chars": 4843,
+    "n_chunks": 3
+  },
+  {
+    "key": "F30",
+    "google_title": "PRD-F30 Expanded data sources",
+    "source": "PRD-F30-expanded-data-sources.docx",
+    "chars": 4841,
+    "n_chunks": 3
+  },
+  {
+    "key": "F31",
+    "google_title": "PRD-F31 Details icon",
+    "source": "PRD-F31-details-icon.docx",
+    "chars": 4845,
+    "n_chunks": 3
+  },
+  {
+    "key": "F32",
+    "google_title": "PRD-F32 Persona view filtering",
+    "source": "PRD-F32-persona-view-filtering.docx",
+    "chars": 4879,
+    "n_chunks": 3
+  },
+  {
+    "key": "F33",
+    "google_title": "PRD-F33 Product pages",
+    "source": "PRD-F33-product-pages.docx",
+    "chars": 4919,
+    "n_chunks": 3
+  },
+  {
+    "key": "F34",
+    "google_title": "PRD-F34 AI How to",
+    "source": "PRD-F34-ai-how-to.docx",
+    "chars": 4680,
+    "n_chunks": 3
+  },
+  {
+    "key": "F35",
+    "google_title": "PRD-F35 Overview section",
+    "source": "PRD-F35-overview-section.docx",
+    "chars": 4940,
+    "n_chunks": 3
+  }
+]

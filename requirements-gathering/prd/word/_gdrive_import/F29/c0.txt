@@ -1,0 +1,32 @@
+PRD — Feature 29: Data Dictionary download & uploads
+Product Requirements Document
+Source: Feature Inventory Matrix — Alation to Internal Solution Migration (DEEPT). Document control: link this file from the matrix column **PRD page link**.
+Priority (matrix): Medium
+Primary use case (matrix): Bulk metadata export/import, documentation
+Validation notes (matrix): Steward assignments, descriptions, custom fields at scale
+1. Summary
+This PRD specifies **Data Dictionary download & uploads** for the in-house data catalog / OMS program. It expands the single matrix row into implementable components, UX expectations, and acceptance criteria.
+2. Problem & outcomes
+Users and stewards need predictable behavior, clear accountability, and parity with current Alation workflows where this capability is in use. Success is measured by adoption, reduced time-to-answer, and governance coverage—not feature count alone.
+3. Scope
+3.1 In scope
+End-to-end behavior for: Data Dictionary download & uploads.
+DEEPT / enterprise personas: steward, analyst, engineer, governance, admin.
+Accessibility: WCAG-oriented patterns for core flows (exact tier set by program).
+3.2 Out of scope (unless added by change request)
+Duplicating full warehouse compute consoles unless explicitly linked as deep integration.
+Non-catalog products (e.g. full ITSM) except via links or thin embeds.
+4. Personas
+5. Component breakdown (piece by piece)
+Export
+Column picker, stable keys (FQN), versioned template headers.
+Import
+Row-level validation; permission checks; partial success semantics.
+Round-trip
+Re-import unchanged rows is idempotent.
+6. User stories
+As a steward, I can perform core curation tasks for **Data Dictionary download & uploads** without leaving the catalog shell.
+As an analyst, I can rely on **Data Dictionary download & uploads** to decide whether a dataset is appropriate for my use case.
+As an engineer, I can integrate or automate **Data Dictionary download & uploads** via documented APIs where applicable.
+7. Use cases & examples
+Happy path: user completes the primary job (Bulk metadata export/import, documentation) in under the program’s target time with no support ticket.

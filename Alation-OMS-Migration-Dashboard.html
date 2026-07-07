@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alation → OMS Migration Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0f1419;
+      --bg-card: #1a2332;
+      --bg-card-hover: #222d3f;
+      --accent-teal: #00d4aa;
+      --accent-teal-dim: rgba(0, 212, 170, 0.15);
+      --accent-amber: #f59e0b;
+      --accent-amber-dim: rgba(245, 158, 11, 0.15);
+      --accent-rose: #f43f5e;
+      --accent-rose-dim: rgba(244, 63, 94, 0.15);
+      --accent-blue: #3b82f6;
+      --accent-blue-dim: rgba(59, 130, 246, 0.15);
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --border: #334155;
+      --done: #22c55e;
+      --in-progress: #f59e0b;
+      --todo: #64748b;
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'DM Sans', system-ui, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    .container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+
+    /* Header */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--accent-teal), var(--accent-blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .contract-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      padding: 0.4rem 0.8rem;
+      background: var(--accent-rose-dim);
+      color: var(--accent-rose);
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(244, 63, 94, 0.3);
+    }
+
+    /* Current Focus Banner */
+    .focus-banner {
+      background: linear-gradient(135deg, var(--accent-teal-dim), var(--accent-blue-dim));
+      border: 1px solid rgba(0, 212, 170, 0.3);
+      border-radius: var(--radius);
+      padding: 1rem 1.5rem;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .focus-banner .icon { font-size: 1.5rem; }
+    .focus-banner strong { color: var(--accent-teal); }
+    .focus-banner .focus-text {
+      flex: 1;
+      font-size: 0.95rem;
+    }
+    .focus-banner select {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    /* Section titles */
+    h2 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 1rem;
+    }
+
+    /* Work Areas Grid */
+    .work-areas {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .work-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .work-card:hover { border-color: var(--accent-teal); background: var(--bg-card-hover); }
+    .work-card.expanded .card-header { border-bottom-color: var(--border); }
+    .card-header {
+      padding: 1rem 1.25rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      user-select: none;
+    }
+    .card-header:hover { background: rgba(255,255,255,0.02); }
+    .card-title {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    .card-progress {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .progress-bar {
+      width: 60px;
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--accent-teal);
+      border-radius: 2px;
+      transition: width 0.3s;
+    }
+    .expand-icon {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      transition: transform 0.2s;
+    }
+    .work-card.expanded .expand-icon { transform: rotate(180deg); }
+    .card-details {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease-out;
+    }
+    .work-card.expanded .card-details { max-height: 1200px; }
+    .card-details-inner { padding: 0 1.25rem 1.25rem; }
+    .sub-task {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.6rem 0.75rem;
+      margin-bottom: 0.25rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+    .sub-task:hover { background: rgba(255,255,255,0.04); }
+    .sub-task .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .sub-task .status-dot.done { background: var(--done); }
+    .sub-task .status-dot.in-progress { background: var(--in-progress); }
+    .sub-task .status-dot.todo { background: var(--todo); }
+    .sub-task .label { flex: 1; }
+    .sub-task .status-badge {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+    .sub-task .status-badge.done { background: rgba(34, 197, 94, 0.2); color: #4ade80; }
+    .sub-task .status-badge.in-progress { background: var(--accent-amber-dim); color: var(--accent-amber); }
+    .sub-task .status-badge.todo { background: rgba(100, 116, 139, 0.3); color: var(--text-muted); }
+
+    /* Gantt Chart */
+    .gantt-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      overflow-x: auto;
+    }
+    .gantt-header {
+      display: flex;
+      margin-bottom: 1rem;
+      min-width: max-content;
+    }
+    .gantt-labels {
+      width: 220px;
+      flex-shrink: 0;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+    .gantt-timeline {
+      flex: 1;
+      display: flex;
+      gap: 0;
+      min-width: 700px;
+    }
+    .gantt-month {
+      flex: 1;
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      padding-bottom: 0.5rem;
+    }
+    .gantt-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.5rem;
+      min-width: max-content;
+    }
+    .gantt-row-label {
+      width: 220px;
+      flex-shrink: 0;
+      font-size: 0.85rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .gantt-row-bars {
+      flex: 1;
+      display: flex;
+      position: relative;
+      height: 28px;
+      min-width: 700px;
+    }
+    .gantt-today {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--accent-teal);
+      z-index: 2;
+      box-shadow: 0 0 8px var(--accent-teal);
+    }
+    .gantt-bar {
+      position: absolute;
+      height: 20px;
+      top: 4px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      display: flex;
+      align-items: center;
+      padding: 0 6px;
+      white-space: nowrap;
+      overflow: hidden;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .gantt-bar:hover { opacity: 0.9; }
+    .gantt-bar.done { background: var(--done); color: #0f1419; }
+    .gantt-bar.in-progress { background: var(--accent-amber); color: #0f1419; }
+    .gantt-bar.todo { background: var(--todo); color: var(--text-primary); }
+
+    /* Risks Section */
+    .risks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+    .risk-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      border-left: 4px solid var(--accent-rose);
+    }
+    .risk-card.medium { border-left-color: var(--accent-amber); }
+    .risk-card.low { border-left-color: var(--accent-teal); }
+    .risk-card h4 {
+      font-size: 0.95rem;
+      margin-bottom: 0.4rem;
+      color: var(--text-primary);
+    }
+    .risk-card .severity {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .risk-card.high .severity { color: var(--accent-rose); }
+    .risk-card.medium .severity { color: var(--accent-amber); }
+    .risk-card.low .severity { color: var(--accent-teal); }
+    .risk-card p {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* Summary stats */
+    .summary-stats {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+    .stat-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.5rem;
+      min-width: 140px;
+    }
+    .stat-box .value {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--accent-teal);
+    }
+    .stat-box .label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    /* Edit modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s, visibility 0.2s;
+    }
+    .modal-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+    .modal {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      max-width: 480px;
+      width: 90%;
+    }
+    .modal h3 { margin-bottom: 1rem; font-size: 1.1rem; }
+    .modal label {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+    }
+    .modal select, .modal textarea {
+      width: 100%;
+      padding: 0.6rem;
+      background: var(--bg-dark);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      font-family: inherit;
+      margin-bottom: 1rem;
+    }
+    .modal textarea { min-height: 80px; resize: vertical; }
+    .modal-actions {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: flex-end;
+    }
+    .btn {
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border: none;
+      transition: background 0.2s;
+    }
+    .btn-secondary {
+      background: var(--border);
+      color: var(--text-primary);
+    }
+    .btn-secondary:hover { background: #475569; }
+    .btn-primary {
+      background: var(--accent-teal);
+      color: var(--bg-dark);
+    }
+    .btn-primary:hover { background: #00b894; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container { padding: 1rem; }
+      .work-areas { grid-template-columns: 1fr; }
+      .gantt-section { padding: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <span class="logo">Alation → OMS Migration</span>
+      <span class="contract-badge">Alation ends Oct 1, 2026</span>
+    </header>
+
+    <div class="focus-banner">
+      <span class="icon">🎯</span>
+      <div class="focus-text">
+        <strong>Current Focus:</strong>
+        <span id="focusDisplay">Gap documentation & requirements gathering</span>
+      </div>
+      <select id="focusSelect">
+        <option value="gap-docs">Gap documentation & requirements gathering</option>
+        <option value="roadmap">Roadmapping & timeline planning</option>
+        <option value="resources">Resource identification & constraints</option>
+        <option value="oms-build">OMS MVP build</option>
+        <option value="migration">Migration planning & execution</option>
+        <option value="training">Training & change management</option>
+      </select>
+    </div>
+
+    <div class="summary-stats">
+      <div class="stat-box">
+        <div class="value" id="statDone">0</div>
+        <div class="label">Completed</div>
+      </div>
+      <div class="stat-box">
+        <div class="value" id="statProgress">0</div>
+        <div class="label">In Progress</div>
+      </div>
+      <div class="stat-box">
+        <div class="value" id="statTodo">0</div>
+        <div class="label">To Do</div>
+      </div>
+    </div>
+
+    <h2>Work Areas</h2>
+    <div class="work-areas" id="workAreas"></div>
+
+    <h2>Timeline (Gantt)</h2>
+    <div class="gantt-section">
+      <div class="gantt-header">
+        <div class="gantt-labels">Phase / Task</div>
+        <div class="gantt-timeline" id="ganttMonths"></div>
+      </div>
+      <div id="ganttRows"></div>
+    </div>
+
+    <h2>Risk Areas</h2>
+    <div class="risks-grid">
+      <div class="risk-card high">
+        <h4>Tight Timeline</h4>
+        <div class="severity">High</div>
+        <p>Only ~6.5 months until Alation contract end. Recommend negotiating 1-year extension to Oct 2027 for adequate build, migration, and parallel run.</p>
+      </div>
+      <div class="risk-card high">
+        <h4>Scope Creep</h4>
+        <div class="severity">High</div>
+        <p>Avoid "Alation parity" as goal. Define MVP vs Phase 2 clearly. Aim for critical business metadata parity only.</p>
+      </div>
+      <div class="risk-card medium">
+        <h4>Change Management</h4>
+        <div class="severity">Medium</div>
+        <p>Users attached to Alation workflows. Plan for resistance, training, and champions program.</p>
+      </div>
+      <div class="risk-card medium">
+        <h4>Data Fidelity</h4>
+        <div class="severity">Medium</div>
+        <p>Migration quality matters more than speed. Validate lineage, glossary mappings, and documentation links.</p>
+      </div>
+      <div class="risk-card medium">
+        <h4>OMS Roadmap Alignment</h4>
+        <div class="severity">Medium</div>
+        <p>OMS is Disney-wide. Ensure DSS requirements fit OMS roadmap and don't conflict with other BUs.</p>
+      </div>
+      <div class="risk-card low">
+        <h4>Integration Dependencies</h4>
+        <div class="severity">Low</div>
+        <p>Identify downstream systems (BI tools, data quality) that consume Alation today.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="editModal">
+    <div class="modal">
+      <h3 id="modalTitle">Edit Task</h3>
+      <label>Status</label>
+      <select id="modalStatus">
+        <option value="todo">To Do</option>
+        <option value="in-progress">In Progress</option>
+        <option value="done">Done</option>
+      </select>
+      <label>Notes (optional)</label>
+      <textarea id="modalNotes" placeholder="Add notes..."></textarea>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="saveModal()">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'alation-oms-dashboard';
+    const FOCUS_KEY = 'alation-oms-focus';
+
+    const workAreasData = [
+      {
+        id: 'requirements',
+        title: 'Requirements Gathering',
+        tasks: [
+          { id: 'req-1', label: 'Identify gaps OMS has for what we use Alation for', status: 'in-progress', notes: '' },
+          { id: 'req-2', label: 'Identify gaps OMS has for Data Catalog features we want', status: 'todo', notes: '' },
+          { id: 'req-3', label: 'Interview power users (analysts, stewards, governance)', status: 'todo', notes: '' },
+          { id: 'req-4', label: 'Inventory Alation metadata (glossary, articles, tags, lineage)', status: 'todo', notes: '' },
+          { id: 'req-5', label: 'Workflow mapping: how key users use Alation daily', status: 'todo', notes: '' },
+          { id: 'req-6', label: 'Create prioritized gap matrix (OMS has / lacks / criticality)', status: 'todo', notes: '' },
+          { id: 'req-7', label: 'Stakeholder interviews: Alation promised but never delivered', status: 'todo', notes: '' },
+          { id: 'req-8', label: 'Enhancement backlog for Phase 2 (not Alation parity)', status: 'todo', notes: '' },
+        ]
+      },
+      {
+        id: 'roadmap',
+        title: 'Roadmapping',
+        tasks: [
+          { id: 'road-1', label: 'Define when we want to do migration and how', status: 'todo', notes: '' },
+          { id: 'road-2', label: 'Phase 1 vs Phase 2 scope definition', status: 'todo', notes: '' },
+          { id: 'road-3', label: 'Align with OMS team roadmap', status: 'todo', notes: '' },
+          { id: 'road-4', label: 'Alation extension negotiation strategy', status: 'todo', notes: '' },
+          { id: 'road-5', label: 'Cutover date target (recommend Oct 2027)', status: 'todo', notes: '' },
+        ]
+      },
+      {
+        id: 'resources',
+        title: 'Resources & Constraints',
+        tasks: [
+          { id: 'res-1', label: 'Identify engineering capacity (OMS team vs DSS-dedicated)', status: 'todo', notes: '' },
+          { id: 'res-2', label: 'Clarify funding: DSS vs central OMS budget', status: 'todo', notes: '' },
+          { id: 'res-3', label: 'Product/BA capacity for requirements & user stories', status: 'todo', notes: '' },
+          { id: 'res-4', label: 'Governance team time for UAT and stewardship', status: 'todo', notes: '' },
+          { id: 'res-5', label: 'RACI matrix for capabilities', status: 'todo', notes: '' },
+        ]
+      },
+      {
+        id: 'oms-build',
+        title: 'OMS Build (MVP)',
+        tasks: [
+          { id: 'build-1', label: 'Business glossary in OMS', status: 'todo', notes: '' },
+          { id: 'build-2', label: 'Search & discovery (business-context)', status: 'todo', notes: '' },
+          { id: 'build-3', label: 'Documentation / Business Description fields', status: 'todo', notes: '' },
+          { id: 'build-4', label: 'Tags & custom fields', status: 'todo', notes: '' },
+          { id: 'build-5', label: 'Lineage & Airflow integration', status: 'todo', notes: '' },
+          { id: 'build-6', label: 'Usage / access metrics', status: 'todo', notes: '' },
+          { id: 'build-7', label: 'Ownership / Created by', status: 'todo', notes: '' },
+        ]
+      },
+      {
+        id: 'migration',
+        title: 'Migration & Cutover',
+        tasks: [
+          { id: 'mig-1', label: 'Migration scripts & transformation mappings', status: 'todo', notes: '' },
+          { id: 'mig-2', label: 'Parallel run (Alation + OMS)', status: 'todo', notes: '' },
+          { id: 'mig-3', label: 'Metadata migration & validation', status: 'todo', notes: '' },
+          { id: 'mig-4', label: 'Data fidelity verification', status: 'todo', notes: '' },
+          { id: 'mig-5', label: 'Cutover execution', status: 'todo', notes: '' },
+        ]
+      },
+      {
+        id: 'training',
+        title: 'Training & Change Management',
+        tasks: [
+          { id: 'train-1', label: 'Training materials (guides, videos, FAQs)', status: 'todo', notes: '' },
+          { id: 'train-2', label: 'Champions program', status: 'todo', notes: '' },
+          { id: 'train-3', label: 'Workshops for stewards, analysts, governance', status: 'todo', notes: '' },
+          { id: 'train-4', label: 'Office hours post-launch', status: 'todo', notes: '' },
+        ]
+      },
+    ];
+
+    const ganttData = [
+      { id: 'gap-docs', label: 'Gap documentation', start: '2026-03', end: '2026-05', status: 'in-progress' },
+      { id: 'oms-req', label: 'OMS requirements', start: '2026-05', end: '2026-06', status: 'todo' },
+      { id: 'oms-mvp', label: 'OMS build (MVP)', start: '2026-06', end: '2026-10', status: 'todo' },
+      { id: 'mig-plan', label: 'Migration planning', start: '2026-07', end: '2026-08', status: 'todo' },
+      { id: 'parallel', label: 'Parallel run', start: '2026-10', end: '2027-01', status: 'todo' },
+      { id: 'mig-exec', label: 'Migration execution', start: '2026-11', end: '2027-02', status: 'todo' },
+      { id: 'training', label: 'Training', start: '2027-01', end: '2027-02', status: 'todo' },
+      { id: 'cutover', label: 'Cutover', start: '2027-02', end: '2027-03', status: 'todo' },
+      { id: 'decommission', label: 'Alation decommission', start: '2027-09', end: '2027-10', status: 'todo' },
+    ];
+
+    const focusLabels = {
+      'gap-docs': 'Gap documentation & requirements gathering',
+      'roadmap': 'Roadmapping & timeline planning',
+      'resources': 'Resource identification & constraints',
+      'oms-build': 'OMS MVP build',
+      'migration': 'Migration planning & execution',
+      'training': 'Training & change management',
+    };
+
+    let data = loadData();
+    let editingTask = null;
+
+    function loadData() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          return mergeData(workAreasData, parsed);
+        }
+      } catch (e) {}
+      return JSON.parse(JSON.stringify(workAreasData));
+    }
+
+    function mergeData(base, saved) {
+      return base.map(area => {
+        const savedArea = saved.find(s => s.id === area.id);
+        if (!savedArea) return area;
+        return {
+          ...area,
+          tasks: area.tasks.map(t => {
+            const savedTask = savedArea.tasks?.find(st => st.id === t.id);
+            return savedTask ? { ...t, ...savedTask } : t;
+          }),
+        };
+      });
+    }
+
+    function saveData() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      render();
+    }
+
+    function loadFocus() {
+      const saved = localStorage.getItem(FOCUS_KEY) || 'gap-docs';
+      document.getElementById('focusSelect').value = saved;
+      document.getElementById('focusDisplay').textContent = focusLabels[saved] || saved;
+    }
+
+    function saveFocus() {
+      const val = document.getElementById('focusSelect').value;
+      localStorage.setItem(FOCUS_KEY, val);
+      document.getElementById('focusDisplay').textContent = focusLabels[val] || val;
+    }
+
+    function getStats() {
+      let done = 0, progress = 0, todo = 0;
+      data.forEach(area => {
+        area.tasks.forEach(t => {
+          if (t.status === 'done') done++;
+          else if (t.status === 'in-progress') progress++;
+          else todo++;
+        });
+      });
+      return { done, progress, todo };
+    }
+
+    function openEditModal(areaId, taskId) {
+      const area = data.find(a => a.id === areaId);
+      const task = area?.tasks.find(t => t.id === taskId);
+      if (!task) return;
+      editingTask = { areaId, taskId };
+      document.getElementById('modalTitle').textContent = task.label;
+      document.getElementById('modalStatus').value = task.status;
+      document.getElementById('modalNotes').value = task.notes || '';
+      document.getElementById('editModal').classList.add('open');
+    }
+
+    function closeModal() {
+      document.getElementById('editModal').classList.remove('open');
+      editingTask = null;
+    }
+
+    function saveModal() {
+      if (!editingTask) return;
+      const area = data.find(a => a.id === editingTask.areaId);
+      const task = area?.tasks.find(t => t.id === editingTask.taskId);
+      if (task) {
+        task.status = document.getElementById('modalStatus').value;
+        task.notes = document.getElementById('modalNotes').value;
+        saveData();
+      }
+      closeModal();
+    }
+
+    function cycleStatus(areaId, taskId) {
+      const area = data.find(a => a.id === areaId);
+      const task = area?.tasks.find(t => t.id === taskId);
+      if (!task) return;
+      const order = ['todo', 'in-progress', 'done'];
+      const idx = order.indexOf(task.status);
+      task.status = order[(idx + 1) % 3];
+      saveData();
+    }
+
+    function render() {
+      const stats = getStats();
+      document.getElementById('statDone').textContent = stats.done;
+      document.getElementById('statProgress').textContent = stats.progress;
+      document.getElementById('statTodo').textContent = stats.todo;
+
+      document.getElementById('workAreas').innerHTML = data.map(area => {
+        const done = area.tasks.filter(t => t.status === 'done').length;
+        const total = area.tasks.length;
+        const pct = total ? Math.round((done / total) * 100) : 0;
+        const subTasksHtml = area.tasks.map(t => `
+          <div class="sub-task" onclick="openEditModal('${area.id}', '${t.id}')" title="Click to edit">
+            <span class="status-dot ${t.status}"></span>
+            <span class="label">${t.label}</span>
+            <span class="status-badge ${t.status}">${t.status.replace('-', ' ')}</span>
+          </div>
+        `).join('');
+        return `
+          <div class="work-card" data-area="${area.id}">
+            <div class="card-header" onclick="this.closest('.work-card').classList.toggle('expanded')">
+              <span class="card-title">${area.title}</span>
+              <div class="card-progress">
+                <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+                <span>${done}/${total}</span>
+              </div>
+              <span class="expand-icon">▼</span>
+            </div>
+            <div class="card-details">
+              <div class="card-details-inner">${subTasksHtml}</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      const months = ['Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'];
+      const monthLabels = ['2026-03','2026-04','2026-05','2026-06','2026-07','2026-08','2026-09','2026-10','2026-11','2026-12','2027-01','2027-02','2027-03','2027-04','2027-05','2027-06','2027-07','2027-08','2027-09','2027-10'];
+      const startDate = new Date('2026-03-01');
+      const endDate = new Date('2027-10-31');
+      const totalMonths = 20;
+
+      document.getElementById('ganttMonths').innerHTML = monthLabels.map((m, i) =>
+        `<div class="gantt-month" style="flex:1;min-width:35px">${months[i]}</div>`
+      ).join('');
+
+      const today = new Date('2026-03-17');
+      const todayPct = ((today - startDate) / (endDate - startDate)) * 100;
+
+      document.getElementById('ganttRows').innerHTML = ganttData.map(row => {
+        const start = new Date(row.start + '-01');
+        const end = new Date(row.end + '-01');
+        const left = ((start - startDate) / (endDate - startDate)) * 100;
+        const width = ((end - start) / (endDate - startDate)) * 100;
+        return `
+          <div class="gantt-row">
+            <div class="gantt-row-label" title="${row.label}">${row.label}</div>
+            <div class="gantt-row-bars">
+              <div class="gantt-today" style="left:${Math.min(todayPct, 99)}%" title="Today (Mar 17, 2026)"></div>
+              <div class="gantt-bar ${row.status}" style="left:${left}%;width:${Math.max(width, 8)}%" title="${row.label}">${row.label}</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    document.getElementById('focusSelect').addEventListener('change', saveFocus);
+    document.getElementById('editModal').addEventListener('click', e => {
+      if (e.target === e.currentTarget) closeModal();
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    loadFocus();
+    render();
+  </script>
+</body>
+</html>

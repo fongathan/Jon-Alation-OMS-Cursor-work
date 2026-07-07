@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catalog Expansion — Admin Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="themes/theme-midnight-ops.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="glow a" aria-hidden="true"></div>
+  <div class="glow b" aria-hidden="true"></div>
+
+  <div class="shell">
+    <header>
+      <div class="title-block">
+        <h1>Catalog expansion — admin</h1>
+        <p>Track ingestion and stewardship across warehouses <strong style="color:var(--yellow);">and</strong> third-party vendors (activation, CDP, engagement). Adjust statuses locally; charts update live.</p>
+        <p style="margin-top:0.75rem;font-size:0.85rem;color:var(--text-muted);max-width:62ch;">For the <strong>full Alation executive metrics</strong> experience (sidebar: Executive Summary, User Adoption, Content &amp; Curation, Search &amp; Discovery, Governance), open <a href="../business-data-catalog/oms-ui-on-top.html#admin" style="color:var(--accent);">Business Data Catalog → Admin</a> in the BDC prototypes, or the standalone <code>alation-metrics-dashboard-midnight/index.html</code> project.</p>
+      </div>
+      <div class="header-actions">
+        <button type="button" class="btn btn-ghost" id="btn-reset">Reset demo data</button>
+        <a class="btn btn-primary" href="program-plan.html">Program plan</a>
+      </div>
+    </header>
+
+    <section class="kpis" id="kpis" aria-live="polite">
+      <div class="kpi c1">
+        <div class="kpi-label">Vendor coverage</div>
+        <div class="kpi-value" id="kpi-coverage">—</div>
+        <div class="kpi-sub">Systems with connector live or in build</div>
+      </div>
+      <div class="kpi c2">
+        <div class="kpi-label">Assets registered (non-warehouse)</div>
+        <div class="kpi-value" id="kpi-assets">—</div>
+        <div class="kpi-sub">Mappings, audiences, traits (estimated)</div>
+      </div>
+      <div class="kpi c3">
+        <div class="kpi-label">Lineage links</div>
+        <div class="kpi-value" id="kpi-lineage">—</div>
+        <div class="kpi-sub">Warehouse → vendor entity</div>
+      </div>
+      <div class="kpi c4">
+        <div class="kpi-label">Alation parity checklist</div>
+        <div class="kpi-value" id="kpi-parity">—</div>
+        <div class="kpi-sub">Weighted completion</div>
+      </div>
+    </section>
+
+    <div class="grid-main">
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Scope by <span>plane</span></h2>
+          <select class="filter" id="chart-plane-filter" aria-label="Filter plane chart">
+            <option value="all">All planes</option>
+            <option value="warehouse">Warehouse only</option>
+            <option value="vendor">Vendor / activation</option>
+          </select>
+        </div>
+        <div class="chart-wrap">
+          <canvas id="chart-scope" role="img" aria-label="Donut chart of catalog scope by plane"></canvas>
+        </div>
+        <div class="legend-row" id="scope-legend"></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Program <span>burn-up</span></h2>
+          <select class="filter" id="chart-weeks" aria-label="Weeks to show">
+            <option value="8">Last 8 weeks</option>
+            <option value="12" selected>Last 12 weeks</option>
+            <option value="16">Last 16 weeks</option>
+          </select>
+        </div>
+        <div class="chart-wrap tall">
+          <canvas id="chart-burnup" role="img" aria-label="Burn-up chart of catalog capabilities"></canvas>
+        </div>
+      </div>
+
+      <div class="panel full-row">
+        <div class="panel-head">
+          <h2>Vendor &amp; warehouse <span>registry</span></h2>
+          <div style="display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center;">
+            <select class="filter" id="filter-category" aria-label="Filter by category">
+              <option value="all">All categories</option>
+              <option value="warehouse">Warehouse / lake</option>
+              <option value="activation">Reverse ETL / sync</option>
+              <option value="cdp">CDP / identity</option>
+              <option value="engage">Engagement / lifecycle</option>
+            </select>
+            <select class="filter" id="filter-status" aria-label="Filter by status">
+              <option value="all">All statuses</option>
+              <option value="live">Live</option>
+              <option value="build">In build</option>
+              <option value="discovery">Discovery</option>
+              <option value="blocked">Blocked</option>
+            </select>
+          </div>
+        </div>
+        <div class="vendor-table-wrap">
+          <table class="vendor-table">
+            <thead>
+              <tr>
+                <th>System</th>
+                <th>Category</th>
+                <th>Status</th>
+                <th>Metadata depth</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody id="vendor-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <footer class="nav-foot">
+      Demo dashboard — data stored in <code style="color:var(--violet);">localStorage</code>. Open <a href="program-plan.html">program-plan.html</a> for narrative context.
+    </footer>
+  </div>
+
+  <script>
+(function () {
+  const STORAGE_KEY = 'catalog-expansion-dashboard-v1';
+
+  const defaultRows = [
+    { id: 'sf', name: 'Snowflake', cat: 'warehouse', status: 'live', depth: 92, notes: 'Primary analytics store' },
+    { id: 'hive', name: 'Hive', cat: 'warehouse', status: 'live', depth: 78, notes: 'Legacy paths' },
+    { id: 'dbx', name: 'Databricks / Unity', cat: 'warehouse', status: 'live', depth: 85, notes: 'ML + lakehouse' },
+    { id: 'ht', name: 'Hightouch', cat: 'activation', status: 'build', depth: 38, notes: 'Reverse ETL to SaaS' },
+    { id: 'seg', name: 'Segment / CDP', cat: 'cdp', status: 'discovery', depth: 22, notes: 'Event & profile catalog' },
+    { id: 'braze', name: 'Braze', cat: 'engage', status: 'build', depth: 31, notes: 'Campaigns & attributes' },
+    { id: 'sfmc', name: 'Salesforce Marketing Cloud', cat: 'engage', status: 'discovery', depth: 15, notes: 'Journey metadata' },
+    { id: 'amp', name: 'Amplitude', cat: 'cdp', status: 'live', depth: 55, notes: 'Behavioral cohorts' },
+    { id: 'rudder', name: 'RudderStack', cat: 'cdp', status: 'discovery', depth: 18, notes: 'Warehouse-first events' },
+    { id: 'census', name: 'Census', cat: 'activation', status: 'discovery', depth: 12, notes: 'Compare overlap w/ Hightouch' }
+  ];
+
+  function loadState() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return { rows: JSON.parse(JSON.stringify(defaultRows)) };
+      const parsed = JSON.parse(raw);
+      if (!parsed.rows || !Array.isArray(parsed.rows)) return { rows: JSON.parse(JSON.stringify(defaultRows)) };
+      return parsed;
+    } catch {
+      return { rows: JSON.parse(JSON.stringify(defaultRows)) };
+    }
+  }
+
+  function saveState(state) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+
+  let state = loadState();
+
+  const catClass = {
+    warehouse: 'warehouse',
+    activation: 'activation',
+    cdp: 'cdp',
+    engage: 'engage'
+  };
+
+  const catLabel = {
+    warehouse: 'Warehouse / lake',
+    activation: 'Reverse ETL',
+    cdp: 'CDP / analytics',
+    engage: 'Engagement'
+  };
+
+  function filteredRows() {
+    const cat = document.getElementById('filter-category').value;
+    const st = document.getElementById('filter-status').value;
+    return state.rows.filter((r) => {
+      if (cat !== 'all' && r.cat !== cat) return false;
+      if (st !== 'all' && r.status !== st) return false;
+      return true;
+    });
+  }
+
+  function renderTable() {
+    const tbody = document.getElementById('vendor-body');
+    const rows = filteredRows();
+    tbody.innerHTML = rows.map((r) => {
+      const pClass = catClass[r.cat] || 'warehouse';
+      const label = catLabel[r.cat] || r.cat;
+      return `<tr data-id="${r.id}">
+        <td><strong>${escapeHtml(r.name)}</strong></td>
+        <td><span class="pill ${pClass}">${label}</span></td>
+        <td>
+          <select class="status-select" data-id="${r.id}" aria-label="Status for ${escapeHtml(r.name)}">
+            <option value="live" ${r.status === 'live' ? 'selected' : ''}>Live</option>
+            <option value="build" ${r.status === 'build' ? 'selected' : ''}>In build</option>
+            <option value="discovery" ${r.status === 'discovery' ? 'selected' : ''}>Discovery</option>
+            <option value="blocked" ${r.status === 'blocked' ? 'selected' : ''}>Blocked</option>
+          </select>
+        </td>
+        <td>
+          <div style="display:flex;align-items:center;gap:0.5rem;">
+            <span style="min-width:2.5rem;font-weight:700;color:var(--cyan);">${r.depth}%</span>
+            <div class="progress-mini" title="Metadata depth"><i style="width:${r.depth}%"></i></div>
+          </div>
+        </td>
+        <td style="color:var(--muted);max-width:220px;">${escapeHtml(r.notes)}</td>
+      </tr>`;
+    }).join('');
+
+    tbody.querySelectorAll('.status-select').forEach((sel) => {
+      sel.addEventListener('change', () => {
+        const id = sel.getAttribute('data-id');
+        const row = state.rows.find((x) => x.id === id);
+        if (row) {
+          row.status = sel.value;
+          saveState(state);
+          updateKpis();
+          updateScopeChart();
+        }
+      });
+    });
+  }
+
+  function escapeHtml(s) {
+    const d = document.createElement('div');
+    d.textContent = s;
+    return d.innerHTML;
+  }
+
+  function updateKpis() {
+    const vendorCats = ['activation', 'cdp', 'engage'];
+    const vendorRows = state.rows.filter((r) => vendorCats.includes(r.cat));
+    const covered = vendorRows.filter((r) => r.status === 'live' || r.status === 'build').length;
+    const coveragePct = vendorRows.length ? Math.round((covered / vendorRows.length) * 100) : 0;
+
+    const depthSum = vendorRows.reduce((a, r) => a + r.depth, 0);
+    const assetsK = vendorRows.length ? Math.round((depthSum / vendorRows.length) * 12.4) : 0;
+
+    const lineageEst = state.rows
+      .filter((r) => r.cat !== 'warehouse' && r.status !== 'blocked')
+      .reduce((a, r) => a + Math.round(r.depth * 4.2), 0);
+
+    const parityWeights = { live: 1, build: 0.65, discovery: 0.35, blocked: 0 };
+    const paritySum = state.rows.reduce((a, r) => a + (parityWeights[r.status] || 0), 0);
+    const parityPct = state.rows.length ? Math.round((paritySum / state.rows.length) * 100) : 0;
+
+    document.getElementById('kpi-coverage').textContent = coveragePct + '%';
+    document.getElementById('kpi-assets').textContent = assetsK.toLocaleString();
+    document.getElementById('kpi-lineage').textContent = lineageEst.toLocaleString();
+    document.getElementById('kpi-parity').textContent = parityPct + '%';
+  }
+
+  let chartScope;
+  let chartBurn;
+
+  const colors = {
+    warehouse: '#60a5fa',
+    activation: '#f472b6',
+    cdp: '#22d3ee',
+    engage: '#facc15',
+    other: '#a78bfa'
+  };
+
+  function scopeCounts(planeFilter) {
+    const rows = state.rows;
+    let w = 0, v = 0;
+    rows.forEach((r) => {
+      const isWh = r.cat === 'warehouse';
+      if (planeFilter === 'warehouse' && !isWh) return;
+      if (planeFilter === 'vendor' && isWh) return;
+      if (isWh) w += 1;
+      else v += 1;
+    });
+    return { warehouse: w, vendor: v };
+  }
+
+  function updateScopeChart() {
+    const plane = document.getElementById('chart-plane-filter').value;
+    const { warehouse, vendor } = scopeCounts(plane === 'all' ? 'all' : plane === 'warehouse' ? 'warehouse' : 'vendor');
+
+    const labels = [];
+    const data = [];
+    const bg = [];
+
+    if (plane === 'all') {
+      labels.push('Warehouse / lake', 'Activation & vendors');
+      data.push(warehouse, vendor);
+      bg.push(colors.warehouse, colors.activation);
+    } else if (plane === 'warehouse') {
+      state.rows.filter((r) => r.cat === 'warehouse').forEach((r) => {
+        labels.push(r.name);
+        data.push(Math.max(5, r.depth));
+        bg.push(colors.warehouse);
+      });
+    } else {
+      const palette = [colors.activation, colors.cdp, colors.engage, colors.other];
+      let i = 0;
+      state.rows.filter((r) => r.cat !== 'warehouse').forEach((r) => {
+        labels.push(r.name);
+        data.push(Math.max(5, r.depth));
+        bg.push(palette[i % palette.length]);
+        i++;
+      });
+    }
+
+    const legend = document.getElementById('scope-legend');
+    legend.innerHTML = labels.map((l, idx) =>
+      `<span><span class="dot" style="background:${bg[idx]}"></span>${escapeHtml(l)}</span>`
+    ).join('');
+
+    if (chartScope) chartScope.destroy();
+
+    const ctx = document.getElementById('chart-scope').getContext('2d');
+    chartScope = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels,
+        datasets: [{
+          data,
+          backgroundColor: bg,
+          borderWidth: 0,
+          hoverOffset: 12
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: 'rgba(15, 23, 42, 0.95)',
+            titleFont: { family: 'Plus Jakarta Sans' },
+            bodyFont: { family: 'Plus Jakarta Sans' },
+            padding: 12,
+            cornerRadius: 10
+          }
+        },
+        cutout: '62%'
+      }
+    });
+  }
+
+  function burnupSeries(weeks) {
+    const parityWeights = { live: 1, build: 0.65, discovery: 0.35, blocked: 0 };
+    const base = state.rows.reduce((a, r) => a + (parityWeights[r.status] || 0), 0);
+    const target = state.rows.length;
+    const labels = [];
+    const ideal = [];
+    const actual = [];
+    for (let i = 0; i < weeks; i++) {
+      labels.push('W' + (i + 1));
+      ideal.push((target / weeks) * (i + 1));
+      const noise = Math.sin(i * 0.7) * 0.08 * target;
+      const progress = base * (0.35 + (0.65 * (i + 1) / weeks)) + noise * 0.3;
+      actual.push(Math.min(target, Math.max(0, progress)));
+    }
+    return { labels, ideal, actual, target };
+  }
+
+  function updateBurnChart() {
+    const weeks = parseInt(document.getElementById('chart-weeks').value, 10) || 12;
+    const { labels, ideal, actual, target } = burnupSeries(weeks);
+
+    if (chartBurn) chartBurn.destroy();
+    const ctx = document.getElementById('chart-burnup').getContext('2d');
+    chartBurn = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [
+          {
+            label: 'Ideal trajectory',
+            data: ideal,
+            borderColor: 'rgba(148, 163, 184, 0.5)',
+            borderDash: [6, 4],
+            pointRadius: 0,
+            tension: 0.3,
+            fill: false
+          },
+          {
+            label: 'Capability points (weighted)',
+            data: actual,
+            borderColor: '#22d3ee',
+            backgroundColor: 'rgba(34, 211, 238, 0.15)',
+            pointRadius: 3,
+            pointBackgroundColor: '#f472b6',
+            tension: 0.35,
+            fill: true
+          },
+          {
+            label: 'Target',
+            data: labels.map(() => target),
+            borderColor: 'rgba(250, 204, 21, 0.6)',
+            borderDash: [2, 4],
+            pointRadius: 0,
+            tension: 0,
+            fill: false
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: {
+            labels: { color: '#94a3b8', font: { family: 'Plus Jakarta Sans', size: 11 } }
+          },
+          tooltip: {
+            backgroundColor: 'rgba(15, 23, 42, 0.95)',
+            padding: 12,
+            cornerRadius: 10
+          }
+        },
+        scales: {
+          x: {
+            grid: { color: 'rgba(148, 163, 184, 0.12)' },
+            ticks: { color: '#94a3b8', maxRotation: 0 }
+          },
+          y: {
+            grid: { color: 'rgba(148, 163, 184, 0.12)' },
+            ticks: { color: '#94a3b8' },
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  }
+
+  document.getElementById('chart-plane-filter').addEventListener('change', updateScopeChart);
+  document.getElementById('chart-weeks').addEventListener('change', updateBurnChart);
+  document.getElementById('filter-category').addEventListener('change', renderTable);
+  document.getElementById('filter-status').addEventListener('change', renderTable);
+
+  document.getElementById('btn-reset').addEventListener('click', () => {
+    if (confirm('Reset all rows and statuses to demo defaults?')) {
+      state = { rows: JSON.parse(JSON.stringify(defaultRows)) };
+      saveState(state);
+      document.getElementById('filter-category').value = 'all';
+      document.getElementById('filter-status').value = 'all';
+      renderTable();
+      updateKpis();
+      updateScopeChart();
+      updateBurnChart();
+    }
+  });
+
+  renderTable();
+  updateKpis();
+  updateScopeChart();
+  updateBurnChart();
+})();
+  </script>
+</body>
+</html>

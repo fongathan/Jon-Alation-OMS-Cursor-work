@@ -1,0 +1,33 @@
+PRD — Feature 33: Product Pages
+Product Requirements Document
+Source: Feature Inventory Matrix — Alation to Internal Solution Migration (DEEPT). Document control: link this file from the matrix column **PRD page link**.
+Priority (matrix): Medium
+Primary use case (matrix): Home for products; links to metrics and catalog assets
+Validation notes (matrix): Interconnect catalog with product truth
+1. Summary
+This PRD specifies **Product Pages** for the in-house data catalog / OMS program. It expands the single matrix row into implementable components, UX expectations, and acceptance criteria.
+2. Problem & outcomes
+Users and stewards need predictable behavior, clear accountability, and parity with current Alation workflows where this capability is in use. Success is measured by adoption, reduced time-to-answer, and governance coverage—not feature count alone.
+3. Scope
+3.1 In scope
+End-to-end behavior for: Product Pages.
+DEEPT / enterprise personas: steward, analyst, engineer, governance, admin.
+Accessibility: WCAG-oriented patterns for core flows (exact tier set by program).
+3.2 Out of scope (unless added by change request)
+Duplicating full warehouse compute consoles unless explicitly linked as deep integration.
+Non-catalog products (e.g. full ITSM) except via links or thin embeds.
+4. Personas
+5. Component breakdown (piece by piece)
+Product record
+Stable product id; name; executive summary; domain; stewards; contacts.
+Links to metrics, dashboards, key tables, glossary entries.
+AI ingestion pipeline
+Connectors to wiki / Confluence / docs; extraction, dedup, human review queue before publish.
+Attribution: every AI-derived block shows source links and confidence.
+Publishing workflow
+Draft → review → published; scheduled refresh with diff alerts to stewards.
+6. User stories
+As a steward, I can perform core curation tasks for **Product Pages** without leaving the catalog shell.
+As an analyst, I can rely on **Product Pages** to decide whether a dataset is appropriate for my use case.
+As an engineer, I can integrate or automate **Product Pages** via documented APIs where applicable.
+7. Use cases & examples

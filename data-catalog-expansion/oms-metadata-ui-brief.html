@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OMS — Schema &amp; metadata sections (reader brief)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="themes/theme-editorial-hero.css">
+  <style>
+    main code {
+      font-size: 0.88em;
+      font-family: ui-monospace, "Cascadia Code", monospace;
+      background: var(--violet-soft);
+      color: var(--ink);
+      padding: 0.12em 0.45em;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+    }
+    main section h3 {
+      margin-top: 1.75rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="badge-row">
+        <span class="badge">OMS</span>
+        <span class="badge">Snowflake</span>
+        <span class="badge lime">UI patterns</span>
+      </div>
+      <h1>Schema &amp; metadata layers<br><span style="font-weight:500;opacity:0.92">What the sections mean—and how to structure the catalog UI</span></h1>
+      <p class="hero-lead">
+        A concise reference derived from the Operational Metadata Store screenshots: two meanings of “schema,” how Overview / Technical / Business metadata differ, and whether separating business from technical metadata in a BDC-on-top view is sound.
+      </p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#schema">Jump to “Schema”</a>
+        <a class="btn btn-ghost" href="#sections">Three metadata sections</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <section id="schema">
+      <h2>1. What “schema” means in OMS</h2>
+      <p>
+        The product uses <strong>schema</strong> in two related ways. Both are correct; the trick is knowing which one you are looking at.
+      </p>
+
+      <div class="grid-2">
+        <div class="card">
+          <h4>A. Snowflake namespace</h4>
+          <p style="margin:0 0 0.75rem;font-size:0.95rem;color:var(--muted);">
+            In <strong>Technical metadata</strong>, fields like <em>Database</em> and <em>Schema</em> refer to <strong>where the object lives</strong> in Snowflake. Example: database <code>marsci_acquisition_pro</code>, schema <code>build</code>—the middle segment of <code>database.schema.table</code>.
+          </p>
+          <span class="tag cyan">Location · access · naming</span>
+        </div>
+        <div class="card">
+          <h4>B. Column-level structure</h4>
+          <p style="margin:0 0 0.75rem;font-size:0.95rem;color:var(--muted);">
+            The collapsible <strong>Schema</strong> panel is the <strong>table structure</strong>: one row per column with name, type, description, tags, and column lineage. This is the physical / logical “data dictionary,” not the Snowflake schema name.
+          </p>
+          <span class="tag lime">Columns · types · lineage</span>
+        </div>
+      </div>
+
+      <div class="callout">
+        <strong>Remember:</strong> <em>Namespace schema</em> = folder for the table. <em>Schema panel</em> = list of columns and types. Same word, different planes—worth a one-line tooltip or glossary link in the UI.
+      </div>
+    </section>
+
+    <section id="sections">
+      <h2>2. Overview vs technical vs business metadata</h2>
+      <p>
+        Each block answers different questions for different people. Keeping them visually distinct reduces noise and matches real workflows (discovery vs operations vs governance).
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Section</th>
+            <th>Role</th>
+            <th>Typical content</th>
+            <th>Primary users</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Overview</strong></td>
+            <td>Quick asset facts for trust and discovery</td>
+            <td>Environment, created date, type/status, access recency, table age, creator, documentation hints</td>
+            <td>Consumers, PMs, light analysts—<em>“Can I use this?”</em></td>
+          </tr>
+          <tr>
+            <td><strong>Technical metadata</strong></td>
+            <td>How it is built and operated</td>
+            <td>Database, schema (namespace), rows, size, last altered, cost, clustering, Airflow IDs, usage metrics</td>
+            <td>Data engineers, platform, FinOps, ETL owners</td>
+          </tr>
+          <tr>
+            <td><strong>Business metadata</strong></td>
+            <td>Meaning, ownership, governance</td>
+            <td>Owners/stewards, policies, descriptions, classification, sensitivity, segment, region</td>
+            <td>Stewards, governance, compliance, analysts needing context</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Merge or keep separate?</h3>
+      <p>
+        <strong>Prefer separation</strong> (sections, tabs, or strong headings)—or a very short “at a glance” summary up top with detail below. Reasons:
+      </p>
+      <ul>
+        <li>Different personas care about different fields; one flat list creates clutter.</li>
+        <li>Edit permissions and sensitivity often differ (e.g. cost vs business description).</li>
+        <li>Collapsible panels or tabs preserve scanability for mixed audiences.</li>
+      </ul>
+      <p>
+        A single merged block can work for a <em>narrowly technical</em> audience, but for engineers + analysts + stewards together, segmented layout usually wins.
+      </p>
+    </section>
+
+    <section id="bdc-ui">
+      <h2>3. BDC “UI on top” — business vs technical split</h2>
+      <p>
+        A stewardship-first surface (for example <code>business-data-catalog/oms-ui-on-top.html</code>) that <strong>defaults to descriptions, policies, and business column context</strong> while tucking types and physical detail behind a toggle is <strong>coherent and defensible</strong>.
+      </p>
+
+      <div class="grid-2">
+        <div class="card">
+          <h4>Why it works</h4>
+          <ul style="margin:0;padding-left:1.2rem;font-size:0.95rem;color:var(--muted);">
+            <li>Aligns default experience with stewards and business users.</li>
+            <li>Lets engineers opt in to technical column fields when needed.</li>
+            <li>Mirrors OMS’s mental model without forcing every OMS metric onto the first screen.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>What to add for balance</h4>
+          <ul style="margin:0;padding-left:1.2rem;font-size:0.95rem;color:var(--muted);">
+            <li>A clear path to <strong>full operational metadata</strong> for users who live in row counts, DAGs, or cost.</li>
+            <li>Optional one-line “at a glance” (env, owner, row count) if decisions depend on it.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>One-line summary</h2>
+      <p style="font-size:1.05rem;">
+        In OMS, <strong>schema</strong> is either the <strong>Snowflake namespace</strong> or the <strong>column list</strong>; <strong>Overview / Technical / Business</strong> serve discovery, operations, and governance respectively—keep them distinct in the UI; a <strong>BDC-on-top</strong> layer that foregrounds business metadata and optionally reveals technical detail matches that story well.
+      </p>
+    </section>
+
+    <footer style="margin-top:3rem;padding-top:1.5rem;border-top:1px solid rgba(0,0,0,0.08);font-size:0.875rem;color:var(--muted);">
+      <p style="margin:0;">Prepared from OMS screenshots and catalog prototype notes. Open this file in a browser for the styled layout.</p>
+    </footer>
+  </main>
+
+</body>
+</html>

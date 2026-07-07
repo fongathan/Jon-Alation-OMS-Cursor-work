@@ -1,0 +1,10 @@
+Executive reporting: which KPIs prove value for this capability?
+14. References
+Feature Inventory Matrix (Google Doc): Feature row 35
+Workspace: `requirements-gathering/1-Feature-Inventory-Matrix.md` (if kept in sync)
+BDC / OMS UX: `business-data-catalog/BDC-OMS-integrated-vs-on-top-decision.md`
+Data Steward / Owner | Creates and curates metadata; accountable for domain quality.
+Data Analyst / BI | Discovers and consumes datasets; needs trust and clarity.
+Data Engineer | Needs lineage, technical metadata, automation via API.
+Governance / Compliance | Needs policy coverage, exports, and attestations.
+Platform Admin | Operates connectors, roles, and platform health.

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Business Data Catalog — Requirements map (OMS)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="oms-shared.css" />
+  <style>
+    .map-wrap { max-width: 1100px; margin: 0 auto; }
+    .map-hero {
+      background: var(--oms-card);
+      border: 1px solid var(--oms-border);
+      border-radius: var(--oms-radius);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1rem;
+      box-shadow: var(--oms-shadow);
+    }
+    .map-hero h1 { margin: 0 0 0.5rem; font-size: 1.35rem; }
+    .map-hero p { margin: 0; color: var(--oms-muted); font-size: 14px; max-width: 75ch; }
+    .map-links { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+    .map-links a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.5rem 0.85rem;
+      border-radius: 8px;
+      background: var(--oms-accent);
+      color: #fff;
+      font-weight: 600;
+      font-size: 13px;
+      text-decoration: none;
+    }
+    .map-links a.secondary { background: var(--oms-card); color: var(--oms-accent); border: 1px solid rgba(124, 77, 255, 0.35); }
+    .controls { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; margin-bottom: 0.75rem; }
+    .controls input { padding: 0.45rem 0.65rem; border: 1px solid var(--oms-border); border-radius: 8px; min-width: 220px; }
+    .req-table { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--oms-card); border-radius: var(--oms-radius); overflow: hidden; border: 1px solid var(--oms-border); }
+    .req-table th, .req-table td { padding: 0.65rem 0.75rem; border-bottom: 1px solid var(--oms-border); vertical-align: top; text-align: left; }
+    .req-table th { background: #f8f9fc; font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--oms-muted); }
+    .req-table tr:last-child td { border-bottom: none; }
+    .req-id { font-weight: 700; color: #4a148c; white-space: nowrap; }
+    .badge { font-size: 10px; padding: 0.15rem 0.4rem; border-radius: 4px; font-weight: 600; }
+    .badge-both { background: #e8eaf6; color: #3949ab; }
+    .badge-int { background: #e3f2fd; color: #1565c0; }
+    .badge-top { background: #e8f5e9; color: #2e7d32; }
+    .legend { display: flex; flex-wrap: wrap; gap: 0.75rem; font-size: 12px; color: var(--oms-muted); margin-bottom: 0.75rem; }
+    .print-hint { font-size: 12px; color: var(--oms-muted); margin-top: 1rem; }
+    @media print {
+      .map-links, .controls, .print-hint { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="oms-content map-wrap" style="padding-top:1.5rem;padding-bottom:2rem;">
+    <header class="map-hero">
+      <h1>Business Data Catalog — requirements map</h1>
+      <p>
+        This companion document lists where catalog capabilities appear relative to the <strong>baseline OMS UI</strong> (screenshots: datasource list, filters, lineage, pagination). Use it with stakeholders to show “what we added” in each variant. Google Docs you linked are not readable from this environment; align this map with your PRD and governance docs when you review.
+      </p>
+      <div class="map-links">
+        <a href="oms-ui-integrated.html">Open OMS UI Integrated prototype</a>
+        <a href="oms-ui-on-top.html" class="secondary">Open OMS UI on top prototype</a>
+        <a href="oms-ui-integrated-marked.html" class="secondary">Integrated — marked</a>
+        <a href="oms-ui-on-top-marked.html" class="secondary">On-Top — marked</a>
+      </div>
+    </header>
+
+    <div class="legend">
+      <span><span class="badge badge-int">Integrated</span> = added inside existing datasource view</span>
+      <span><span class="badge badge-top">On top</span> = lives under dedicated left-nav “Business Data Catalog”</span>
+      <span><span class="badge badge-both">Both</span> = same capability, different surface</span>
+    </div>
+
+    <div class="controls">
+      <label for="filterReq" class="sr-only">Filter requirements</label>
+      <input type="search" id="filterReq" placeholder="Filter by keyword (e.g. lineage, owner, policy)…" autocomplete="off" />
+      <button type="button" class="btn-ghost" id="btnExportJson">Copy JSON</button>
+    </div>
+
+    <div class="oms-table-wrap">
+      <table class="req-table" id="reqTable">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Capability</th>
+            <th scope="col">Baseline OMS (from screenshots)</th>
+            <th scope="col">OMS UI Integrated — where we added it</th>
+            <th scope="col">OMS UI on top — where it lives</th>
+          </tr>
+        </thead>
+        <tbody id="reqBody"></tbody>
+      </table>
+    </div>
+
+    <p class="print-hint">Tip: use <kbd>⌘</kbd>+<kbd>P</kbd> to print or save this page as PDF for reviews.</p>
+  </div>
+
+  <script>
+(function () {
+  const REQUIREMENTS = [
+    {
+      id: "R-01",
+      cap: "Search & discovery",
+      base: "Global search in header; column filters under headers on table views (Harmony, Unity, Tableau, Airflow, etc.).",
+      integrated: "<strong>Extended search</strong> applies to business fields (owner, tags) in the same view. Filter row adds Business owner and Tags columns.",
+      ontop: "Same search behavior, scoped to catalog; <strong>Catalog</strong> tab is the primary browse surface; Overview shows KPIs."
+    },
+    {
+      id: "R-02",
+      cap: "Asset inventory table",
+      base: "Paginated table with sort/filter; primary links (pipeline name, table name, dataset name); LINEAGE action per row.",
+      integrated: "Table unchanged in structure; <strong>+3 columns</strong>: Business owner, Tags, Quality score. <strong>+1 column</strong>: pencil icon for BDC edit.",
+      ontop: "Catalog tab uses richer columns (Type, Owner, Sensitivity, Quality) plus <strong>left facet panel</strong> (environment, sensitivity, lineage)."
+    },
+    {
+      id: "R-03",
+      cap: "Business metadata (owner, sensitivity, glossary)",
+      base: "Detail pages show Overview / Technical / Business Metadata cards (Snowflake table, ML endpoint); many fields “Not Available” as pills.",
+      integrated: "<strong>Strip above table</strong> (Business catalog chips) + <strong>drawer tabs</strong> Business & Access when opening a row. Inline edit hooks point to PATCH /catalog/assets/{id}.",
+      ontop: "Dedicated <strong>Glossary</strong> section; Business tab in drawer; <strong>Policies</strong> section for mapped controls."
+    },
+    {
+      id: "R-04",
+      cap: "Lineage / impact",
+      base: "LINEAGE buttons and lineage downloads; pipeline/table views reference METADATA + LINEAGE.",
+      integrated: "Same LINEAGE button; modal placeholder for graph; <strong>Lineage tab</strong> in drawer for quick context.",
+      ontop: "Full <strong>Lineage & impact</strong> section (full-width graph placeholder) plus lineage from Catalog rows."
+    },
+    {
+      id: "R-05",
+      cap: "Governance & workflows",
+      base: "Resources: Documentation, Walkthrough, Contact Support; no approval queue in screenshots.",
+      integrated: "Toolbar actions: <strong>Import tags</strong>, <strong>Export catalog (CSV)</strong> for stewards working in context.",
+      ontop: "<strong>Requests</strong> tab (access & stewardship queue); <strong>Admin</strong> tab (connectors, sync, roles)."
+    },
+    {
+      id: "R-06",
+      cap: "Navigation & IA",
+      base: "Left nav: Home, Lineage Downloads, Resources. Breadcrumb DATASOURCES &gt; datasource.",
+      integrated: "No new left-nav item; catalog is <strong>contextual</strong> to the current datasource page.",
+      ontop: "New <strong>Business Data Catalog</strong> item under Main Pages; sub-nav: Overview | Catalog | Lineage | Glossary | Policies | Requests | Admin."
+    },
+    {
+      id: "R-07",
+      cap: "Quality & completeness",
+      base: "Operational metrics on detail pages (row counts, last altered); missing data as purple “Not Available” pills.",
+      integrated: "<strong>Quality score</strong> column (color-coded) + empty description shown as “Empty” chip in table.",
+      ontop: "Average quality on Overview KPIs; facet filters help find low-quality assets."
+    },
+    {
+      id: "R-08",
+      cap: "APIs (stubbed in prototype)",
+      base: "OMS backend (not implemented here).",
+      integrated: "Demo alerts reference CSV export and PATCH; drawer copy cites REST shape.",
+      ontop: "Same; glossary and admin copy reference GET endpoints."
+    },
+    {
+      id: "R-09",
+      cap: "OMS Home + drill-down to metadata",
+      base: "Welcome page groups sources (Tables, Pipelines, Streams, …); list views use filters and LINEAGE; asset detail uses collapsible cards and purple “Not Available” pills.",
+      integrated: "<strong>Home</strong> is the default view with grouped cards and counts. <strong>Snowflake</strong> → table list (with BDC strip) → <strong>full-page table detail</strong> (Overview / Technical / Business / Schema). Unity Catalog uses list + drawer. Other sources use a short generic list → detail.",
+      ontop: "<strong>Home</strong> tab shows the same card grid inside the BDC area. Snowflake opens a drill view (subnav hidden); back returns to BDC Home. Other sources use generic list/detail. <strong>Catalog</strong> tab remains the cross-source BDC grid with facets."
+    },
+    {
+      id: "R-10",
+      cap: "SQL runner, query history, sample content, change highlighting",
+      base: "Alation-style table page: Overview / Queries / Lineage; columns vs sample toggles.",
+      integrated: "<strong>Queries</strong> tab lists previous runs; <strong>SQL</strong> tab has editor + history + Run + provenance; <strong>Columns &amp; Sample Content</strong> toggle with Generate sample. Editable table/column business fields use <strong>light red</strong> for pending changes. Technical metadata remains in Overview tab.",
+      ontop: "Same tabs in Snowflake drill; <strong>metric strip and Technical Metadata card removed</strong>. Business-only overview + optional technical column types behind checkbox. Marked HTML: <code>oms-ui-on-top-marked.html</code> with yellow callouts."
+    },
+    {
+      id: "R-11",
+      cap: "Trust / deprecation flags (schema, table, column)",
+      base: "Stewards endorse (green) or mark deprecated (red); attribution shows who and when; optional reason text.",
+      integrated: "<strong>Trust strip</strong> under the table title for schema + table; <strong>Trust</strong> column on the schema grid with compact toggles per column. Implemented in <code>bdc-trust-flags.js</code> + <code>bdc-features.css</code>.",
+      ontop: "Same trust strip and column-level flags on the BDC Snowflake drill view; technical type column remains optional."
+    },
+    {
+      id: "R-12",
+      cap: "Admin · full Alation-style metrics dashboard",
+      base: "Left nav: Executive Summary, User Adoption, Content &amp; Curation, Search &amp; Discovery, Governance; Chart.js trends, donuts, heatmap, tables; sample data mirrors midnight dashboard structure.",
+      integrated: "—",
+      ontop: "<strong>Admin</strong> tab mounts <code>bdc-admin-alation-metrics.js</code> + <code>bdc-alation-admin-template.js</code> (from <code>partials/bdc-alation-admin.html</code>). Includes <strong>BDC connector snapshot</strong> + integration tiles below Alation pages. Requires Chart.js CDN; use a local server or the generated template for <code>file://</code>."
+    }
+  ];
+
+  function render(filter) {
+    const q = (filter || "").toLowerCase().trim();
+    const tbody = document.getElementById("reqBody");
+    const rows = REQUIREMENTS.filter((r) => {
+      if (!q) return true;
+      return [r.id, r.cap, r.base, r.integrated, r.ontop].map((x) => x.toLowerCase()).some((s) => s.includes(q));
+    });
+    tbody.innerHTML = rows.map((r) => `
+      <tr>
+        <td class="req-id">${escapeHtml(r.id)}</td>
+        <td><strong>${escapeHtml(r.cap)}</strong></td>
+        <td>${r.base}</td>
+        <td>${r.integrated}</td>
+        <td>${r.ontop}</td>
+      </tr>
+    `).join("");
+    if (!rows.length) {
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--oms-muted);">No matches.</td></tr>';
+    }
+  }
+
+  function escapeHtml(s) {
+    return s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  }
+
+  document.getElementById("filterReq").addEventListener("input", (e) => render(e.target.value));
+  document.getElementById("btnExportJson").addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(JSON.stringify(REQUIREMENTS, null, 2));
+      alert("Requirements JSON copied to clipboard.");
+    } catch {
+      alert("Copy failed.");
+    }
+  });
+
+  render("");
+})();
+  </script>
+</body>
+</html>

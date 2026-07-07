@@ -1,0 +1,8 @@
+{
+  "name": "meeting-hub",
+  "private": true,
+  "scripts": {
+    "start": "npx serve . -p 5500",
+    "serve": "npx serve . -p 5500"
+  }
+}

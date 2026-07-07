@@ -1,0 +1,17 @@
+12. Dependencies & risks
+Depends on: identity (SSO), connector health, glossary/tags where referenced.
+Risks: scope creep between OMS integrated and BDC-on-top; mitigate with shared API and UX contract.
+Matrix note to resolve in interviews: Tables with "pii" in column names → retention policy + steward
+13. Open questions
+MVP vs. phase-2 cut line for this feature?
+Which environments (prod / staging) ship first?
+Executive reporting: which KPIs prove value for this capability?
+14. References
+Feature Inventory Matrix (Google Doc): Feature row 27
+Workspace: `requirements-gathering/1-Feature-Inventory-Matrix.md` (if kept in sync)
+BDC / OMS UX: `business-data-catalog/BDC-OMS-integrated-vs-on-top-decision.md`
+Data Steward / Owner | Creates and curates metadata; accountable for domain quality.
+Data Analyst / BI | Discovers and consumes datasets; needs trust and clarity.
+Data Engineer | Needs lineage, technical metadata, automation via API.
+Governance / Compliance | Needs policy coverage, exports, and attestations.
+Platform Admin | Operates connectors, roles, and platform health.

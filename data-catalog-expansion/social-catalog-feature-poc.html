@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social layer for the data catalog — analysis &amp; POC</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="themes/theme-editorial-hero.css">
+  <style>
+    /* Scoped POC layout (theme handles typography & cards) */
+    .poc-shell {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
+      gap: 1.25rem;
+      margin-top: 1rem;
+    }
+    @media (max-width: 900px) {
+      .poc-shell { grid-template-columns: 1fr; }
+    }
+    .poc-asset {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card);
+      box-shadow: var(--shadow);
+      padding: 1.25rem 1.35rem;
+    }
+    .poc-asset h3 { font-family: 'Outfit', sans-serif; font-size: 1.05rem; margin-bottom: 0.35rem; }
+    .poc-meta { font-size: 0.9rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; margin: 0.75rem 0 1rem; }
+    .poc-social {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card);
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      min-height: 520px;
+    }
+    .poc-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+    }
+    .poc-tab {
+      flex: 1;
+      border: 0;
+      background: transparent;
+      font: inherit;
+      font-weight: 600;
+      padding: 0.85rem 0.5rem;
+      cursor: pointer;
+      color: var(--muted);
+      border-bottom: 3px solid transparent;
+    }
+    .poc-tab[aria-selected="true"] {
+      color: var(--violet);
+      border-bottom-color: var(--violet);
+    }
+    .poc-panel { padding: 1rem 1.1rem; flex: 1; overflow: auto; max-height: 440px; }
+    .poc-panel[hidden] { display: none; }
+    .poc-feed { list-style: none; display: flex; flex-direction: column; gap: 0.85rem; }
+    .poc-item {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0.65rem 0.75rem;
+      font-size: 0.92rem;
+    }
+    .poc-item strong { color: var(--ink); }
+    .poc-time { font-size: 0.78rem; color: var(--muted); }
+    .poc-composer {
+      margin-top: auto;
+      border-top: 1px solid var(--border);
+      padding: 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .poc-composer textarea {
+      width: 100%;
+      min-height: 72px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      padding: 0.55rem 0.65rem;
+      font: inherit;
+      resize: vertical;
+    }
+    .poc-composer .poc-row { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
+    .poc-chip {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.25rem 0.5rem;
+      border-radius: 999px;
+      background: var(--violet-soft);
+      color: var(--violet);
+      border: 0;
+      cursor: pointer;
+    }
+    .poc-endorse {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .poc-big-num { font-size: 2rem; font-weight: 800; color: var(--violet); line-height: 1; }
+    .poc-muted { color: var(--muted); font-size: 0.9rem; }
+    .sources { font-size: 0.9rem; }
+    .sources a { color: var(--blue); word-break: break-word; }
+    .use-grid { display: grid; gap: 0.75rem; }
+    .use-grid li { margin-left: 1.25rem; }
+  </style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="badge-row">
+        <span class="badge">OMS / in-house catalog</span>
+        <span class="badge">Requirements concept</span>
+        <span class="badge lime">POC</span>
+      </div>
+      <h1>Social layer for the data catalog</h1>
+      <p class="hero-lead">
+        A research-backed view of conversations, trust signals, and lightweight collaboration on catalog objects—so knowledge stays attached to assets instead of disappearing into chat threads.
+      </p>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <section id="research">
+      <h2>What the market does today</h2>
+      <p>
+        “Social” in enterprise catalogs usually means <strong>structured collaboration on assets</strong> (comments, threads, reactions, bookmarks), <strong>trust signals</strong> (endorsements, deprecation, verified owners), and <strong>notifications</strong> that route people back to the catalog—not a generic social network.
+      </p>
+      <p class="sources">
+        Representative public references:
+        <a href="https://docs.databricks.com/aws/en/comments/">Databricks Unity Catalog — comments on securable objects</a>;
+        <a href="https://docs.cloudera.com/data-catalog/1.5.5/operations/topics/dc-collaborate-with-other-users.html">Cloudera Data Catalog — collaborate (comments, ratings, likes)</a>;
+        <a href="https://docs.alation.com/en/latest/welcome/Conversations/index.html">Alation — Conversations linked to objects</a>;
+        <a href="https://docs.alation.com/en/latest/steward/UseTrustFlags/index.html">Alation — trust flags / endorsements</a>.
+      </p>
+    </section>
+
+    <section id="aspects">
+      <h2>Aspects of the feature (building blocks)</h2>
+      <p>Each row is a capability slice you can requirements-trace separately (permissions, retention, moderation, APIs).</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Aspect</th>
+            <th>Description</th>
+            <th>Why it matters</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Object-linked threads</strong></td>
+            <td>Discussions anchored to a table, column, dashboard, pipeline, or glossary term; searchable from the catalog.</td>
+            <td>Prevents “tribal knowledge” living only in Slack; ties rationale to the asset consumers see.</td>
+          </tr>
+          <tr>
+            <td><strong>Mentions &amp; routing</strong></td>
+            <td><code>@owner</code>, <code>@steward</code>, or team handles create tasks or inbox items.</td>
+            <td>Closes the loop so questions reach accountable people without broadcasting to everyone.</td>
+          </tr>
+          <tr>
+            <td><strong>Trust &amp; quality signals</strong></td>
+            <td>Endorsements, verified usage, “recommended for X use case,” warnings on deprecated paths.</td>
+            <td>Helps newcomers choose datasets safely and understand organizational confidence—not just freshness.</td>
+          </tr>
+          <tr>
+            <td><strong>Reactions &amp; lightweight feedback</strong></td>
+            <td>Likes, upvotes, or simple emoji on descriptions or answers.</td>
+            <td>Lowers friction for acknowledgment without spawning long threads.</td>
+          </tr>
+          <tr>
+            <td><strong>Bookmarks &amp; lists</strong></td>
+            <td>Personal or shared collections (“onboarding pack for marketing metrics”).</td>
+            <td>Supports curated discovery paths and team rituals (weekly metrics review).</td>
+          </tr>
+          <tr>
+            <td><strong>Activity &amp; audit trail</strong></td>
+            <td>Who changed descriptions, tags, ownership, PII flags; plus social events (resolved question).</td>
+            <td>Governance needs both <em>technical</em> lineage and <em>human</em> decision history.</td>
+          </tr>
+          <tr>
+            <td><strong>Notifications</strong></td>
+            <td>Email, in-app, or chat (e.g. Slack) digests that deep-link to the object.</td>
+            <td>Adoption hinges on meeting people where they work—then pulling them back to canonical context.</td>
+          </tr>
+          <tr>
+            <td><strong>Moderation &amp; policy</strong></td>
+            <td>Retention, export controls for regulated text, abuse reporting, steward tools to pin “official” answers.</td>
+            <td>Enterprise catalogs must assume PII, legal language, and vendor disputes appear in comments.</td>
+          </tr>
+          <tr>
+            <td><strong>Integrations</strong></td>
+            <td>Bi-directional links: ticket IDs, incident links, doc links; optional sync with messaging.</td>
+            <td>Social layer should <em>compose</em> with ITSM and incident tooling—not duplicate them.</td>
+          </tr>
+          <tr>
+            <td><strong>Rank &amp; discovery</strong></td>
+            <td>Search ranking boosted by endorsements, recency of helpful threads, team affinity.</td>
+            <td>Reduces duplicate tables and abandoned “shadow” datasets competing in search results.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="use-cases">
+      <h2>Top 10 use cases</h2>
+      <ol class="use-grid">
+        <li><strong>Clarify a metric definition</strong> — An analyst asks on the <code>fct_subscriber</code> thread how “active subscriber” is counted; the steward pins the authoritative answer.</li>
+        <li><strong>Flag a breaking schema change</strong> — Engineering posts on a table ahead of a migration; subscribers get notified before dashboards break.</li>
+        <li><strong>Endorse gold-source datasets</strong> — Domain leads endorse the canonical “revenue recognition” table so finance analysts avoid duplicates.</li>
+        <li><strong>Onboard a new hire</strong> — A lead shares a bookmark list plus short threads explaining caveats for each core asset.</li>
+        <li><strong>Resolve data quality suspicion</strong> — A spike in nulls triggers a thread linking to the Airflow run and the incident ticket.</li>
+        <li><strong>Coordinate stewardship coverage</strong> — <code>@data-office</code> on an ownerless asset spawns assignment without a mass email.</li>
+        <li><strong>Capture “why we built it this way”</strong> — Historical rationale for a denormalized column stays next to the column doc.</li>
+        <li><strong>BI report lineage Q&amp;A</strong> — Consumers ask which warehouse fields feed a Looker field; producers answer on the dashboard object.</li>
+        <li><strong>Deprecation with migration playbooks</strong> — Deprecated table shows warnings, replacement asset, and a pinned migration checklist thread.</li>
+        <li><strong>Compliance evidence</strong> — Auditors review activity: who approved business definitions and when trust flags changed.</li>
+      </ol>
+    </section>
+
+    <section id="examples">
+      <h2>Concrete usage examples</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h4>Thread on a column</h4>
+          <p>“Is <code>country_code</code> ISO-3166 alpha-2 or vendor-specific?” Steward replies with the transform logic and links to the glossary term <em>Geography — Country</em>.</p>
+          <span class="tag cyan">Glossary linkage</span>
+        </div>
+        <div class="card">
+          <h4>Endorsement + reaction</h4>
+          <p>Finance endorses <code>mart_finance.close_book</code> for month-end reporting; others react 👍 to signal peer validation without noise.</p>
+          <span class="tag lime">Trust signal</span>
+        </div>
+        <div class="card">
+          <h4>Slack → catalog</h4>
+          <p>A Slack shortcut posts a summarized question to the table thread, with replies synced or deep-linked so the catalog remains source of truth.</p>
+          <span class="tag magenta">Integration</span>
+        </div>
+        <div class="card">
+          <h4>Steward pins “official”</h4>
+          <p>Three conflicting answers exist; steward pins one and marks others outdated—search surfaces the pinned answer first.</p>
+          <span class="tag cyan">Moderation</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="poc">
+      <h2>Interactive POC (mock asset page)</h2>
+      <p>
+        This is a front-end sketch only: tabs switch between <strong>Activity</strong>, <strong>Endorse</strong>, and <strong>Discuss</strong>. Typing in Discuss and clicking <strong>Post</strong> appends a message to the thread and the activity feed.
+      </p>
+
+      <div class="poc-shell">
+        <div class="poc-asset">
+          <div class="badge-row" style="margin-bottom:0.5rem">
+            <span class="badge" style="background:var(--cyan-soft);border-color:rgba(6,182,212,0.35);color:var(--ink)">Table</span>
+            <span class="badge" style="background:var(--lime-soft);border-color:rgba(132,204,22,0.35);color:var(--ink)">Gold</span>
+          </div>
+          <h3><code>deept_curated.fct_subscription_events</code></h3>
+          <p class="poc-muted">Curated subscription lifecycle events for DEEPT consumption metrics.</p>
+          <div class="poc-meta">
+            <span>Owner: <strong>Data Platform</strong></span>
+            <span>Steward: <strong>M. Chen</strong></span>
+            <span>PII: <strong>Medium</strong></span>
+          </div>
+          <div class="callout">
+            <strong>POC note:</strong> In OMS, this panel would be backed by APIs for threads, reactions, and audit events—with RBAC aligned to object access.
+          </div>
+        </div>
+
+        <div class="poc-social" id="poc-social">
+          <div class="poc-tabs" role="tablist">
+            <button type="button" class="poc-tab" role="tab" aria-selected="true" aria-controls="panel-activity" id="tab-activity">Activity</button>
+            <button type="button" class="poc-tab" role="tab" aria-selected="false" aria-controls="panel-endorse" id="tab-endorse">Endorse</button>
+            <button type="button" class="poc-tab" role="tab" aria-selected="false" aria-controls="panel-discuss" id="tab-discuss">Discuss</button>
+          </div>
+
+          <div class="poc-panel" role="tabpanel" id="panel-activity" aria-labelledby="tab-activity">
+            <ul class="poc-feed" id="feed-activity">
+              <li class="poc-item"><strong>M. Chen</strong> endorsed this table for <strong>official subscriber analytics</strong>. <span class="poc-time">2d ago</span></li>
+              <li class="poc-item"><strong>J. Rivera</strong> updated the description (wording + SLA). <span class="poc-time">5d ago</span></li>
+              <li class="poc-item"><strong>Thread</strong>: Question on <code>event_type</code> values marked <strong>resolved</strong>. <span class="poc-time">1w ago</span></li>
+            </ul>
+          </div>
+
+          <div class="poc-panel" role="tabpanel" id="panel-endorse" hidden aria-labelledby="tab-endorse">
+            <div class="poc-endorse">
+              <div>
+                <div class="poc-big-num" id="endorse-count">14</div>
+                <div class="poc-muted">endorsements from 6 teams</div>
+              </div>
+              <button type="button" class="btn btn-primary" id="btn-endorse">Endorse for my use case</button>
+            </div>
+            <p class="poc-muted" style="margin-top:1rem">Endorsements are a trust flag, not a popularity contest—require a reason in a full implementation.</p>
+          </div>
+
+          <div class="poc-panel" role="tabpanel" id="panel-discuss" hidden aria-labelledby="tab-discuss">
+            <ul class="poc-feed" id="feed-thread">
+              <li class="poc-item"><strong>A. Okonkwo</strong> asked: “Does <code>event_type = 'churn'</code> include involuntary churn?” <span class="poc-time">3h ago</span></li>
+              <li class="poc-item"><strong>M. Chen</strong> replied: “Yes—see glossary <em>Churn — definition v3</em>; involuntary included since 2025-01.” <span class="poc-time">2h ago</span></li>
+            </ul>
+          </div>
+
+          <div class="poc-composer">
+            <label for="poc-input" class="poc-muted" style="font-size:0.85rem">Compose (Discuss tab)</label>
+            <textarea id="poc-input" placeholder="Ask a question or @mention a steward…"></textarea>
+            <div class="poc-row">
+              <button type="button" class="btn btn-primary" id="btn-post">Post to thread</button>
+              <button type="button" class="poc-chip" data-insert="@M. Chen ">@M. Chen</button>
+              <button type="button" class="poc-chip" data-insert="@Data Platform ">@Data Platform</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer style="margin-top:3rem;padding-bottom:2rem;font-size:0.9rem;color:var(--muted)">
+      <p>POC file: <code>data-catalog-expansion/social-catalog-feature-poc.html</code> — Editorial Hero theme.</p>
+    </footer>
+  </main>
+
+  <script>
+    (function () {
+      var tabs = document.querySelectorAll('.poc-tab');
+      var panels = {
+        'tab-activity': document.getElementById('panel-activity'),
+        'tab-endorse': document.getElementById('panel-endorse'),
+        'tab-discuss': document.getElementById('panel-discuss')
+      };
+      tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          tabs.forEach(function (t) { t.setAttribute('aria-selected', t === tab ? 'true' : 'false'); });
+          Object.keys(panels).forEach(function (id) {
+            panels[id].hidden = id !== tab.id;
+          });
+        });
+      });
+
+      document.querySelectorAll('.poc-chip[data-insert]').forEach(function (chip) {
+        chip.addEventListener('click', function () {
+          var ta = document.getElementById('poc-input');
+          ta.value += chip.getAttribute('data-insert');
+          ta.focus();
+        });
+      });
+
+      document.getElementById('btn-post').addEventListener('click', function () {
+        var ta = document.getElementById('poc-input');
+        var text = (ta.value || '').trim();
+        if (!text) return;
+        var discussTab = document.getElementById('tab-discuss');
+        discussTab.click();
+
+        var li = document.createElement('li');
+        li.className = 'poc-item';
+        li.innerHTML = '<strong>You</strong> wrote: ' + escapeHtml(text) + ' <span class="poc-time">just now</span>';
+        document.getElementById('feed-thread').prepend(li);
+
+        var act = document.createElement('li');
+        act.className = 'poc-item';
+        act.innerHTML = '<strong>You</strong> posted on the discussion thread. <span class="poc-time">just now</span>';
+        document.getElementById('feed-activity').prepend(act);
+
+        ta.value = '';
+      });
+
+      var endorsed = false;
+      document.getElementById('btn-endorse').addEventListener('click', function () {
+        var countEl = document.getElementById('endorse-count');
+        var n = parseInt(countEl.textContent, 10) || 0;
+        if (!endorsed) {
+          countEl.textContent = String(n + 1);
+          endorsed = true;
+          this.textContent = 'Remove endorsement';
+          var act = document.createElement('li');
+          act.className = 'poc-item';
+          act.innerHTML = '<strong>You</strong> endorsed this table. <span class="poc-time">just now</span>';
+          document.getElementById('feed-activity').prepend(act);
+        } else {
+          countEl.textContent = String(Math.max(0, n - 1));
+          endorsed = false;
+          this.textContent = 'Endorse for my use case';
+        }
+      });
+
+      function escapeHtml(s) {
+        return s.replace(/[&<>"']/g, function (c) {
+          return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c];
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
