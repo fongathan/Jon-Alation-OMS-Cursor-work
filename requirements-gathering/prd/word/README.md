@@ -7,14 +7,17 @@ This folder contains **35 Microsoft Word** (`.docx`) product requirement documen
 | File | Description |
 |------|-------------|
 | `PRD-Navigator-Data-Governance-Portal.docx` | **Data Governance Portal** — posture, queues, evidence, four dimensions (Privacy / Platform / Security / Regulatory) |
+| `PRD-Navigator-Data-Governance-Portal.source.docx` | **Editable source** — sync from SharePoint/OneDrive; build script copies this and stamps today's date |
 | `PRD-Navigator-Data-Governance-Umbrella.docx` | **Navigator product family** — umbrella story (Portal, BDC, PULS, Kronos) |
 
-Regenerate:
+Regenerate (uses `.source.docx` when present; auto-syncs from OneDrive if the file is at the cloud-storage root):
 
 ```bash
 python3 build_navigator_data_governance_portal_prd.py
 python3 build_navigator_umbrella_prd.py
 ```
+
+After editing in Word on SharePoint, save there and re-run the build script (or copy your `.docx` over `PRD-Navigator-Data-Governance-Portal.source.docx`).
 
 ## Files
 

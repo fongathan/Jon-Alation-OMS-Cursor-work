@@ -1,7 +1,15 @@
 #!/usr/bin/env python3
-"""Build Navigator Data Governance Portal PRD (.docx)."""
+"""Build Navigator Data Governance Portal PRD (.docx).
+
+Primary source: PRD-Navigator-Data-Governance-Portal.source.docx (edit in Word / SharePoint,
+then copy or sync here). Regenerate stamps today's date on the version line.
+
+Fallback: programmatic template if .source.docx is missing.
+"""
 from __future__ import annotations
 
+import re
+import shutil
 from datetime import date
 from pathlib import Path
 
@@ -9,7 +17,10 @@ from docx import Document
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 from docx.shared import Pt
 
-OUT = Path(__file__).resolve().parent / "PRD-Navigator-Data-Governance-Portal.docx"
+DIR = Path(__file__).resolve().parent
+SOURCE = DIR / "PRD-Navigator-Data-Governance-Portal.source.docx"
+OUT = DIR / "PRD-Navigator-Data-Governance-Portal.docx"
+VERSION_LINE = re.compile(r"^Version 0\.1 · Draft · \d{4}-\d{2}-\d{2}$")
 
 
 def add_heading(doc: Document, text: str, level: int = 1) -> None:
@@ -36,7 +47,25 @@ def add_table(doc: Document, headers: list[str], rows: list[tuple[str, ...]]) ->
     doc.add_paragraph()
 
 
-def build() -> Path:
+def stamp_version_date(doc: Document) -> None:
+    today = date.today().isoformat()
+    for para in doc.paragraphs:
+        text = para.text.strip()
+        if VERSION_LINE.match(text) or text.startswith("Version 0.1 · Draft ·"):
+            para.clear()
+            para.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+            para.add_run(f"Version 0.1 · Draft · {today}")
+            return
+
+
+def build_from_source() -> Path:
+    doc = Document(SOURCE)
+    stamp_version_date(doc)
+    doc.save(OUT)
+    return OUT
+
+
+def build_programmatic() -> Path:
     doc = Document()
     style = doc.styles["Normal"]
     style.font.name = "Calibri"
@@ -64,9 +93,19 @@ def build() -> Path:
     add_heading(doc, "1. Executive summary", 1)
     add_para(
         doc,
+        "Navigator is the proposed umbrella data governance product family for Disney "
+        "Entertainment & ESPN Technology (DEEPT). Rather than treating catalog discovery, "
+        "privacy compliance, policy management, program operations, and business inventory as "
+        "unrelated tools, Navigator reframes them as coordinated parts of one unified collection "
+        "of products—with a shared portal and explicit boundaries between what Data Governance "
+        "builds and what platform teams operate.",
+    )
+    add_para(
+        doc,
         "The Navigator Data Governance Portal is the privacy and data governance command center "
-        "within the broader Navigator product family. It answers three questions for program operators "
-        "and leadership: Are we in policy? What needs a human this week? Can we prove it to auditors?",
+        "within the broader Navigator product family. It answers four questions for program operators "
+        "and leadership: Where is the governed data I need? Are we in policy and compliance? "
+        "What needs a human this week? Can we prove it to auditors?",
     )
     add_para(
         doc,
@@ -84,9 +123,9 @@ def build() -> Path:
     )
     add_para(
         doc,
-        "Delivery is phased: Business Data Catalog MVP on OMS APIs addresses the Oct 2026 Alation exit "
+        "Delivery is phased: Business Data Catalog MVP on OMS APIs addresses the Alation exit "
         "pressure first. The full Governance Portal hub—live KPI feeds, work queues, evidence export—"
-        "ships in Phase 2, with metrics automation and resolved OMS↔governance read paths in Phase 3.",
+        "would ship after in a Phase 2, with metrics automation and resolved OMS↔governance read paths in Phase 3.",
     )
 
     # --- 2. Problem statement ---
@@ -447,8 +486,8 @@ def build() -> Path:
     add_bullets(
         doc,
         [
-            "Enterprise UX alignment: Sage-style patterns, Dave Hoffman / enterprise design review where applicable.",
-            "Container-first layout: Suman guidance—validate dimension hub layout and KPI containers before final metric definitions.",
+            "Enterprise UX alignment: Enterprise-style patterns, Dave Hoffman / enterprise design review where applicable.",
+            "Container-first layout: Leadership guidance—validate dimension hub layout and KPI containers before final metric definitions.",
             "Accessibility: WCAG-oriented patterns for core flows (exact tier set by program).",
             "Responsive: desktop-first for program operators; read-only auditor view acceptable on tablet.",
             "Empty states: explain when live feeds are not yet connected (Phase 1 prototypes vs Phase 2 live data).",
@@ -506,7 +545,7 @@ def build() -> Path:
     add_bullets(
         doc,
         [
-            "One metadata spine: 626/MCI supplies → OMS stores → governance repo defines → Portal orients.",
+            "One metadata spine: Data626/MCI supplies → OMS stores → governance repo defines → Portal orients.",
             "API boundaries: Portal UIs call Gov Application Services and OMS APIs; browsers do not write directly to Postgres.",
             "OMS projection: OMS reads/syncs governance definitions onto catalog assets; governance repo stays tool-agnostic.",
             "Open design question: confirm OMS reads governance definitions directly from Postgres or via Gov App API— affects classification display and schema ownership.",
@@ -631,7 +670,7 @@ def build() -> Path:
     add_bullets(
         doc,
         [
-            "UDGE demo wireframes: data-navigator-governance/index.html",
+            "Original demo wireframes: data-navigator-governance/index.html",
             "v2 shell prototype: navigator-version-2/index.html",
             "Architecture Q&A memo: requirements-gathering/slides/Data-Gov-Portal-Architecture-QA-Memo.docx",
             "Value deck: requirements-gathering/slides/data-governance-portal-value-deck-3-slides.html",
@@ -646,6 +685,60 @@ def build() -> Path:
     return OUT
 
 
+def build() -> Path:
+    if SOURCE.exists():
+        return build_from_source()
+    return build_programmatic()
+
+
+def sync_source_from_onedrive(force: bool = False) -> Path | None:
+    """Copy personal OneDrive PRD into SOURCE when OneDrive is newer (or --sync)."""
+    candidates = [
+        Path.home()
+        / "Library/CloudStorage/OneDrive-TheWaltDisneyCompany/PRD-Navigator-Data-Governance-Portal.docx",
+        Path.home()
+        / "Library/CloudStorage/OneDrive-TheWaltDisneyCompany/Documents/PRD-Navigator-Data-Governance-Portal.docx",
+    ]
+    for path in candidates:
+        if not path.exists() or path.resolve() == SOURCE.resolve():
+            continue
+        if force or not SOURCE.exists() or path.stat().st_mtime > SOURCE.stat().st_mtime:
+            shutil.copy2(path, SOURCE)
+            return path
+    return None
+
+
+def push_to_sharepoint() -> list[Path]:
+    """Copy built PRD to OneDrive sync paths that map to SharePoint Documents."""
+    if not OUT.exists():
+        build()
+    targets = [
+        Path.home()
+        / "Library/CloudStorage/OneDrive-TheWaltDisneyCompany/Documents/PRD-Navigator-Data-Governance-Portal.docx",
+        Path.home()
+        / "Library/CloudStorage/OneDrive-TheWaltDisneyCompany/PRD-Navigator-Data-Governance-Portal.docx",
+    ]
+    copied: list[Path] = []
+    for dest in targets:
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(OUT, dest)
+        copied.append(dest)
+    return copied
+
+
 if __name__ == "__main__":
+    import sys
+
+    if "--push" in sys.argv:
+        copied = push_to_sharepoint()
+        for path in copied:
+            print(f"Pushed to {path}")
+        print("OneDrive should sync these copies to SharePoint. Check the menu-bar OneDrive icon for upload status.")
+        raise SystemExit(0)
+
+    synced = sync_source_from_onedrive(force="--sync" in sys.argv)
+    if synced:
+        print(f"Synced source from {synced}")
     path = build()
-    print(f"Wrote {path}")
+    mode = "source.docx" if SOURCE.exists() else "programmatic template"
+    print(f"Wrote {path} ({mode})")
