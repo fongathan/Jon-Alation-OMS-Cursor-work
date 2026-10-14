@@ -1,0 +1,6953 @@
+{
+  "source_spreadsheet_id": "1C9i41CD7xDspAY209mIOLtE-eRb1LDnFlDz1eFfOlVc",
+  "source_url": "https://docs.google.com/spreadsheets/d/1C9i41CD7xDspAY209mIOLtE-eRb1LDnFlDz1eFfOlVc/edit",
+  "exported_at_utc": "2026-09-25T11:08:25.980340+00:00",
+  "row_count_including_header": 867,
+  "data_row_count": 866,
+  "columns": [
+    "Name",
+    "Domain",
+    "Team",
+    "Main feedback (short)",
+    "Feedback date",
+    "Notes"
+  ],
+  "rows": [
+    [
+      "Name",
+      "Domain",
+      "Team",
+      "Main feedback (short)",
+      "Feedback date",
+      "Notes"
+    ],
+    [
+      "Gina Tuazon-Ayache",
+      "Subscriber",
+      "Product / Principal Product Mgr",
+      "",
+      "",
+      "Top Target"
+    ],
+    [
+      "Kirsten Shurgot",
+      "Subscriber",
+      "Product / Sr Mgr Product Mgmt",
+      "",
+      "",
+      "Top Target"
+    ],
+    [
+      "Jeff Gopez",
+      "Subscriber",
+      "Product",
+      "",
+      "",
+      "Top Target"
+    ],
+    [
+      "Mario Leuang",
+      "Subscriber",
+      "Product / Sr Product Mgr II",
+      "",
+      "",
+      "Top Target"
+    ],
+    [
+      "Christina Aoun",
+      "Subscriber",
+      "Product / Sr Product Mgr II",
+      "",
+      "",
+      "Top Target"
+    ],
+    [
+      "Andrei Kryssov",
+      "Subscriber",
+      "Product",
+      "",
+      "",
+      "Top Target"
+    ],
+    [
+      "Araz Khodabakhshian",
+      "Subscriber",
+      "Product / Sr Product Mgr II",
+      "",
+      "",
+      "Top Target"
+    ],
+    [
+      "Carolina Manning",
+      "Payments, Subscriber",
+      "Product / Sr Product Mgr II",
+      "",
+      "",
+      "Top Target"
+    ],
+    [
+      "Jim Byers",
+      "Content, Subscriber",
+      "Product / Product Operations Mgr II",
+      "",
+      "",
+      "Top Target"
+    ],
+    [
+      "Venkatesh Pai",
+      "Content",
+      "Product / Sr Manager Data Product Management",
+      "",
+      "",
+      "Top Target"
+    ],
+    [
+      "Dmitry Vaysberg",
+      "Content",
+      "Product / Principal Product Mgr",
+      "Uses the catalog page as the primary artifact for stakeholders; downstream lineage is often incomplete so he falls back to OMS/composable workspaces.",
+      "2026-07-28",
+      "Top Target"
+    ],
+    [
+      "Jenn Yu",
+      "Session",
+      "Product / Sr Product Mgr II",
+      "",
+      "",
+      "Top Target"
+    ],
+    [
+      "Jenny Nguyen",
+      "Campaign",
+      "Product / Sr Product Mgr",
+      "",
+      "",
+      "Top Target"
+    ],
+    [
+      "Mark Dienger",
+      "Audience",
+      "Product / Principal Product Mgr",
+      "Values Alation as a shareable link to exact tables/columns for audience data; weak for true discovery when docs/lineage cross platforms.",
+      "2026-07-28",
+      "Top Target"
+    ],
+    [
+      "Matthew Mittelmann",
+      "Fraud, Identity",
+      "Product / Sr Mgr Product Management",
+      "",
+      "",
+      "Top Target"
+    ],
+    [
+      "Dorothy Stanford",
+      "Identity, Paid Sharing",
+      "Product / Sr Product Mgr II",
+      "We have 3 different data classification schemas on a table level - but with anonymization, it\u2019s very confusing and nothing is automated - would be nice to keep track of the 3 different type of data labeling.  Also, Alation only shows a visual representation of a set of DAGs, but needs to show the pipeline since Data flows up and downstream ",
+      "2026-08-28",
+      "Top Target"
+    ],
+    [
+      "Jennifer Liu",
+      "Subscriber",
+      "Analytics / Sr Manager, Data Analytics",
+      "",
+      "",
+      "Top Target"
+    ],
+    [
+      "Marguerite L Silverman",
+      "Subscriber",
+      "Analytics / Director, Data Analytics",
+      "Group: navigation is hard, search surfaces duplicates; must preserve existing metric/table documentation for AI and business users.",
+      "2026-07-01",
+      "Section: Top BDC targets. Alation consumer feedback + DMA Analytics group report (2026-07-29)."
+    ],
+    [
+      "Kyle Lubitz",
+      "Subscriber",
+      "Analytics / Exec Director, Data Analytics",
+      "Group: navigation/search pain; wants linked/reusable definitions, freshness signals, governance notifications, and MCP/API for AI.",
+      "2026-07-01",
+      "Section: Top BDC targets. Alation consumer feedback + DMA Analytics group report."
+    ],
+    [
+      "Siree Upara",
+      "Acquisition",
+      "Analytics",
+      "",
+      "",
+      "Section: Top BDC targets. Acquisition analytics BDS."
+    ],
+    [
+      "Ray Wang",
+      "Acquisition",
+      "Analytics / Sr Manager, Data Analytics",
+      "",
+      "",
+      "Section: Top BDC targets. Acquisition BDS; calendar: DSC."
+    ],
+    [
+      "Dave Smith",
+      "Acquisition",
+      "Analytics",
+      "",
+      "",
+      "Section: Top BDC targets. Acquisition BDS; calendar: DSC."
+    ],
+    [
+      "Terry Ou",
+      "Acquisition",
+      "Analytics",
+      "",
+      "",
+      "Section: Top BDC targets. Acquisition BDS; calendar: DSC."
+    ],
+    [
+      "Sam Nasir",
+      "Acquisition, Data Science",
+      "Data Product / Sr Product Mgr II",
+      "",
+      "",
+      "Section: Top BDC targets. Acquisition Data Product BDS."
+    ],
+    [
+      "Cyrus Semnani",
+      "Acquisition",
+      "Data Product / Sr Mgr Product Mgmt",
+      "",
+      "",
+      "Section: Top BDC targets. Acquisition / Data Science Data Product."
+    ],
+    [
+      "Ilan Mandil",
+      "Acquisition",
+      "Data Product / Sr Product Mgr I",
+      "",
+      "",
+      "Section: Top BDC targets. Acquisition / Data Science Data Product."
+    ],
+    [
+      "Daniel Ruiz",
+      "Acquisition",
+      "Data Product / Sr Product Mgr II",
+      "",
+      "",
+      "Section: Top BDC targets. Acquisition / Data Science Data Product; calendar: DSC/intake."
+    ],
+    [
+      "Jen Lin",
+      "Content, Engagement",
+      "Analytics, Anaytics / Manager, Data Analytics",
+      "",
+      "",
+      "Section: Top BDC targets. Engagement analytics BDS; calendar: DSC."
+    ],
+    [
+      "Esther Chang",
+      "Engagement",
+      "Analytics / Manager, Data Analytics",
+      "Group: preserve governed metric definitions; improve discoverability, search authority, and AI-ready metadata exports.",
+      "2026-07-01",
+      "Section: Top BDC targets. Alation consumer feedback + DMA Analytics group report."
+    ],
+    [
+      "Alexis Bernard",
+      "Engagement",
+      "Analytics / Manager, Data Analytics",
+      "",
+      "",
+      "Section: Top BDC targets. Engagement analytics BDS."
+    ],
+    [
+      "Anna Webber",
+      "Experiment",
+      "Analytics / Sr. Data Analyst",
+      "",
+      "",
+      "Section: Top BDC targets. Experiment BDS."
+    ],
+    [
+      "Max Wilson",
+      "Experiment",
+      "Analytics / Manager, Data Analytics",
+      "",
+      "",
+      "Section: Top BDC targets. Experiment BDS; calendar: DG squad standup/DSC."
+    ],
+    [
+      "Rohin Sood",
+      "Engagement",
+      "Product / Sr Product Mgr I",
+      "",
+      "",
+      "Section: Top BDC targets. Engagement Product BDS."
+    ],
+    [
+      "Navneet Jeji",
+      "Engagement",
+      "Product / Principal Product Mgr",
+      "",
+      "",
+      "Section: Top BDC targets. Engagement Product BDS."
+    ],
+    [
+      "Arik Itkis",
+      "Data Platform (formally Foundational), ESPN",
+      "Engineering / Mgr Data Engineering",
+      "",
+      "",
+      "Section: OMS-first stewards. TDS Engineering \u2014 OMS-first (Data Platform)."
+    ],
+    [
+      "Mark Senerth",
+      "Data Platform (formally Foundational)",
+      "Engineering / Dir Data Engineering",
+      "",
+      "",
+      "Section: OMS-first stewards. TDS Engineering \u2014 OMS-first."
+    ],
+    [
+      "Calvin Lawson",
+      "Data Observability",
+      "Engineering / Principal Data Engineer",
+      "",
+      "",
+      "Section: OMS-first stewards. TDS Data Observability."
+    ],
+    [
+      "Nitin Sawant",
+      "Audience, Campaign, Engagement",
+      "Engineering / Sr Mgr Data Engineering",
+      "",
+      "",
+      "Section: OMS-first stewards. TDS cross-domain engineering."
+    ],
+    [
+      "Jason Klapste",
+      "Fraud, Identity, Payments",
+      "Engineering / Mgr Data Engineering",
+      "",
+      "",
+      "Section: OMS-first stewards. TDS Fraud/Identity/Payments."
+    ],
+    [
+      "Stuart Mershon",
+      "Experiment, Merchandising, Session",
+      "Engineering / Sr Mgr Product Software Engineering",
+      "",
+      "",
+      "Section: OMS-first stewards. TDS Session/Merchandising/Experiment."
+    ],
+    [
+      "Zach Levien",
+      "Session",
+      "Engineering / Sr Mgr Data Engineering",
+      "",
+      "",
+      "Section: OMS-first stewards. TDS engineering."
+    ],
+    [
+      "Brent Black",
+      "Engagement, Subscriber",
+      "Engineering / Sr Manager Data Engineering",
+      "",
+      "",
+      "Section: OMS-first stewards. Subscriber TDS \u2014 balance with BDS cohort."
+    ],
+    [
+      "Nick Fuhrmann",
+      "Subscriber",
+      "Engineering / Mgr Data Engineering",
+      "",
+      "",
+      "Section: OMS-first stewards. Subscriber TDS."
+    ],
+    [
+      "Daniel Dwiggins",
+      "Subscriber",
+      "Engineering / Lead Data Engineer",
+      "",
+      "",
+      "Section: OMS-first stewards. Subscriber TDS."
+    ],
+    [
+      "James Wann",
+      "Data Science, Experiment",
+      "Engineering",
+      "",
+      "",
+      "Section: OMS-first stewards. TDS Data Science/Experiment."
+    ],
+    [
+      "Rick Gordon",
+      "Data Science",
+      "Engineering / Principal ML Engineer",
+      "",
+      "",
+      "Section: OMS-first stewards. TDS."
+    ],
+    [
+      "Rekha Bachwani",
+      "Data Science",
+      "Engineering",
+      "",
+      "",
+      "Section: OMS-first stewards. TDS."
+    ],
+    [
+      "Tejal Dasnurkar",
+      "Acquisition",
+      "Engineering / Sr Manager Data Engineering",
+      "",
+      "",
+      "Section: OMS-first stewards. Acquisition TDS among BDS-heavy domain."
+    ],
+    [
+      "Jason Evans",
+      "Cost",
+      "Engineering / Sr Manager Data Engineering",
+      "",
+      "",
+      "Section: OMS-first stewards. TDS Cost/Engagement/Identity."
+    ],
+    [
+      "Mohit Bhargava",
+      "Engagement",
+      "Engineering / Mgr Data Engineering",
+      "",
+      "",
+      "Section: OMS-first stewards. TDS."
+    ],
+    [
+      "Michelle Melwani",
+      "Identity",
+      "Engineering",
+      "",
+      "",
+      "Section: OMS-first stewards. TDS."
+    ],
+    [
+      "Renat Gilfanov",
+      "Data Platform (formally Foundational), ESPN",
+      "Product / Manager Product Management",
+      "",
+      "",
+      "Section: OMS-first stewards. BDS Product on Data Platform \u2014 integration decisions."
+    ],
+    [
+      "Romit Mehta",
+      "Data Platform (formally Foundational)",
+      "Product / Exec Dir Product Management",
+      "",
+      "",
+      "Section: OMS-first stewards. BDS Product on Data Platform \u2014 integration decisions."
+    ],
+    [
+      "Billy So",
+      "",
+      "",
+      "Alation is a catalog-shaped communication layer for exact table/column links\u2014not strong self-service discovery when metadata or cross-platform lineage is thin.",
+      "2026-07-29",
+      "Section: Interviewed (notes in Drive). Billy_So_Fully_Completed_Interview_Notes.docx"
+    ],
+    [
+      "Adnan Rahman",
+      "",
+      "",
+      "Engineering discovery needs real production SQL examples, sample data, and complete metadata\u2014Queries tab empty today.",
+      "2026-07-29",
+      "Section: Interviewed (notes in Drive). Adnan_Rahman_Fully_Completed_Interview_Notes_Final.docx"
+    ],
+    [
+      "Brenda Villasenor",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Governance Analyst",
+      "Governance needs in-catalog workflows, stronger certification than endorsements, and native stewardship reporting (today exports to Power BI).",
+      "2026-07-29",
+      "Section: Interviewed (notes in Drive). Brenda_Villasenor_Fully_Completed_Interview_Notes.docx"
+    ],
+    [
+      "Isobel Brooks",
+      "Ad Platforms",
+      "Ad Platforms / Principal Data Analyst",
+      "Metric governance and education matter more than tooling; incomplete docs force tribal knowledge.",
+      "2026-07-28",
+      "Section: Interviewed (notes in Drive). Isobel_Brooks_Fully_Completed_Interview_Notes.docx"
+    ],
+    [
+      "Nicole Lowe",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Analyst",
+      "Hardest part is finding the authoritative table among similarly named assets when onboarding as a new DPM.",
+      "2026-07-28",
+      "Section: Interviewed (notes in Drive). Nicole_Lowe_Fully_Completed_Interview_Notes.docx"
+    ],
+    [
+      "James Pelham",
+      "Perks",
+      "Analytics / Sr Manager, Data Analytics",
+      "Metadata should sync from code/CI; multiple systems (code, Confluence, catalog) create stale docs.",
+      "2026-07-28",
+      "Section: Interviewed (notes in Drive). James_Pelham_Fully_Completed_Interview_Notes.docx"
+    ],
+    [
+      "Lucas Wang",
+      "Data Observability",
+      "Product / Sr Product Mgr",
+      "Uses catalog to find stewards/owners and endorsement signals via API to prioritize data quality work across ~18 products.",
+      "2026-07-28",
+      "Section: Interviewed (notes in Drive). Lucas_Wang_Fully_Completed_Interview_Notes.docx"
+    ],
+    [
+      "Jacob Weiss",
+      "",
+      "",
+      "Uses Alation mainly as a shared SQL query/reporting library for Advisor data\u2014not metadata discovery.",
+      "2026-07-28",
+      "Section: Interviewed (notes in Drive). Jacob_Weiss_Fully_Completed_Interview_Notes.docx"
+    ],
+    [
+      "Alyssa Fox",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Manager",
+      "Same themes as Mark Dienger: shareable deep links to columns; discovery breaks down across platforms and incomplete docs.",
+      "2026-07-28",
+      "Section: Interviewed (notes in Drive). Mark_Dienger_Alyssa_Fox interview report."
+    ],
+    [
+      "Robert Meyers",
+      "DTC - Chas Murphy",
+      "DTC - Chas Murphy / Data Analyst",
+      "Group (DMA Analytics): preserve existing documentation; improve navigation, search, and AI-ready metadata.",
+      "2026-07-29",
+      "Section: Interviewed (notes in Drive). DMA Analytics group interview."
+    ],
+    [
+      "Carmela Gomez",
+      "DTC - Chas Murphy",
+      "DTC - Chas Murphy / Director, Data Analytics",
+      "Group (DMA Analytics): same as Kyle/Esther cohort on metric governance and migration preservation.",
+      "2026-07-29",
+      "Section: Interviewed (notes in Drive). DMA Analytics group interview."
+    ],
+    [
+      "Adam M Smith",
+      "Disney Entertainment and ESPN Product & Technology",
+      "Disney Entertainment and ESPN Product & Technology / Chairman, Direct-to-Consumer, Disney Entertainment",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Alek Zdziarski",
+      "Data",
+      "Date Engineering / VP Data Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Alex Combs",
+      "Advertising",
+      "Ad Platforms / VP Product Management",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Alexandrea J Alphonso",
+      "Product Management",
+      "Product Management / Sr Principal Exec Ops",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Amy Lehman",
+      "Advertising",
+      "Ad Platforms / SVP Ad Platforms",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Andre Rohe",
+      "Product Engineering",
+      "Product Engineering / EVP, Product Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Andrew Graffeo",
+      "Technology Strategy and Operations",
+      "Technology Strategy and Operations / Sr Mgr Product & Tech Strategy",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Andrew Hyde",
+      "Product Engineering",
+      "AI & Emerging Technologies / VP Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Angela K Morgenstern",
+      "Streaming",
+      "Product Management / VP, Streaming & Creator Platform",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Anuj Joshi",
+      "Ad Platforms",
+      "Ad Platforms / Distinguished Applied Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Bangaly Kaba",
+      "Commerce & Identity",
+      "Product Management / SVP Product Management",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Boubou Guiro",
+      "Product Management",
+      "Product Management / Product Advisor",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Brandon Fountain",
+      "Product Management",
+      "Product Management / Sr Principal Product Mgr",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Brian Marshall",
+      "Sports",
+      "Sports Products & Strategy / SVP ESPN DTC & Product (IA)",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Chad Haas",
+      "Technology Enablement",
+      "Service & Support Operations / VP Solutions Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Christopher E Shattuck",
+      "Product Engineering",
+      "Distribution Platforms / Head of India Product & Tech (DIESI)",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Christopher N Lawson (Chris)",
+      "Content Platforms & Operations",
+      "Content Platforms & Operations / EVP, Content Platforms & Operations",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Christopher Sword (Chris)",
+      "Product Engineering",
+      "Product Engineering / Dir Data Analytics",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Connie Lee",
+      "Ad Platforms",
+      "Ad Platforms / Sr Principal Exec Ops",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Danette Dugas",
+      "Disney Entertainment and ESPN Product & Technology",
+      "Disney Entertainment and ESPN Product & Technology / Sr Executive Assistant",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Daniel Perkel (Dan)",
+      "Design",
+      "Design / Exec Dir UX Research",
+      "",
+      "",
+      ""
+    ],
+    [
+      "David C Johnson (Dave)",
+      "Content Production and Distribution",
+      "Technical Services / SVP Live Ops & Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "David C Thomsen (Dave)",
+      "Advertising",
+      "Design / Exec Dir Product Design",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Devika Chawla",
+      "Streaming",
+      "Product Engineering / SVP Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Dimitri Kontopidis",
+      "Technology Strategy and Operations",
+      "Technology Strategy and Operations / VP Product & Tech Strategy and Operations",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Dominique Charrette",
+      "Product Engineering",
+      "Product Engineering / VP Data Analytics",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Donny Guy",
+      "News & Entertainment, Sports",
+      "Design / Vice President Product Design for Sports & ESPN",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Douglas J Herman (Doug)",
+      "Design",
+      "Design / Dir Motion & UX Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Eleanor L Sandford",
+      "Design",
+      "Design / Dir Product Design",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Erin A Teague",
+      "Product Management",
+      "Product Management / EVP, Product Management",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Georgina M Hill",
+      "Commerce & Identity",
+      "Product Management / Vice President Product Management Commerce",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Gibran Gold",
+      "Design",
+      "Design / Executive Assistant",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Holly A Lutkenhouse",
+      "Content Production and Distribution",
+      "Business Engagement & Data Solutions / SVP Content Platforms",
+      "",
+      "",
+      ""
+    ],
+    [
+      "James K Portley",
+      "Content Platforms & Operations",
+      "LATAM Regional Technology & Operations / VP LATAM Technology & Operations",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jamie Conroy",
+      "Business Operations",
+      "Business Operations / Exec Dir Technical Program Management",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jason Webb",
+      "Business Operations",
+      "Business Operations / Sr Mgr Product Operations",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jason Wong",
+      "Streaming",
+      "Product Management / SVP Product Management",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jay Donnell",
+      "Sports",
+      "Platform Software Engineering / SVP Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jennifer Mayo",
+      "Content Platforms & Operations",
+      "Mastering Ops / SVP Distribution Operations",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Joe Rice",
+      "Product Management",
+      "Media Product / VP Product Advisor",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jon Shoer",
+      "Technology Strategy and Operations",
+      "Technology Strategy and Operations / Sr Mgr Design",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Justin C Altwies",
+      "Product Engineering",
+      "IT Service Enablement / Dir Product Engineering Business Ops",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Keshia D Mann",
+      "Product Management",
+      "Product Management / Sr Executive Assistant",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Kevin Plumb",
+      "Content Platforms & Operations",
+      "Engineering Services / SVP Infrastructure Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Lisa A Welter",
+      "Business Operations",
+      "Portfolio Management / Exec Dir Portfolio Mmgt",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Mayank Sachan",
+      "Commerce & Identity",
+      "CGI Growth Engineering / VP Growth Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Megan Elizabeth De Castro",
+      "Commerce & Identity",
+      "Design / Dir Product Design",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Meghan Borsic",
+      "Design",
+      "Design / SVP Design",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Mehran Bozorgi",
+      "Streaming",
+      "Product Engineering / SVP Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Michael Cupo",
+      "Business Operations",
+      "Business Operations / SVP Business Operations",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Mike Morales",
+      "Commerce & Identity, Streaming",
+      "Design / VP Product Design",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Nicholas Brookins",
+      "Media Platform",
+      "Media Engineering / SVP Media Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Nicole Breskin",
+      "News & Entertainment",
+      "News Products & Strategy / VP News Products & Strategy",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Pamela D Chamberlain (PAM)",
+      "Content Platforms & Operations",
+      "Content Platforms & Operations / Sr Executive Assistant",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Phillip H Lee",
+      "Data",
+      "Ad Platforms / VP, Data Product",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Robert Gianino",
+      "Design",
+      "Design / Principal Design Exec Ops Mgr",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Sam Reisner",
+      "Business Operations",
+      "Technology Development Group / Dir Research Science",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Samuel Druker",
+      "Ad Platforms",
+      "Ad Platforms / Distinguished Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Scott Ashby",
+      "Ad Platforms",
+      "Ad Platforms / VP Ad Partnerships",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Sergio Falcon",
+      "Content Platforms & Operations",
+      "EMEA Regional Technology & Operations / SVP EMEA & APAC Tech & Ops",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Sophie Scharf",
+      "Technology Strategy and Operations",
+      "Technology Strategy and Operations / Principal Product & Tech Ops Mgr",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Srinivasan Palaniswamy",
+      "Business Operations",
+      "Global Program Management / VP Technical Program Management",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Tony Donohoe",
+      "Ad Platforms",
+      "Ad Platforms / EVP Ad Platforms",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Trace L Byrd",
+      "Design",
+      "Creative Product Experience / Dir Product Design",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Ulas Bardak (Ula\u015f)",
+      "Advertising",
+      "Ad Platforms / VP Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Zachary Cava",
+      "Product Engineering",
+      "Media Ecosystem Architecture / VP Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Aaron Benson",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Aaron H Phan",
+      "Ad Platforms",
+      "Ad Platforms / Product Software Engineer II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Aaron Rozenfeld",
+      "Ad Platforms",
+      "Ad Platforms / Quality Control Technician",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Abdul A Abubakar",
+      "Ad Platforms",
+      "Ad Platforms / Data Engineer I",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Abhimanyu Tyagi",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Abhishek Jaidka (ABHI)",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Abhishek Misra",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Adam Hecht",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Adrian C Sun",
+      "Ad Platforms",
+      "Ad Platforms / Product Manager II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "AJ Perras",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Ajeesh Vikraman Lissy",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Akansha Rishu",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Akila Paryaga",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Akmal Agha",
+      "Ad Platforms",
+      "Ad Platforms / Sr Analyst",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Akshay Arya",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Alan Arvelo",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Alan Lu",
+      "Ad Platforms",
+      "Ad Platforms / Product Software Engineer II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Alan N Paulsen",
+      "Ad Platforms",
+      "Ad Platforms / Sr Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Alan Truong",
+      "Ad Platforms",
+      "Ad Platforms / Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Alan Valdez Montijo",
+      "Ad Platforms",
+      "Ad Platforms / Quality Control Technician",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Albert Llavore",
+      "Ad Platforms",
+      "Ad Platforms / Product Software Engineer II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Alejandra Lopez",
+      "Ad Platforms",
+      "Ad Platforms / Sr Solutions Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Alejandra Rivero Arancibia",
+      "Ad Platforms",
+      "Ad Platforms / Lead Solutions Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Alenda Calderbank",
+      "Ad Platforms",
+      "Ad Platforms / Principal Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Alex Korbonits",
+      "Ad Platforms",
+      "Ad Platforms / Principal Machine Learning Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Alex Lujan",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Alexander K Yan (Alex)",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Alexander P Dumont",
+      "Ad Platforms",
+      "Ad Platforms / Data Engineer II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Alexandra Baierlein",
+      "Ad Platforms",
+      "Ad Platforms / Business Development Manager",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Alexandra G Garrity",
+      "Ad Platforms",
+      "Ad Platforms / Product Manager II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Alexandra Middler",
+      "Ad Platforms",
+      "Ad Platforms / Product Software Engineer II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Alexandra Smith",
+      "Ad Platforms",
+      "Automated Marketplaces / Dir Product Management",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Alexandra Zani",
+      "Ad Platforms",
+      "Ad Platforms / Lead Technical Software Writer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Alice Fung",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr I",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Alice Zhao",
+      "Ad Platforms",
+      "Ad Platforms / Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Allison F Fellger",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Allison Moskitis (Ally)",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Alyssa R Fox",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Manager",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Alyssa Woo",
+      "Ad Platforms",
+      "Ad Platforms / Sr Machine Learning Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Aman Sharma",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Amir Asiaee",
+      "Ad Platforms",
+      "Ad Platforms / Lead Machine Learning Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Amit Khullar",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Amit Khullar (Amit Khullar)",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Amruta Katke",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Amy Valukonis",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Andre C Peng",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Andre Goode",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Andrea L James",
+      "Ad Platforms",
+      "Ad Platforms / Sr Solutions Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Andres Auvert Albornoz",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Andres Martinez",
+      "Ad Platforms",
+      "Ad Platforms / Principal Product Mgr",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Andrew C Kosswig",
+      "Ad Platforms",
+      "Ad Platforms / Sr Solutions Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Andrew Copas",
+      "Ad Platforms",
+      "Ad Platforms / Senior Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Andrew Czaia",
+      "Ad Platforms",
+      "Ad Platforms / Sr Solutions Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Andrew Hoang",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Andrew Song",
+      "Ad Platforms",
+      "Ad Platforms / Sr Solutions Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Andrew Yang",
+      "Ad Platforms",
+      "Ad Platforms / Sr Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Andy Karpel",
+      "Ad Platforms",
+      "Ad Platforms / Principal Business Development Manager",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Andy Q Tran",
+      "Ad Platforms",
+      "Ad Platforms / Product Software Engineer II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Angel Darquea",
+      "Ad Platforms",
+      "Ad Platforms / Dir Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Anhkhoa Nguyen",
+      "Ad Platforms",
+      "Ad Platforms / Dir Product Mgmt",
+      "",
+      "",
+      ""
+    ],
+    [
+      "ANJALI TAK",
+      "Ad Platforms",
+      "Ad Platforms / Product Software Engineer II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Ann Choi",
+      "Ad Platforms",
+      "Ad Platforms / Solutions Engineer II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Ann Laksana",
+      "Ad Platforms",
+      "Ad Platforms / Sr Mgr Solutions Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Anna M Acuesta",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Anne Sumitra Prakash",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Anning Luo",
+      "Ad Platforms",
+      "Ad Platforms / Dir Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Anshuman Rudra",
+      "Ad Platforms",
+      "Forky squad / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Anthony Cheetham",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Scientist",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Anthony Kwon",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Anthony P Wilson",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Aravinda Musuku",
+      "Ad Platforms",
+      "Ad Platforms / Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Argishti Rostamian",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Arif N Sharafat",
+      "Ad Platforms",
+      "Ad Platforms / Sr Mgr Data Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Armando R Teixeira",
+      "Ad Platforms",
+      "Ad Platforms / Sr Solutions Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Artem Ipatov",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Artin Spiridonoff",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Scientist",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Asher Garcia",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Manager II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Ashlee Hon",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Asim Alvi",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Asoka Mannan S",
+      "Ad Platforms",
+      "Ad Platforms / Senior Software Engineer I",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Astha Sharma",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Athena Rich",
+      "Ad Platforms",
+      "Ad Platforms / Senior Manager, Product Management",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Austin Olin",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Ayushi Jain",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Azhakesan Thangamuthu (Alagesh)",
+      "Ad Platforms",
+      "Ad Platforms / Principal Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Babak Keyvani",
+      "Ad Platforms",
+      "Ad Platforms / Data Engineer II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Bao Tran",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Barbara Yang",
+      "Ad Platforms",
+      "Ad Platforms / Sr Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Ben Whitmore",
+      "Ad Platforms",
+      "Ad Platforms / Senior Solutions Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Benjamin Porter (Ben)",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Benyi Wang",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Bokai Zhuang",
+      "Ad Platforms",
+      "Ad Platforms / Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Brandon Danh",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Brandon L Robinson",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Brandon L Zavala",
+      "Ad Platforms",
+      "Ad Platforms / Product Software Engineer I",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Brenda Villase\u00f1or",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Governance Analyst",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Brian C Rice",
+      "Ad Platforms",
+      "Ad Platforms / Dir Product Mgmt",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Brian Hernandez",
+      "Ad Platforms",
+      "Ad Platforms / Product Software Engineer II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Brian Park",
+      "Ad Platforms",
+      "Product Engineering / Dir Product Mgmt",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Brian Payne",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Brian Zhou",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Brighton J Keslin",
+      "Ad Platforms",
+      "Ad Platforms / Data Engineer II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Bruce Halperin",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Callahan Cohane",
+      "Ad Platforms",
+      "Ad Platforms / Product Manager II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Calvin D Lawson",
+      "Ad Platforms",
+      "Ad Platforms / Principal Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Cameron Jones",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Cameron O Johnson",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Carlos Valiente",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr I",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Carlotta Harrington",
+      "Ad Platforms",
+      "Ad Platforms / Executive Assistant",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Carmen Nigro",
+      "Ad Platforms",
+      "Ad Platforms / Principal Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Carolina L Manning",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Cassidy Yeung",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Cedrick Mentor",
+      "Ad Platforms",
+      "Ad Platforms / Sr Solutions Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Cesar Izazaga Garcia",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Chad Palsulich",
+      "Ad Platforms",
+      "Ad Platforms / Sr Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Chandini Soni",
+      "Ad Platforms",
+      "Ad Platforms / Manager, Data Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Chandler Warne",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Charles Chao",
+      "Ad Platforms",
+      "Ad Platforms / Exec Dir Data Platforms",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Charles W Dawkins (Chad)",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Charmi R Patel",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Chen Yang",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Chen-Kun Chuang",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Chennah Heroor",
+      "Ad Platforms",
+      "Data Access Management / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Chester Felts",
+      "Ad Platforms",
+      "Ad Platforms / Sr Mgr Product Management",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Chi Zhang",
+      "Ad Platforms",
+      "Ad Platforms / Sr Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Ching-Heng Chiu",
+      "Ad Platforms",
+      "Ad Platforms / Lead Machine Learning Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Chinthaka Kulathunga",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Chris Cheng",
+      "Ad Platforms",
+      "Ad Platforms / Lead Solutions Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Chris Lan",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Chris Luo",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Chris Meade",
+      "Ad Platforms",
+      "Ad Platforms / Lead Machine Learning Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Christian Bulacan",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Christian F Lam",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Christina C Yu",
+      "Ad Platforms",
+      "Ad Platforms / Data Engineer II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Christine T Chan",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Christopher J Gamache (Chris)",
+      "Ad Platforms",
+      "Ad Platforms / Sr Solutions Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Christopher Lei",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Manager",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Christopher Luczywek (Chris)",
+      "Ad Platforms",
+      "Ad Platforms / Data Engineer II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Christopher M Harvey (Chris)",
+      "Ad Platforms",
+      "Ad Platforms / Product Software Engineer II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Christopher Passante",
+      "Ad Platforms",
+      "Ad Platforms / Sr Principal Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Christopher S Hughes (Chris)",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Christopher Shields",
+      "Ad Platforms",
+      "Ad Platforms Data Engineering / Dir Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Christopher W Smith",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Scientist",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Chukwudiuto U Malife",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Cindy Su",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Claire K Gong",
+      "Ad Platforms",
+      "Ad Platforms / Software Engineer I",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Clare T Baker",
+      "Ad Platforms",
+      "Ad Platforms / Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Colin C Son",
+      "Ad Platforms",
+      "Ad Platforms / Senior Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Colin P Gray",
+      "Ad Platforms",
+      "Ad Platforms Foundations Engineering / Dir Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Collin Shaddox",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Colten Pilgreen",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Concorde Habineza",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Craig Burchman",
+      "Ad Platforms",
+      "Ad Platforms / Sr Principal Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Craig Wong",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Curtis Deems",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Dan Brackett",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Dan Chen",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Dan Hwang",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Daniel Crawford",
+      "Ad Platforms",
+      "Ad Platforms / Sr Machine Learning Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Daniel D Sosa",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Governance Analyst",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Daniel M Garaffa",
+      "Ad Platforms",
+      "Ad Platforms / Principal Product Manager",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Daniel S ReMine",
+      "Ad Platforms",
+      "Ad Platforms / Principal Machine Learning Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Daniel Weiner",
+      "Ad Platforms",
+      "Ad Platforms / Sr Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Daniel Wilmot",
+      "Ad Platforms",
+      "Ad Platforms / Sr Solutions Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Danielle A Montoya",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Danny Duong",
+      "Ad Platforms",
+      "Ad Platforms / Sr Principal Product Mgr",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Danny Nguyen",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Darren B Jaspan",
+      "Ad Platforms",
+      "Ads Data Product / Exec Dir Product Mgmt",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Darren J Cormier",
+      "Ad Platforms",
+      "Ad Platforms / Dir Data Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Dave Hoffman",
+      "Ad Platforms",
+      "Ad Platforms / Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "David A Crick",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "David Bulanov",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Manager II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "David C McLean (Chris)",
+      "Ad Platforms",
+      "Ad Platforms / Principal Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "David Chia",
+      "Ad Platforms",
+      "Ad Platforms / Principal Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "David D Chen",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "David DuRocher",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr I",
+      "",
+      "",
+      ""
+    ],
+    [
+      "David E Bolluca (Ersen)",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "David Gash",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "David Jimenez Xolalpa",
+      "Ad Platforms",
+      "Ad Platforms / Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "David Park",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "David R Vendetto (Dave)",
+      "Ad Platforms",
+      "Ad Platforms / Sr Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "David Schmidt",
+      "Ad Platforms",
+      "Ad Platforms / Product Solutions Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "David Zeifman",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Davis Gilton",
+      "Ad Platforms",
+      "Ad Platforms / Sr Machine Learning Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Debasis Kumar Chowdhury",
+      "Ad Platforms",
+      "Ad Platforms / Principal Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Deepak Kumar",
+      "Ad Platforms",
+      "Ad Platforms / Principal Data Product Mgr",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Deepti Madathany",
+      "Ad Platforms",
+      "Commerce Data Solutions / Sr Mgr Data Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Deepti Mutnuru",
+      "Ad Platforms",
+      "Business Data, ML, and Paid Sharing Product / Dir Product Mgmt",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Deirdre Murray Holmes",
+      "Ad Platforms",
+      "Ad Platforms / Technical Software Writer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Demian L'ecuyer",
+      "Ad Platforms",
+      "Ad Platforms / Sr Principal Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Dennis Hou",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Dennis Li",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Deon A Seyfi",
+      "Ad Platforms",
+      "Ad Platforms / Product Software Engineer II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Derek Abramson",
+      "Ad Platforms",
+      "Ad Platforms / Principal Solutions Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Derek Huang",
+      "Ad Platforms",
+      "Ad Platforms / Principal Product Mgr",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Dev Sutar",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Devika Desai",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Manager I",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Devin C Holley",
+      "Ad Platforms",
+      "Ad Platforms / Quality Control Technician",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Dhruv B Patel",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Dick Brown",
+      "Ad Platforms",
+      "Ad Platforms / Mgr Product Management",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Diego Castillo Gonzales",
+      "Ad Platforms",
+      "Ad Platforms / Principal Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Dilanka R Wijeyesekera",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Solutions Manager I (PH)",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Dinushka T Kathriarachchi (Tashani)",
+      "Ad Platforms",
+      "Ad Platforms CRM + Integration Engineering / Sr Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Dmitriy Stepanenko",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Dmitry Starosta",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Dominick Battiato",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Donald Swartz",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Donald White",
+      "Ad Platforms",
+      "Ad Platforms / Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Dustin Lo",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Dustin S Hill",
+      "Ad Platforms",
+      "Ad Platforms / Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Dustin Striplin",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "E-hsuan Wu (Shannon)",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Edie Shaw",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Ehweavworia Enaohwo (Aria)",
+      "Ad Platforms",
+      "Ad Platforms / Executive Assistant",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Eitan Raitses",
+      "Ad Platforms",
+      "Data Cost Management / Product Software Engineer II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Ekaterina Markova (Kate)",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Elankumaran Srinivasan",
+      "Ad Platforms",
+      "Ad Platforms / Principal Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Elizabeth Phan",
+      "Ad Platforms",
+      "John Mcnicholas / Principal Product Mgr",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Emilie Pender",
+      "Ad Platforms",
+      "Ad Platforms / Exec Dir Product Management",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Emily Ilk",
+      "Ad Platforms",
+      "Ad Platforms / Mgr Product Mgmt Solutions",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Emma Boumans",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Eric Feay",
+      "Ad Platforms",
+      "Ad Platforms / Lead Solutions Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Eric Sun",
+      "Ad Platforms",
+      "Ad Platforms / Principal Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Eric T Smith",
+      "Ad Platforms",
+      "Ad Platforms / Principal Product Mgr",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Erica Zhu",
+      "Ad Platforms",
+      "Ad Platforms / Data Engineer II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Erik Cornelsen",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Erin Seong",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Esteban Leon (Steve)",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Eyal Yurman",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Fanding Li",
+      "Ad Platforms",
+      "Ad Platforms / Lead Machine Learning Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Faris Khan",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Fasheng Li",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Fengyao Luo",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr I",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Fernando C Rivero",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Flemming Wu",
+      "Ad Platforms",
+      "Ad Platforms / Data Engineer II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Frank Avila",
+      "Ad Platforms",
+      "Ad Platforms / Director Solutions Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Frank Favata",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Frank Kovacs",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Fred Dai",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Fred David",
+      "Ad Platforms",
+      "Ad Platforms / Sr Principal Product Operations Mgr",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Freddie Hurtado",
+      "Ad Platforms",
+      "Ad Platforms / Principal Product Mgr",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Gabriel Centeno",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Garrett Mendez",
+      "Ad Platforms",
+      "Ad Platforms / Mgr Solutions Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Gary Ames",
+      "Ad Platforms",
+      "Media Product Performance & Compliance / Sr Mgr Product Management",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Gautam Karnataki",
+      "Ad Platforms",
+      "Commerce Data Pipeline / Principal Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Genevieve A Roestel",
+      "Ad Platforms",
+      "Ad Platforms / Quality Control Technician",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Giancarlo Aguilera",
+      "Ad Platforms",
+      "Ad Platforms / Principal Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Giang Nguyen (Jenny)",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Gianluca Milano (Luca)",
+      "Ad Platforms",
+      "Ad Experiences / Sr Mgr Product Management",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Gilson Jacob",
+      "Ad Platforms",
+      "Ad Platforms / Principal Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Giorgio R Vianello",
+      "Ad Platforms",
+      "Ad Platforms / Data Engineer II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Goutham Kandhirelli",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Grace Mutoko",
+      "Ad Platforms",
+      "Ad Platforms / Sr Mgr Product Management",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Grant A Phillips",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Guanlin Chen",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Gurneet Sandhu",
+      "Ad Platforms",
+      "Data Capture / Sr Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Guy Casalino",
+      "Ad Platforms",
+      "Ad Platforms / Lead Solutions Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "H M Sajjad Hossain",
+      "Ad Platforms",
+      "Ad Platforms / Lead Machine Learning Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Haigaz H Farajian",
+      "Advertising",
+      "Ad Platforms / VP Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Haiwei Wang",
+      "Ad Platforms",
+      "Ad Platforms / Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Hannah R Arena",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr I",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Hao Yan",
+      "Ad Platforms",
+      "Ad Platforms / Principal Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Haransh Vir Gujral",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Manager II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Hari Prasad Reddy Nalasani",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Haritha Eaga",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Hayden Clevenger",
+      "Ad Platforms",
+      "Ad Platforms / Product Software Engineer II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Helanfeng Sun",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Heyao Chen (Bruce)",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Hilary Fonselius",
+      "Ad Platforms",
+      "Addressable BI Products and Analytics / Sr Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Himateja Madala",
+      "Ad Platforms",
+      "Ad Platforms / Sr Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Hitesh Lad",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Hitesh Pau",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Hongnan Li",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Howard Weinstein",
+      "Cost",
+      "Product / Sr Product Manager",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Huiqing Zhan",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "I-Jong Lin",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Ian D Wood",
+      "Ad Platforms",
+      "Ad Platforms / Sr Mgr Data Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Ian R Johnson",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Isaac Torres",
+      "Ad Platforms",
+      "Ad Platforms / Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Isobel M Brooks",
+      "Ad Platforms",
+      "Ad Platforms / Principal Data Analyst",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jackie Song",
+      "Ad Platforms",
+      "Ad Platforms / Principal Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jacky Cheng",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jacob Petsche",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jacob S Maki",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jacqueline Chao",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jaini Patel",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "James B Byers (Jim)",
+      "Ad Platforms",
+      "Ad Platforms / Product Operations Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "James Beatty",
+      "Ad Platforms",
+      "Ad Platforms / Tech Data Analytics",
+      "",
+      "",
+      ""
+    ],
+    [
+      "James J Cheong",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "James Kiser",
+      "Ad Platforms",
+      "Ad Platforms / Dir Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "James M Brennan",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Governance Analyst",
+      "",
+      "",
+      ""
+    ],
+    [
+      "James Vandivort",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Janet Loder-Berthelon",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Solutions Manager",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Janna Yousef",
+      "Ad Platforms",
+      "Ad Platforms / Product Manager II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jared Gage",
+      "Ad Platforms",
+      "Ad Platforms / Data Engineer II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jarod Wang",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Scientist",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jason C Redlitz",
+      "Ad Platforms",
+      "Ad Platforms / Quality Control Technician",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jason D Evans",
+      "Ad Platforms",
+      "Data Management Services / Sr Manager Data Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jason Flood",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "JASON KIRKHAM",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Solutions Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jason Z Lu",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jatinkumar Patel",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jay Khavani",
+      "Ad Platforms",
+      "Ads BI and Reporting Products / Dir Product Mgmt",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jayanth Prabhu Balakrishnan Mani",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jayden C Tani",
+      "Ad Platforms",
+      "Ad Platforms / Machine Learning Engineer I",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jaymi Thibault",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Governance Analyst",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jeddy C Chen",
+      "Ad Platforms",
+      "Ad Platforms / Sr Mgr Product Mgmt",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jeffrey D Hernandez (Jeff)",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jennifer L Holmes (Jen)",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jenny Kim",
+      "Ad Platforms",
+      "Ad Platforms / Lead Solutions Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jeremy Acord",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jeremy Mirchandani",
+      "Ad Platforms",
+      "Ad Platforms / Sr Machine Learning Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jerry Ihrig",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jesse Tessmer",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jessica Skold",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jevgenijs Skinderskis (Eugene)",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jie Zhang",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jim Smith",
+      "Ad Platforms",
+      "Ad Platforms / Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jimin Patel",
+      "Ad Platforms",
+      "Ad Platforms / Sr Mgr Product Management",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jimmy G Quach",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jimmy Ng",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jin Qi",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jo-Anne Rivera",
+      "Ad Platforms",
+      "Ad Platforms / Product Software Engineer I",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Joanne Huang",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jodie Kwok",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Joel Azose",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Joel Fredericks",
+      "Ad Platforms",
+      "Ad Platforms / Sr Solutions Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Johanna L Johnsen",
+      "Ad Platforms",
+      "Ad Platforms / Software Engineer I",
+      "",
+      "",
+      ""
+    ],
+    [
+      "John A McNicholas",
+      "Ad Platforms",
+      "Ad Platforms / Principal Product Manager",
+      "",
+      "",
+      ""
+    ],
+    [
+      "John Cao",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "John Carlo A Balcita",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "John J Sawyer",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "John R Haberstroh",
+      "Ad Platforms",
+      "Ad Platforms / Lead Machine Learning Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "John Wear",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jon Fong",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jon Hilario",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Solutions Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jonathan R Bush",
+      "Ad Platforms",
+      "Ad Platforms / Data Engineer II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jonathan Steinmann",
+      "Ad Platforms",
+      "Ad Platforms / Sr Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jordan T Wetter",
+      "Ad Platforms",
+      "Ad Platforms / Manager Product Management",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jorge P Mendoza",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Joseph A Nelson (Joe)",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Joseph Favuzzi",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr I",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Joseph Gao",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Manager I",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Joshua M Osborne (Josh)",
+      "Ad Platforms",
+      "Ad Platforms / Principal Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Joshua Urbanovsky",
+      "Ad Platforms",
+      "Ad Platforms / Lead Machine Learning Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Josiah Jee",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Ju-Young Kang (Josh)",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Julia M Turner",
+      "Ad Platforms",
+      "Ad Platforms / Product Manager II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Julia Wang",
+      "Ad Platforms",
+      "Ad Platforms / Data Engineer II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Julie Canaday",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jun Cao",
+      "Ad Platforms",
+      "Ad Platforms / Principal Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Junaid Najeeb",
+      "Ad Platforms",
+      "AdApps - Arrow / Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Justin Boston",
+      "Ad Platforms",
+      "Ad Platforms / Sr Solutions Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Justin Widjaja",
+      "Merchandising",
+      "Product / Sr Product Mgr",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Jyothsna Raj",
+      "Ad Platforms",
+      "Ad Platforms / Mgr Data Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Kaining Shao",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Kalai Arumugam",
+      "Ad Platforms",
+      "Ad Platforms / Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Kalyan Madhuri Venna",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Kanika Singh",
+      "Ad Platforms",
+      "Ad Platforms / Product Solutions Mgr II (PH)",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Kanu Priya",
+      "Ad Platforms",
+      "Ad Platforms / Sr Solutions Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Karl M Reece",
+      "Ad Platforms",
+      "Ad Platforms / Dir Product Management",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Karla Woike",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Karthik Maddala",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Katy Johnson",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Kaumil Patel",
+      "Ad Platforms",
+      "Ad Platforms / Sr Machine Learning Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Kawkab Abid",
+      "Ad Platforms",
+      "Ad Platforms / Data Engineer II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Kerem Tutuncu",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Kevaughn K Gordon (Kevin)",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Kevin Dao",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Kevin Sogata",
+      "Ad Platforms",
+      "Ad Platforms / Product Software Engineer II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Kevork Kazanjian",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Khalid Jahangeer",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Kiran Virdee",
+      "Ad Platforms",
+      "Ad Platforms / Data Governance Analyst",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Kirk A Wilson",
+      "Ad Platforms",
+      "Ad Platforms / Mgr Data Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Kirk O Swanson",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Solutions Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Krista Kouns",
+      "Ad Platforms",
+      "Ad Platforms / Lead Solutions Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Kyle C May",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Lacey A Cuttitte",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Solutions Manager I",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Lakshmi Prasanna Surapaneni",
+      "Ad Platforms",
+      "Ad Platforms / Principal Product Mgr",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Lamiya Tasnuva",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Manager I",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Lana Li",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Lauren E Lin",
+      "Ad Platforms",
+      "Ad Platforms / Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Lauren Tortora",
+      "Ad Platforms",
+      "Ad Platforms / Principal Product Manager",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Leo Chang",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Leonid Vaisman (Leon)",
+      "Ad Platforms",
+      "Ad Platforms / Principal Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Li-xue Chang",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Liam Brucker",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Liang Zhu",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Libby Fredricks",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Solutions Manager",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Lin Cheng (Alex)",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Lindsey Gooler",
+      "Ad Platforms",
+      "Ad Platforms / Sr Mgr Product Mgmt Solutions",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Lindsey Raleigh",
+      "Ad Platforms",
+      "Ad Platforms / Mgr Data Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Lingbing Song",
+      "Ad Platforms",
+      "Ad Platforms / Lead Machine Learning Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Lingding Chen",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Lisa Dawkins",
+      "Ad Platforms",
+      "Ad Platforms / Sr Solutions Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Lu Liu",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Lucas L Wang",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Luis P Perez Liscutin",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr I",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Lujia Wang",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Lusha Zhang",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Mahiuddin Chowdhury",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Majdi Aburamadan (Mikey)",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Makda Haile",
+      "Content",
+      "Engineering / Dir Data Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Manish Vyas",
+      "Ad Platforms",
+      "Ad Platforms / Principal Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Manivannan Ramarajyam",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Mansi Vora",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Marc Brustman",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Marc Schmidt",
+      "Ad Platforms",
+      "Ad Platforms / Quality Control Technician",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Marco B Balderrama (Marco B.)",
+      "Ad Platforms",
+      "Ad Platforms / Solutions Engineer I",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Marco Chin",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Maria M Wilson",
+      "Ad Platforms",
+      "Ad Platforms / Quality Control Technician",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Mariano Hernandez",
+      "Ad Platforms",
+      "Ad Platforms / Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Marissa S Pang",
+      "Ad Platforms",
+      "Ad Platforms / Data Engineer II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Mark Mann",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Matt Butts",
+      "Ad Platforms",
+      "Ad Platforms / Lead Solutions Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Matt Williams",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Matt Yetter",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Matthew Cheng (Matt)",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr I",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Matthew Cooper (Matt)",
+      "Ad Platforms",
+      "Ad Platforms / Sr Solutions Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Matthew Dymburt",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Matthew Gutermuth",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Matthew J Mittelmann (Matt)",
+      "Ad Platforms",
+      "Ad Platforms / Sr Mgr Product Management",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Matthew Kulper",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr I",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Matthew Marple",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Matthew Richmond",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Matthew Russell (Matt)",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Matthew Tung",
+      "Ad Platforms",
+      "Ad Platforms / Data Analyst",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Maya H Farago",
+      "Ad Platforms",
+      "Ad Platforms / Data Engineer II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Meade A Robboy",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Megan D Byrd",
+      "Ad Platforms",
+      "Ad Platforms / Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Megan Ly",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Melissa Ip",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Melvin Z Huang",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Mengchao Yue",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Mengyang Jiang (Max)",
+      "Ad Platforms",
+      "Ad Platforms / Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Mengzhe Li",
+      "Ad Platforms",
+      "Ad Platforms / Principal Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Michael A O'Neill",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Manager II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Michael Conaty",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Michael E Bracco",
+      "Ad Platforms",
+      "Ad Platforms / Exec Dir Product Management",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Michael F Michaud",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Michael J Rosadino",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Michael Liu",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Michael R Willey",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Michael Stirk (Mike)",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr I",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Michael Veillon",
+      "Ad Platforms",
+      "Ad Platforms / Data Engineer I",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Michael Wall",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Mike P Trenk",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Mike Trelinski",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Mitchell Wang",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Mithun Kumble",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Mj Pakdel",
+      "Ad Platforms",
+      "Ad Platforms / Principal Machine Learning Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Mo Li",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Mohammed S Ansari (Mo)",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Monte Aspevig",
+      "Ad Platforms",
+      "Ad Platforms / Data Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Morgan E Graham",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Morgan West",
+      "Ad Platforms",
+      "Ad Platforms / Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Nathan M Choi",
+      "Ad Platforms",
+      "Ad Platforms / Product Software Engineer I",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Nathan P Jahn (Nate)",
+      "Ad Platforms",
+      "Ad Platforms / Sr Solutions Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Naveen Arya",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Neha Sharma",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Neha Zalpuri",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Manager II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Nicholas A Marangi",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Nicholas Ebert (Nick)",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Nicholas Lechner (Nick)",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Nicole C Lowe",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Analyst",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Nik Yaroshevsky",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Nikhil Kokal",
+      "Ad Platforms",
+      "Ad Platforms / Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Nikita Dolgov",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Nikolay G Georgiev",
+      "Ad Platforms",
+      "Ad Platforms / Product Software Engineer II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Nikunj R Shah",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Nirmal Coonghe",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Nirupama Sharma (Niru)",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Noah Hazan",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Norm Zeng",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Manager II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Norman J Woo",
+      "Ad Platforms",
+      "Ad Platforms / Sr Mrg Data Governance",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Novi Trisjaniar",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Nupur Agarwal",
+      "Ad Platforms",
+      "Ad Platforms / Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Olivia Owen",
+      "Ad Platforms",
+      "Ad Platforms / Product Software Engineer II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Omar Salix",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Omogwefe Gbemiye-Etta (Gwefe)",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Analyst",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Pamela Goldberg",
+      "Ad Platforms",
+      "Ad Platforms / Mgr Product Mgmt",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Pari B Patel",
+      "Ad Platforms",
+      "Ad Platforms / Product Software Engineer I",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Patricia J Kinsland (Trish)",
+      "Ad Platforms",
+      "Ad Platforms / Mgr Data Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Patricia M Garcia Castineiras",
+      "Ad Platforms",
+      "Ad Platforms / Senior Product Manager",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Patrick Lam",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "PATRICK LIU",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Paul J Lee",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Paul Lee",
+      "Ad Platforms",
+      "Product Engineering / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Paula J Hill",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Manager II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Pavel Shikhov (Shykhau)",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Pedram Mehraram",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Pedro Oguri",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Pei-Fen Chen",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Pengyu Tang (Roc)",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Pete Salas",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Peter Chiweshe",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Governance Analyst",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Peter Goodwine",
+      "Ad Platforms",
+      "Ad Server Selection / Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Phani K Yelamanchili",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Phil T DiGiulio",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Philip Phung",
+      "Ad Platforms",
+      "Ad Platforms / Sr Solutions Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Phyllis L Manchester",
+      "Ad Platforms",
+      "Ad Platforms / Lead Technical Software Writer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Pooja H Joshi",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Pooja Premanath",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Product Manager I",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Pooja Sharma",
+      "Ad Platforms",
+      "Ad Platforms / Staff Product Mgr",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Prabhu V Sivakumar",
+      "Ad Platforms",
+      "Ad Platforms / Sr Mgr Product Mgmt",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Prakash Rajendran",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Pranali Jhaveri",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Pratik G Prajapati",
+      "Ad Platforms",
+      "Ad Platforms / Sr Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Pratima Singh",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Praveen K Sadineni",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Praveen K Soni",
+      "Ad Platforms",
+      "Media And Session Data Product / Sr Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Praveen K Vanga",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Premal Shah (Prem)",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Data Analyst",
+      "",
+      "",
+      ""
+    ],
+    [
+      "PRIYA JINDAL",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Priya Joshi",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Priya S Adapala",
+      "Ad Platforms",
+      "Ad Platforms / Principal Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Purav Shah",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Qi Han (Owen)",
+      "Ad Platforms",
+      "Ad Platforms / Product Software Engineer II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Qi R Lu (Richard)",
+      "Ad Platforms",
+      "Ad Platforms / Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Qiaoling Ye (Ling)",
+      "Ad Platforms",
+      "Ad Platforms / Sr Machine Learning Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Qingfeng Lin",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Rahul Ramprasad",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Raju Kodumuri",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Ramy Dihom",
+      "Ad Platforms",
+      "Ad Platforms / Sr Mgr Product Management",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Randy L Eng",
+      "Ad Platforms",
+      "Ad Platforms / Sr Solutions Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Rebecca Cui",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Scientist",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Rebecca Townsend",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Renyan Qu",
+      "Ad Platforms",
+      "Ad Platforms / Lead Machine Learning Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Reza Abbasi",
+      "Ad Platforms",
+      "Ad Platforms / Senior Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Rhoderick M Santiago (Rhod)",
+      "Ad Platforms",
+      "Ad Platforms / Sr Solutions Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Richard J Kovac (Richie)",
+      "Ad Platforms",
+      "Ad Platforms / Senior Product Manager II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Richard Mata (Rich)",
+      "Ad Platforms",
+      "Ad Platforms / Product Software Engineer II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Richie Chen",
+      "Ad Platforms",
+      "Observability and Automation Engineering / Mgr Data Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Ricky Ching",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Ricky Ghov",
+      "Ad Platforms",
+      "Ad Platforms / Mgr Machine Learning Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Rikesh S Patel",
+      "Ad Platforms",
+      "Ad Platforms / Data Engineer II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Riley F Nagler",
+      "Ad Platforms",
+      "Ad Platforms / Principal Product Mgr",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Riyaz U Haque",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Rob Goodman",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Robert Bailey",
+      "Ad Platforms",
+      "Ad Platforms / Sr Solutions Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Robert Husbands",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Robert Kingery",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Robert Phillips",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Robert R Glover (Rik)",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Rohan Damani",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "ROHIN K SOOD",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr I",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Ron Starrett",
+      "Ad Platforms",
+      "Ad Platforms / Mgr Solutions Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Ronald K Tsang (Ron)",
+      "Ad Platforms",
+      "Ad Platforms / Mgr Product Management",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Roopa Prabhu",
+      "Ad Platforms",
+      "Ad Platforms / Principal Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Roshni Shah",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Rudraksh Roy",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Ruitong Chai",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Runmian Chang",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Rupakshi Aggarwal",
+      "Ad Platforms",
+      "Ad Platforms / Product Software Engineer II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Rupali Rhatol",
+      "Ad Platforms",
+      "Ad Platforms / Lead Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Ryan A Williams",
+      "Ad Platforms",
+      "Ad Platforms / Principal Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Ryan Glazer",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Ryan L de Marigny",
+      "Ad Platforms",
+      "Ad Platforms / Sr Machine Learning Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Ryan P Wilcox",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Ryan Vahidi",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Ryan W Malec",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Manager II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Saby Sadanand Iyyani",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Sachin Khurana",
+      "Ad Platforms",
+      "Ad Platforms / Principal Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Sachin Patwardhan",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Sai Teja Desu",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Sakina S Presswala",
+      "Ad Platforms",
+      "Ad Platforms / Solutions Engineer II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Sakshi Mittal",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Sakshi Sethi",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Samantha Berenzon",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr I",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Samantha Lin",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Manager",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Samantha Simon",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Solutions Mgr I",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Sameer Suman",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Sameul Nasir (Sam)",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Sampath Nair",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Samuel B Heaney (Sam)",
+      "Ad Platforms",
+      "Ad Platforms / Mgr Data Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Samuel Choi",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Samuel J Sommerfeld (Sam)",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Samuel P Jae",
+      "Ad Platforms",
+      "Ad Platforms / Quality Control Technician",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Samuel Schmidt (Sam)",
+      "Ad Platforms",
+      "Ad Platforms / Data Engineer II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Sanjeev Pandey",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Santhi Marichamy",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Sara Leonard",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Manager I",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Sarah M Smurthwaite",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Saravana Natarajan (Sarov)",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Sarina M Saran",
+      "Ad Platforms",
+      "Ad Platforms / Product Software Engineer I",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Saurabh Deshpande",
+      "Ad Platforms",
+      "Ad Platforms / Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Savannah Ampuero",
+      "Ad Platforms",
+      "Ad Platforms / Data Engineer II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Savio Tran",
+      "Ad Platforms",
+      "Ad Platforms / Mgr Solutions Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Savitha Kartik",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Scott J Brower",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Scott J Criswell",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Operations Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Sean M Humbarger",
+      "Ad Platforms",
+      "Ad Platforms / Principal Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Sean M Mulligan",
+      "Ad Platforms",
+      "Ad Platforms / Dir Product Mgmt",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Sean P Strange",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Selvamanickam Chithambaram",
+      "Ad Platforms",
+      "Ad Platforms / Principal Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Senthil Mockian",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Senthil Sayeebaba",
+      "Ad Platforms",
+      "Ad Platforms / Principal Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Sergey Gridin",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Seth A Newman",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Shahab Yunus",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Shailender Anne",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr I",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Shailesh Singh",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Shalin J Lawrence",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Shamit Jain",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Shashank Yallamraju",
+      "Ad Platforms",
+      "Ad Platforms / Sr Machine Learning Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Shashwat Pandey",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Shawn Kimsey",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Shawn Li",
+      "Ad Platforms",
+      "Ad Platforms / Data Engineer II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Shih-kai Lin",
+      "Ad Platforms",
+      "Ad Platforms / Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Shiyi Chen",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Scientist",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Shiyun Guo",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Shravya R Mekala",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Shrikant Desai",
+      "Ad Platforms",
+      "Ad Platforms / Dir Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Shruti Arora",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Shuaibo Gao (Shuai)",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Shuo Shang",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Sina Aghsaei",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Sina Yeker",
+      "Ad Platforms",
+      "Ad Platforms / Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Sinan Zhao",
+      "Ad Platforms",
+      "Ad Platform Machine Learning Platform / Lead Machine Learning Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Sombit Mahanta",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Spencer Ball",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Solutions Mgr I",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Srikanth Gurram",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Stan Taylor",
+      "Ad Platforms",
+      "Core Data / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Stephan Bourges",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Stephanie A Singer (Steph)",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Manager II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Stephanie Alvarez",
+      "Ad Platforms",
+      "Ad Platforms / Sr Executive Assistant",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Stephen A Ryan",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Stephen R Miket (Steve)",
+      "Ad Platforms",
+      "Ad Platforms / Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Stephen Repar",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Manager",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Stepheny Perez",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Steve Fenner",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Steven Jacobs",
+      "Ad Platforms",
+      "Ocean Team / Sr Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Steven Schwartzman",
+      "Ad Platforms",
+      "Ad Platforms / Principal Business Development Manager",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Stuart C Smith",
+      "Ad Platforms",
+      "Ad Platforms / Principal Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Subhanshi Agarwal",
+      "Ad Platforms",
+      "Ad Platforms / Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Subhash C Vinnakota",
+      "Ad Platforms",
+      "Ad Platforms / Sr Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Suddie Choi",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Sudha Ravula",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Sudheer Koppineni",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Sue Kim",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Governance Analyst",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Suman Pal",
+      "Ad Platforms",
+      "Ad Platforms / Dir Product Management",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Suneeta Puranik",
+      "Ad Platforms",
+      "Ad Platforms / Exec Dir Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Sung Hyun Kim",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Sunniyatul Quaderin (Sunni)",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Suresh Narayana",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Suzanne M Stancill (Zana)",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Svetlana Harizanova",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "SWATHI SEETHEPALLI",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Swetha Sharma",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Syam Annavarapu",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Symphorosa M Zaman (Sim)",
+      "Ad Platforms",
+      "Ad Platforms / Manager Product Management",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Tam Nguyen",
+      "Ad Platforms",
+      "Ad Platforms / Principal Product Mgr",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Tamir ElSahy",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Tanmay Gandhi",
+      "Ad Platforms",
+      "Ad Platforms / Sr Software Engineer I",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Tao Jiang",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Tao Li",
+      "Ad Platforms",
+      "Ad Platforms / Sr Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Taqui Raza",
+      "Ad Platforms",
+      "ANDOR Squad / Senior Machine Learning Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Tara A Brown",
+      "Ad Platforms",
+      "Ad Platforms / Quality Control Technician",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Tara Murphy",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Solutions Mgr II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Tatiana Lazebnyk",
+      "Ad Platforms",
+      "Ad Platforms / Principal Product Mgr",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Teng Huang",
+      "Ad Platforms",
+      "Ad Platforms / Product Software Engineer II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Tennyson Hinds",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Tess U-Vongcharoen",
+      "Ad Platforms",
+      "Ad Platforms / Data Engineer I",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Thanuja Anumolu",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Thirumal Reddy R Konatham (Thirumal)",
+      "Ad Platforms",
+      "Ad Platforms / Data Engineer II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Thomas Borgia",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Thomas Ha",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Thomas Palompelli",
+      "Ad Platforms",
+      "Ad Platforms / Principal Product Mgr",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Thuy Petersen",
+      "Ad Platforms",
+      "Ad Platforms / Prinicpal Business Relationship Manager",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Tia Xuan",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Tiffany D Wilson",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Solutions Mgr I",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Tiffany Lam",
+      "Ad Platforms",
+      "Ad Platforms / Principal Machine Learning Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Tiffany Wang",
+      "Ad Platforms",
+      "Ad Platforms / Data Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Tiffany Wong",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Timothy Hinh",
+      "Ad Platforms",
+      "Ad Platforms / Data Engineer II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Timothy W Canniff (Tim)",
+      "Ad Platforms",
+      "Ad Platforms / Sr Mgr Product Management",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Ting He",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Tirumala Devi Kodavanti (Devi)",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Todd M Shirasago",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Manager",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Tolga Demirel",
+      "Ad Platforms",
+      "Ad Platforms / Dir Data Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Tom Hill",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Tom Mathai Vettiplackel",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Tony Chaw",
+      "Ad Platforms",
+      "Ad Platforms / Senior Product Manager II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Trevor Hart",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Manager II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Trevor R McCormick",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Manager II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Trevor Stubblefield",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Tuan Do",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Tulasi B Agina",
+      "Ad Platforms",
+      "Ad Platforms / Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Tuo Piao (Peter)",
+      "Ad Platforms",
+      "Ad Platforms / Senior Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Unnikrishnan Kavungal Anat",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Usharani Palanivel (Usha)",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Vanessa N Mensah",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Manager",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Vanik Gevorgyan",
+      "Ad Platforms",
+      "Ad Platforms OMS + Financial Systems / Sr Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Varun A Risbud",
+      "Ad Platforms",
+      "Ad Platforms / Lead Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Venkata Nukavarapu",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Vijaya K Chilukuri (Vijay)",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Vijaya Kumar Hosamani",
+      "Ad Platforms",
+      "Ad Platforms / Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Vinay R Patil",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Vinod Badugu",
+      "Ad Platforms",
+      "Ad Platforms / Sr Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Vinod Kushawaha",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Governance Analyst",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Vitaliy Rakovsky",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Weichen Li",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Weidong Wang (William)",
+      "Ad Platforms",
+      "Ad Platforms / Sr Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Weiyu Chang (Jerry)",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Wen Li",
+      "Ad Platforms",
+      "Ad Platforms / Sr Machine Learning Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Wenbing Li",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Wesley Hayashi",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Wesley Nam",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "William F West (Bill)",
+      "Ad Platforms",
+      "AP Data + BI, Quote-to-Cash, Foundations Engineering / Exec Dir Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Wilson Soethe Cursino",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Wingchi Tam (Garphy)",
+      "Ad Platforms",
+      "Ad Platforms / Product Software Engineer II",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Xiangying Jiang",
+      "Ad Platforms",
+      "Ad Platforms / Lead Machine Learning Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Xiaoguang Huo (Johnny)",
+      "Ad Platforms",
+      "Ad Platforms / Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Xin Yin",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Yan Zhang",
+      "Ad Platforms",
+      "Ad Platforms / Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Yang Wang",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Yang Yu (Peter)",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Yasir Hossain",
+      "Ad Platforms",
+      "Ad Platforms / Sr Principal Product Mgr",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Yassine C Berrehouma",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Yesheng Li",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Yi Liu",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Yin-hsia Yen",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Yining Teng",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Yizhi Wu",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Yu Zhang",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Yuan Zhou",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Yue Wu (Malco)",
+      "Ad Platforms",
+      "Ad Platforms / Lead Machine Learning Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Yupeng Gao",
+      "Ad Platforms",
+      "Ad Platforms / Lead Machine Learning Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Zafeer M Syed",
+      "Ad Platforms",
+      "Ad Platforms / Data Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Zain B Azeeza",
+      "Ad Platforms",
+      "Ad Platforms / Associate Product Manager",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Zeev Jankielewicz",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Zehua Gong",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Zengrui Wang",
+      "Ad Platforms",
+      "Ad Platforms / Sr Mgr Product Software Engineering",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Zenith Zhou",
+      "Ad Platforms",
+      "Ad Platforms / Lead Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Zhike Zhang",
+      "Ad Platforms",
+      "Ad Platforms / Sr Product Software Engineer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Zhiwei Tan (David)",
+      "Ad Platforms",
+      "Ad Platforms / Lead Data Scientist",
+      "",
+      "",
+      ""
+    ]
+  ]
+}

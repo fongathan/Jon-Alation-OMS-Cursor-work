@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Unity Catalog + Business Data Catalog — Integration Deck</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #0f2744; --header-blue: #1e5a96; --sidebar-bg: #e4eef8;
+      --sidebar-footer: #3d5166; --page-bg: #e8ecf2; --white: #fff;
+      --text: #1a1a1a; --muted: #5c6570; --warn: #b45309; --good: #1a7a45; --radius: 14px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "DM Sans", system-ui, sans-serif; background: var(--page-bg); color: var(--text); padding: 1.25rem; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    .deck-intro { max-width: 1120px; margin: 0 auto 1rem; font-size: 0.85rem; color: var(--muted); }
+    .slide { max-width: 1120px; margin: 0 auto 1.75rem; aspect-ratio: 16/9; background: var(--white); border-radius: var(--radius); box-shadow: 0 12px 40px rgba(15,39,68,.12); display: flex; flex-direction: column; overflow: hidden; min-height: 480px; page-break-after: always; }
+    .slide-head { background: linear-gradient(135deg, var(--navy), var(--header-blue)); color: #fff; padding: .65rem 1.25rem; display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: .5rem; }
+    .slide-head h1 { font-size: 1.15rem; font-weight: 700; line-height: 1.2; }
+    .slide-num { font-size: .7rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; opacity: .85; }
+    .slide-body { flex: 1; display: grid; grid-template-columns: 1fr 1.15fr; min-height: 0; }
+    .slide-body-single { grid-template-columns: 1fr; }
+    .slide-body-thirds { grid-template-columns: 1fr 1fr 1fr; }
+    .col { padding: 1rem 1.15rem; overflow: hidden; }
+    .col-aside { background: var(--sidebar-bg); border-right: 1px solid rgba(15,39,68,.08); }
+    .col h2 { font-size: .85rem; font-weight: 700; color: var(--navy); margin-bottom: .4rem; text-transform: uppercase; letter-spacing: .04em; }
+    .col-main h2 { color: var(--header-blue); }
+    .col p, .col li { font-size: .88rem; line-height: 1.45; }
+    .col ul { margin: .25rem 0 .5rem 1rem; }
+    .col li { margin-bottom: .28rem; }
+    .callout { font-size: .85rem; line-height: 1.42; background: rgba(30,90,150,.08); border-left: 3px solid var(--header-blue); padding: .45rem .55rem; margin-top: .35rem; border-radius: 0 6px 6px 0; }
+    .callout-strong { font-size: .88rem; line-height: 1.48; background: rgba(15,39,68,.06); border-left: 4px solid var(--navy); padding: .5rem .6rem; margin-top: .35rem; border-radius: 0 6px 6px 0; }
+    .verdict { font-size: .92rem; font-weight: 700; color: var(--navy); background: rgba(26,122,69,.1); border: 2px solid var(--good); border-radius: 8px; padding: .55rem .7rem; text-align: center; margin-top: .5rem; }
+    table.comp { width: 100%; border-collapse: collapse; font-size: .82rem; margin-top: .3rem; }
+    table.comp th, table.comp td { border: 1px solid rgba(15,39,68,.12); padding: .38rem .42rem; vertical-align: top; }
+    table.comp th { background: var(--sidebar-bg); color: var(--navy); font-weight: 700; }
+    .uc-weak { color: #b91c1c; font-weight: 600; }
+    .ours-strong { color: var(--good); font-weight: 600; }
+    .uc-strong { color: var(--header-blue); font-weight: 600; }
+    .limit-card { background: #fff; border: 1px solid rgba(15,39,68,.12); border-left: 3px solid var(--header-blue); border-radius: 6px; padding: .42rem .52rem; margin-bottom: .35rem; font-size: .8rem; line-height: 1.4; }
+    .limit-card strong { display: block; color: var(--navy); margin-bottom: .12rem; font-size: .85rem; }
+    .slide-footer { background: var(--sidebar-footer); color: #c5d4e3; padding: .4rem 1.15rem; font-size: .68rem; display: flex; justify-content: space-between; }
+    @media print { body { padding: 0; background: #fff; } .deck-intro { display: none; } .slide { box-shadow: none; max-width: none; margin: 0; border-radius: 0; } }
+  </style>
+</head>
+<body>
+  <p class="deck-intro">
+    <strong>Unity Catalog + Business Data Catalog</strong> — integration-focused deck · Jul 2026 ·
+    Session purpose: clarify roles &amp; relationships of internal services to Unity Catalog
+  </p>
+
+  <!-- 1 -->
+  <article class="slide">
+    <header class="slide-head"><h1>Unity Catalog + Business Data Catalog</h1><span class="slide-num">Slide 1 of 10</span></header>
+    <div class="slide-body slide-body-single">
+      <div class="col" style="display:flex;flex-direction:column;justify-content:center;">
+        <h2 style="font-size:.95rem;margin-bottom:.5rem;">Session purpose</h2>
+        <p style="font-size:.9rem;line-height:1.5;margin-bottom:.55rem;">
+          Clarify and delineate the <strong>role and relationships</strong> of our internal services (OMS, Navigator, 626/MCI supply) to <strong>Unity Catalog</strong> — not whether to choose one or the other.
+        </p>
+        <p style="font-size:.88rem;line-height:1.5;margin-bottom:.55rem;">
+          <strong>Unity Catalog</strong> governs Databricks execution. <strong>OMS + Navigator</strong> federate discovery, glossary, and stewardship across the enterprise.
+        </p>
+        <div class="verdict">Use both. Integrate cleanly. Do not ask stewards to choose a platform.</div>
+        <p style="font-size:.82rem;margin-top:.6rem;color:var(--muted);">
+          This deck: inherent UC limits, where our internal services add value, integration patterns, and BYOL constraints.
+        </p>
+      </div>
+    </div>
+    <footer class="slide-footer"><span>Data Governance · UC + catalog integration</span><span>INTERNAL</span></footer>
+  </article>
+
+  <!-- 2 -->
+  <article class="slide">
+    <header class="slide-head"><h1>Two complementary roles</h1><span class="slide-num">Slide 2 of 10</span></header>
+    <div class="slide-body">
+      <div class="col col-aside">
+        <h2>Unity Catalog — execution plane</h2>
+        <ul>
+          <li>Permissions, audit, native lineage on Databricks assets</li>
+          <li>Metric Views — governed KPIs for SQL, Genie, AI/BI</li>
+          <li>Masking, ABAC, classification enforced at query time</li>
+          <li>Strongest where data is created &amp; consumed on Databricks</li>
+        </ul>
+      </div>
+      <div class="col col-main">
+        <h2>Internal services — OMS + Navigator</h2>
+        <ul>
+          <li>Single search across Snowflake, pipelines, BI, Databricks</li>
+          <li>Business glossary, articles, stewardship workflows</li>
+          <li>Bulk governance, domains, endorse/deprecate at estate scale</li>
+          <li>Experience for stewards, analysts, compliance — not Catalog Explorer</li>
+        </ul>
+        <div class="callout-strong"><strong>Strategy:</strong> UC governs the lakehouse; our internal services federate the estate. Same metadata spine — different jobs.</div>
+      </div>
+    </div>
+    <footer class="slide-footer"><span>Data Governance · UC + catalog integration</span><span>INTERNAL</span></footer>
+  </article>
+
+  <!-- 3 -->
+  <article class="slide">
+    <header class="slide-head"><h1>Inherent limits of Unity Catalog</h1><span class="slide-num">Slide 3 of 10</span></header>
+    <div class="slide-body slide-body-single">
+      <div class="col">
+        <p style="margin-bottom:.45rem;font-size:.85rem;">Why UC alone cannot satisfy our Alation exit — even after DAIS 2026.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.38rem;">
+          <div class="limit-card" style="border-left-color:#b45309;"><strong>Platform boundary</strong>Enforcement coupled to Databricks compute — policies don't auto-apply in Snowflake, Tableau, or APIs.</div>
+          <div class="limit-card" style="border-left-color:#b91c1c;"><strong>Vendor lock-in</strong>Business semantics, discovery UX, and agent context deepen dependence on Databricks — harder to keep tool-agnostic governance across Snowflake and other estates.</div>
+          <div class="limit-card" style="border-left-color:#b91c1c;"><strong>Business vocabulary</strong>Glossary = preview coming soon. Today: Metric Views only — not stewarded terms across the estate.</div>
+          <div class="limit-card" style="border-left-color:#b91c1c;"><strong>Knowledge &amp; docs</strong>No articles, document hubs, or collaborative IA like Alation.</div>
+          <div class="limit-card" style="border-left-color:#b45309;"><strong>User experience</strong>Discover &amp; Governance Hub are Databricks-native — not Navigator for business consumers.</div>
+          <div class="limit-card" style="border-left-color:#b45309;"><strong>Estate federation</strong>Primary inventory is Databricks-governed; full cross-source discovery needs OMS + supply.</div>
+          <div class="limit-card" style="border-left-color:#b45309;grid-column:span 3;"><strong>Stewardship at scale</strong>Limited vs mass edit, catalog sets, documentation completion tracking.</div>
+        </div>
+      </div>
+    </div>
+    <footer class="slide-footer"><span>Data Governance · UC + catalog integration</span><span>INTERNAL</span></footer>
+  </article>
+
+  <!-- 4 -->
+  <article class="slide">
+    <header class="slide-head"><h1>Where our internal services deliver more value</h1><span class="slide-num">Slide 4 of 10</span></header>
+    <div class="slide-body slide-body-single">
+      <div class="col">
+        <table class="comp">
+          <thead><tr><th>Capability</th><th>Unity Catalog alone</th><th>OMS + Navigator</th></tr></thead>
+          <tbody>
+            <tr><td>Business glossary &amp; synonyms</td><td class="uc-weak">Preview only</td><td class="ours-strong">Core MVP</td></tr>
+            <tr><td>Cross-platform discovery</td><td class="uc-weak">Databricks-primary</td><td class="ours-strong">626 + OMS federated inventory</td></tr>
+            <tr><td>Articles &amp; onboarding</td><td class="uc-weak">Not available</td><td class="ours-strong">Alation parity path</td></tr>
+            <tr><td>Stewardship workflows</td><td class="uc-weak">Limited curation</td><td class="ours-strong">Bulk edit, catalog sets, ownership</td></tr>
+            <tr><td>Business-user UX</td><td class="uc-weak">Catalog Explorer / Discover</td><td class="ours-strong">Navigator — persona-led</td></tr>
+            <tr><td>Governed KPIs on Databricks</td><td class="uc-strong">Metric Views — UC strength</td><td>Read/sync; federated metrics governance</td></tr>
+            <tr><td>DBX permissions &amp; lineage</td><td class="uc-strong">Native — UC strength</td><td class="ours-strong">Ingest UC → OMS; don't re-implement</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <footer class="slide-footer"><span>Data Governance · UC + catalog integration</span><span>INTERNAL</span></footer>
+  </article>
+
+  <!-- 5 -->
+  <article class="slide">
+    <header class="slide-head"><h1>Glossary vs. metrics — different jobs</h1><span class="slide-num">Slide 5 of 10</span></header>
+    <div class="slide-body">
+      <div class="col col-aside">
+        <h2>Navigator (internal catalog)</h2>
+        <ul>
+          <li>Stewarded terms: definitions, synonyms, status, domain ownership</li>
+          <li>Links to tables &amp; columns across <em>all</em> sources</li>
+          <li>Concepts that aren't single SQL metrics (policies, dimensions, process language)</li>
+        </ul>
+      </div>
+      <div class="col col-main">
+        <h2>Unity Catalog (today + roadmap)</h2>
+        <ul>
+          <li><strong>Metric Views</strong> — how KPIs are calculated (SQL + agent metadata)</li>
+          <li><strong>Future Glossary</strong> — announced DAIS 2026; preview coming soon</li>
+          <li>Valuable for Genie/agents on Databricks — should <em>feed OMS</em> when Generally Available (GA)</li>
+        </ul>
+        <div class="callout-strong"><strong>Integrate, don't duplicate:</strong> metrics layer standardizes calculation; business glossary standardizes meaning. Navigator owns vocabulary; UC owns Databricks-native metric enforcement.</div>
+      </div>
+    </div>
+    <footer class="slide-footer"><span>Data Governance · UC + catalog integration</span><span>INTERNAL</span></footer>
+  </article>
+
+  <!-- 6 — playbook (focus, not owns) -->
+  <article class="slide">
+    <header class="slide-head"><h1>Integration playbook — service focus</h1><span class="slide-num">Slide 6 of 10</span></header>
+    <div class="slide-body slide-body-thirds">
+      <div class="col col-aside">
+        <h2>UC focus</h2>
+        <ul><li>Grants, row/column filters</li><li>Native Databricks lineage</li><li>Metric Views SQL</li></ul>
+        <h2 style="margin-top:.45rem;">Sync → OMS</h2>
+        <ul><li>Technical metadata</li><li>Lineage edges</li><li>Metric definitions (read)</li></ul>
+      </div>
+      <div class="col">
+        <h2>OMS focus</h2>
+        <ul>
+          <li>Federated asset graph</li>
+          <li>Cross-source lineage stitch</li>
+          <li>Business descriptions projection for Navigator business data catalog</li>
+        </ul>
+        <h2 style="margin-top:.45rem;">Supply</h2>
+        <ul><li>626 / MCI crawlers</li><li>Snowflake, Airflow, Harmony</li><li>Reconciliation reports</li></ul>
+      </div>
+      <div class="col">
+        <h2>Navigator focus</h2>
+        <ul>
+          <li>Glossary, articles, search UX</li>
+          <li>Stewardship signals</li>
+          <li>Bulk business metadata operations</li>
+        </ul>
+        <h2 style="margin-top:.45rem;">Charter</h2>
+        <ul><li>UC → OMS connector</li><li>Periodic diff / stale checks</li><li>No second catalog UI in Databricks</li></ul>
+      </div>
+    </div>
+    <footer class="slide-footer"><span>Data Governance · UC + catalog integration</span><span>INTERNAL</span></footer>
+  </article>
+
+  <!-- 7 -->
+  <article class="slide">
+    <header class="slide-head"><h1>Best ways to integrate with Unity Catalog</h1><span class="slide-num">Slide 7 of 10</span></header>
+    <div class="slide-body">
+      <div class="col col-aside">
+        <h2>Architecture principles</h2>
+        <ul>
+          <li><strong>Hub-and-spoke:</strong> UC = Databricks System of Record (SoR) for schemas, grants, native lineage, metric views</li>
+          <li><strong>OMS</strong> = enterprise metadata store; <strong>Navigator</strong> = discovery &amp; stewardship UX</li>
+          <li><strong>One System of Record (SoR) per metadata type</strong> — no dual-writing glossary or ownership</li>
+          <li>Avoid metadata dual-write — pick where each attribute is authoritative</li>
+        </ul>
+      </div>
+      <div class="col col-main">
+        <h2>Recommended integration patterns</h2>
+        <ul>
+          <li><strong>Crawl / sync UC → OMS:</strong> tables, columns, grants summary, lineage, metric view defs</li>
+          <li><strong>626 / MCI</strong> continues supply for non-Databricks sources into same OMS spine</li>
+          <li><strong>Navigator</strong> surfaces UC assets in unified search with Snowflake &amp; pipeline objects</li>
+          <li>When UC Glossary is Generally Available (GA): <strong>ingest into OMS</strong> — one glossary UX, not two</li>
+          <li>Optional: one-direction tag sync (e.g. PII) — editable in one system only</li>
+        </ul>
+        <div class="callout">Goal: Databricks assets are first-class in our catalog; UC stays authoritative for Databricks enforcement.</div>
+      </div>
+    </div>
+    <footer class="slide-footer"><span>Data Governance · UC + catalog integration</span><span>INTERNAL</span></footer>
+  </article>
+
+  <!-- 8 -->
+  <article class="slide">
+    <header class="slide-head"><h1>External lineage &amp; BYOL — what it is</h1><span class="slide-num">Slide 8 of 10</span></header>
+    <div class="slide-body">
+      <div class="col col-aside">
+        <h2>What BYOL provides (Generally Available)</h2>
+        <ul>
+          <li>Register metadata &amp; lineage from outside Databricks via APIs</li>
+          <li>Extend UC lineage graph — Salesforce, MySQL, Tableau, etc.</li>
+          <li>Useful for audit, impact analysis on lakehouse assets</li>
+          <li>Stitches upstream/downstream into UC's view</li>
+        </ul>
+      </div>
+      <div class="col col-main">
+        <h2>What BYOL is not</h2>
+        <ul>
+          <li>Not a managed enterprise catalog — you build every integration</li>
+          <li>Not automatic crawlers across 20+ sources (Alation / OMS supply model)</li>
+          <li>Not governance propagation — UC tags don't enforce in Snowflake or BI</li>
+          <li>Not a substitute for glossary, articles, or Navigator stewardship</li>
+        </ul>
+        <div class="callout-strong">BYOL narrows the <em>lineage</em> gap inside UC. It does not close the <em>business catalog</em> gap.</div>
+      </div>
+    </div>
+    <footer class="slide-footer"><span>Data Governance · UC + catalog integration</span><span>INTERNAL</span></footer>
+  </article>
+
+  <!-- 9 -->
+  <article class="slide">
+    <header class="slide-head"><h1>Problems &amp; limits of BYOL</h1><span class="slide-num">Slide 9 of 10</span></header>
+    <div class="slide-body slide-body-single">
+      <div class="col">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.38rem;">
+          <div class="limit-card"><strong>Engineering tax</strong>Every API change, schema drift, or tool upgrade can break BYOL pipelines — ongoing maintenance, not one-time setup.</div>
+          <div class="limit-card"><strong>Incomplete coverage</strong>Hard to match column lineage, dataflows (Airflow/dbt), BI reports, usage analytics without heavy custom work.</div>
+          <div class="limit-card"><strong>Latency &amp; freshness</strong>External metadata often polled or batch-loaded — not live operational picture like managed crawlers.</div>
+          <div class="limit-card"><strong>Governance silos</strong>Domains, certifications, PII tags in UC don't translate to Snowflake Horizon or other platforms.</div>
+          <div class="limit-card"><strong>Double governance</strong>Snowflake + Databricks = two permission models unless explicitly synced — BYOL doesn't unify enforcement.</div>
+          <div class="limit-card"><strong>Vendor lock-in via BYOL</strong>Deepening UC as the lineage hub ties more governance context to Databricks without delivering enterprise glossary or Navigator stewardship.</div>
+          <div class="limit-card" style="grid-column:span 2;"><strong>Cost shift</strong>"Skip the catalog" can become headcount maintaining N BYOL integrations per source.</div>
+        </div>
+        <p class="callout" style="margin-top:.4rem;">Practical takeaway: use BYOL to enrich UC lineage where valuable; rely on OMS + 626 for estate-wide federation — don't replace internal services with BYOL.</p>
+      </div>
+    </div>
+    <footer class="slide-footer"><span>Data Governance · UC + catalog integration</span><span>INTERNAL</span></footer>
+  </article>
+
+  <!-- 10 -->
+  <article class="slide">
+    <header class="slide-head"><h1>Strategy, talking points &amp; asks</h1><span class="slide-num">Slide 10 of 10</span></header>
+    <div class="slide-body">
+      <div class="col col-aside">
+        <h2>How to talk about it</h2>
+        <ul>
+          <li>"We're not choosing UC or our internal services — we're integrating both."</li>
+          <li>"UC governs the lakehouse; Navigator lets business users find and trust data everywhere."</li>
+          <li>"BYOL helps lineage in UC — it doesn't replace glossary, articles, or cross-platform search."</li>
+          <li>"We maintain connectors once in OMS — not N custom BYOL pipelines per source."</li>
+        </ul>
+      </div>
+      <div class="col col-main">
+        <h2>Asks</h2>
+        <ul>
+          <li>Endorse <strong>dual-platform strategy</strong>: UC + OMS/Navigator for Alation exit (<strong>2027</strong>, likely one-year extension)</li>
+          <li>Charter <strong>UC → OMS integration</strong> (crawl, lineage, metric views)</li>
+          <li>Define <strong>System of Record (SoR) matrix</strong> — prevent dual-write on glossary &amp; ownership</li>
+          <li>Track UC Glossary <strong>Generally Available (GA)</strong> for ingestion into OMS — not a UC-only glossary program</li>
+        </ul>
+        <div class="verdict" style="margin-top:.4rem;font-size:.82rem;line-height:1.45;">
+          Both platforms, one story: federated discovery and stewardship on internal services; governed execution on Databricks.
+        </div>
+      </div>
+    </div>
+    <footer class="slide-footer"><span>Data Governance · UC + catalog integration</span><span>INTERNAL</span></footer>
+  </article>
+</body>
+</html>

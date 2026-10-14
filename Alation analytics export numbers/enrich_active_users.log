@@ -1,0 +1,71 @@
+UUID cache hits: 550/1249; searches remaining: 699
+Resolved UUIDs 575/1249
+Resolved UUIDs 600/1249
+Resolved UUIDs 625/1249
+Resolved UUIDs 650/1249
+Resolved UUIDs 675/1249
+Resolved UUIDs 700/1249
+Resolved UUIDs 725/1249
+Resolved UUIDs 750/1249
+Resolved UUIDs 775/1249
+Resolved UUIDs 800/1249
+Resolved UUIDs 825/1249
+Resolved UUIDs 850/1249
+Traceback (most recent call last):
+  File "/Users/jonathan.fong/Library/CloudStorage/OneDrive-TheWaltDisneyCompany/Documents/Jon Alation OMS Cursor work/Alation analytics export numbers/enrich_active_users_deept_rollup.py", line 296, in <module>
+    sys.exit(main())
+  File "/Users/jonathan.fong/Library/CloudStorage/OneDrive-TheWaltDisneyCompany/Documents/Jon Alation OMS Cursor work/Alation analytics export numbers/enrich_active_users_deept_rollup.py", line 254, in main
+    resolve_only(
+  File "/Users/jonathan.fong/Library/CloudStorage/OneDrive-TheWaltDisneyCompany/Documents/Jon Alation OMS Cursor work/Alation analytics export numbers/enrich_active_users_deept_rollup.py", line 230, in resolve_only
+    return resolve_uuid(email, display_name, cache)
+  File "/Users/jonathan.fong/Library/CloudStorage/OneDrive-TheWaltDisneyCompany/Documents/Jon Alation OMS Cursor work/Alation analytics export numbers/enrich_active_users_deept_rollup.py", line 125, in resolve_uuid
+    data = wf(["search", "query", "--query", query])
+  File "/Users/jonathan.fong/Library/CloudStorage/OneDrive-TheWaltDisneyCompany/Documents/Jon Alation OMS Cursor work/Alation analytics export numbers/enrich_active_users_deept_rollup.py", line 39, in wf
+    raise RuntimeError(result.stderr.strip() or result.stdout.strip() or "workforce failed")
+RuntimeError: {"status":"error","error_code":"AUTH_FAILED","error_message":"Authentication failed","retryable":false,"suggestions":["Run: workforce auth login","Or set WORKFORCE_TOKEN","If WORKFORCE_TOKEN is set to an invalid value, unset it: unset WORKFORCE_TOKEN"]}
+UUID cache hits: 850/1249; searches remaining: 399
+Resolved UUIDs 875/1249
+Resolved UUIDs 900/1249
+Resolved UUIDs 925/1249
+Resolved UUIDs 950/1249
+Resolved UUIDs 975/1249
+Resolved UUIDs 1000/1249
+Resolved UUIDs 1025/1249
+Resolved UUIDs 1050/1249
+Resolved UUIDs 1075/1249
+Resolved UUIDs 1100/1249
+Resolved UUIDs 1125/1249
+Resolved UUIDs 1150/1249
+Resolved UUIDs 1175/1249
+Resolved UUIDs 1200/1249
+Resolved UUIDs 1225/1249
+Resolved UUIDs 1249/1249
+Rolled up 50/1249
+Rolled up 100/1249
+Rolled up 150/1249
+Rolled up 200/1249
+Rolled up 250/1249
+Rolled up 300/1249
+Rolled up 350/1249
+Rolled up 400/1249
+Rolled up 450/1249
+Rolled up 500/1249
+Rolled up 550/1249
+Rolled up 600/1249
+Rolled up 650/1249
+Rolled up 700/1249
+Rolled up 750/1249
+Rolled up 800/1249
+Rolled up 850/1249
+Rolled up 900/1249
+Rolled up 950/1249
+Rolled up 1000/1249
+Rolled up 1050/1249
+Rolled up 1100/1249
+Rolled up 1150/1249
+Rolled up 1200/1249
+Rolled up 1249/1249
+Updated Active users with catalog activity (visits) in the past 6 months.xlsx column N (deept_evp_svp_rollup)
+   863  Non-DEEPT
+   381  EVP Tony Donohoe
+     5  SVP Amy Lehman
